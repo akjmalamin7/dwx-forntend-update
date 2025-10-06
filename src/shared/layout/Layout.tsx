@@ -12,7 +12,7 @@ const Layout = () => {
         <Input label="Input Label" placeholder="Enter text" />
       </div>
       <div>footer</div>
-      footer
+      foote
     </div>
   );
 };

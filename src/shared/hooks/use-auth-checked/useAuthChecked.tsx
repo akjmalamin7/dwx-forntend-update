@@ -2,7 +2,7 @@ import { userLoggedIn } from "@/shared/redux/features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function useAuthCheck() {
+export function useAuthCheck() {
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   useEffect(() => {

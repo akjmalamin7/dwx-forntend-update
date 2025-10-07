@@ -1,5 +1,4 @@
-import { useJWT } from "@/shared/hooks/decode-token/useJWT";
-import useAuthCheck from "@/shared/hooks/useAuthChecked";
+import { useAuthCheck, useJWT } from "@/shared/hooks";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 

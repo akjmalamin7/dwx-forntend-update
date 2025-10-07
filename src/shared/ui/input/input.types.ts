@@ -12,6 +12,8 @@ export interface InputProps {
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   className?: string;
+  readonly?: boolean;
+  error?: { status?: boolean; message?: string };
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;

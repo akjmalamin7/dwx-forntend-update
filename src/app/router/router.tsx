@@ -1,4 +1,5 @@
-import Layout from "@/shared/layout";
+import { Loader } from "@/shared/ui";
+import Layout from "@/widgets/layout";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoutes from "./PrivateRouters";
@@ -8,7 +9,7 @@ const LazyPatients = lazy(() => import("@/pages/patients"));
 export const router = createBrowserRouter([
   {
     element: (
-      <Suspense fallback={<h4>Loadding...</h4>}>
+      <Suspense fallback={<Loader type="full_width" />}>
         <PublicRoutes />
       </Suspense>
     ),
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
           {
             path: "/",
             element: (
-              <Suspense fallback={<h4>Loadding...</h4>}>
+              <Suspense fallback={<Loader type="full_width" />}>
                 <LazyPatients />
               </Suspense>
             ),

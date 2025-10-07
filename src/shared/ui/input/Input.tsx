@@ -16,6 +16,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       placeholder = "",
       isLoading = false,
       className = "",
+      readonly = false,
+      error,
       onChange,
       onInput,
       onBlur,
@@ -60,6 +62,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             placeholder={placeholder}
             disabled={isLoading}
+            readOnly={readonly}
             onChange={onChange}
             onInput={onInput}
             onBlur={onBlur}
@@ -67,6 +70,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             onKeyDown={onKeyDown}
             ref={ref}
             className={finalInputClasses}
+            autoComplete="off"
           />
           {onClear && (
             <button
@@ -78,7 +82,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
-        {isLoading && <p className="mt-2 text-sm text-gray-500">Loading...</p>}
+        {error?.status && (
+          <Text size="sm" className="text-red-500 mt-1">
+            {error.message}
+          </Text>
+        )}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { AUTH_INITIAL_STATE, type UserSchema } from "./auth.types";
+import { AUTH_INITIAL_STATE } from "./auth.types";
 
 const authSlice = createSlice({
   name: "auth",
@@ -7,12 +7,11 @@ const authSlice = createSlice({
   reducers: {
     userLoggedIn: (
       state,
-      action: PayloadAction<{ token: string; user: UserSchema }>
+      action: PayloadAction<{ access_token: string | null }>
     ) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.access_token = action.payload.access_token;
     },
   },
-}); // Placeholder to avoid unused variable error
+});
 export const { userLoggedIn } = authSlice.actions;
 export default authSlice.reducer;

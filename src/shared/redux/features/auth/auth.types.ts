@@ -12,10 +12,8 @@ export interface LoginData {
   password: string;
 }
 export interface AuthState {
-  token: string | null;
-  user: UserSchema | null;
+  access_token: string | null;
 }
 export const AUTH_INITIAL_STATE: AuthState = {
-  token: null,
-  user: {} as UserSchema,
+  access_token: null,
 };

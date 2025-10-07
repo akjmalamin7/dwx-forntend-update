@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
 import type { AuthState, LoginData } from "./auth.types";
+import { userLoggedIn } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,27 +10,30 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const data = await queryFulfilled;
+          console.log("Login successful:", data);
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              token: data?.token,
+              user: data?.user ?? data?.data,
+            })
+          );
+
+          dispatch(
+            userLoggedIn({
+              token: data?.token,
+              user: data?.user ?? data?.data,
+            })
+          );
+        } catch (error) {
+          console.log("Login error:", error);
+        }
+      },
     }),
-    // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-    //   try {
-    //     const result = await queryFulfilled;
-    //     localStorage.setItem(
-    //       "auth",
-    //       JSON.stringify({
-    //         token: result?.data?.token,
-    //         user: result?.data?.data,
-    //       })
-    //     );
-    //     dispatch(
-    //       userLoggedIn({
-    //         token: result?.data?.token,
-    //         user: result?.data?.data,
-    //       })
-    //     );
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
   }),
 });
 

@@ -1,7 +1,7 @@
 import { LOGIN_SCHEMA } from "@/shared/redux/features/auth/auth.schema";
 import type { LoginData } from "@/shared/redux/features/auth/auth.types";
 import { useLoginMutation } from "@/shared/redux/features/auth/authApi";
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,7 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} autoComplete="off"  className="space-y-4">
           <div className="flex flex-col gap-4">
             <div>
-              <label className="block text-gray-700 mb-1">Username</label>
+              <Text element="label" className="block text-gray-700 mb-1">Username</Text>
               <Input
                 size="sm"
                 {...register("email")}
@@ -63,7 +63,7 @@ const Login = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-1">Password</label>
+              <Text element="label" className="block text-gray-700 mb-1">Password</Text> 
               <Input
                 size="sm"
                 {...register("password")}
@@ -93,14 +93,14 @@ const Login = () => {
 
         {/* Contact Info */}
         <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.25)] rounded-xl p-6 text-sm text-gray-700">
-          <h3 className="font-semibold mb-2">Contact Us</h3>
-          <p>
-            If you need any help please call Digital Web X-ray help line or send
-            us an email.
-          </p>
+          <Text element="h3" className="font-semibold mb-2">Contact Us</Text>
+          <Text element="p" > If you need any help please call Digital Web X-ray help line or send
+            us an email.</Text>
+        
           <ul className="mt-2 space-y-1">
             <li>
-              <span className="font-medium">Hotline:</span>{" "}
+              <Text element="span" className="font-medium">Hotline: </Text>
+              
               <a
                 href="tel:+8801759497773"
                 className="text-blue-600 hover:underline"
@@ -109,7 +109,7 @@ const Login = () => {
               </a>
             </li>
             <li>
-              <span className="font-medium">Any IT Support:</span>{" "}
+              <Text element="span" className="font-medium">Any IT Support: </Text> 
               <a
                 href="tel:+8801867074078"
                 className="text-blue-600 hover:underline"
@@ -118,7 +118,7 @@ const Login = () => {
               </a>
             </li>
             <li>
-              <span className="font-medium">Email:</span>{" "}
+               <Text element="span" className="font-medium">Email: </Text>  
               <a
                 href="mailto:digitalwebxray@gmail.com"
                 className="text-blue-600 hover:underline"

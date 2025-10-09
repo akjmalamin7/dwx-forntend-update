@@ -13,6 +13,7 @@ interface TextProps {
     | "p"
     | "span"
     | "strong"
+    | "label"
     | "del";
   color?:
     | "primary"

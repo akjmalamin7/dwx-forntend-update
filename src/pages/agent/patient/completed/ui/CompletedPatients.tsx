@@ -1,16 +1,18 @@
-import { Input, Text } from "@/shared/ui"; 
+import { Input, Text } from "@/shared/ui";
+ 
 import { Link } from "react-router-dom";
 
-  
+ 
 
-const Patients = () => {
-    
+const CompletedPatients = () => {
+ 
+
   return  (
       
        <div className="max-w-7xl mx-auto border border-indigo-200 rounded-md shadow-md">
       {/* Header */}
       <div className="bg-blue-600 text-white px-4 py-2 rounded-t-md">
-        <Text element="h2" className="text-md text-yellow-50 font-semibold">Pending Report</Text>
+        <Text element="h2" className="text-md text-yellow-50 font-semibold">Completed Report</Text>
       </div>
 
       {/* Body */}
@@ -110,6 +112,26 @@ const Patients = () => {
               </tr>
             </tfoot>
           </table>
+
+          {/* Pagination */}
+          <div className="flex justify-between items-center mt-4 px-4">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm disabled:opacity-50" disabled>
+              Previous
+            </button>
+
+            <div className="space-x-1 text-sm">
+              <button className="bg-blue-700 text-white px-3 py-1 rounded">1</button>
+              <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">2</button>
+              <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">3</button>
+              <span>...</span>
+              <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">10</button>
+            </div>
+
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+              Next
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -117,4 +139,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default CompletedPatients;

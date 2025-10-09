@@ -4,7 +4,7 @@ import { useLoginMutation } from "@/shared/redux/features/auth/authApi";
 import { Button, Input, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import LOGO from "@/assets/images/logo.png";
 import DEFAULT_BG from "@/assets/images/xray-bg.jpg";
 

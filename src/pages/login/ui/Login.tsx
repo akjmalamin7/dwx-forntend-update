@@ -4,7 +4,7 @@ import { useLoginMutation } from "@/shared/redux/features/auth/authApi";
 import { Button, Input, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import LOGO from "@/assets/images/logo.png";
 import DEFAULT_BG from "@/assets/images/xray-bg.jpg";
 
@@ -81,8 +81,7 @@ const Login = () => {
               loading={isLoading}
               disabled={!isValid}
               color="dark"
-              size="size-2"
-              width="w-16"
+              size="size-2" 
               type="submit"
             >
               {isLoading ? "Submitting..." : "Login"}
@@ -94,48 +93,57 @@ const Login = () => {
 
         {/* Contact Info */}
         <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.25)] rounded-xl p-6 text-sm text-gray-700">
-          <h3 className="font-semibold mb-2">Contact Us</h3>
+          <Text element="h3" className="font-semibold mb-2">Contact Us</Text>
           <Text element="p" > If you need any help please call Digital Web X-ray help line or send
             us an email.</Text>
         
           <ul className="mt-2 space-y-1">
             <li>
-              <Text element="span" className="font-medium">Hotline:</Text>
+              <Text element="span" className="font-medium">Hotline: </Text>
+              
+            
               <Link
-                href="tel:+8801759497773"
+                to="tel:+8801759497773"
                 className="text-blue-600 hover:underline"
               >
                 +880 1759497773
               </Link>
             </li>
             <li>
+              <Text element="span" className="font-medium">Any IT Support: </Text> 
+             
+            </li>
+            <li>
               <Text element="span" className="font-medium">Any IT Support:</Text>
               <Link
-                href="tel:+8801867074078"
+                to="tel:+8801867074078"
                 className="text-blue-600 hover:underline"
               >
                 +880 1867074078
               </Link>
             </li>
             <li>
+               <Text element="span" className="font-medium">Email: </Text>   
+            </li>
+            <li>
               <span className="font-medium">Email:</span>{" "}
               <Link
-                href="mailto:digitalwebxray@gmail.com"
+                to="mailto:digitalwebxray@gmail.com"
                 className="text-blue-600 hover:underline"
               >
-                digitalwebxray@gmail.com
+                digitalwebxray@gmail.com 
               </Link>
             </li>
           </ul>
 
-          <div className="mt-3 space-x-3 text-blue-600">
-            <Link href="#" className="hover:underline">
+          <div className="mt-3 space-x-3 text-blue-600"> 
+            <Link to="#" className="hover:underline">
               About us
             </Link>
-            <Link href="#" className="hover:underline">
+            <Link to="#" className="hover:underline">
               Contact us
             </Link>
-            <Link href="#" className="hover:underline">
+            <Link to="#" className="hover:underline">
               Privacy policy
             </Link>
           </div>
@@ -151,15 +159,10 @@ const Login = () => {
 
         {/* Marquee Section */}
         <div className="absolute bottom-0 w-full bg-blue-900 text-white py-2 overflow-hidden">
-          <marquee
-            behavior="scroll"
-            direction="left"
-            scrollamount="6"
-            className="text-sm md:text-base font-medium"
-          >
+        <Text element="h4">
             Digital Web X-ray এর সকল User দের সুবিধার্থে জানানো যাচ্ছে যে এখন
             X-ray Report এর পাশাপাশি ECG Report দেওয়া হবে।
-          </marquee>
+          </Text>
         </div>
       </div>
     </div> 

@@ -6,11 +6,17 @@ import PrivateRoutes from "./PrivateRouters";
 import PublicRoutes from "./PublicRouters";
 const LazyLogin = lazy(() => import("@/pages/login"));
 const LazyPatients = lazy(() => import("@/pages/patients"));
-const LazyAddPatient = lazy(() => import("@/pages/agent/patient/add"));
-const LazyQuickAddPatient = lazy(() => import("@/pages/agent/patient/quick-add"));
-const LazyAgentCompleted = lazy(() => import("@/pages/agent/patient/completed"));
-const LazyAgentAllCompleted = lazy(() => import("@/pages/agent/patient/all-completed"));
-const LazyAgentDoctor= lazy(() => import("@/pages/agent/doctor"));
+const LazyAddPatient = lazy(() => import("@/pages/agent/patient-add"));
+const LazyQuickAddPatient = lazy(
+  () => import("@/pages/agent/patient-quick-add")
+);
+const LazyAgentCompleted = lazy(
+  () => import("@/pages/agent/patient-completed")
+);
+const LazyAgentAllCompleted = lazy(
+  () => import("@/pages/agent/patient-all-completed")
+);
+const LazyAgentDoctor = lazy(() => import("@/pages/agent/doctor-list"));
 export const router = createBrowserRouter([
   {
     element: (
@@ -20,7 +26,7 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "/login", element: <LazyLogin /> },
-      { path: "*", element: <h1>Not found</h1> },
+      { path: "*", element: <h1>Not </h1> },
     ],
   },
   {

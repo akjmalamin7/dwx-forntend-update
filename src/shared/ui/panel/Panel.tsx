@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import _ from "lodash";
 import { Text } from "../text";
 interface PanelProps {
   size?: "sm" | "md" | "lg";

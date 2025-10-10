@@ -1,32 +1,8 @@
 import { SelectArrowIcon } from "@/assets/icons";
-import type { ChangeEvent, FocusEvent } from "react";
+import type { ChangeEvent } from "react";
 import React, { useEffect, useState } from "react";
 import { Text } from "../text";
-
-export type ErrorType = {
-  status: boolean;
-  message: string;
-};
-type OptionsType = {
-  value: string;
-  name: string;
-};
-export interface SelectProps {
-  label?: string;
-  name?: string;
-  value?: string;
-  radius?: "sm" | "md" | "lg";
-  color?: "dark" | "light";
-  bgColor?: "dark" | "light" | "transparent";
-  size?: "sm" | "md" | "lg";
-  options: OptionsType[];
-  error?: ErrorType;
-  isLoading?: boolean;
-  disabled?: boolean;
-  className?: string;
-  onSelect?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  onFocus?: (event: FocusEvent<HTMLSelectElement>) => void;
-}
+import type { SelectProps } from "./select.types";
 
 const Select = ({
   bgColor = "transparent",
@@ -102,9 +78,7 @@ const Select = ({
         >
           {options?.map((option, index) => (
             <option key={index} value={option.value} className="text-gray-950">
-              <Text size="sm" fontWeight="regular" color="primary">
-                {option.name}
-              </Text>
+              {option.name}
             </option>
           ))}
         </select>

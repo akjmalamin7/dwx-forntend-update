@@ -1,6 +1,9 @@
 export { Button } from "./button";
+export { ControlledSelect } from "./control-select";
 export { Input } from "./input";
+export { InputFile } from "./input-file";
 export { Loader } from "./loader";
+export { MultiSelect } from "./multi-select";
 export { NavItem } from "./navitem";
 export { Panel } from "./panel";
 export { Select } from "./select";

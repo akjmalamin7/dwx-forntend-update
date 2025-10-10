@@ -1,4 +1,4 @@
-import _ from "lodash";
+import isString from "lodash/isString";
 import { Text } from "../text";
 interface PanelProps {
   size?: "sm" | "md" | "lg";
@@ -16,7 +16,7 @@ const Panel = ({ children, header, size = "md" }: PanelProps) => {
       className={`${sizes} mx-auto border border-indigo-200 rounded-md shadow-md`}
     >
       <div className="bg-blue-600 text-white px-4 py-2 rounded-t-md">
-        {_.isString(header) ? (
+        {isString(header) ? (
           <Text element="h2" className="text-md text-yellow-50 font-semibold">
             All Completed Report
           </Text>

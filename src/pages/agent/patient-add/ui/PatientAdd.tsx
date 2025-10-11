@@ -1,16 +1,16 @@
-import { AutoCompleteSelect } from "@/features";
+import { AutoCompleteSelect, DoctorMultiSelector } from "@/features";
 import {
   Button,
   ControlledSelect,
   Input,
   InputFile,
-  MultiSelect,
   Panel,
   Select,
   Text,
 } from "@/shared/ui";
 import type { OptionsType } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import {
   Controller,
   useForm,
@@ -84,6 +84,10 @@ const schema = yup.object().shape({
 });
 const resolver = yupResolver(schema) as unknown as Resolver<PatientFormValues>;
 const PatientAdd = () => {
+  const [selectDr, setSelectDr] = useState<string[]>([]);
+  const [ignoreDr, setIgnoreDr] = useState<string[]>([]);
+  console.log("selectDr", selectDr);
+  console.log("ignoreDr", ignoreDr);
   const {
     register,
     handleSubmit,
@@ -301,50 +305,8 @@ const PatientAdd = () => {
           )}
         </div>
 
-        {/* Select Doctor */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Select Doctor
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Controller
-            name="selectDoctor"
-            control={control}
-            render={({ field }) => (
-              <MultiSelect
-                size="sm"
-                options={referenceDoctorOptions}
-                onSelect={(vals) => field.onChange(vals)}
-              />
-            )}
-          />
-          {errors.selectDoctor && (
-            <Text color="danger" size="sm">
-              {errors.selectDoctor.message}
-            </Text>
-          )}
-        </div>
-
-        {/* Ignore Doctor */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Ignore Doctor
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Controller
-            name="ignoreDoctor"
-            control={control}
-            render={({ field }) => (
-              <MultiSelect
-                size="sm"
-                options={referenceDoctorOptions}
-                onSelect={(vals) => field.onChange(vals)}
-              />
-            )}
-          />
-        </div>
+        <DoctorMultiSelector label="Select Doctor" onSelect={setSelectDr} />
+        <DoctorMultiSelector label="Ignore Doctor" onSelect={setIgnoreDr} />
 
         {/* Submit */}
         <div className="col-span-3"></div>

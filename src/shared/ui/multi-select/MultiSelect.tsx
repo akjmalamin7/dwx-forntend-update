@@ -17,6 +17,7 @@ const MultiSelect = ({
   size = "lg",
   value = [],
   disabled,
+  loading,
   onSelect,
   onFocus,
 }: MultiSelectProps) => {
@@ -55,7 +56,7 @@ const MultiSelect = ({
         <select
           id={name}
           name={name}
-          disabled={disabled}
+          disabled={disabled || loading}
           // onSelect={handleSelect}
           onChange={handleSelect}
           onFocus={onFocus}
@@ -69,26 +70,22 @@ const MultiSelect = ({
           })}
           value=""
         >
-          {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              className="text-gray-950"
-            >
-              {option.name}
-            </option>
-          ))}
-          {/* {options
-            .filter((opt) => !selectedValues.includes(opt.value))
-            .map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                className="text-gray-950"
-              >
-                {option.name}
-              </option>
-            ))} */}
+          {
+            <>
+              <option value="">Choose one</option>
+              {options
+                .filter((opt) => !selectedValues.includes(opt.value))
+                .map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    className="text-gray-950"
+                  >
+                    {option.name}
+                  </option>
+                ))}
+            </>
+          }
         </select>
         <div className="absolute right-[5px] top-1/2 -translate-y-1/2 flex items-center justify-center">
           <SelectArrowIcon />

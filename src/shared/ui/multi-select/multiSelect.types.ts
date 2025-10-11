@@ -12,6 +12,7 @@ export interface MultiSelectProps {
   error?: ErrorType;
   disabled?: boolean;
   className?: string;
+  loading?: boolean;
   value?: string[]; // selected values
   onSelect?: (values: string[]) => void;
   onFocus?: (event: FocusEvent<HTMLSelectElement>) => void;

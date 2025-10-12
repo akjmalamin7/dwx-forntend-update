@@ -8,26 +8,26 @@ import {
   type RegisterOptions,
 } from "react-hook-form";
 
-interface ControlledSelectProps<T extends FieldValues> {
-  name: Path<T>;
-  control: Control<T>;
+interface ControlledSelectProps<TFieldValues extends FieldValues> {
+  name: Path<TFieldValues>;
+  control: Control<TFieldValues>;
   label?: string;
   options: OptionsType[];
   rules?: Omit<
-    RegisterOptions<T, Path<T>>,
+    RegisterOptions<TFieldValues, Path<TFieldValues>>,
     "valueAsNumber" | "valueAsDate" | "setValueAs"
   >;
   size?: "sm" | "md" | "lg";
 }
 
-const ControlledSelect = <T extends FieldValues>({
+const ControlledSelect = <TFieldValues extends FieldValues>({
   name,
   control,
   label,
   options,
   rules,
   size = "sm",
-}: ControlledSelectProps<T>) => {
+}: ControlledSelectProps<TFieldValues>) => {
   return (
     <>
       {label && (
@@ -37,7 +37,7 @@ const ControlledSelect = <T extends FieldValues>({
       )}
       <Controller
         name={name}
-        control={control}
+        control={control} // ✅ exact type as useForm returns
         rules={rules}
         render={({ field, fieldState }) => (
           <>
@@ -58,5 +58,4 @@ const ControlledSelect = <T extends FieldValues>({
     </>
   );
 };
-
 export default ControlledSelect;

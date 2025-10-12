@@ -1,4 +1,5 @@
 export { Button } from "./button";
+export { ControlInput } from "./control-input";
 export { ControlledSelect } from "./control-select";
 export { Input } from "./input";
 export { InputFile } from "./input-file";

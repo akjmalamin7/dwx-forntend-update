@@ -1,12 +1,11 @@
-import { DoctorMultiSelector, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
+import { DoctorMultiSelector, ImageUpload, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
 import {
   Button,
   ControlledSelect,
   Input,
-  InputFile,
   Panel,
   Select,
-  Text,
+  Text
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -103,7 +102,9 @@ const PatientAdd = () => {
         className="grid grid-cols-12 gap-y-4 items-center"
       >
         {/* Upload Image */}
-        <div className="col-span-3">
+
+        <ImageUpload />
+        {/* <div className="col-span-3">
           <Text element="label" className="font-semibold">
             Upload Image
           </Text>
@@ -124,7 +125,7 @@ const PatientAdd = () => {
               {errors.file.message}
             </Text>
           )}
-        </div>
+        </div> */}
 
         {/* Patient ID */}
         <div className="col-span-3">
@@ -138,11 +139,6 @@ const PatientAdd = () => {
             placeholder="Patient Id"
             {...register("patientId")}
           />
-          {errors.patientId && (
-            <Text color="danger" size="sm">
-              {errors.patientId.message}
-            </Text>
-          )}
         </div>
 
         {/* Patient Name */}
@@ -157,11 +153,6 @@ const PatientAdd = () => {
             placeholder="Patient Name"
             {...register("patientName")}
           />
-          {errors.patientName && (
-            <Text color="danger" size="sm">
-              {errors.patientName.message}
-            </Text>
-          )}
         </div>
 
         {/* Patient Age */}
@@ -176,11 +167,6 @@ const PatientAdd = () => {
             placeholder="Patient Age"
             {...register("patientAge")}
           />
-          {errors.patientAge && (
-            <Text color="danger" size="sm">
-              {errors.patientAge.message}
-            </Text>
-          )}
         </div>
 
         {/* Patient Sex */}
@@ -271,11 +257,6 @@ const PatientAdd = () => {
               />
             )}
           />
-          {errors.imageCategory && (
-            <Text color="danger" size="sm">
-              {errors.imageCategory.message}
-            </Text>
-          )}
         </div>
 
         <DoctorMultiSelector label="Select Doctor" onSelect={setSelectDr} />

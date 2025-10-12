@@ -9,7 +9,8 @@ import { Text } from "../text";
 export interface InputProps {
   label?: string;
   name?: string;
-  value?: string;
+  multiple?: boolean;
+  value?: string; // single file value
   type?: "text" | "email" | "password" | "number" | "file";
   placeholder?: string;
   size?: "sm" | "md" | "lg";
@@ -23,6 +24,7 @@ export interface InputProps {
   onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
+
 const InputFile = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -35,6 +37,7 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
       size = "lg",
       color = "dark",
       radius = "sm",
+      multiple = false,
       onChange,
       onInput,
       onBlur,
@@ -47,17 +50,21 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
       dark: "text-gray-900",
       light: "h-[30px] xl:h-[38px] text-[14px]",
     }[color];
+
     const sizeClasses = {
       sm: "h-[30px] xl:h-[38px] text-[14px]",
       md: "h-[36px] xl:h-[44px] text-[14px]",
       lg: "h-[40px] xl:h-[50px] text-[14px]",
     }[size];
+
     const roundClasses = {
       sm: "rounded-[8px]",
       md: "rounded-[10px]",
       lg: "rounded-[12px]",
     }[radius];
-    const inputFinalClasses = `border border-gray-500  w-full px-[15px] text-gray-100  outline-none ${colorClasses} ${roundClasses} ${sizeClasses} ${className}`;
+
+    const inputFinalClasses = `border border-gray-500 w-full px-[15px] text-gray-100 outline-none ${colorClasses} ${roundClasses} ${sizeClasses} ${className}`;
+
     return (
       <div className="w-full">
         {label && (
@@ -67,12 +74,14 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative w-full">
           <input
+            accept="image/*"
             id={name}
             name={name}
             type="file"
             value={value}
             placeholder={placeholder}
             disabled={isLoading}
+            multiple={multiple}
             onChange={onChange}
             onInput={onInput}
             onBlur={onBlur}

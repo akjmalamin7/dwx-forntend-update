@@ -68,12 +68,7 @@ const schema = yup.object().shape({
 
   patientId: yup.string().required("Patient ID is required"),
   patientName: yup.string().required("Patient name is required"),
-  patientAge: yup
-    .number()
-    .typeError("Patient age must be a number")
-    .required("Patient age is required")
-    .min(0, "Age cannot be negative")
-    .max(120, "Age cannot be more than 120"),
+  patientAge: yup.string().required("Patient age is required"),
   patientSex: yup.string().required("Patient sex is required"),
   patientHistory: yup.string().required("Patient history is required"),
   xrayName: yup.string().required("X-ray name is required"),
@@ -288,7 +283,6 @@ const PatientAdd = () => {
               <Select
                 size="sm"
                 options={[
-                  { name: "Choose one", value: "" },
                   { name: "Single", value: "single" },
                   { name: "Double", value: "double" },
                   { name: "Multiple", value: "multiple" },

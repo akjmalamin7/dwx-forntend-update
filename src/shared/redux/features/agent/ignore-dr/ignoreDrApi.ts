@@ -11,7 +11,7 @@ export const DoctorOptionsApi = apiSlice.injectEndpoints({
       transformResponse: (response: DoctorApiResponse): DoctorOption[] =>
         response?.data?.map((doc) => ({
           id: doc.id,
-          name: doc.name,
+          name: doc.email,
         })) || [],
     }),
   }),

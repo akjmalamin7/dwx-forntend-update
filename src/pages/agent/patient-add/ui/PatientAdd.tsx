@@ -1,4 +1,4 @@
-import { AutoCompleteSelect, DoctorMultiSelector } from "@/features";
+import { DoctorMultiSelector, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
 import {
   Button,
   ControlledSelect,
@@ -8,7 +8,6 @@ import {
   Select,
   Text,
 } from "@/shared/ui";
-import type { OptionsType } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import {
@@ -32,23 +31,6 @@ export interface PatientFormValues {
   selectDoctor: string[];
   ignoreDoctor: string[];
 }
-
-// Options
-const referenceDoctorOptions: OptionsType[] = [
-  { name: "Choose Reference Dr.", value: "" },
-  { name: "Dr Mahfuj", value: "dr_mahfuj" },
-  { name: "Dr. Manik", value: "dr_manik" },
-];
-const xrayNameOptions: OptionsType[] = [
-  { name: "Choose x-ray name", value: "" },
-  { name: "Chest", value: "chest" },
-  { name: "Head", value: "head" },
-];
-const patientHistoryOptions: OptionsType[] = [
-  { name: "Choose patient history", value: "" },
-  { name: "Back Pain", value: "back_pain" },
-  { name: "Injured", value: "injured" },
-];
 
 // Yup validation schema
 const schema = yup.object().shape({
@@ -224,55 +206,46 @@ const PatientAdd = () => {
         <Controller
           name="patientHistory"
           control={control}
+          rules={{ required: "Patient history is required" }}
           render={({ field }) => (
-            <AutoCompleteSelect
+            <PatientHistorySelect
               label="Patient History"
-              options={patientHistoryOptions}
-              onSelectedValue={(val) => field.onChange(val)}
+              onSelectedValue={field.onChange}
+              ref={field.ref}
             />
           )}
         />
-        {errors.patientHistory && (
-          <Text color="danger" size="sm">
-            {errors.patientHistory.message}
-          </Text>
-        )}
+
 
         {/* X-ray Name */}
         <Controller
-          name="xrayName"
+          name="patientHistory"
           control={control}
+          rules={{ required: "Patient history is required" }}
           render={({ field }) => (
-            <AutoCompleteSelect
+            <XRrayNameSelect
               label="X-ray Name"
-              options={xrayNameOptions}
-              onSelectedValue={(val) => field.onChange(val)}
+              onSelectedValue={field.onChange}
+              ref={field.ref}
             />
           )}
         />
-        {errors.xrayName && (
-          <Text color="danger" size="sm">
-            {errors.xrayName.message}
-          </Text>
-        )}
+
 
         {/* Reference Doctor */}
         <Controller
           name="referenceDoctor"
           control={control}
+          rules={{ required: "Reference doctor required" }}
           render={({ field }) => (
-            <AutoCompleteSelect
+            <ReferenceDoctorSelect
               label="Reference Doctor"
-              options={referenceDoctorOptions}
-              onSelectedValue={(val) => field.onChange(val)}
+              onSelectedValue={field.onChange}
+              ref={field.ref}
             />
           )}
         />
-        {errors.referenceDoctor && (
-          <Text color="danger" size="sm">
-            {errors.referenceDoctor.message}
-          </Text>
-        )}
+
 
         {/* Image Category */}
         <div className="col-span-3">

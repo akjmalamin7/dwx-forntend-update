@@ -1,1 +1,2 @@
-export { default as PatientHistory } from "./PatientHistory";
+export { default as PatientHistorySelect } from "./PatientHistorySelect";
+

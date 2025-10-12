@@ -49,7 +49,7 @@ const Header = () => {
         <NavItem icon={<IoIosSend />} label="Completed Report" to="/agent/patient/completed" size="sm" />
         <NavItem icon={<IoIosSend />} label="All Report" to="/agent/patient/all-completed" size="sm" />
         <NavItem icon={<IoIosSend />} label="Doctor List" to="/agent/doctor" size="sm" />
-        <NavItem icon={<IoIosSend />} label="Reference List" to="/reference-list" size="sm" />
+        <NavItem icon={<IoIosSend />} label="Reference List" to="/agent/reference-list" size="sm" />
          {/* Dropdown Menu for Bill */}
         <div className="relative">
           <button
@@ -80,7 +80,7 @@ const Header = () => {
           )}
         </div>
 
-        <NavItem icon={<IoIosSend />} label="Checked User" to="/checked-user" size="sm" />
+        <NavItem icon={<IoIosSend />} label="Checked User" to="/agent/checked-user-list" size="sm" />
         <NavItem icon={<IoIosSend />} label="Software" to="/software" size="sm" />
 
        

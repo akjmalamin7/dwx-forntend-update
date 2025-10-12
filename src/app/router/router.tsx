@@ -16,7 +16,14 @@ const LazyAgentCompleted = lazy(
 const LazyAgentAllCompleted = lazy(
   () => import("@/pages/agent/patient-all-completed")
 );
-const LazyAgentDoctor = lazy(() => import("@/pages/agent/doctor-list"));
+const LazyAgentDoctor = lazy(() => import("@/pages/agent/doctor-list")); 
+const LazyAgentCheckedUserAdd = lazy(() => import("@/pages/agent/checked-user-add")); 
+const LazyAgentCheckedUserList = lazy(() => import("@/pages/agent/checked-user-list")); 
+const LazyAgentReferenceAdd = lazy(() => import("@/pages/agent/reference-add")); 
+const LazyAgentReferenceList = lazy(
+  () => import("@/pages/agent/reference-list")
+);
+
 export const router = createBrowserRouter([
   {
     element: (
@@ -82,6 +89,38 @@ export const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loader type="full_width" />}>
                 <LazyAgentDoctor />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/agent/reference-list",
+            element: (
+              <Suspense fallback={<Loader type="full_width" />}>
+                <LazyAgentReferenceList />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/agent/reference-add",
+            element: (
+              <Suspense fallback={<Loader type="full_width" />}>
+                <LazyAgentReferenceAdd />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/agent/checked-user-add",
+            element: (
+              <Suspense fallback={<Loader type="full_width" />}>
+                <LazyAgentCheckedUserAdd />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/agent/checked-user-list",
+            element: (
+              <Suspense fallback={<Loader type="full_width" />}>
+                <LazyAgentCheckedUserList />
               </Suspense>
             ),
           },

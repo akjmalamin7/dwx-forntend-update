@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 const PatientAdd = () => {
-  const [createPatient] = useCreatePatientMutation();
+  const [createPatient, { isLoading }] = useCreatePatientMutation();
 
   const {
     register,
@@ -273,11 +273,11 @@ const PatientAdd = () => {
             type="submit"
             color="dark"
             size="size-2"
-          // loading={isLoading}
-          // disabled={!isValid}
+            loading={isLoading}
+            disabled={!isValid}
           >
             Submit
-            {/* {isLoading ? "Submitting" : "Submit"} */}
+            {isLoading ? "Submitting" : "Submit"}
           </Button>
         </div>
       </form>

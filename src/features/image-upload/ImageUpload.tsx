@@ -13,6 +13,15 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
 
   const uploadFile = async (file: File): Promise<string | null> => {
     const formData = new FormData();
+
+    // timestamp + file extension
+    const timestamp = Date.now();
+    const ext = file.name.split(".").pop();
+    const newFileName = `${timestamp}.${ext}`;
+
+    const renamedFile = new File([file], newFileName, { type: file.type });
+
+    formData.append("image", renamedFile);
     formData.append("image", file);
 
     try {

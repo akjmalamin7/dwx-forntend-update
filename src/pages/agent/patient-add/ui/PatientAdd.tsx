@@ -2,13 +2,13 @@
 
 import { DoctorMultiSelector, ImageUpload, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
 import { patientFormschema, type PatientFormValues } from "@/shared/redux/features/agent/add-patient/addPatient.types";
-import { useCreatePatientMutation } from "@/shared/redux/features/agent/patient/patientApi";
+import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { Button, Input, Panel, Select, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 const PatientAdd = () => {
-  const [createPatient, { isLoading }] = useCreatePatientMutation();
+  const [createPatient, { isLoading }] = useAddPatientMutation();
 
   const {
     register,

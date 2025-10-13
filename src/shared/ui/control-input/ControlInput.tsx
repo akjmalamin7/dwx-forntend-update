@@ -1,4 +1,4 @@
-import { Input } from "@/shared/ui"; // adjust if needed
+import { Input, Text } from "@/shared/ui"; // adjust if needed
 import {
   type Control,
   Controller,
@@ -7,24 +7,44 @@ import {
 } from "react-hook-form";
 
 interface IProps<TFieldValues extends FieldValues> {
-  control: Control<TFieldValues>;
+  size?: "sm" | "md" | "lg";
+  label?: string;
   name: Path<TFieldValues>;
   placeholder?: string;
-  size?: "sm" | "md" | "lg";
+  control: Control<TFieldValues>;
 }
 
 const ControlInput = <TFieldValues extends FieldValues>({
-  control,
+  size = "md",
+  label,
   name,
   placeholder,
-  size = "md",
+  control,
 }: IProps<TFieldValues>) => {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
-        <Input {...field} placeholder={placeholder} size={size} />
+      render={({ field, fieldState }) => (
+        <>
+          <div className="col-span-3">
+            <Text element="label" className="font-semibold">
+              {label}
+            </Text>
+          </div>
+          <div className="col-span-9">
+            <Input
+              {...field}
+              value={field.value}
+              error={{
+                status: !!fieldState.error,
+                message: fieldState.error?.message,
+              }}
+              placeholder={placeholder}
+              size={size}
+            />
+          </div>
+        </>
       )}
     />
   );

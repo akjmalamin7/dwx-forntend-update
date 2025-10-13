@@ -1,9 +1,22 @@
-
-
-import { DoctorMultiSelector, ImageUpload, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
+import {
+  DoctorMultiSelector,
+  ImageUpload,
+  PatientHistorySelect,
+  ReferenceDoctorSelect,
+  XRrayNameSelect,
+} from "@/features";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
-import { Button, Input, Panel, Select, Text } from "@/shared/ui";
-import { patientFormschema, type PatientFormValues } from "@/shared/utils/types/types";
+import {
+  Button,
+  ControlInput,
+  ControlledSelect,
+  Panel,
+  Text,
+} from "@/shared/ui";
+import {
+  patientFormschema,
+  type PatientFormValues,
+} from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
@@ -12,7 +25,6 @@ const PatientAdd = () => {
   const [createPatient, { isLoading }] = useAddPatientMutation();
   const [resetCount, setResetCount] = useState<number>(0);
   const {
-    register,
     control,
     handleSubmit,
     reset,
@@ -56,9 +68,7 @@ const PatientAdd = () => {
         console.error("Error creating patient:", String(err));
       }
     }
-
   };
-
 
   return (
     <Panel header="Add X-ray Report">
@@ -88,64 +98,45 @@ const PatientAdd = () => {
         )}
 
         {/* Patient ID */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Patient ID
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Input
-            size="sm"
-            placeholder="Patient Id"
-            {...register("patient_id")}
-            error={{ status: !!errors.patient_id, message: errors.patient_id?.message }}
-          />
-        </div>
+
+        <ControlInput
+          control={control}
+          size="sm"
+          label="Patient ID"
+          placeholder="Patient Id"
+          name="patient_id"
+        />
 
         {/* Patient Name */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Patient Name
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Input size="sm" placeholder="Patient Name" {...register("name")} error={{ status: !!errors.name, message: errors.name?.message }} />
-        </div>
+
+        <ControlInput
+          control={control}
+          size="sm"
+          label="Patient Name"
+          placeholder="Patient Name"
+          name="name"
+        />
 
         {/* Patient Age */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Patient Age
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Input size="sm" placeholder="Patient Age" {...register("age")} error={{ status: !!errors.age, message: errors.age?.message }} />
-        </div>
+
+        <ControlInput
+          control={control}
+          size="sm"
+          label="Patient Age"
+          placeholder="Patient Age"
+          name="age"
+        />
 
         {/* Gender */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Patient Sex
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Controller
-            control={control}
-            name="gender"
-            render={({ field }) => (
-              <Select
-                size="sm"
-                options={[
-                  { name: "Male", value: "male" },
-                  { name: "Female", value: "female" },
-                ]}
-                value={field.value}
-                onSelect={field.onChange}
-                error={{ status: !!errors.gender, message: errors.gender?.message as string }}
-              />
-            )}
-          />
-        </div>
+        <ControlledSelect
+          label="Patient Sex"
+          control={control}
+          name="gender"
+          options={[
+            { name: "Male", value: "male" },
+            { name: "Female", value: "female" },
+          ]}
+        />
 
         {/* Patient History */}
         <Controller
@@ -156,7 +147,10 @@ const PatientAdd = () => {
               label="Patient History"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
-              error={{ status: !!errors.history, message: errors.history?.message as string }}
+              error={{
+                status: !!errors.history,
+                message: errors.history?.message as string,
+              }}
             />
           )}
         />
@@ -170,7 +164,10 @@ const PatientAdd = () => {
               label="X-ray Name"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
-              error={{ status: !!errors.xray_name, message: errors.xray_name?.message as string }}
+              error={{
+                status: !!errors.xray_name,
+                message: errors.xray_name?.message as string,
+              }}
             />
           )}
         />
@@ -184,36 +181,25 @@ const PatientAdd = () => {
               label="Reference Doctor"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
-              error={{ status: !!errors.ref_doctor, message: errors.ref_doctor?.message as string }}
+              error={{
+                status: !!errors.ref_doctor,
+                message: errors.ref_doctor?.message as string,
+              }}
             />
           )}
         />
 
         {/* Image Category */}
-        <div className="col-span-3">
-          <Text element="label" className="font-semibold">
-            Image Category
-          </Text>
-        </div>
-        <div className="col-span-9">
-          <Controller
-            control={control}
-            name="image_type"
-            render={({ field }) => (
-              <Select
-                size="sm"
-                options={[
-                  { name: "Single", value: "single" },
-                  { name: "Double", value: "double" },
-                  { name: "Multiple", value: "multiple" },
-                ]}
-                value={field.value}
-                onSelect={field.onChange}
-                error={{ status: !!errors.image_type, message: errors.image_type?.message as string }}
-              />
-            )}
-          />
-        </div>
+        <ControlledSelect
+          label="Image Category"
+          control={control}
+          name="image_type"
+          options={[
+            { name: "Single", value: "single" },
+            { name: "Double", value: "double" },
+            { name: "Multiple", value: "multiple" },
+          ]}
+        />
 
         {/* Doctor MultiSelectors */}
         <Controller
@@ -224,7 +210,10 @@ const PatientAdd = () => {
               label="Select Doctor"
               value={field.value}
               onSelect={(val) => field.onChange(val)}
-              error={{ status: !!errors.selected_drs_id, message: errors.selected_drs_id?.message as string }}
+              error={{
+                status: !!errors.selected_drs_id,
+                message: errors.selected_drs_id?.message as string,
+              }}
             />
           )}
         />
@@ -237,7 +226,10 @@ const PatientAdd = () => {
               label="Ignore Doctor"
               value={field.value}
               onSelect={(val) => field.onChange(val)}
-              error={{ status: !!errors.ignored_drs_id, message: errors.ignored_drs_id?.message as string }}
+              error={{
+                status: !!errors.ignored_drs_id,
+                message: errors.ignored_drs_id?.message as string,
+              }}
             />
           )}
         />

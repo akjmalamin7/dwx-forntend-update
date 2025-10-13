@@ -13,7 +13,7 @@ import React, {
 interface PatientHistorySelectProps {
   label?: string;
   value?: string;
-  error?: ErrorType
+  error?: ErrorType;
   onSelectedValue: (val: string) => void;
 }
 
@@ -23,13 +23,16 @@ const PatientHistorySelect = forwardRef<
 >(({ label, value = "", error, onSelectedValue }, ref) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedValue, setSelectedValue] = useState<string>(value);
-  const { data: patientHistoryOptions, isLoading } = useGetPatientHistoryListQuery()
+  const { data: patientHistoryOptions, isLoading } =
+    useGetPatientHistoryListQuery();
 
   const options: OptionsType[] = useMemo(() => {
     if (!patientHistoryOptions) return [];
-    return patientHistoryOptions.map((item) => ({ name: item.name, value: item.id }))
-
-  }, [patientHistoryOptions])
+    return patientHistoryOptions.map((item) => ({
+      name: item.name,
+      value: item.id,
+    }));
+  }, [patientHistoryOptions]);
 
   // Memoize option map for fast lookup
   const optionMap = useMemo(() => {
@@ -78,7 +81,6 @@ const PatientHistorySelect = forwardRef<
     },
     [optionMap, selectedValue, onSelectedValue]
   );
-
 
   return (
     <>

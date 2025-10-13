@@ -1,5 +1,5 @@
 import { Select, Text } from "@/shared/ui";
-import type { OptionsType } from "@/shared/utils/types/types";
+import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import {
   Controller,
   type Control,
@@ -13,6 +13,7 @@ interface ControlledSelectProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>;
   label?: string;
   options: OptionsType[];
+  error?: ErrorType;
   rules?: Omit<
     RegisterOptions<TFieldValues, Path<TFieldValues>>,
     "valueAsNumber" | "valueAsDate" | "setValueAs"
@@ -30,28 +31,31 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
 }: ControlledSelectProps<TFieldValues>) => {
   return (
     <>
-      {label && (
-        <Text element="label" className="font-semibold">
-          {label}
-        </Text>
-      )}
       <Controller
         name={name}
         control={control} // ✅ exact type as useForm returns
         rules={rules}
         render={({ field, fieldState }) => (
           <>
-            <Select
-              size={size}
-              options={options}
-              value={field.value}
-              onSelect={field.onChange}
-            />
-            {fieldState.error && (
-              <Text color="danger" size="sm">
-                {fieldState.error.message}
-              </Text>
+            {label && (
+              <div className="col-span-3">
+                <Text element="label" className="font-semibold">
+                  {label}
+                </Text>
+              </div>
             )}
+            <div className="col-span-9">
+              <Select
+                size={size}
+                options={options}
+                value={field.value}
+                onSelect={field.onChange}
+                error={{
+                  status: !!fieldState.error,
+                  message: fieldState.error?.message as string,
+                }}
+              />
+            </div>
           </>
         )}
       />

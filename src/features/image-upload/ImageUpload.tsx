@@ -2,8 +2,8 @@ import { InputFile, Text } from "@/shared/ui";
 import { useState, type ChangeEvent } from "react";
 
 interface ImageUploadProps {
-  onImagesUpload?: (urls: string[]) => void;
   values?: string[];
+  onImagesUpload?: (urls: string[]) => void;
 }
 
 const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
@@ -22,14 +22,23 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
         body: formData,
       });
 
-      if (!response.ok) {
-        const text = await response.text();
-        console.error("Server response:", text);
-        throw new Error("Upload failed");
+      const data = await response.json();
+
+      if (!data.data) return null;
+
+      let url: string;
+      if (Array.isArray(data.data)) {
+        url = data.data[0];
+      } else if (typeof data.data === "string") {
+        url = data.data;
+      } else {
+        console.error("Unexpected upload response:", data.data);
+        return null;
       }
 
-      const data = await response.json();
-      return data.data || null;
+      // Remove any extra quotes
+      return url.replace(/^"|"$/g, "");
+      // return data.data || null; // <-- URL from server
     } catch (err) {
       console.error("Upload failed:", err);
       setError("Failed to upload image. Please try again.");
@@ -39,22 +48,22 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files || files.length === 0) return;
+    if (!files) return;
 
     setUploading(true);
+
+    const filesArray = Array.from(files);
     const uploadedUrls: string[] = [];
-    const previews: string[] = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+    // preview URLs for immediate display
+    setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
 
-      previews.push(URL.createObjectURL(file));
-
-      const uploadedUrl = await uploadFile(file);
-      if (uploadedUrl) uploadedUrls.push(uploadedUrl);
+    // upload each file and collect server URLs
+    for (let i = 0; i < filesArray.length; i++) {
+      const url = await uploadFile(filesArray[i]);
+      if (url) uploadedUrls.push(url);
     }
-
-    setPreviewUrls(previews);
+    // pass URLs to form
     onImagesUpload?.(uploadedUrls);
     setUploading(false);
   };
@@ -73,7 +82,8 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
           moment for the preview to appear.
         </Text>
 
-        <InputFile size="sm"
+        <InputFile
+          size="sm"
           multiple
           onChange={handleFileChange}
           className="w-full"

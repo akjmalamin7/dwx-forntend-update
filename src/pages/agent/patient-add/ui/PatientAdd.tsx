@@ -307,8 +307,8 @@ const PatientAdd = () => {
             type="submit"
             color="dark"
             size="size-2"
-            // loading={isLoading}
-            // disabled={!isValid}
+          // loading={isLoading}
+          // disabled={!isValid}
           >
             Submit
             {/* {isLoading ? "Submitting" : "Submit"} */}

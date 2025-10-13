@@ -45,9 +45,15 @@ const PatientAdd = () => {
     try {
       const result = await createPatient(finalData).unwrap();
       console.log("Patient Created:", result);
-    } catch (err: any) {
-      console.error("Error creating patient:", err?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "data" in err) {
+        const e = err as { data?: { message?: string }; message?: string };
+        console.error("Error creating patient:", e.data?.message || e.message);
+      } else {
+        console.error("Error creating patient:", String(err));
+      }
     }
+
   };
 
 

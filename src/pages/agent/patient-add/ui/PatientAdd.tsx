@@ -1,9 +1,9 @@
 
 
 import { DoctorMultiSelector, ImageUpload, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
-import { patientFormschema, type PatientFormValues } from "@/shared/redux/features/agent/add-patient/addPatient.types";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { Button, Input, Panel, Select, Text } from "@/shared/ui";
+import { patientFormschema, type PatientFormValues } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
@@ -43,8 +43,7 @@ const PatientAdd = () => {
     };
 
     try {
-      const result = await createPatient(finalData).unwrap();
-      console.log("Patient Created:", result);
+      await createPatient(finalData).unwrap();
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };

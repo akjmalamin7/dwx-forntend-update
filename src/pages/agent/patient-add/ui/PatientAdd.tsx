@@ -1,27 +1,22 @@
-// PatientAdd.tsx
+
+
+import { DoctorMultiSelector, ImageUpload, PatientHistorySelect, ReferenceDoctorSelect, XRrayNameSelect } from "@/features";
+import { patientFormschema, type PatientFormValues } from "@/shared/redux/features/agent/add-patient/addPatient.types";
+import { useCreatePatientMutation } from "@/shared/redux/features/agent/patient/patientApi";
+import { Button, Input, Panel, Select, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import {
-  DoctorMultiSelector,
-  ImageUpload,
-  PatientHistorySelect,
-  ReferenceDoctorSelect,
-  XRrayNameSelect,
-} from "@/features";
-import { Button, Input, Panel, Select, Text } from "@/shared/ui";
-import { patientFormschema, type PatientFormValues } from "./patientAdd.types"; 
-import { useCreatePatientMutation } from "@/shared/redux/features/agent/patient/patientApi";
-
 const PatientAdd = () => {
-    const [createPatient] = useCreatePatientMutation();
+  const [createPatient] = useCreatePatientMutation();
 
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<PatientFormValues>({
+    mode: "onChange",
     resolver: yupResolver(patientFormschema),
     defaultValues: {
       attachment: [],
@@ -45,15 +40,16 @@ const PatientAdd = () => {
       ...data,
       rtype: "xray",
       study_for: "xray_dr",
-    }; 
+    };
 
-      try {
+    try {
       const result = await createPatient(finalData).unwrap();
-      console.log("Patient Created:", result); 
+      console.log("Patient Created:", result);
     } catch (err: any) {
-      console.error("Error creating patient:", err?.data?.message || err.message); 
+      console.error("Error creating patient:", err?.data?.message || err.message);
     }
   };
+
 
   return (
     <Panel header="Add X-ray Report">
@@ -267,8 +263,15 @@ const PatientAdd = () => {
         {/* Submit */}
         <div className="col-span-3"></div>
         <div className="col-span-9">
-          <Button type="submit" color="dark" size="size-2">
+          <Button
+            type="submit"
+            color="dark"
+            size="size-2"
+          // loading={isLoading}
+          // disabled={!isValid}
+          >
             Submit
+            {/* {isLoading ? "Submitting" : "Submit"} */}
           </Button>
         </div>
       </form>

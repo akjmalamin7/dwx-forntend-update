@@ -1,4 +1,4 @@
-import { useGetPatientHistoryListQuery } from "@/shared/redux/features/agent/patient-history/patientHistoryApi";
+import { useGetReferenceListQuery } from "@/shared/redux/features/agent/reference-list/referenceListApi";
 import { Input, Select, Text } from "@/shared/ui";
 import type { OptionsType } from "@/shared/utils/types/types";
 import React, {
@@ -20,13 +20,15 @@ const ReferenceDoctorSelect = forwardRef<
 >(({ label, onSelectedValue }, ref) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedValue, setSelectedValue] = useState<string>("");
-  const { data: patientHistoryOptions, isLoading } = useGetPatientHistoryListQuery()
+  const { data: referenceOptions, isLoading } = useGetReferenceListQuery();
 
   const options: OptionsType[] = useMemo(() => {
-    if (!patientHistoryOptions) return [];
-    return patientHistoryOptions.map((item) => ({ name: item.name, value: item.id }))
-
-  }, [patientHistoryOptions])
+    if (!referenceOptions) return [];
+    return referenceOptions.map((item) => ({
+      name: item.name,
+      value: item.id,
+    }));
+  }, [referenceOptions]);
 
   // Memoize option map for fast lookup
   const optionMap = useMemo(() => {
@@ -64,7 +66,6 @@ const ReferenceDoctorSelect = forwardRef<
     },
     [optionMap, selectedValue, onSelectedValue]
   );
-
 
   return (
     <>

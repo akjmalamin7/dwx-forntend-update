@@ -1,13 +1,24 @@
 import { InputFile, Text } from "@/shared/ui";
 import { useState, type ChangeEvent } from "react";
+import {
+  Controller,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
 
-interface ImageUploadProps {
-  values?: string[];
-  onImagesUpload?: (urls: string[]) => void;
+interface ImageUploadProps<TFieldValues extends FieldValues> {
+  label?: string;
+  name: Path<TFieldValues>;
+  control: Control<TFieldValues>;
 }
 
-const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
-  const [previewUrls, setPreviewUrls] = useState<string[]>(values);
+const ImageUpload = <TFieldValues extends FieldValues>({
+  label = "Upload Images",
+  name,
+  control,
+}: ImageUploadProps<TFieldValues>) => {
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string>("");
 
@@ -18,11 +29,8 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
     const timestamp = Date.now();
     const ext = file.name.split(".").pop();
     const newFileName = `${timestamp}.${ext}`;
-
     const renamedFile = new File([file], newFileName, { type: file.type });
-
     formData.append("image", renamedFile);
-    formData.append("image", file);
 
     try {
       setError("");
@@ -45,9 +53,8 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
         return null;
       }
 
-      // Remove any extra quotes
+      // clean up quotes if present
       return url.replace(/^"|"$/g, "");
-      // return data.data || null; // <-- URL from server
     } catch (err) {
       console.error("Upload failed:", err);
       setError("Failed to upload image. Please try again.");
@@ -55,75 +62,88 @@ const ImageUpload = ({ onImagesUpload, values = [] }: ImageUploadProps) => {
     }
   };
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    setUploading(true);
-
-    const filesArray = Array.from(files);
-    const uploadedUrls: string[] = [];
-
-    // preview URLs for immediate display
-    setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
-
-    // upload each file and collect server URLs
-    for (let i = 0; i < filesArray.length; i++) {
-      const url = await uploadFile(filesArray[i]);
-      if (url) uploadedUrls.push(url);
-    }
-    // pass URLs to form
-    onImagesUpload?.(uploadedUrls);
-    setUploading(false);
-  };
-
   return (
-    <>
-      <div className="col-span-3">
-        <Text element="label" className="font-semibold">
-          Upload Images
-        </Text>
-      </div>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState }) => {
+        const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+          const files = e.target.files;
+          if (!files) return;
 
-      <div className="col-span-9 space-y-2">
-        <Text element="p" color="danger" size="md" fontWeight="medium">
-          Note: Please upload images first then type patient information. Wait a
-          moment for the preview to appear.
-        </Text>
+          setUploading(true);
+          const filesArray = Array.from(files);
+          const uploadedUrls: string[] = [];
 
-        <InputFile
-          size="sm"
-          multiple
-          onChange={handleFileChange}
-          className="w-full"
-        />
+          // instant preview
+          setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
 
-        {uploading && (
-          <Text element="p" size="sm" color="primary">
-            Uploading images...
-          </Text>
-        )}
+          for (let i = 0; i < filesArray.length; i++) {
+            const url = await uploadFile(filesArray[i]);
+            if (url) uploadedUrls.push(url);
+          }
 
-        {error && (
-          <Text element="p" size="sm" color="danger">
-            {error}
-          </Text>
-        )}
+          // update form value
+          field.onChange(uploadedUrls);
+          setUploading(false);
+        };
 
-        {previewUrls.length > 0 && (
-          <div className="flex gap-2 flex-wrap mt-2">
-            {previewUrls.map((url, idx) => (
-              <img
-                key={idx}
-                src={url}
-                alt={`preview-${idx}`}
-                className="w-24 h-24 object-cover rounded border"
+        return (
+          <>
+            <div className="col-span-3">
+              {label && (
+                <Text element="label" className="font-semibold">
+                  {label}
+                </Text>
+              )}
+            </div>
+
+            <div className="col-span-9 space-y-2">
+              <Text element="p" color="danger" size="md" fontWeight="medium">
+                Note: Please upload images first then type patient information.
+                Wait a moment for the preview to appear.
+              </Text>
+
+              <InputFile
+                size="sm"
+                multiple
+                onChange={handleFileChange}
+                className="w-full"
+                error={{
+                  status: !!fieldState.error,
+                  message: fieldState.error?.message,
+                }}
               />
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+
+              {uploading && (
+                <Text element="p" size="sm" color="primary">
+                  Uploading images...
+                </Text>
+              )}
+
+              {error && (
+                <Text element="p" size="sm" color="danger">
+                  {error}
+                </Text>
+              )}
+
+              {!uploading && previewUrls?.length > 0 && (
+                <div className="flex gap-2 flex-wrap mt-2">
+                  {field.value.map((url: string, idx: number) => (
+                    <img
+                      key={idx}
+                      src={url}
+                      alt={`preview-${idx}`}
+                      className="w-18 h-18 object-cover rounded border"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        );
+      }}
+    />
   );
 };
 

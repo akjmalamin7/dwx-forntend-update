@@ -1,12 +1,8 @@
 import type { UserSchema } from "@/shared/redux/features/auth/auth.types";
 import { useEffect, useState } from "react";
 
-interface DecodedToken {
-  [key: string]: UserSchema;
-}
-
 export function useJWT() {
-  const [decoded, setDecoded] = useState<DecodedToken | null>(null);
+  const [decoded, setDecoded] = useState<UserSchema | null>(null);
 
   const storedAuth = localStorage.getItem("auth");
   const token: string | null = storedAuth
@@ -21,7 +17,7 @@ export function useJWT() {
 
     try {
       const payload = token.split(".")[1];
-      const decodedPayload = JSON.parse(atob(payload));
+      const decodedPayload: UserSchema = JSON.parse(atob(payload));
       setDecoded(decodedPayload);
     } catch (error) {
       console.error("Invalid JWT token:", error);

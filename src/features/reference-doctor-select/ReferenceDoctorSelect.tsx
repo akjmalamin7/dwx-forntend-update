@@ -50,6 +50,9 @@ const ReferenceDoctorSelect = forwardRef<
     if (matchedOption) {
       setSelectedValue(value);
       setInputValue(matchedOption.name);
+    } else {
+      setSelectedValue("");
+      setInputValue(value);
     }
   }, [value, options]);
   const handleSelectChange = useCallback(
@@ -77,6 +80,9 @@ const ReferenceDoctorSelect = forwardRef<
       if (matchValue !== selectedValue) {
         setSelectedValue(matchValue);
         onSelectedValue(matchValue);
+      } else {
+        setSelectedValue("");
+        onSelectedValue(val);
       }
     },
     [optionMap, selectedValue, onSelectedValue]
@@ -98,6 +104,7 @@ const ReferenceDoctorSelect = forwardRef<
           placeholder={label ?? "Select an option"}
           onChange={handleInputChange}
           size="sm"
+          error={error}
         />
         <Select
           size="sm"

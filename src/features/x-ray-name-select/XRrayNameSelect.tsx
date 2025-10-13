@@ -37,6 +37,7 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
       options.forEach((opt) => (map[opt.name.toLowerCase()] = opt.value));
       return map;
     }, [options]);
+
     useEffect(() => {
       if (!value) {
         setSelectedValue("");
@@ -47,8 +48,12 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
       if (matchedOption) {
         setSelectedValue(value);
         setInputValue(matchedOption.name);
+      } else {
+        setSelectedValue("");
+        setInputValue(value);
       }
     }, [value, options]);
+
     const handleSelectChange = useCallback(
       (val: string) => {
         const option = options.find((opt) => opt.value === val);
@@ -74,6 +79,9 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
         if (matchValue !== selectedValue) {
           setSelectedValue(matchValue);
           onSelectedValue(matchValue);
+        } else {
+          setSelectedValue("");
+          onSelectedValue(val);
         }
       },
       [optionMap, selectedValue, onSelectedValue]

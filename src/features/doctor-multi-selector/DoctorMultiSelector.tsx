@@ -1,10 +1,12 @@
 import { useGetDoctorOptionsQuery } from "@/shared/redux/features/agent/ignore-dr/ignoreDrApi";
 import { Loader, MultiSelect, Text } from "@/shared/ui";
+import type { ErrorType } from "@/shared/utils/types/types";
 interface IProps {
   label?: string;
+  error?: ErrorType;
   onSelect?: (values: string[]) => void;
 }
-const DoctorMultiSelector = ({ label, onSelect }: IProps) => {
+const DoctorMultiSelector = ({ label, error, onSelect }: IProps) => {
   const { data: doctorOptions = [], isLoading } = useGetDoctorOptionsQuery();
   if (isLoading) <Loader />;
   return (
@@ -24,6 +26,7 @@ const DoctorMultiSelector = ({ label, onSelect }: IProps) => {
           }))}
           loading={isLoading}
           onSelect={onSelect}
+          error={error}
         />
       </div>
     </>

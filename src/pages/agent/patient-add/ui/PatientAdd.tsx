@@ -14,6 +14,7 @@ const PatientAdd = () => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<PatientFormValues>({
     mode: "onChange",
@@ -44,6 +45,7 @@ const PatientAdd = () => {
 
     try {
       await createPatient(finalData).unwrap();
+      reset();
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -93,12 +95,8 @@ const PatientAdd = () => {
             size="sm"
             placeholder="Patient Id"
             {...register("patient_id")}
+            error={{ status: !!errors.patient_id, message: errors.patient_id?.message }}
           />
-          {errors.patient_id && (
-            <Text element="p" size="sm" color="danger">
-              {errors.patient_id.message}
-            </Text>
-          )}
         </div>
 
         {/* Patient Name */}
@@ -108,12 +106,7 @@ const PatientAdd = () => {
           </Text>
         </div>
         <div className="col-span-9">
-          <Input size="sm" placeholder="Patient Name" {...register("name")} />
-          {errors.name && (
-            <Text element="p" size="sm" color="danger">
-              {errors.name.message}
-            </Text>
-          )}
+          <Input size="sm" placeholder="Patient Name" {...register("name")} error={{ status: !!errors.name, message: errors.name?.message }} />
         </div>
 
         {/* Patient Age */}
@@ -123,12 +116,7 @@ const PatientAdd = () => {
           </Text>
         </div>
         <div className="col-span-9">
-          <Input size="sm" placeholder="Patient Age" {...register("age")} />
-          {errors.age && (
-            <Text element="p" size="sm" color="danger">
-              {errors.age.message}
-            </Text>
-          )}
+          <Input size="sm" placeholder="Patient Age" {...register("age")} error={{ status: !!errors.age, message: errors.age?.message }} />
         </div>
 
         {/* Gender */}
@@ -151,14 +139,10 @@ const PatientAdd = () => {
                 ]}
                 value={field.value}
                 onSelect={field.onChange}
+                error={{ status: !!errors.gender, message: errors.gender?.message as string }}
               />
             )}
           />
-          {errors.gender && (
-            <Text element="p" size="sm" color="danger">
-              {errors.gender.message}
-            </Text>
-          )}
         </div>
 
         {/* Patient History */}
@@ -169,14 +153,10 @@ const PatientAdd = () => {
             <PatientHistorySelect
               label="Patient History"
               onSelectedValue={(val) => field.onChange(val)}
+              error={{ status: !!errors.history, message: errors.history?.message as string }}
             />
           )}
         />
-        {errors.history && (
-          <Text element="p" size="sm" color="danger" className="col-span-12">
-            {errors.history.message}
-          </Text>
-        )}
 
         {/* X-ray Name */}
         <Controller
@@ -186,14 +166,10 @@ const PatientAdd = () => {
             <XRrayNameSelect
               label="X-ray Name"
               onSelectedValue={(val) => field.onChange(val)}
+              error={{ status: !!errors.xray_name, message: errors.xray_name?.message as string }}
             />
           )}
         />
-        {errors.xray_name && (
-          <Text element="p" size="sm" color="danger" className="col-span-12">
-            {errors.xray_name.message}
-          </Text>
-        )}
 
         {/* Reference Doctor */}
         <Controller
@@ -203,14 +179,10 @@ const PatientAdd = () => {
             <ReferenceDoctorSelect
               label="Reference Doctor"
               onSelectedValue={(val) => field.onChange(val)}
+              error={{ status: !!errors.ref_doctor, message: errors.ref_doctor?.message as string }}
             />
           )}
         />
-        {errors.ref_doctor && (
-          <Text element="p" size="sm" color="danger" className="col-span-12">
-            {errors.ref_doctor.message}
-          </Text>
-        )}
 
         {/* Image Category */}
         <div className="col-span-3">
@@ -232,14 +204,10 @@ const PatientAdd = () => {
                 ]}
                 value={field.value}
                 onSelect={field.onChange}
+                error={{ status: !!errors.image_type, message: errors.image_type?.message as string }}
               />
             )}
           />
-          {errors.image_type && (
-            <Text element="p" size="sm" color="danger">
-              {errors.image_type.message}
-            </Text>
-          )}
         </div>
 
         {/* Doctor MultiSelectors */}
@@ -250,6 +218,7 @@ const PatientAdd = () => {
             <DoctorMultiSelector
               label="Select Doctor"
               onSelect={(val) => field.onChange(val)}
+              error={{ status: !!errors.selected_drs_id, message: errors.selected_drs_id?.message as string }}
             />
           )}
         />
@@ -261,6 +230,7 @@ const PatientAdd = () => {
             <DoctorMultiSelector
               label="Ignore Doctor"
               onSelect={(val) => field.onChange(val)}
+              error={{ status: !!errors.ignored_drs_id, message: errors.ignored_drs_id?.message as string }}
             />
           )}
         />
@@ -275,7 +245,6 @@ const PatientAdd = () => {
             loading={isLoading}
             disabled={!isValid}
           >
-            Submit
             {isLoading ? "Submitting" : "Submit"}
           </Button>
         </div>

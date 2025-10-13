@@ -1,6 +1,6 @@
 import { useGetReferenceListQuery } from "@/shared/redux/features/agent/reference-list/referenceListApi";
 import { Input, Select, Text } from "@/shared/ui";
-import type { OptionsType } from "@/shared/utils/types/types";
+import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import React, {
   forwardRef,
   useCallback,
@@ -11,13 +11,14 @@ import React, {
 
 interface ReferenceDoctorSelectProps {
   label?: string;
+  error?: ErrorType;
   onSelectedValue: (val: string) => void;
 }
 
 const ReferenceDoctorSelect = forwardRef<
   HTMLInputElement,
   ReferenceDoctorSelectProps
->(({ label, onSelectedValue }, ref) => {
+>(({ label, error, onSelectedValue }, ref) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedValue, setSelectedValue] = useState<string>("");
   const { data: referenceOptions, isLoading } = useGetReferenceListQuery();
@@ -90,6 +91,7 @@ const ReferenceDoctorSelect = forwardRef<
           onSelect={handleSelectChange}
           options={options}
           isLoading={isLoading}
+          error={error}
         />
       </div>
     </>

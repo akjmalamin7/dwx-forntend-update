@@ -1,6 +1,6 @@
 import { useGetXrayNameListQuery } from "@/shared/redux/features/agent/x-ray-name-list/xRayNameListApi";
 import { Input, Select, Text } from "@/shared/ui";
-import type { OptionsType } from "@/shared/utils/types/types";
+import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import React, {
   forwardRef,
   useCallback,
@@ -11,11 +11,12 @@ import React, {
 
 interface XRrayNameSelectProps {
   label?: string;
+  error?: ErrorType;
   onSelectedValue: (val: string) => void;
 }
 
 const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
-  ({ label, onSelectedValue }, ref) => {
+  ({ label, error, onSelectedValue }, ref) => {
     const [inputValue, setInputValue] = useState<string>("");
     const [selectedValue, setSelectedValue] = useState<string>("");
     const { data: xrayNameListOptions, isLoading } = useGetXrayNameListQuery();
@@ -88,6 +89,7 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
             onSelect={handleSelectChange}
             options={options}
             isLoading={isLoading}
+            error={error}
           />
         </div>
       </>

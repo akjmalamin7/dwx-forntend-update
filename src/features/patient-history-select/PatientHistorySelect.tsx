@@ -1,6 +1,6 @@
 import { useGetPatientHistoryListQuery } from "@/shared/redux/features/agent/patient-history/patientHistoryApi";
 import { Input, Select, Text } from "@/shared/ui";
-import type { OptionsType } from "@/shared/utils/types/types";
+import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import React, {
   forwardRef,
   useCallback,
@@ -11,13 +11,14 @@ import React, {
 
 interface PatientHistorySelectProps {
   label?: string;
+  error?: ErrorType
   onSelectedValue: (val: string) => void;
 }
 
 const PatientHistorySelect = forwardRef<
   HTMLInputElement,
   PatientHistorySelectProps
->(({ label, onSelectedValue }, ref) => {
+>(({ label, error, onSelectedValue }, ref) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedValue, setSelectedValue] = useState<string>("");
   const { data: patientHistoryOptions, isLoading } = useGetPatientHistoryListQuery()
@@ -89,6 +90,7 @@ const PatientHistorySelect = forwardRef<
           onSelect={handleSelectChange}
           options={options}
           isLoading={isLoading}
+          error={error}
         />
       </div>
     </>

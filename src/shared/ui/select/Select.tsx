@@ -76,6 +76,7 @@ const Select = ({
           onFocus={onFocus}
           className={finalSelectClasses}
         >
+          <option value="">Choose one</option>
           {options?.map((option, index) => (
             <option key={index} value={option.value} className="text-gray-950">
               {option.name}

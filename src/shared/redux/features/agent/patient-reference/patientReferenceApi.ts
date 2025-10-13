@@ -13,4 +13,4 @@ export const referenceApi = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useCreateReferenceMutation } = referenceApi;
+export const { useCreatePatientMutation } = referenceApi;

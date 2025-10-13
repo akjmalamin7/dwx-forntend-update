@@ -1,5 +1,4 @@
 import { Text } from "@/shared/ui";
-import React from "react";
 
 const Footer = () => {
   return (

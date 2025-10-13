@@ -1,5 +1,5 @@
 import { SelectArrowIcon } from "@/assets/icons";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useState, type ChangeEvent } from "react";
 import { Text } from "../text";
 import MulitSelectList from "./MulitSelectList";
 import type { MultiSelectProps } from "./multiSelect.types";
@@ -22,7 +22,9 @@ const MultiSelect = ({
   onFocus,
 }: MultiSelectProps) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(value);
-
+  useEffect(() => {
+    setSelectedValues(value);
+  }, [value]);
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
     if (!selectedValues.includes(selected)) {

@@ -4,6 +4,7 @@ import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import React, {
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
   useState,
   type ChangeEvent,
@@ -12,15 +13,16 @@ import React, {
 interface ReferenceDoctorSelectProps {
   label?: string;
   error?: ErrorType;
+  value?: string;
   onSelectedValue: (val: string) => void;
 }
 
 const ReferenceDoctorSelect = forwardRef<
   HTMLInputElement,
   ReferenceDoctorSelectProps
->(({ label, error, onSelectedValue }, ref) => {
+>(({ label, value = "", error, onSelectedValue }, ref) => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>(value);
   const { data: referenceOptions, isLoading } = useGetReferenceListQuery();
 
   const options: OptionsType[] = useMemo(() => {
@@ -38,6 +40,18 @@ const ReferenceDoctorSelect = forwardRef<
     return map;
   }, [options]);
 
+  useEffect(() => {
+    if (!value) {
+      setSelectedValue("");
+      setInputValue("");
+      return;
+    }
+    const matchedOption = options.find((opt) => opt.value === value);
+    if (matchedOption) {
+      setSelectedValue(value);
+      setInputValue(matchedOption.name);
+    }
+  }, [value, options]);
   const handleSelectChange = useCallback(
     (val: string) => {
       const option = options.find((opt) => opt.value === val);

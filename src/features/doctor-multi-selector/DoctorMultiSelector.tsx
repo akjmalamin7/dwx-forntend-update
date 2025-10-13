@@ -4,9 +4,10 @@ import type { ErrorType } from "@/shared/utils/types/types";
 interface IProps {
   label?: string;
   error?: ErrorType;
+  value?: string[];
   onSelect?: (values: string[]) => void;
 }
-const DoctorMultiSelector = ({ label, error, onSelect }: IProps) => {
+const DoctorMultiSelector = ({ label, error, value = [], onSelect }: IProps) => {
   const { data: doctorOptions = [], isLoading } = useGetDoctorOptionsQuery();
   if (isLoading) <Loader />;
   return (
@@ -24,6 +25,7 @@ const DoctorMultiSelector = ({ label, error, onSelect }: IProps) => {
             value: doc.id,
             name: doc.name,
           }))}
+          value={value}
           loading={isLoading}
           onSelect={onSelect}
           error={error}

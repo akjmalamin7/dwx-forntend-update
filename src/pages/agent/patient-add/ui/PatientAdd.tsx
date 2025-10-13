@@ -5,11 +5,12 @@ import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient
 import { Button, Input, Panel, Select, Text } from "@/shared/ui";
 import { patientFormschema, type PatientFormValues } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 const PatientAdd = () => {
   const [createPatient, { isLoading }] = useAddPatientMutation();
-
+  const [resetCount, setResetCount] = useState<number>(0);
   const {
     register,
     control,
@@ -46,6 +47,7 @@ const PatientAdd = () => {
     try {
       await createPatient(finalData).unwrap();
       reset();
+      setResetCount((prev) => prev + 1);
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -70,6 +72,7 @@ const PatientAdd = () => {
           name="attachment"
           render={({ field }) => (
             <ImageUpload
+              key={resetCount}
               values={field.value}
               onImagesUpload={(urls) => {
                 console.log(urls);
@@ -133,7 +136,6 @@ const PatientAdd = () => {
               <Select
                 size="sm"
                 options={[
-                  { name: "Choose one", value: "" },
                   { name: "Male", value: "male" },
                   { name: "Female", value: "female" },
                 ]}
@@ -152,6 +154,7 @@ const PatientAdd = () => {
           render={({ field }) => (
             <PatientHistorySelect
               label="Patient History"
+              value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
               error={{ status: !!errors.history, message: errors.history?.message as string }}
             />
@@ -165,6 +168,7 @@ const PatientAdd = () => {
           render={({ field }) => (
             <XRrayNameSelect
               label="X-ray Name"
+              value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
               error={{ status: !!errors.xray_name, message: errors.xray_name?.message as string }}
             />
@@ -178,6 +182,7 @@ const PatientAdd = () => {
           render={({ field }) => (
             <ReferenceDoctorSelect
               label="Reference Doctor"
+              value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
               error={{ status: !!errors.ref_doctor, message: errors.ref_doctor?.message as string }}
             />
@@ -217,6 +222,7 @@ const PatientAdd = () => {
           render={({ field }) => (
             <DoctorMultiSelector
               label="Select Doctor"
+              value={field.value}
               onSelect={(val) => field.onChange(val)}
               error={{ status: !!errors.selected_drs_id, message: errors.selected_drs_id?.message as string }}
             />
@@ -229,6 +235,7 @@ const PatientAdd = () => {
           render={({ field }) => (
             <DoctorMultiSelector
               label="Ignore Doctor"
+              value={field.value}
               onSelect={(val) => field.onChange(val)}
               error={{ status: !!errors.ignored_drs_id, message: errors.ignored_drs_id?.message as string }}
             />

@@ -4,6 +4,7 @@ import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import React, {
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
   useState,
   type ChangeEvent,
@@ -11,14 +12,15 @@ import React, {
 
 interface XRrayNameSelectProps {
   label?: string;
+  value?: string;
   error?: ErrorType;
   onSelectedValue: (val: string) => void;
 }
 
 const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
-  ({ label, error, onSelectedValue }, ref) => {
+  ({ label, value = "", error, onSelectedValue }, ref) => {
     const [inputValue, setInputValue] = useState<string>("");
-    const [selectedValue, setSelectedValue] = useState<string>("");
+    const [selectedValue, setSelectedValue] = useState<string>(value);
     const { data: xrayNameListOptions, isLoading } = useGetXrayNameListQuery();
 
     const options: OptionsType[] = useMemo(() => {
@@ -35,7 +37,18 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
       options.forEach((opt) => (map[opt.name.toLowerCase()] = opt.value));
       return map;
     }, [options]);
-
+    useEffect(() => {
+      if (!value) {
+        setSelectedValue("");
+        setInputValue("");
+        return;
+      }
+      const matchedOption = options.find((opt) => opt.value === value);
+      if (matchedOption) {
+        setSelectedValue(value);
+        setInputValue(matchedOption.name);
+      }
+    }, [value, options]);
     const handleSelectChange = useCallback(
       (val: string) => {
         const option = options.find((opt) => opt.value === val);

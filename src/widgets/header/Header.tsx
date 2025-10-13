@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { NavItem, Text } from "@/shared/ui";
 import LOGO from "@/assets/images/logo.png";
+import { NavItem, Text } from "@/shared/ui";
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import { MdFileUpload } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,7 +50,7 @@ const Header = () => {
         <NavItem icon={<IoIosSend />} label="All Report" to="/agent/patient/all-completed" size="sm" />
         <NavItem icon={<IoIosSend />} label="Doctor List" to="/agent/doctor" size="sm" />
         <NavItem icon={<IoIosSend />} label="Reference List" to="/agent/reference-list" size="sm" />
-         {/* Dropdown Menu for Bill */}
+        {/* Dropdown Menu for Bill */}
         <div className="relative">
           <button
             onClick={toggleBillDropdown}
@@ -83,7 +83,7 @@ const Header = () => {
         <NavItem icon={<IoIosSend />} label="Checked User" to="/agent/checked-user-list" size="sm" />
         <NavItem icon={<IoIosSend />} label="Software" to="/software" size="sm" />
 
-       
+
       </nav>
     </header>
   );

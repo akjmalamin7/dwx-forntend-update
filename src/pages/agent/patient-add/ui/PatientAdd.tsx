@@ -10,9 +10,12 @@ import {
   XRrayNameSelect,
 } from "@/features";
 import { Button, Input, Panel, Select, Text } from "@/shared/ui";
-import { patientFormschema, type PatientFormValues } from "./patientAdd.types";
+import { patientFormschema, type PatientFormValues } from "./patientAdd.types"; 
+import { useCreatePatientMutation } from "@/shared/redux/features/agent/patient/patientApi";
 
 const PatientAdd = () => {
+    const [createPatient] = useCreatePatientMutation();
+
   const {
     register,
     control,
@@ -37,13 +40,19 @@ const PatientAdd = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<PatientFormValues> = (data) => {
+  const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     const finalData = {
       ...data,
       rtype: "xray",
       study_for: "xray_dr",
-    };
-    console.log("Form Submitted:", finalData);
+    }; 
+
+      try {
+      const result = await createPatient(finalData).unwrap();
+      console.log("Patient Created:", result); 
+    } catch (err: any) {
+      console.error("Error creating patient:", err?.data?.message || err.message); 
+    }
   };
 
   return (

@@ -7,5 +7,6 @@ export { Loader } from "./loader";
 export { MultiSelect } from "./multi-select";
 export { NavItem } from "./navitem";
 export { Panel } from "./panel";
+export { PanelHeading } from "./panel-heading";
 export { Select } from "./select";
 export { Text } from "./text";

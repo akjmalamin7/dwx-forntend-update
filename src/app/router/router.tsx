@@ -1,131 +1,30 @@
-import { Loader } from "@/shared/ui";
 import Layout from "@/widgets/layout";
-import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import PrivateRoutes from "./PrivateRouters";
-import PublicRoutes from "./PublicRouters";
-const LazyLogin = lazy(() => import("@/pages/login"));
-const LazyPatients = lazy(() => import("@/pages/patients"));
-const LazyAddPatient = lazy(() => import("@/pages/agent/patient-add"));
-const LazyQuickAddPatient = lazy(
-  () => import("@/pages/agent/patient-quick-add")
-);
-const LazyAgentCompleted = lazy(
-  () => import("@/pages/agent/patient-completed")
-);
-const LazyAgentAllCompleted = lazy(
-  () => import("@/pages/agent/patient-all-completed")
-);
-const LazyAgentDoctor = lazy(() => import("@/pages/agent/doctor-list"));
-const LazyAgentCheckedUserAdd = lazy(() => import("@/pages/agent/checked-user-add"));
-const LazyAgentCheckedUserList = lazy(() => import("@/pages/agent/checked-user-list"));
-const LazyAgentReferenceAdd = lazy(() => import("@/pages/agent/checked-user-add"));
-const LazyAgentReferenceList = lazy(
-  () => import("@/pages/agent/checked-user-list")
-);
+import { Pages } from "./lazy-pages";
+import PrivateRoutes from "./private-routers/PrivateRouters";
+import PublicRoutes from "./public-routers/PublicRouters";
+import { userRoutes } from "./routers/routers";
+import { withSuspense } from "./with-suspense/withSuspense";
 
-export const router = createBrowserRouter([
-  {
-    element: (
-      <Suspense fallback={<Loader type="full_width" />}>
-        <PublicRoutes />
-      </Suspense>
-    ),
-    children: [
-      { path: "/login", element: <LazyLogin /> },
-      { path: "*", element: <h1>Not </h1> },
-    ],
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <h1>Something went wrong</h1>,
-    children: [
-      {
-        element: <PrivateRoutes />,
-        children: [
-          {
-            path: "/",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyPatients />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/patient/add",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAddPatient />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/patient/quick-add",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyQuickAddPatient />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/patient/completed",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentCompleted />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/patient/all-completed",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentAllCompleted />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/doctor",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentDoctor />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/reference-list",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentReferenceList />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/reference-add",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentReferenceAdd />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/checked-user-add",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentCheckedUserAdd />
-              </Suspense>
-            ),
-          },
-          {
-            path: "/agent/checked-user-list",
-            element: (
-              <Suspense fallback={<Loader type="full_width" />}>
-                <LazyAgentCheckedUserList />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-    ],
-  },
-]);
+const publicRoutes = {
+  element: withSuspense(<PublicRoutes />),
+  children: [
+    { path: "/login", element: <Pages.Login /> },
+    { path: "*", element: <h1>Not Found</h1> },
+  ]
+}
+
+
+const privateRoutes = {
+  path: "/",
+  element: <Layout />,
+  errorElement: <h1>Something went wrong</h1>,
+  children: [
+    {
+      element: <PrivateRoutes />,
+      children: userRoutes,
+    },
+  ],
+};
+
+export const router = createBrowserRouter([publicRoutes, privateRoutes]);

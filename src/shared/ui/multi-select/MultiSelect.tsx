@@ -20,7 +20,7 @@ const MultiSelect = ({
   loading,
   onSelect,
   onFocus,
-}: MultiSelectProps) => {
+}: MultiSelectProps, ref: React.Ref<HTMLSelectElement>) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(value);
   useEffect(() => {
     setSelectedValues(value);
@@ -56,6 +56,7 @@ const MultiSelect = ({
       {/* Dropdown */}
       <div className="relative w-full">
         <select
+          ref={ref}
           id={name}
           name={name}
           disabled={disabled || loading}

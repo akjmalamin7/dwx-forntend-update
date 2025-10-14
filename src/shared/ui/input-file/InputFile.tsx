@@ -18,6 +18,7 @@ export interface InputProps {
   isLoading?: boolean;
   color?: "dark" | "light";
   className?: string;
+  error?: { status?: boolean; message?: string };
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
@@ -38,6 +39,7 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
       color = "dark",
       radius = "sm",
       multiple = false,
+      error,
       onChange,
       onInput,
       onBlur,
@@ -90,6 +92,11 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             className={inputFinalClasses}
           />
+          {error?.status && (
+            <Text size="sm" className="text-red-500 mt-1">
+              {error.message}
+            </Text>
+          )}
         </div>
       </div>
     );

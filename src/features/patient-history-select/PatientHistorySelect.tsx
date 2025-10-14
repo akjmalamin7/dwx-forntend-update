@@ -40,6 +40,7 @@ const PatientHistorySelect = forwardRef<
     options.forEach((opt) => (map[opt.name.toLowerCase()] = opt.value));
     return map;
   }, [options]);
+
   useEffect(() => {
     if (!value) {
       setSelectedValue("");
@@ -50,8 +51,12 @@ const PatientHistorySelect = forwardRef<
     if (matchedOption) {
       setSelectedValue(value);
       setInputValue(matchedOption.name);
+    } else {
+      setSelectedValue("");
+      setInputValue(value);
     }
   }, [value, options]);
+
   const handleSelectChange = useCallback(
     (val: string) => {
       const option = options.find((opt) => opt.value === val);
@@ -77,6 +82,9 @@ const PatientHistorySelect = forwardRef<
       if (matchValue !== selectedValue) {
         setSelectedValue(matchValue);
         onSelectedValue(matchValue);
+      } else {
+        setSelectedValue("");
+        onSelectedValue(val);
       }
     },
     [optionMap, selectedValue, onSelectedValue]
@@ -98,6 +106,7 @@ const PatientHistorySelect = forwardRef<
           placeholder={label ?? "Select an option"}
           onChange={handleInputChange}
           size="sm"
+          error={error}
         />
         <Select
           size="sm"

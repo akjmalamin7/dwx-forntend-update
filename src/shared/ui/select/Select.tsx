@@ -1,6 +1,6 @@
 import { SelectArrowIcon } from "@/assets/icons";
 import type { ChangeEvent } from "react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "../text";
 import type { SelectProps } from "./select.types";
 
@@ -96,7 +96,5 @@ const Select = ({
   );
 };
 
-Select.displayName = "Select";
 
-// Forward ref to make it usable in parent components
-export default React.forwardRef(Select);
+export default Select

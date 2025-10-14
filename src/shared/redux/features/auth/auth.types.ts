@@ -1,5 +1,6 @@
 export interface UserSchema {
-  _id: string;
+  // _id: string;
+  id: string;
   name: string;
   email: string;
   role: "admin" | "user" | "xray_dr" | "ecg_dr";

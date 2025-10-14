@@ -6,13 +6,7 @@ import {
   XRrayNameSelect,
 } from "@/features";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
-import {
-  Button,
-  ControlInput,
-  ControlledSelect,
-  Panel,
-  Text,
-} from "@/shared/ui";
+import { Button, ControlInput, ControlledSelect, Panel } from "@/shared/ui";
 import {
   patientFormschema,
   type PatientFormValues,
@@ -77,28 +71,9 @@ const PatientAdd = () => {
         onSubmit={handleSubmit(onSubmit, (errros) => console.log(errros))}
       >
         {/* Upload Image */}
-        <Controller
-          control={control}
-          name="attachment"
-          render={({ field }) => (
-            <ImageUpload
-              key={resetCount}
-              values={field.value}
-              onImagesUpload={(urls) => {
-                console.log(urls);
-                field.onChange(urls);
-              }}
-            />
-          )}
-        />
-        {errors.attachment && (
-          <Text element="p" size="sm" color="danger" className="col-span-12">
-            {errors.attachment.message}
-          </Text>
-        )}
+        <ImageUpload key={resetCount} control={control} name="attachment" />
 
         {/* Patient ID */}
-
         <ControlInput
           control={control}
           size="sm"
@@ -202,36 +177,17 @@ const PatientAdd = () => {
         />
 
         {/* Doctor MultiSelectors */}
-        <Controller
+
+        <DoctorMultiSelector
+          label="Selected Doctor"
           control={control}
           name="selected_drs_id"
-          render={({ field }) => (
-            <DoctorMultiSelector
-              label="Select Doctor"
-              value={field.value}
-              onSelect={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.selected_drs_id,
-                message: errors.selected_drs_id?.message as string,
-              }}
-            />
-          )}
         />
-
-        <Controller
+        <DoctorMultiSelector
+          label="Ignored Dcotor"
           control={control}
           name="ignored_drs_id"
-          render={({ field }) => (
-            <DoctorMultiSelector
-              label="Ignore Doctor"
-              value={field.value}
-              onSelect={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.ignored_drs_id,
-                message: errors.ignored_drs_id?.message as string,
-              }}
-            />
-          )}
+          useIgnored
         />
 
         {/* Submit */}

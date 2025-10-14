@@ -37,13 +37,14 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
         rules={rules}
         render={({ field, fieldState }) => (
           <>
-            {label && (
-              <div className="col-span-3">
+            <div className="col-span-3">
+              {label && (
                 <Text element="label" className="font-semibold">
                   {label}
                 </Text>
-              </div>
-            )}
+              )}
+            </div>
+
             <div className="col-span-9">
               <Select
                 size={size}

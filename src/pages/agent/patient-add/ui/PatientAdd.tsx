@@ -6,7 +6,13 @@ import {
   XRrayNameSelect,
 } from "@/features";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
-import { Button, ControlInput, ControlledSelect, Panel, PanelHeading } from "@/shared/ui";
+import {
+  Button,
+  ControlInput,
+  ControlledSelect,
+  Panel,
+  PanelHeading,
+} from "@/shared/ui";
 import {
   patientFormschema,
   type PatientFormValues,
@@ -65,7 +71,15 @@ const PatientAdd = () => {
   };
 
   return (
-    <Panel header={<PanelHeading title="Add X-ray Report" button="Patient List" path="agent/patient/completed" />}>
+    <Panel
+      header={
+        <PanelHeading
+          title="Add X-ray Report"
+          button="Patient List"
+          path="agent/patient/completed"
+        />
+      }
+    >
       <form
         className="grid grid-cols-12 gap-y-4 items-center"
         onSubmit={handleSubmit(onSubmit, (errros) => console.log(errros))}

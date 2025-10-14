@@ -30,7 +30,6 @@ const DoctorMultiSelector = <TFieldValues extends FieldValues>({
 
   const { data: selectedDrData, isLoading: isProfileLoading } =
     useGetProfileSelectDoctorIdQuery(userId ?? skipToken);
-
   // if (isDoctorsLoading || isProfileLoading) return <Loader />;
   const preselectedIds: string[] = useIgnored
     ? selectedDrData?.ignored_dr ?? []

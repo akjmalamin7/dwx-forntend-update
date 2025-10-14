@@ -1,7 +1,7 @@
 import { useJWT } from "@/shared/hooks";
 import { useGetDoctorOptionsQuery } from "@/shared/redux/features/agent/ignore-dr/ignoreDrApi";
 import { useGetProfileSelectDoctorIdQuery } from "@/shared/redux/features/profile/profileApi";
-import { Loader, MultiSelect, Text } from "@/shared/ui";
+import { MultiSelect, Text } from "@/shared/ui";
 import { skipToken } from "@reduxjs/toolkit/query";
 import {
   Controller,
@@ -31,7 +31,7 @@ const DoctorMultiSelector = <TFieldValues extends FieldValues>({
   const { data: selectedDrData, isLoading: isProfileLoading } =
     useGetProfileSelectDoctorIdQuery(userId ?? skipToken);
 
-  if (isDoctorsLoading || isProfileLoading) return <Loader />;
+  // if (isDoctorsLoading || isProfileLoading) return <Loader />;
   const preselectedIds: string[] = useIgnored
     ? selectedDrData?.ignored_dr ?? []
     : selectedDrData?.selected_dr ?? [];

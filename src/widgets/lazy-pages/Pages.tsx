@@ -2,6 +2,7 @@ import { lazy } from "react";
 
 export const Pages = {
   Login: lazy(() => import("@/pages/login")),
+  Unauthorized: lazy(() => import("@/pages/unauthorized")),
   Patients: lazy(() => import("@/pages/patients")),
   AddPatient: lazy(() => import("@/pages/agent/patient-add")),
   QuickAddPatient: lazy(() => import("@/pages/agent/patient-quick-add")),

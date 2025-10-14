@@ -1,10 +1,10 @@
+import { userRoutes } from "@/pages/agent/agenRoutes";
+import { withSuspense } from "@/shared/ui";
 import Layout from "@/widgets/layout";
 import { createBrowserRouter } from "react-router-dom";
-import { Pages } from "./lazy-pages";
+import { Pages } from "../../widgets/lazy-pages";
 import PrivateRoutes from "./private-routers/PrivateRouters";
 import PublicRoutes from "./public-routers/PublicRouters";
-import { userRoutes } from "./routers/routers";
-import { withSuspense } from "./with-suspense/withSuspense";
 
 const publicRoutes = {
   element: withSuspense(<PublicRoutes />),

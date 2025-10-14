@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const PublicRoutes = () => {
   const { isAuthenticate } = useAuth();
-  return isAuthenticate === false ? <Outlet /> : <Navigate to="/" />;
+  return isAuthenticate ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PublicRoutes;

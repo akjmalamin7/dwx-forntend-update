@@ -19,9 +19,9 @@ const LazyAgentAllCompleted = lazy(
 const LazyAgentDoctor = lazy(() => import("@/pages/agent/doctor-list"));
 const LazyAgentCheckedUserAdd = lazy(() => import("@/pages/agent/checked-user-add"));
 const LazyAgentCheckedUserList = lazy(() => import("@/pages/agent/checked-user-list"));
-const LazyAgentReferenceAdd = lazy(() => import("@/pages/agent/checked-user-add"));
+const LazyAgentReferenceAdd = lazy(() => import("@/pages/agent/reference-add"));
 const LazyAgentReferenceList = lazy(
-  () => import("@/pages/agent/checked-user-list")
+  () => import("@/pages/agent/reference-list")
 );
 
 export const router = createBrowserRouter([

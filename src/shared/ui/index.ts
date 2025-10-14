@@ -10,3 +10,5 @@ export { Panel } from "./panel";
 export { PanelHeading } from "./panel-heading";
 export { Select } from "./select";
 export { Text } from "./text";
+export { withSuspense } from "./with-suspense";
+

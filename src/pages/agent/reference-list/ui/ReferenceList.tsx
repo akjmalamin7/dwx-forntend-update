@@ -2,8 +2,21 @@ import { Input, Panel, Text } from "@/shared/ui";
 import { Link } from "react-router-dom";
 
 const ReferenceList = () => {
+
+  const header = (
+    <div>
+      <div className="flex justify-between">
+        <div className="">
+          <Text element="h2" className="text-md text-yellow-50 font-semibold">Reference List</Text> 
+        </div>
+        <div>
+          <Link to="/agent/reference-add" className="px-3 py-2 bg-white text-black block rounded-2">Reference Add</Link>
+        </div>
+      </div>
+    </div>
+  );
   return (
-    <Panel header="Reference Doctor List" size="lg" >
+    <Panel header={header} size="lg" >
       {/* Search Field */}
       <div className="mb-4 w-1/2">
         <Text element="label" className="font-semibold mr-2">

@@ -6,5 +6,5 @@ export interface ReferenceFormValues {
 
 export const ReferenceFormschema: yup.ObjectSchema<ReferenceFormValues> =
   yup.object({ 
-    name: yup.string().required("Patient name is required")
+    name: yup.string().required("Reference name is required")
   }) as yup.ObjectSchema<ReferenceFormValues>;

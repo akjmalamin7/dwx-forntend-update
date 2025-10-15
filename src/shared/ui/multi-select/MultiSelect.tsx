@@ -22,9 +22,11 @@ const MultiSelect = ({
   onFocus,
 }: MultiSelectProps, ref: React.Ref<HTMLSelectElement>) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(value);
+
   useEffect(() => {
     setSelectedValues(value);
   }, [value]);
+
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
     if (!selectedValues.includes(selected)) {

@@ -5,7 +5,9 @@ import {
   ReferenceDoctorSelect,
   XRrayNameSelect,
 } from "@/features";
+import { useJWT } from "@/shared/hooks";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
+import { useGetProfileSelectDoctorIdQuery } from "@/shared/redux/features/profile/profileApi";
 import {
   Button,
   ControlInput,
@@ -18,10 +20,14 @@ import {
   type PatientFormValues,
 } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useEffect, useState } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 const PatientAdd = () => {
+  const decoded = useJWT();
+  const userId: string | undefined = decoded?.id;
+  const { data: profileData, isLoading: isProfileLoading } = useGetProfileSelectDoctorIdQuery(userId ?? skipToken);
   const [createPatient, { isLoading }] = useAddPatientMutation();
   const [resetCount, setResetCount] = useState<number>(0);
   const {
@@ -36,8 +42,8 @@ const PatientAdd = () => {
       attachment: [],
       rtype: "",
       study_for: "",
-      selected_drs_id: [],
-      ignored_drs_id: [],
+      selected_drs_id: profileData?.selected_dr || [],
+      ignored_drs_id: profileData?.ignored_dr || [],
       patient_id: "",
       name: "",
       age: "",
@@ -48,17 +54,42 @@ const PatientAdd = () => {
       image_type: "single",
     },
   });
+  useEffect(() => {
+    if (profileData) {
+      reset((formValues) => ({
+        ...formValues,
+        selected_drs_id: profileData.selected_dr || [],
+        ignored_drs_id: profileData.ignored_dr || [],
+      }));
+    }
+
+  }, [profileData, isProfileLoading, reset]);
+
 
   const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
+
     const finalData = {
       ...data,
       rtype: "xray",
       study_for: "xray_dr",
+      selected_drs_id: profileData?.selected_dr || [],
+      ignored_drs_id: profileData?.ignored_dr || [],
     };
-
     try {
       await createPatient(finalData).unwrap();
-      reset();
+      reset({
+        attachment: [],
+        patient_id: "",
+        name: "",
+        age: "",
+        history: "",
+        gender: "male",
+        xray_name: "",
+        ref_doctor: "",
+        image_type: "single",
+        selected_drs_id: profileData?.selected_dr || [],
+        ignored_drs_id: profileData?.ignored_dr || [],
+      });
       setResetCount((prev) => prev + 1);
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {

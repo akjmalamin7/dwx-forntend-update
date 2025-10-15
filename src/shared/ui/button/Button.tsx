@@ -35,11 +35,20 @@ const Button = ({
     dark: "border border-gray-900 text-gray-900 bg-transparent",
     white: "border border-gray-300 text-black bg-transparent",
   };
+  const textVariants = {
+    primary: "text-blue-600",
+    secondary: " text-gray-600 ",
+    tertiary: "text-green-600 ",
+    danger: "text-red-600 ",
+    warning: "text-yellow-500 ",
+    dark: "text-gray-900 ",
+    white: "text-black ",
+  };
 
   const variantClass = {
     fill: `px-[20px] py-[8px] inline-flex items-center ${colorVariants[color]}`,
     outline: `px-[20px] py-[8px] inline-flex items-center ${outlineVariants[color]}`,
-    text: "bg-transparent border-transparent px-0 py-0 h-[auto]",
+    text: `bg-transparent border-transparent px-0 py-0 !h-[auto] ${textVariants[color]}`,
   }[variant];
   const sizeClass = {
     "size-1": "h-[28px] md:h-[32px]  text-[14px] font-regular",

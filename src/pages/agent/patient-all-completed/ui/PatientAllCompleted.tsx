@@ -1,40 +1,11 @@
 import { Input, Panel, Text } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
-import type { Columns, DataSource } from "@/shared/ui/table/table.model";
+import {
+  DUMMY_TABLE_COLUMN,
+  DUMMY_TABLE_DATA,
+} from "@/shared/ui/table/table.dummyData";
 
 const PatientAllCompleted = () => {
-  const data: DataSource[] = [
-    { key: "1", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "Mahfuj", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
-    { key: "2", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
-    { key: "3", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "M", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
-    { key: "4", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "Manik", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
-  ];
-
-  const columns: Columns<DataSource>[] = [
-    { key: "sl", title: "Sl", dataIndex: "sl", align: "center", width: 50 },
-    { key: "startTime", title: "Start Time", dataIndex: "startTime", align: "center", width: 100 },
-    { key: "pId", title: "P.ID", dataIndex: "pId", align: "center", width: 80 },
-    { key: "pName", title: "P.Name", dataIndex: "pName", align: "start", width: 120 },
-    { key: "sex", title: "Sex", dataIndex: "sex", align: "center", width: 70 },
-    { key: "age", title: "Age", dataIndex: "age", align: "center", width: 70 },
-    { key: "xrayName", title: "Xray Name", dataIndex: "xrayName", align: "start", width: 100 },
-    { key: "type", title: "Type", dataIndex: "type", align: "center", width: 80 },
-    {
-      key: "viewed",
-      title: "Viewed",
-      dataIndex: "viewed",
-      align: "center",
-      width: 120,
-      render: (value, record) => (
-        <button
-          className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
-          onClick={() => console.log(value, record)}
-        >
-          View
-        </button>
-      ),
-    },
-  ];
   return (
     <Panel header="All Completed Report" size="lg">
       <div className="mb-4">
@@ -54,15 +25,14 @@ const PatientAllCompleted = () => {
       {/* Table */}
       <div className="overflow-x-auto">
         <Table
-          columns={columns}
-          dataSource={data}
+          columns={DUMMY_TABLE_COLUMN}
+          dataSource={DUMMY_TABLE_DATA}
           size="lg"
           scroll={true}
           hover={true}
           border="bordered"
-          bg="striped"
+          bg="transparent"
         />
-
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 px-4">

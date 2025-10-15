@@ -10,13 +10,10 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     size,
     className,
     border = "bordered",
-    align,
     hover = false,
-    width,
     header = true,
     columns,
     dataSource,
-    tableStyle,
     bg = "transparent",
     loading,
     onRow,
@@ -24,33 +21,38 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
   } = props;
 
   const tableSizes = {
-    xs: "w-[500px]",
-    sm: "w-[700px]",
-    md: "w-[960px]",
-    lg: "w-[1024px]",
-    xl: "w-[1120px]",
+    xs: "!min-w-[500px]",
+    sm: "!min-w-[700px]",
+    md: "!min-w-[862px]",
+    lg: "!min-w-[1024px]",
+    xl: "!min-w-[1246px]",
   }[size || "md"];
 
   const borderClasses = {
     "border-less": "border-0",
-    bordered: "border border-gray-500",
+    bordered: "border border-gray-900",
   }[border];
 
   const bgClasses = {
     transparent: "bg-transparent",
-    striped: "bg-gray-100",
-  }[bg];
+    striped: "even:bg-gray-50 odd:bg-white", // alternate row color
+  }[bg || "transparent"];
 
   const tableClasses = classNames("", className, {
     "overflow-x-auto touch-pan-x": scroll,
   });
 
-  const tableHeaderClasses = classNames(
-    "align-bottom border-b border-gray-300 bg-[#f7f7f7]"
-  );
+  const tableHeaderClasses = classNames("align-bottom bg-gray-100");
 
-  const handleRow = (event: React.MouseEvent<HTMLTableRowElement>, data: DataSource) => {
-    if (event.target !== event.currentTarget && typeof (event.target as HTMLElement).onclick === "function") return;
+  const handleRow = (
+    event: React.MouseEvent<HTMLTableRowElement>,
+    data: DataSource
+  ) => {
+    if (
+      event.target !== event.currentTarget &&
+      typeof (event.target as HTMLElement).onclick === "function"
+    )
+      return;
     if (typeof onRow === "function") onRow(data);
   };
 
@@ -60,11 +62,8 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
         className={classNames(
           "w-full border-collapse",
           tableSizes,
-          borderClasses,
-          bgClasses,
-          { "hover:bg-gray-50": hover }
+          borderClasses
         )}
-        style={tableStyle}
       >
         {/* Table header */}
         {header && (
@@ -74,11 +73,15 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                 <th
                   key={column.key}
                   style={{ width: column.width ? `${column.width}px` : "auto" }}
+                  className={classNames(
+                    "px-3 py-2 bg-grray-100",
+                    borderClasses
+                  )}
                 >
                   <Text
-                    size="sm"
+                    size="md"
                     fontWeight="semiBold"
-                    color="tertiary"
+                    color="dark"
                     textAlign={column.align}
                   >
                     {column.title}
@@ -99,38 +102,53 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
             </tr>
           ) : (
             dataSource?.map((data, rowIndex) => (
-              <tr key={data.key} onClick={(event) => handleRow(event, data)}>
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    style={{ width: column.width ? `${column.width}px` : "auto" }}
-                    colSpan={
-                      typeof column.colSpan === "function"
-                        ? column.colSpan(data, rowIndex)
-                        : column.colSpan
-                    }
-                    rowSpan={
-                      typeof column.rowSpan === "function"
-                        ? column.rowSpan(data, rowIndex)
-                        : column.rowSpan
-                    }
-                  >
-                    {column.render
-                      ? column.render(data)
-                      : column.dataIndex
-                        ? (
-                          <Text
-                            size="sm"
-                            fontWeight="regular"
-                            color="tertiary"
-                            textAlign={column.align}
-                          >
-                            {String(data[column.dataIndex] ?? "")}
-                          </Text>
-                        )
-                        : null}
-                  </td>
-                ))}
+              <tr
+                key={data.key}
+                onClick={(event) => handleRow(event, data)}
+                className={classNames(bgClasses, {
+                  ["hover:bg-gray-100"]: hover,
+                })}
+              >
+                {columns.map((column) => {
+                  const cellValue = column.dataIndex
+                    ? data[column.dataIndex]
+                    : undefined;
+
+                  return (
+                    <td
+                      key={column.key}
+                      style={{
+                        width: column.width ? `${column.width}px` : "auto",
+                      }}
+                      className={classNames("px-3 py-2", borderClasses, {
+                        [`text-${column.align}`]: column.align,
+                      })}
+                      colSpan={
+                        typeof column.colSpan === "function"
+                          ? column.colSpan(data, rowIndex)
+                          : column.colSpan
+                      }
+                      rowSpan={
+                        typeof column.rowSpan === "function"
+                          ? column.rowSpan(data, rowIndex)
+                          : column.rowSpan
+                      }
+                    >
+                      {column.render ? (
+                        column.render(cellValue, data, rowIndex) // ✅ এখন value, record, index তিনটাই যাবে
+                      ) : column.dataIndex ? (
+                        <Text
+                          size="md"
+                          fontWeight="regular"
+                          color="dark"
+                          textAlign={column.align}
+                        >
+                          {String(cellValue ?? "")}
+                        </Text>
+                      ) : null}
+                    </td>
+                  );
+                })}
               </tr>
             ))
           )}

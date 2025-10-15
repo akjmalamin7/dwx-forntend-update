@@ -1,5 +1,5 @@
+import { Pages } from "@/app/router/lazy-pages";
 import { withSuspense } from "@/shared/ui";
-import { Pages } from "@/widgets/lazy-pages";
 
 export const userRoutes = [
   { path: "/", element: withSuspense(<Pages.Patients />) },

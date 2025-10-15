@@ -2,7 +2,7 @@ import { userRoutes } from "@/pages/agent/agenRoutes";
 import { withSuspense } from "@/shared/ui";
 import Layout from "@/widgets/layout";
 import { createBrowserRouter } from "react-router-dom";
-import { Pages } from "../../widgets/lazy-pages";
+import { Pages } from "./lazy-pages";
 import PrivateRoutes from "./private-routers/PrivateRouters";
 import PublicRoutes from "./public-routers/PublicRouters";
 

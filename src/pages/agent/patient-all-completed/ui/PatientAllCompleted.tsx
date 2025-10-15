@@ -1,7 +1,40 @@
 import { Input, Panel, Text } from "@/shared/ui";
-import { Link } from "react-router-dom";
+import { Table } from "@/shared/ui/table";
+import type { Columns, DataSource } from "@/shared/ui/table/table.model";
 
 const PatientAllCompleted = () => {
+  const data: DataSource[] = [
+    { key: "1", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "Mahfuj", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
+    { key: "2", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
+    { key: "3", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "M", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
+    { key: "4", sl: "01", startTime: "12:13AM", pId: "P-1001", pName: "Manik", sex: "Male", age: "25Y", xrayName: "Chest", type: "Xray", viewed: "Mr. Mahfuj" },
+  ];
+
+  const columns: Columns<DataSource>[] = [
+    { key: "sl", title: "Sl", dataIndex: "sl", align: "center", width: 50 },
+    { key: "startTime", title: "Start Time", dataIndex: "startTime", align: "center", width: 100 },
+    { key: "pId", title: "P.ID", dataIndex: "pId", align: "center", width: 80 },
+    { key: "pName", title: "P.Name", dataIndex: "pName", align: "start", width: 120 },
+    { key: "sex", title: "Sex", dataIndex: "sex", align: "center", width: 70 },
+    { key: "age", title: "Age", dataIndex: "age", align: "center", width: 70 },
+    { key: "xrayName", title: "Xray Name", dataIndex: "xrayName", align: "start", width: 100 },
+    { key: "type", title: "Type", dataIndex: "type", align: "center", width: 80 },
+    {
+      key: "viewed",
+      title: "Viewed",
+      dataIndex: "viewed",
+      align: "center",
+      width: 120,
+      render: (value, record) => (
+        <button
+          className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
+          onClick={() => console.log(value, record)}
+        >
+          View
+        </button>
+      ),
+    },
+  ];
   return (
     <Panel header="All Completed Report" size="lg">
       <div className="mb-4">
@@ -20,95 +53,16 @@ const PatientAllCompleted = () => {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border border-collapse border-gray-300">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="border px-3 py-2">Sl</th>
-              <th className="border px-3 py-2">Start Time</th>
-              <th className="border px-3 py-2">P.ID</th>
-              <th className="border px-3 py-2">P.Name</th>
-              <th className="border px-3 py-2">Sex</th>
-              <th className="border px-3 py-2">Age</th>
-              <th className="border px-3 py-2">Xray name</th>
-              <th className="border px-3 py-2">Type</th>
-              <th className="border px-3 py-2">Viewed</th>
-              <th className="border px-3 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">Mahfuj</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link to="/" className="btn btn-sm">
-                  View
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2"></td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link to="/" className="btn btn-sm">
-                  View
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">MIftahul</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link to="/" className="btn btn-sm">
-                  View
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">Manik</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link to="/" className="btn btn-sm">
-                  View
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={10} className="text-center border px-3 py-2">
-                Total Report: <strong>0 Pics</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+        <Table
+          columns={columns}
+          dataSource={data}
+          size="lg"
+          scroll={true}
+          hover={true}
+          border="bordered"
+          bg="striped"
+        />
+
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 px-4">

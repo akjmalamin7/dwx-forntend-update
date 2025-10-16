@@ -49,6 +49,11 @@ export const DUMMY_TABLE_DATA: DataSource[] = [
     type: "Xray",
     viewed: "Mr. Mahfuj",
   },
+  {
+    key: "5",
+    sl: "05",
+    startTime: "",
+  },
 ];
 export const DUMMY_TABLE_COLUMN: Columns<DataSource>[] = [
   {
@@ -57,6 +62,7 @@ export const DUMMY_TABLE_COLUMN: Columns<DataSource>[] = [
     dataIndex: "sl",
     align: "center",
     width: 50,
+    colSpan: (_: DataSource, rowIndex: number) => (rowIndex === 4 ? 8 : 1),
   },
   {
     key: "startTime",
@@ -64,6 +70,7 @@ export const DUMMY_TABLE_COLUMN: Columns<DataSource>[] = [
     dataIndex: "startTime",
     align: "center",
     width: 100,
+
   },
   { key: "pId", title: "P.ID", dataIndex: "pId", align: "center", width: 80 },
   {
@@ -90,8 +97,8 @@ export const DUMMY_TABLE_COLUMN: Columns<DataSource>[] = [
     align: "center",
     width: 120,
     render: (value, record, index) => {
-      // const isLastRow = index === DUMMY_TABLE_DATA.length - 1;
-      // if (isLastRow) return null;
+      const isLastRow = index === DUMMY_TABLE_DATA.length - 1;
+      if (isLastRow) return null;
       return (
         <Button
           variant="text"

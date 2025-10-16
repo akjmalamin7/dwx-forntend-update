@@ -1,4 +1,4 @@
-import { Button, ControlInput, Input, Panel, Text } from "@/shared/ui";
+import { Button, ControlInput, Input, Panel, PanelHeading, Text } from "@/shared/ui";
 import { ReferenceFormschema, type ReferenceFormValues } from "./referenceAdd.types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, type SubmitHandler } from "react-hook-form"; 
@@ -36,7 +36,15 @@ const ReferenceAdd = () => {
       }
     };
   return (
-    <Panel header="Add Reference">
+    <Panel 
+    header={
+            <PanelHeading
+              title="Add Reference"
+              button="Reference List"
+              path="/agent/reference-list"
+            />
+          } 
+          >
       <form className="grid grid-cols-12 gap-y-4 items-center pt-5 pb-5"
         onSubmit={handleSubmit(onSubmit, (errros) => console.log(errros))}>
         

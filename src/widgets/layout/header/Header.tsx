@@ -14,7 +14,7 @@ const Header = () => {
   const toggleBillDropdown = () => setBillDropdownOpen(!billDropdownOpen);
 
   return (
-    <header className="mb-4">
+    <header className="mb-4 print:hidden">
       {/* Top Header Bar */}
       <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
         {/* Logo */}

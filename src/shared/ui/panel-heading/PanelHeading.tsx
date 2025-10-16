@@ -8,12 +8,12 @@ interface IProps {
 }
 const PanelHeading = ({ title, button, path }: IProps) => {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center print:hidden">
       <div>
         <Text element="h2" className="text-md text-yellow-50 font-semibold">{title}</Text>
       </div>
       <div>
-        <Link to={path || "/"}>{button}</Link>
+        <Link to={path || "/"} className="bg-green-500 rounded-md p-2 block">{button}</Link>
       </div>
     </div>
   );

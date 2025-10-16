@@ -52,6 +52,18 @@ export const DUMMY_TABLE_DATA: DataSource[] = [
   {
     key: "5",
     sl: "05",
+    startTime: "12:13AM",
+    pId: "P-1001",
+    pName: "Manik",
+    sex: "Male",
+    age: "25Y",
+    xrayName: "Chest",
+    type: "Xray",
+    viewed: "Mr. Mahfuj",
+  },
+  {
+    key: "6",
+    sl: "06",
     startTime: "",
   },
 ];
@@ -62,7 +74,7 @@ export const DUMMY_TABLE_COLUMN: Columns<DataSource>[] = [
     dataIndex: "sl",
     align: "center",
     width: 50,
-    colSpan: (_: DataSource, rowIndex: number) => (rowIndex === 4 ? 9 : 1),
+    colSpan: (_: DataSource, rowIndex: number) => (rowIndex === 0 ? 5 : 1),
   },
   {
     key: "startTime",

@@ -98,7 +98,9 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
           {loading ? (
             <tr>
               <td colSpan={columns.length}>
-                <Loader />
+                <div className="w-full h-[200px] flex justify-center items-center">
+                  <Loader />
+                </div>
               </td>
             </tr>
           ) : (
@@ -107,9 +109,10 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
               const rowSpans: number[] = new Array(columns.length).fill(1);
 
               columns.forEach((column, colIndex) => {
-                const rowSpanValue = typeof column.rowSpan === "function"
-                  ? column.rowSpan(data, rowIndex)
-                  : column.rowSpan || 1;
+                const rowSpanValue =
+                  typeof column.rowSpan === "function"
+                    ? column.rowSpan(data, rowIndex)
+                    : column.rowSpan || 1;
                 rowSpans[colIndex] = rowSpanValue;
               });
 
@@ -130,9 +133,10 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                       ? data[column.dataIndex]
                       : undefined;
 
-                    const colSpanValue = typeof column.colSpan === "function"
-                      ? column.colSpan(data, rowIndex)
-                      : column.colSpan || 1;
+                    const colSpanValue =
+                      typeof column.colSpan === "function"
+                        ? column.colSpan(data, rowIndex)
+                        : column.colSpan || 1;
 
                     const rowSpanValue = rowSpans[colIndex];
 

@@ -6,9 +6,10 @@ export { InputFile } from "./input-file";
 export { Loader } from "./loader";
 export { MultiSelect } from "./multi-select";
 export { NavItem } from "./navitem";
+export { Pagination } from "./pagination";
 export { Panel } from "./panel";
 export { PanelHeading } from "./panel-heading";
+export { Search } from "./search";
 export { Select } from "./select";
 export { Text } from "./text";
 export { withSuspense } from "./with-suspense";
-

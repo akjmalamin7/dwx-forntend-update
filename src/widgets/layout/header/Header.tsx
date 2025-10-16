@@ -14,7 +14,7 @@ const Header = () => {
   const toggleBillDropdown = () => setBillDropdownOpen(!billDropdownOpen);
 
   return (
-    <header className="mb-4">
+    <header className="mb-4 print:hidden">
       {/* Top Header Bar */}
       <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
         {/* Logo */}
@@ -63,18 +63,18 @@ const Header = () => {
           {billDropdownOpen && (
             <div className="absolute left-0 bg-white text-black shadow-md mt-1 rounded z-50 w-40">
               <Link
-                to="/bill/new"
+                to="/agent/manage-bill"
                 className="block px-4 py-2 hover:bg-green-100 text-sm"
                 onClick={() => setMenuOpen(false)}
               >
-                New Bill
+               Manage Bill 
               </Link>
               <Link
                 to="/bill/old"
                 className="block px-4 py-2 hover:bg-green-100 text-sm"
                 onClick={() => setMenuOpen(false)}
               >
-                Old Bill
+                Transection History 
               </Link>
             </div>
           )}

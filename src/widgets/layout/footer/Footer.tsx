@@ -2,7 +2,7 @@ import { Text } from "@/shared/ui";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-center p-4 border-t  border-indigo-200 mt-6">
+    <footer className="bg-gray-100 text-center p-4 border-t  border-indigo-200 mt-6 print:hidden">
       <Text element="p" className="text-sm text-gray-600  ">
         © {new Date().getFullYear()} Digital Web Xray. All Rights Reserved.
       </Text>

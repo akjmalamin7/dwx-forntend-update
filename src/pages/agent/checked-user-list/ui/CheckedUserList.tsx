@@ -1,9 +1,18 @@
-import { Input, Panel, Text } from "@/shared/ui";
+import { Input, Panel, PanelHeading, Text } from "@/shared/ui";
 import { Link } from "react-router-dom";
 
 const CheckedUserList = () => {
   return (
-    <Panel header="Checked User List" size="lg" >
+
+  
+
+    <Panel header={
+            <PanelHeading
+              title="Checked User List"
+              button="Add New User"
+              path="/agent/checked-user-add"
+            />
+          } >
       {/* Search Field */}
       <div className="mb-4 w-1/2">
         <Text element="label" className="font-semibold mr-2">

@@ -13,7 +13,7 @@ const PanelHeading = ({ title, button, path }: IProps) => {
         <Text element="h2" className="text-md text-yellow-50 font-semibold">{title}</Text>
       </div>
       <div>
-        <Link to={path || "/"} className="bg-green-500 rounded-md p-2 block">{button}</Link>
+        <Link to={path || "/"} className="bg-green-500 rounded-md p-1 block">{button}</Link>
       </div>
     </div>
   );

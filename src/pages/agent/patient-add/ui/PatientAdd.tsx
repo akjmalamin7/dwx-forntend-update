@@ -6,10 +6,7 @@ import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 
-
-
 const PatientAdd = () => {
-
   const [createPatient, { isLoading }] = useAddPatientMutation();
   const [resetCount, setResetCount] = useState<number>(0);
 

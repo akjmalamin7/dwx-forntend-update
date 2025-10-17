@@ -13,7 +13,7 @@ const Patients = () => {
         ...item,
         render: (value: unknown, record?: DataSource, rowIndex?: number) => {
           return (
-            <div key={rowIndex}>
+            <div key={rowIndex} data-value={value}>
               <Link
                 to={`/agent/patient-view/${record?.key}`}
                 className="bg-green-500 text-white px-2 py-1 rounded text-sm"

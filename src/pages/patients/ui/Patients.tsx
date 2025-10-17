@@ -11,35 +11,32 @@ const Patients = () => {
     if (item.key === "action") {
       return {
         ...item,
-        render: (value: unknown, record?: DataSource, rowIndex?: number) => {
-          return (
-            <div key={rowIndex} data-value={value}>
-              <Link
-                to={`/agent/patient-view/${record?.key}`}
-                className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-              >
-                View
-              </Link>
-              <Link
-                to={`/agent/patient-print/${record?.key}`}
-                className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-              >
-                Print
-              </Link>
-            </div>
-          );
-        },
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+          <div key={rowIndex}>
+            <Link
+              to={`/agent/patient-view/${record?.key}`}
+              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+            >
+              View
+            </Link>
+            <Link
+              to={`/agent/patient-print/${record?.key}`}
+              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+            >
+              Print
+            </Link>
+          </div>
+        ),
       };
     }
     return item;
   });
 
-  const { data: patientList, isLoading: dataLoading } =
-    useGetPendingPatientListQuery();
+  const { data: patientList, isLoading } = useGetPendingPatientListQuery();
 
-  // Prepare table data
-  const DATA_TABLE = useMemo(() => {
-    return (
+  // Prepare data
+  const DATA_TABLE = useMemo(
+    () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
@@ -50,62 +47,70 @@ const Patients = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.doctor_id?.length ? item.doctor_id[0]?.email : "",
+        viewed: item.doctor_id?.[0]?.email || "",
         action: "",
-      })) || []
-    );
-  }, [patientList]);
+      })) || [],
+    [patientList]
+  );
 
-  const [filteredData, setFilteredData] = useState<DataSource[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
-  useEffect(() => {
-    setFilteredData(DATA_TABLE);
-    setCurrentPage(1);
-  }, [DATA_TABLE]);
+  // Filter data based on search query
+  const filteredData = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return DATA_TABLE;
+    }
 
-  // Total pages only apply when not searching
-  const totalPages = Math.ceil(DATA_TABLE.length / rowsPerPage);
+    const lowerQuery = searchQuery.toLowerCase();
+    return DATA_TABLE.filter((item) =>
+      ["patient_name", "patient_id", "xray_name"].some((field) => {
+        const value = item[field as keyof typeof item];
+        if (value !== undefined && value !== null) {
+          return String(value).toLowerCase().includes(lowerQuery);
+        }
+        return false;
+      })
+    );
+  }, [DATA_TABLE, searchQuery]);
 
+  // Paginate filtered data
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * rowsPerPage;
-    return DATA_TABLE.slice(start, start + rowsPerPage);
-  }, [DATA_TABLE, currentPage]);
+    const end = start + rowsPerPage;
+    return filteredData.slice(start, end);
+  }, [filteredData, currentPage]);
+
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+  // Reset to page 1 when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   return (
     <Panel header="Pending Report" size="lg">
       <div className="p-4 bg-white">
-        <Search
-          data={DATA_TABLE}
-          searchFields={["patient_name", "patient_id", "xray_name"]}
-          onSearch={(filtered) => {
-            if (filtered.length === DATA_TABLE.length) {
-              // search cleared
-              setIsSearching(false);
-            } else {
-              setIsSearching(true);
-            }
-            setFilteredData(filtered);
-            setCurrentPage(1);
-          }}
-          placeholder="Search by Name, ID or Xray..."
-        />
+        <div className="mb-4">
+          <Search
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Name, ID or Xray..."
+          />
+        </div>
 
-        {/* Table */}
         <Table
-          loading={dataLoading}
+          loading={isLoading}
           columns={COLUMN}
-          dataSource={isSearching ? filteredData : paginatedData}
+          dataSource={paginatedData}
         />
 
-        {/* Pagination only when not searching */}
-        {!isSearching && (
+        {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={setCurrentPage}
           />
         )}
       </div>

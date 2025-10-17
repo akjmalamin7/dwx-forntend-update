@@ -9,23 +9,25 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  const pageNumbers: (number | string)[] = [];
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    let prev: number | null = null;
 
-  let prev: number | null = null;
-
-  for (let i = 1; i <= totalPages; i++) {
-    if (
-      i === 1 ||
-      i === totalPages ||
-      (i >= currentPage - 2 && i <= currentPage + 2)
-    ) {
-      if (prev && i - prev > 1) {
-        pageNumbers.push("...");
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - 2 && i <= currentPage + 2)
+      ) {
+        if (prev && i - prev > 1) pages.push("...");
+        pages.push(i);
+        prev = i;
       }
-      pageNumbers.push(i);
-      prev = i;
     }
-  }
+    return pages;
+  };
+
+  const pageNumbers = getPageNumbers();
 
   return (
     <div className="flex justify-between items-center mt-4 px-4">
@@ -45,13 +47,13 @@ const Pagination: React.FC<PaginationProps> = ({
             </span>
           ) : (
             <button
-              key={num}
-              className={`px-3 py-1 rounded ${
+              key={`page-${num}`}
+              className={`px-3 py-1 rounded transition-colors ${
                 num === currentPage
                   ? "bg-blue-700 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
               }`}
-              onClick={() => onPageChange(Number(num))}
+              onClick={() => onPageChange(num as number)}
             >
               {num}
             </button>

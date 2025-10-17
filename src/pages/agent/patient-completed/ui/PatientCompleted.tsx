@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const PatientCompleted = () => {
   return (
-    <Panel header=" Completed Report"  size="lg">
+    <Panel header=" Completed Report" size="lg">
       <div className="mb-4">
         <Text element="label" className="font-semibold mr-2">
           Search:
@@ -45,10 +45,16 @@ const PatientCompleted = () => {
               <td className="border px-3 py-2">Xray</td>
               <td className="border px-3 py-2">Mr. Mahfuj</td>
               <td className="border px-3 py-2">
-                <Link to="/agent/patient-view" className="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-view"
+                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+                >
                   View
                 </Link>
-                 <Link to="/agent/patient-print" className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-print"
+                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+                >
                   Print
                 </Link>
               </td>
@@ -64,10 +70,16 @@ const PatientCompleted = () => {
               <td className="border px-3 py-2">Xray</td>
               <td className="border px-3 py-2">Mr. Mahfuj</td>
               <td className="border px-3 py-2">
-                <Link to="/agent/patient-view" className="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-view"
+                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+                >
                   View
                 </Link>
-                 <Link to="/agent/patient-print" className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-print"
+                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+                >
                   Print
                 </Link>
               </td>
@@ -83,10 +95,16 @@ const PatientCompleted = () => {
               <td className="border px-3 py-2">Xray</td>
               <td className="border px-3 py-2">Mr. Mahfuj</td>
               <td className="border px-3 py-2">
-                <Link to="/agent/patient-view" className="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-view"
+                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+                >
                   View
                 </Link>
-                 <Link to="/agent/patient-print" className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-print"
+                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+                >
                   Print
                 </Link>
               </td>
@@ -102,10 +120,16 @@ const PatientCompleted = () => {
               <td className="border px-3 py-2">Xray</td>
               <td className="border px-3 py-2">Mr. Mahfuj</td>
               <td className="border px-3 py-2">
-                <Link to="/agent/patient-view" className="bg-green-500 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-view"
+                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+                >
                   View
                 </Link>
-                 <Link to="/agent/patient-print" className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm">
+                <Link
+                  to="/agent/patient-print"
+                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+                >
                   Print
                 </Link>
               </td>

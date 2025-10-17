@@ -1,52 +1,32 @@
 import { Input, Text } from "@/shared/ui";
 import { useEffect, useState } from "react";
 
-type SearchableValue = string | number | boolean | null | undefined;
-
-interface SearchInputProps<T> {
-  data: T[];
-  searchFields: (keyof T)[];
-  onSearch: (filteredData: T[]) => void;
+interface SearchProps {
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
   debounceTime?: number;
 }
 
-const Search = <T extends Record<string, SearchableValue>>({
-  data,
-  searchFields,
-  onSearch,
+const Search = ({
+  value,
+  onChange,
   placeholder = "Search...",
   debounceTime = 300,
-}: SearchInputProps<T>) => {
-  const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState(query);
+}: SearchProps) => {
+  const [localValue, setLocalValue] = useState(value);
 
   useEffect(() => {
-    const handler = setTimeout(() => setDebouncedQuery(query), debounceTime);
+    setLocalValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onChange(localValue);
+    }, debounceTime);
+
     return () => clearTimeout(handler);
-  }, [query, debounceTime]);
-
-  // Filter logic
-  useEffect(() => {
-    if (!debouncedQuery) {
-      onSearch(data);
-      return;
-    }
-
-    const lowerQuery = debouncedQuery.toLowerCase();
-
-    const filtered = data.filter((item) =>
-      searchFields.some((field) => {
-        const value = item[field];
-        if (value !== undefined && value !== null) {
-          return String(value).toLowerCase().includes(lowerQuery);
-        }
-        return false;
-      })
-    );
-
-    onSearch(filtered);
-  }, [debouncedQuery, data, searchFields, onSearch]);
+  }, [localValue, debounceTime, onChange]);
 
   return (
     <div className="mb-4">
@@ -57,8 +37,8 @@ const Search = <T extends Record<string, SearchableValue>>({
         size="sm"
         placeholder={placeholder}
         type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         className="border border-gray-300 px-2 py-1 rounded-sm focus:outline-none focus:ring focus:border-blue-400 text-sm w-full"
       />
     </div>

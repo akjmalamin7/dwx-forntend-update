@@ -1,45 +1,18 @@
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const Patients = () => {
-  const COLUMN = PATIENT_DATA_COL.map((item) => {
-    if (item.key === "action") {
-      return {
-        ...item,
-        render: (value: unknown, record?: DataSource, rowIndex?: number) => {
-          return (
-            <div key={rowIndex} data-value={value}>
-              <Link
-                to={`/agent/patient-view/${record?.key}`}
-                className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-              >
-                View
-              </Link>
-              <Link
-                to={`/agent/patient-print/${record?.key}`}
-                className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-              >
-                Print
-              </Link>
-            </div>
-          );
-        },
-      };
-    }
-    return item;
-  });
+  const { data: patientList, isLoading } = useGetPendingPatientListQuery();
 
-  const { data: patientList, isLoading: dataLoading } =
-    useGetPendingPatientListQuery();
-
-  // Prepare table data
-  const DATA_TABLE = useMemo(() => {
-    return (
+  // Prepare data
+  const DATA_TABLE = useMemo(
+    () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
@@ -50,62 +23,72 @@ const Patients = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.doctor_id?.length ? item.doctor_id[0]?.email : "",
+        viewed: item.doctor_id?.[0]?.email || "",
         action: "",
-      })) || []
-    );
-  }, [patientList]);
+      })) || [],
+    [patientList]
+  );
 
-  const [filteredData, setFilteredData] = useState<DataSource[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const {
+    searchQuery,
+    setSearchQuery,
+    currentPage,
+    setCurrentPage,
+    paginatedData,
+    totalPages,
+  } = useSearchPagination({
+    data: DATA_TABLE,
+    searchFields: ["patient_name", "patient_id", "xray_name"],
+    rowsPerPage: 10,
+  });
 
-  useEffect(() => {
-    setFilteredData(DATA_TABLE);
-    setCurrentPage(1);
-  }, [DATA_TABLE]);
-
-  // Total pages only apply when not searching
-  const totalPages = Math.ceil(DATA_TABLE.length / rowsPerPage);
-
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * rowsPerPage;
-    return DATA_TABLE.slice(start, start + rowsPerPage);
-  }, [DATA_TABLE, currentPage]);
+  const COLUMN = PATIENT_DATA_COL.map((item) => {
+    if (item.key === "action") {
+      return {
+        ...item,
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+          <div key={rowIndex}>
+            <Link
+              to={`/agent/patient-view/${record?.key}`}
+              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+            >
+              View
+            </Link>
+            <Link
+              to={`/agent/patient-print/${record?.key}`}
+              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+            >
+              Print
+            </Link>
+          </div>
+        ),
+      };
+    }
+    return item;
+  });
 
   return (
     <Panel header="Pending Report" size="lg">
       <div className="p-4 bg-white">
-        <Search
-          data={DATA_TABLE}
-          searchFields={["patient_name", "patient_id", "xray_name"]}
-          onSearch={(filtered) => {
-            if (filtered.length === DATA_TABLE.length) {
-              // search cleared
-              setIsSearching(false);
-            } else {
-              setIsSearching(true);
-            }
-            setFilteredData(filtered);
-            setCurrentPage(1);
-          }}
-          placeholder="Search by Name, ID or Xray..."
-        />
+        <div className="mb-4">
+          <Search
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Name, ID or Xray..."
+          />
+        </div>
 
-        {/* Table */}
         <Table
-          loading={dataLoading}
+          loading={isLoading}
           columns={COLUMN}
-          dataSource={isSearching ? filteredData : paginatedData}
+          dataSource={paginatedData}
         />
 
-        {/* Pagination only when not searching */}
-        {!isSearching && (
+        {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={setCurrentPage}
           />
         )}
       </div>

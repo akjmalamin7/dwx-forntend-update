@@ -80,7 +80,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                 >
                   <Text
                     size="md"
-                    fontWeight="semiBold"
+                    fontWeight="bold"
                     color="dark"
                     textAlign={column.align}
                   >
@@ -93,6 +93,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
         )}
 
         {/* Table body */}
+
         <tbody>
           {loading ? (
             <tr>
@@ -101,56 +102,76 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
               </td>
             </tr>
           ) : (
-            dataSource?.map((data, rowIndex) => (
-              <tr
-                key={data.key}
-                onClick={(event) => handleRow(event, data)}
-                className={classNames(bgClasses, {
-                  ["hover:bg-gray-100"]: hover,
-                })}
-              >
-                {columns.map((column) => {
-                  const cellValue = column.dataIndex
-                    ? data[column.dataIndex]
-                    : undefined;
+            dataSource?.map((data, rowIndex) => {
+              let colSpanUsed = 0;
+              const rowSpans: number[] = new Array(columns.length).fill(1);
 
-                  return (
-                    <td
-                      key={column.key}
-                      style={{
-                        width: column.width ? `${column.width}px` : "auto",
-                      }}
-                      className={classNames("px-3 py-2", borderClasses, {
-                        [`text-${column.align}`]: column.align,
-                      })}
-                      colSpan={
-                        typeof column.colSpan === "function"
-                          ? column.colSpan(data, rowIndex)
-                          : column.colSpan
-                      }
-                      rowSpan={
-                        typeof column.rowSpan === "function"
-                          ? column.rowSpan(data, rowIndex)
-                          : column.rowSpan
-                      }
-                    >
-                      {column.render ? (
-                        column.render(cellValue, data, rowIndex) // ✅ এখন value, record, index তিনটাই যাবে
-                      ) : column.dataIndex ? (
-                        <Text
-                          size="md"
-                          fontWeight="regular"
-                          color="dark"
-                          textAlign={column.align}
-                        >
-                          {String(cellValue ?? "")}
-                        </Text>
-                      ) : null}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))
+              columns.forEach((column, colIndex) => {
+                const rowSpanValue = typeof column.rowSpan === "function"
+                  ? column.rowSpan(data, rowIndex)
+                  : column.rowSpan || 1;
+                rowSpans[colIndex] = rowSpanValue;
+              });
+
+              return (
+                <tr
+                  key={data.key}
+                  onClick={(event) => handleRow(event, data)}
+                  className={classNames(bgClasses, {
+                    ["hover:bg-gray-100"]: hover,
+                  })}
+                >
+                  {columns.map((column, colIndex) => {
+                    if (colSpanUsed >= columns.length) {
+                      return null;
+                    }
+
+                    const cellValue = column.dataIndex
+                      ? data[column.dataIndex]
+                      : undefined;
+
+                    const colSpanValue = typeof column.colSpan === "function"
+                      ? column.colSpan(data, rowIndex)
+                      : column.colSpan || 1;
+
+                    const rowSpanValue = rowSpans[colIndex];
+
+                    if (colSpanValue === 0) {
+                      return null;
+                    }
+
+                    colSpanUsed += colSpanValue;
+
+                    return (
+                      <td
+                        key={column.key}
+                        style={{
+                          width: column.width ? `${column.width}px` : "auto",
+                        }}
+                        className={classNames("px-3 py-2", borderClasses, {
+                          [`text-${column.align}`]: column.align,
+                        })}
+                        colSpan={colSpanValue}
+                        rowSpan={rowSpanValue}
+                      >
+                        {column.render ? (
+                          column.render(cellValue, data, rowIndex)
+                        ) : column.dataIndex ? (
+                          <Text
+                            size="md"
+                            fontWeight="regular"
+                            color="dark"
+                            textAlign={column.align}
+                          >
+                            {String(cellValue ?? "")}
+                          </Text>
+                        ) : null}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

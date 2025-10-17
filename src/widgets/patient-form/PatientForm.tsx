@@ -8,11 +8,7 @@ import {
 } from "@/features";
 import { useJWT } from "@/shared/hooks";
 import { useGetProfileSelectDoctorIdQuery } from "@/shared/redux/features/profile/profileApi";
-import {
-  Button,
-  ControlInput,
-  ControlledSelect,
-} from "@/shared/ui";
+import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
 import {
   patientFormschema,
   type PatientFormValues,
@@ -25,7 +21,7 @@ import {
   FormProvider,
   useForm,
   type SubmitHandler,
-  type UseFormReturn
+  type UseFormReturn,
 } from "react-hook-form";
 
 interface PatientFormProps {
@@ -46,12 +42,13 @@ const PatientForm = ({
   onSuccess,
   defaultValues,
   isEdit = false,
-  resetCount = 0
+  resetCount = 0,
 }: PatientFormProps) => {
   const decoded = useJWT();
   const userId: string | undefined = decoded?.id;
-  const { data: profileData } =
-    useGetProfileSelectDoctorIdQuery(userId ?? skipToken);
+  const { data: profileData } = useGetProfileSelectDoctorIdQuery(
+    userId ?? skipToken
+  );
 
   const methods = useForm<PatientFormValues>({
     mode: "onChange",
@@ -74,9 +71,16 @@ const PatientForm = ({
     },
   });
 
-  const { control, reset, formState: { errors, isValid } } = methods;
+  const {
+    control,
+    reset,
+    getValues,
+    formState: { errors, isValid },
+  } = methods;
+
   const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     try {
+      console.log("Form values sent to DB:", data);
       await onSubmit(data);
 
       reset({
@@ -100,35 +104,49 @@ const PatientForm = ({
   };
 
   // Reset when resetCount changes
-  useEffect(() => {
-    if (resetCount > 0) {
-      reset({
-        attachment: [],
-        patient_id: "",
-        name: "",
-        age: "",
-        history: "",
-        gender: "male",
-        xray_name: "",
-        ref_doctor: "",
-        image_type: "single",
-        selected_drs_id: profileData?.selected_dr || [],
-        ignored_drs_id: profileData?.ignored_dr || [],
-      });
-    }
-  }, [resetCount, reset, profileData]);
+  // useEffect(() => {
+  //   if (resetCount > 0) {
+  //     reset({
+  //       attachment: [],
+  //       patient_id: "",
+  //       name: "",
+  //       age: "",
+  //       history: "",
+  //       gender: "male",
+  //       xray_name: "",
+  //       ref_doctor: "",
+  //       image_type: "single",
+  //       selected_drs_id: profileData?.selected_dr || [],
+  //       ignored_drs_id: profileData?.ignored_dr || [],
+  //     });
+  //   }
+  // }, [resetCount, reset, profileData]);
 
   // Reset form when profile data loads or resetCount changes
+  // useEffect(() => {
+  //   if (profileData) {
+  //     reset({
+  //       selected_drs_id: profileData.selected_dr || [],
+  //       ignored_drs_id: profileData.ignored_dr || [],
+  //       ...defaultValues,
+  //     });
+  //   }
+  // }, [profileData, reset, defaultValues, resetCount]);
   useEffect(() => {
     if (profileData) {
-      reset({
-        selected_drs_id: profileData.selected_dr || [],
-        ignored_drs_id: profileData.ignored_dr || [],
-        ...defaultValues,
-      });
+      const currentValues = getValues();
+      if (
+        !currentValues.selected_drs_id?.length &&
+        !currentValues.ignored_drs_id?.length
+      ) {
+        reset({
+          ...currentValues,
+          selected_drs_id: profileData.selected_dr || [],
+          ignored_drs_id: profileData.ignored_dr || [],
+        });
+      }
     }
-  }, [profileData, reset, defaultValues, resetCount]);
-
+  }, [profileData, reset, getValues]);
   return (
     <FormProvider {...methods}>
       <form

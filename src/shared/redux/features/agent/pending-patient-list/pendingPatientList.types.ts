@@ -1,11 +1,9 @@
-// ✅ Doctor টাইপ
 export interface PENDING_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-// ✅ মূল রেসপন্সের ডেটা টাইপ
 export interface PENDING_PATIENT_MODEL {
   _id: string;
   agent_id: string;

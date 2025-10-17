@@ -1,178 +1,105 @@
-import { Input, Panel, Text } from "@/shared/ui";
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetCompletedPatientListQuery } from "@/shared/redux/features/agent/completed-patient-list/completedPatientListApi";
+import { Pagination, Panel, Search } from "@/shared/ui";
+import { Table } from "@/shared/ui/table";
+import type { DataSource } from "@/shared/ui/table/table.model";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientCompleted = () => {
-  return (
-    <Panel header=" Completed Report" size="lg">
-      <div className="mb-4">
-        <Text element="label" className="font-semibold mr-2">
-          Search:
-        </Text>
-        <Input
-          size="sm"
-          placeholder="Search by ID or Name..."
-          type="text"
-          className="borde border-gray-300 px-2 py-1 rounded-sm focus:outline-none focus:ring focus:border-blue-400 text-sm"
-        />
-      </div>
+  const { data: patientList, isLoading } = useGetCompletedPatientListQuery();
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border border-collapse border-gray-300">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="border px-3 py-2">Sl</th>
-              <th className="border px-3 py-2">Start Time</th>
-              <th className="border px-3 py-2">P.ID</th>
-              <th className="border px-3 py-2">P.Name</th>
-              <th className="border px-3 py-2">Sex</th>
-              <th className="border px-3 py-2">Age</th>
-              <th className="border px-3 py-2">Xray name</th>
-              <th className="border px-3 py-2">Type</th>
-              <th className="border px-3 py-2">Viewed</th>
-              <th className="border px-3 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">Mahfuj</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link
-                  to="/agent/patient-view"
-                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to="/agent/patient-print"
-                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-                >
-                  Print
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2"></td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link
-                  to="/agent/patient-view"
-                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to="/agent/patient-print"
-                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-                >
-                  Print
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">MIftahul</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link
-                  to="/agent/patient-view"
-                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to="/agent/patient-print"
-                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-                >
-                  Print
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">12: 13AM</td>
-              <td className="border px-3 py-2">P-1001</td>
-              <td className="border px-3 py-2">Manik</td>
-              <td className="border px-3 py-2">Male</td>
-              <td className="border px-3 py-2">25Y</td>
-              <td className="border px-3 py-2">Chest</td>
-              <td className="border px-3 py-2">Xray</td>
-              <td className="border px-3 py-2">Mr. Mahfuj</td>
-              <td className="border px-3 py-2">
-                <Link
-                  to="/agent/patient-view"
-                  className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to="/agent/patient-print"
-                  className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-                >
-                  Print
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={10} className="text-center border px-3 py-2">
-                Total Report: <strong>0 Pics</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+  // Prepare data
+  const DATA_TABLE = useMemo(
+    () =>
+      patientList?.map((item, index) => ({
+        key: item._id,
+        sl: index + 1,
+        start_time: new Date(item.createdAt).toLocaleString([], {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        }),
+        end_time: new Date(item.completed_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+        patient_age: item.age,
+        patient_name: item.name,
+        patient_id: item.patient_id,
+        patient_sex: item.gender,
+        xray_name: item.xray_name,
+        type: item.rtype,
+        viewed: item.completed_dr?.email || "",
+        printstatus: item.printstatus || "Waiting",
+        action: "",
+      })) || [],
+    [patientList]
+  );
 
-        {/* Pagination */}
-        <div className="flex justify-between items-center mt-4 px-4">
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm disabled:opacity-50"
-            disabled
-          >
-            Previous
-          </button>
+  const {
+    searchQuery,
+    setSearchQuery,
+    currentPage,
+    setCurrentPage,
+    paginatedData,
+    totalPages,
+  } = useSearchPagination({
+    data: DATA_TABLE,
+    searchFields: ["patient_name", "patient_id", "xray_name"],
+    rowsPerPage: 10,
+  });
 
-          <div className="space-x-1 text-sm">
-            <button className="bg-blue-700 text-white px-3 py-1 rounded">
-              1
-            </button>
-            <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
-              2
-            </button>
-            <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
-              3
-            </button>
-            <span>...</span>
-            <button className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
-              10
-            </button>
+  const COLUMN = PATIENT_DATA_COL.map((item) => {
+    if (item.key === "action") {
+      return {
+        ...item,
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+          <div key={rowIndex}>
+            <Link
+              to={`/agent/patient-view/${record?.key}`}
+              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+            >
+              View
+            </Link>
+            <Link
+              to={`/agent/patient-print/${record?.key}`}
+              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+            >
+              Print
+            </Link>
           </div>
+        ),
+      };
+    }
+    return item;
+  });
 
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
-            Next
-          </button>
+  return (
+    <Panel header="Completed Report" size="lg">
+      <div className="p-4 bg-white">
+        <div className="mb-4 w-1/3">
+          <Search
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Name, ID or Xray..."
+          />
         </div>
+
+        <Table
+          loading={isLoading}
+          columns={COLUMN}
+          dataSource={paginatedData}
+        />
+
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
     </Panel>
   );

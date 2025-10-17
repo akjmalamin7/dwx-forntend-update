@@ -1,51 +1,73 @@
-import { Input, Panel, Text } from "@/shared/ui";
-import { Link } from "react-router-dom";
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { Pagination, Panel, Search } from "@/shared/ui";
+import { Table } from "@/shared/ui/table";
+import type { DataSource } from "@/shared/ui/table/table.model";
+import { useMemo } from "react";
+import { Link } from "react-router-dom"; 
+import parse from 'html-react-parser';
+
+import { DOCTOR_DATA_COL } from "./doctor.data.col";
+import { useGetDoctorListQuery } from "@/shared/redux/features/agent/doctor-list/doctorListApi";
 
 const DoctorList = () => {
-  return (
-    <Panel header=" Doctor List" size="lg">
-      {/* Search Field */}
-      <div className="mb-4">
-        <Text element="label" className="font-semibold mr-2">
-          Search:
-        </Text>
-        <Input
-          size="sm"
-          placeholder="Search by ID or Name..."
-          type="text"
-          className="borde border-gray-300 px-2 py-1 rounded-sm focus:outline-none focus:ring focus:border-blue-400 text-sm"
-        />
-      </div>
+  const { data: DoctorList, isLoading } = useGetDoctorListQuery();
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border border-collapse border-gray-300">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="border px-3 py-2">Sl</th>
-              <th className="border px-3 py-2">Doctor Name</th>
-              <th className="border px-3 py-2">Phone Number</th>
-              <th className="border px-3 py-2">Designation</th>
-              <th className="border px-3 py-2">Category</th> 
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">Dr Mahfuj</td>
-              <td className="border px-3 py-2">01737831156</td>
-              <td className="border px-3 py-2">BSC</td>
-              <td className="border px-3 py-2">Radiology</td> 
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={6} className="text-center border px-3 py-2">
-                Total Report: <strong>0 Pics</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+  // Prepare data
+  const DATA_TABLE = useMemo(
+    () =>
+      DoctorList?.filter((item) => item.email !== "All").map((item, index) => ({
+        key: item._id,
+        sl: index + 1,
+        name: item.email, 
+        mobile: item.mobile,
+        role: item.role === 'xray_dr' ? 'Radiology' : 'ECG',
+        address: item.address,        
+        action: "",
+      })) || [],
+    [DoctorList]
+  );
+
+  const {
+    searchQuery,
+    setSearchQuery,
+    currentPage,
+    setCurrentPage,
+    paginatedData,
+    totalPages,
+  } = useSearchPagination({
+    data: DATA_TABLE,
+    searchFields: ["name"],
+    rowsPerPage: 100,
+  });
+
+  const COLUMN = DOCTOR_DATA_COL.map((item) => { 
+    return item;
+  });
+
+  return (
+    <Panel header="Doctor List" size="lg">
+      <div className="p-4 bg-white">
+        <div className="mb-4 w-1/3">
+          <Search
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Name"
+          />
+        </div>
+
+        <Table
+          loading={isLoading}
+          columns={COLUMN}
+          dataSource={paginatedData}
+        />
+
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
     </Panel>
   );

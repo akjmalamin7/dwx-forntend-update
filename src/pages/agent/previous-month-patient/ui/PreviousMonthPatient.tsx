@@ -1,14 +1,14 @@
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetAllCompletedPatientListQuery } from "@/shared/redux/features/agent/all-completed-patient-list/allCompletedPatientListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
+ import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import { useGetPreviousMonthPatientQuery } from "@/shared/redux/features/agent/previous-month-patient/PreviousMonthPatientApi";
 
-const PatientAllCompleted = () => {
-  const { data: patientList, isLoading } = useGetAllCompletedPatientListQuery();
+const PreviousMonthPatient = () => {
+  const { data: patientList, isLoading } = useGetPreviousMonthPatientQuery();
 
   // Prepare data
   const DATA_TABLE = useMemo(
@@ -31,7 +31,7 @@ const PatientAllCompleted = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.completed_dr?.email,
+        viewed: item.completed_dr?.email || "",
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
@@ -77,7 +77,7 @@ const PatientAllCompleted = () => {
   });
 
   return (
-    <Panel header="This Month All Completed Report" size="lg">
+    <Panel header="Previous Month Completed Report" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search
@@ -105,4 +105,4 @@ const PatientAllCompleted = () => {
   );
 };
 
-export default PatientAllCompleted;
+export default PreviousMonthPatient;

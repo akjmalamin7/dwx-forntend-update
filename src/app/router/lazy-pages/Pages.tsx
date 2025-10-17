@@ -8,6 +8,7 @@ export const Pages = {
   QuickAddPatient: lazy(() => import("@/pages/agent/patient-quick-add")),
   AgentCompleted: lazy(() => import("@/pages/agent/patient-completed")),
   AgentAllCompleted: lazy(() => import("@/pages/agent/patient-all-completed")),
+  AgentPreviousMonthCompleted: lazy(() => import("@/pages/agent/previous-month-patient")),
   AgentPatientView: lazy(() => import("@/pages/agent/patient-view")),
   AgentPatientPrint: lazy(() => import("@/pages/agent/patient-print")),
   AgentDoctor: lazy(() => import("@/pages/agent/doctor-list")),

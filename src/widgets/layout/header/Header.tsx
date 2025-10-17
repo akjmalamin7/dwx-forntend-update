@@ -9,9 +9,23 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [billDropdownOpen, setBillDropdownOpen] = useState(false);
+  const [patientDropdownOpen, setPatientDropdownOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const toggleBillDropdown = () => setBillDropdownOpen(!billDropdownOpen);
+   const toggleBillDropdown = () => {
+    setBillDropdownOpen((prev) => !prev);
+    setPatientDropdownOpen(false); // close patient dropdown
+  };
+
+  const togglePatientDropdown = () => {
+    setPatientDropdownOpen((prev) => !prev);
+    setBillDropdownOpen(false); // close bill dropdown
+  };
+
+  const closeAllDropdowns = () => {
+    setBillDropdownOpen(false);
+    setPatientDropdownOpen(false);
+  };
 
   return (
     <header className="mb-4 print:hidden">
@@ -41,17 +55,49 @@ const Header = () => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className={`bg-green-500 text-white flex-col md:flex-row md:flex md:flex-wrap md:justify-center ${menuOpen ? 'flex' : 'hidden'} md:flex`}>
+      <nav className={`bg-green-500 text-white flex-col md:flex-row md:flex md:flex-wrap md:justify-center ${menuOpen ? 'flex' : 'hidden'} md:flex`}
+       onClick={closeAllDropdowns} 
+       >
         <NavItem icon={<IoIosSend />} label="Send Report" to="/agent/patient/add" size="sm" />
         <NavItem icon={<IoIosSend />} label="Quick Send Report" to="/agent/patient/quick-add" size="sm" />
         <NavItem icon={<IoIosSend />} label="Waiting Report" to="/" size="sm" />
         <NavItem icon={<MdFileUpload />} label="DCM File Uploader" to="/upload" size="sm" color="danger" />
         <NavItem icon={<IoIosSend />} label="Completed Report" to="/agent/patient/completed" size="sm" />
-        <NavItem icon={<IoIosSend />} label="All Report" to="/agent/patient/all-completed" size="sm" />
+   
+         {/* Dropdown Menu for Bill */}
+        <div className="relative"  onClick={(e) => e.stopPropagation()}>
+          <button
+            onClick={togglePatientDropdown}
+            className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"
+          >
+            <IoIosSend className="text-lg" />
+            <span>All Report</span>
+          </button>
+
+          {patientDropdownOpen && (
+            <div className="absolute left-0 bg-white text-black shadow-md mt-1 rounded z-50 w-40">
+              <Link
+                to="/agent/patient/all-completed"
+                className="block px-4 py-2 hover:bg-green-100 text-sm"
+                onClick={() => setMenuOpen(false)}
+              >
+               This Month Report
+              </Link>
+              <Link
+                to="/agent/patient/previous-month"
+                className="block px-4 py-2 hover:bg-green-100 text-sm"
+                onClick={() => setMenuOpen(false)}
+              >
+                Previous Month
+              </Link>
+            </div>
+          )}
+        </div>
+
         <NavItem icon={<IoIosSend />} label="Doctor List" to="/agent/doctor" size="sm" />
         <NavItem icon={<IoIosSend />} label="Reference List" to="/agent/reference-list" size="sm" />
         {/* Dropdown Menu for Bill */}
-        <div className="relative">
+        <div className="relative"  onClick={(e) => e.stopPropagation()}>
           <button
             onClick={toggleBillDropdown}
             className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"

@@ -61,7 +61,7 @@ const ReferenceDoctorSelect = forwardRef<
       if (option && option.value) {
         setSelectedValue(val);
         setInputValue(option.name);
-        onSelectedValue(val);
+        onSelectedValue(option.name);
       } else {
         setSelectedValue("");
         setInputValue("");
@@ -82,7 +82,7 @@ const ReferenceDoctorSelect = forwardRef<
         onSelectedValue(matchValue);
       } else {
         setSelectedValue("");
-        onSelectedValue(val);
+        onSelectedValue(val.trim());
       }
     },
     [optionMap, selectedValue, onSelectedValue]

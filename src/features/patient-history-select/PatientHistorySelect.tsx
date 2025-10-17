@@ -33,7 +33,6 @@ const PatientHistorySelect = forwardRef<
       value: item.id,
     }));
   }, [patientHistoryOptions]);
-
   // Memoize option map for fast lookup
   const optionMap = useMemo(() => {
     const map: Record<string, string> = {};
@@ -63,7 +62,7 @@ const PatientHistorySelect = forwardRef<
       if (option && option.value) {
         setSelectedValue(val);
         setInputValue(option.name);
-        onSelectedValue(val);
+        onSelectedValue(option.name);
       } else {
         setSelectedValue("");
         setInputValue("");
@@ -84,7 +83,7 @@ const PatientHistorySelect = forwardRef<
         onSelectedValue(matchValue);
       } else {
         setSelectedValue("");
-        onSelectedValue(val);
+        onSelectedValue(val.trim());
       }
     },
     [optionMap, selectedValue, onSelectedValue]

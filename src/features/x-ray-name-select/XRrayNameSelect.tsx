@@ -60,7 +60,7 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
         if (option && option.value) {
           setSelectedValue(val);
           setInputValue(option.name);
-          onSelectedValue(val);
+          onSelectedValue(option.name);
         } else {
           setSelectedValue("");
           setInputValue("");
@@ -81,7 +81,7 @@ const XRrayNameSelect = forwardRef<HTMLInputElement, XRrayNameSelectProps>(
           onSelectedValue(matchValue);
         } else {
           setSelectedValue("");
-          onSelectedValue(val);
+          onSelectedValue(val.trim());
         }
       },
       [optionMap, selectedValue, onSelectedValue]

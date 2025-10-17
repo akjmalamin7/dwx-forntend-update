@@ -15,7 +15,9 @@ const Panel = ({ children, header, size = "md" }: PanelProps) => {
       className={`${sizes} mx-auto border border-indigo-200 rounded-md shadow-md print:shadow-none print:border-0 print:rounded-none`}
     >
       <div className="bg-blue-600 text-white px-4 py-2 rounded-t-md print:hidden">
-        <Text element="h2" className="text-md text-yellow-50 font-semibold">{header ? header : "All Completed Report"}</Text>
+        <Text element="h2" className="text-md text-yellow-50 font-semibold">
+          {header ? header : "All Completed Report"}
+        </Text>
       </div>
       <div className="p-4 bg-white">{children}</div>
     </div>

@@ -69,29 +69,21 @@ const Patients = () => {
 
   return (
     <Panel header="Pending Report" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Name, ID or Xray..."
-          />
-        </div>
+      <Search
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Search by Name, ID or Xray..."
+      />
 
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
+      <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
         />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+      )}
     </Panel>
   );
 };

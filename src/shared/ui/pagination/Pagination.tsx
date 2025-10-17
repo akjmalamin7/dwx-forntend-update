@@ -11,15 +11,19 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const pageNumbers: (number | string)[] = [];
 
+  let prev: number | null = null;
+
   for (let i = 1; i <= totalPages; i++) {
     if (
       i === 1 ||
       i === totalPages ||
       (i >= currentPage - 2 && i <= currentPage + 2)
     ) {
+      if (prev && i - prev > 1) {
+        pageNumbers.push("...");
+      }
       pageNumbers.push(i);
-    } else if (pageNumbers[pageNumbers.length - 1] !== "...") {
-      pageNumbers.push("...");
+      prev = i;
     }
   }
 
@@ -36,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <div className="space-x-1 text-sm flex items-center">
         {pageNumbers.map((num, idx) =>
           num === "..." ? (
-            <span key={idx} className="px-1">
+            <span key={`dots-${idx}`} className="px-1">
               ...
             </span>
           ) : (

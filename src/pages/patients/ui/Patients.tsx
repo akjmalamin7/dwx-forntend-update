@@ -2,19 +2,18 @@ import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pen
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-import { useEffect, useMemo, useState } from "react";
 const Patients = () => {
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
         render: (value: unknown, record?: DataSource, rowIndex?: number) => {
-          console.log(record);
           return (
-            <div key={rowIndex} data-total={value}>
+            <div key={rowIndex}>
               <Link
                 to={`/agent/patient-view/${record?.key}`}
                 className="bg-green-500 text-white px-2 py-1 rounded text-sm"
@@ -38,7 +37,7 @@ const Patients = () => {
   const { data: patientList, isLoading: dataLoading } =
     useGetPendingPatientListQuery();
 
-  // DATA_TABLE memoized
+  // Prepare table data
   const DATA_TABLE = useMemo(() => {
     return (
       patientList?.map((item, index) => ({
@@ -56,19 +55,24 @@ const Patients = () => {
       })) || []
     );
   }, [patientList]);
-  const [filteredData, setFilteredData] = useState<DataSource[]>(DATA_TABLE);
-  const [currentPage, setCurrentPage] = useState(10);
+
+  const [filteredData, setFilteredData] = useState<DataSource[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
+
   useEffect(() => {
     setFilteredData(DATA_TABLE);
-    setCurrentPage(1); // reset page
+    setCurrentPage(1);
   }, [DATA_TABLE]);
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
-  const paginatedData = DATA_TABLE.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  // Total pages only apply when not searching
+  const totalPages = Math.ceil(DATA_TABLE.length / rowsPerPage);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * rowsPerPage;
+    return DATA_TABLE.slice(start, start + rowsPerPage);
+  }, [DATA_TABLE, currentPage]);
 
   return (
     <Panel header="Pending Report" size="lg">
@@ -76,7 +80,16 @@ const Patients = () => {
         <Search
           data={DATA_TABLE}
           searchFields={["patient_name", "patient_id", "xray_name"]}
-          onSearch={(filtered) => setFilteredData(filtered)}
+          onSearch={(filtered) => {
+            if (filtered.length === DATA_TABLE.length) {
+              // search cleared
+              setIsSearching(false);
+            } else {
+              setIsSearching(true);
+            }
+            setFilteredData(filtered);
+            setCurrentPage(1);
+          }}
           placeholder="Search by Name, ID or Xray..."
         />
 
@@ -84,15 +97,17 @@ const Patients = () => {
         <Table
           loading={dataLoading}
           columns={COLUMN}
-          dataSource={paginatedData}
+          dataSource={isSearching ? filteredData : paginatedData}
         />
 
-        {/* Pagination */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+        {/* Pagination only when not searching */}
+        {!isSearching && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
       </div>
     </Panel>
   );

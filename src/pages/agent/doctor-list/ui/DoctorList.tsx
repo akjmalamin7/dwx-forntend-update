@@ -38,11 +38,13 @@ const DoctorList = () => {
 
   return (
     <Panel header="Doctor List" size="lg">
+      <div className="w-1/3">
       <Search
         value={searchQuery}
         onChange={setSearchQuery}
         placeholder="Search by Name"
       />
+      </div>
 
       <Table
         loading={isLoading}

@@ -25,14 +25,14 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
   },
   {
     key: "role",
-    title: "Role",
+    title: "Department",
     dataIndex: "role",
     align: "start",
     width: 120,
   },
   {
     key: "address",
-    title: "Address",
+    title: "Designation",
     dataIndex: "address",
     align: "start",
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),

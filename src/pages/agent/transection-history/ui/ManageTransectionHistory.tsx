@@ -3,16 +3,17 @@ import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import { useMemo } from "react";
 import { BILL_DATA_COL } from "./bill.data.col";
-import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
-import { Link } from "react-router-dom";
+ import { Link } from "react-router-dom";
+import { useGetTransectionListQuery } from "@/shared/redux/features/agent/transection-history/transectionListApi";
+import type { DataSource } from "@/shared/ui/table/table.model";
 
-const ManageBill = () => {
-  const { data: BillList, isLoading } = useGetBillListQuery();
+const ManageTransectionHistory = () => {
+  const { data: TransectionList, isLoading } = useGetTransectionListQuery();
 
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
-      BillList?.map((item, index) => ({
+      TransectionList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
         month: item.month,
@@ -25,7 +26,7 @@ const ManageBill = () => {
         status: item.status,  
         action: "",
       })) || [],
-    [BillList]
+    [TransectionList]
   );
 
   const {
@@ -48,15 +49,9 @@ const ManageBill = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
+          <div key={rowIndex}> 
             <Link
-              to={`/agent/pay-bill`}
-              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-            >
-              Pay Bill
-            </Link>
-            <Link
-              to={`/agent/print-bill`}
+              to={`/agent/print-bill/${record?.key}`}
               className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
             >
               Print Bill
@@ -69,7 +64,7 @@ const ManageBill = () => {
   });
 
   return (
-    <Panel header="Manage Bill" size="lg">
+    <Panel header="Manage Transection History" size="lg">
       <div className="w-1/3">
       <Search
         value={searchQuery}
@@ -95,4 +90,4 @@ const ManageBill = () => {
   );
 };
 
-export default ManageBill;
+export default ManageTransectionHistory;

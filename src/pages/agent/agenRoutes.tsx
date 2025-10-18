@@ -17,5 +17,7 @@ export const userRoutes = [
   { path: "/agent/checked-user-list", element: withSuspense(<Pages.AgentCheckedUserList />) },
   { path: "/agent/manage-bill", element: withSuspense(<Pages.AgentManageBill />) },
   { path: "/agent/pay-bill", element: withSuspense(<Pages.AgentPayBill />) },
+  { path: "/agent/print-bill", element: withSuspense(<Pages.AgentPrintBill />) },
+  { path: "/agent/transection-history", element: withSuspense(<Pages.AgentTransectionHistory />) },
   
 ];

@@ -116,7 +116,7 @@ const Header = () => {
                Manage Bill 
               </Link>
               <Link
-                to="/bill/old"
+                to="/agent/transection-history"
                 className="block px-4 py-2 hover:bg-green-100 text-sm"
                 onClick={() => setMenuOpen(false)}
               >

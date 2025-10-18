@@ -18,4 +18,6 @@ export const Pages = {
   AgentReferenceList: lazy(() => import("@/pages/agent/reference-list")),
   AgentManageBill: lazy(() => import("@/pages/agent/manage-bill")),
   AgentPayBill: lazy(() => import("@/pages/agent/pay-bill")),
+  AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")),
+  AgentTransectionHistory: lazy(() => import("@/pages/agent/transection-history")),
 };

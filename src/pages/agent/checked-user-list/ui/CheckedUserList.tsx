@@ -1,64 +1,100 @@
-import { Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+ import { Pagination, Panel, PanelHeading, Search } from "@/shared/ui";
+import { Table } from "@/shared/ui/table";
+import { useMemo } from "react";
+import { CHECKED_USER_DATA_COL } from "./checkedUser.data.col";
 import { Link } from "react-router-dom";
+import type { DataSource } from "@/shared/ui/table/table.model";
+import { useGetCheckedUserListQuery } from "@/shared/redux/features/agent/checked-user-list/checkedUserListApi";
 
 const CheckedUserList = () => {
-  return (
+  const { data: ReferenceList, isLoading } = useGetCheckedUserListQuery();
+
+  // Prepare data
+  const DATA_TABLE = useMemo(
+    () =>
+      ReferenceList?.map((item, index) => ({
+        key: item.id,
+        sl: index + 1,
+        name: item.name,  
+        details: item.details, 
+        action: "",
+      })) || [],
+    [ReferenceList]
+  );
+
+  const {
+    searchQuery,
+    setSearchQuery,
+    currentPage,
+    setCurrentPage,
+    paginatedData,
+    totalPages,
+  } = useSearchPagination({
+    data: DATA_TABLE,
+    searchFields: ["name","details"],
+    rowsPerPage: 100,
+  });
+
 
   
+    const COLUMN = CHECKED_USER_DATA_COL.map((item) => {
+      if (item.key === "action") {
+        return {
+          ...item,
+          render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+            <div key={rowIndex}>
+              <Link
+                to={`/agent/reference-list/${record?.key}`}
+                className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+              >
+                Edit
+              </Link>
+              <Link
+                to={`/agent/reference-list/${record?.key}`}
+                className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+              >
+                Delete
+              </Link>
+            </div>
+          ),
+        };
+      }
+      return item;
+    });
+  
 
-    <Panel header={
-            <PanelHeading
-              title="Checked User List"
-              button="Add New User"
-              path="/agent/checked-user-add"
-            />
-          } >
-      {/* Search Field */}
-      <div className="mb-4 w-1/2">
-        <Text element="label" className="font-semibold mr-2">
-          Search:
-        </Text>
-        <Input
-          size="sm"
-          placeholder="Search by Name..."
-          type="text"
-          className="borde border-gray-300 px-2 py-1 rounded-sm focus:outline-none focus:ring focus:border-blue-400 text-sm"
+  return (
+    <Panel
+    header={
+        <PanelHeading
+          title="Checked User List"
+          button="Checked User Add"
+          path="/agent/checked-user-add"
         />
+      } 
+      size="md">
+      <div className="w-1/3">
+      <Search
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Search by Name"
+      />
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border border-collapse border-gray-300">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="border px-3 py-2 w-15">Sl</th>
-              <th className="border px-3 py-2">User Name</th> 
-              <th className="border px-3 py-2 w-20">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-3 py-2">01</td>
-              <td className="border px-3 py-2">Mr Mahfuj</td> 
-              <td className="border px-3 py-2">
-                <Link
-                  to="/"
-                  className="btn btn-sm bg-blue-700 p-2 pl-8 pr-8 rounded text-white m-1 block"
-                >
-                  Edit
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={3} className="text-center border px-3 py-2">
-                Total User: <strong>0 person</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+      <Table
+        loading={isLoading}
+        columns={COLUMN}
+        dataSource={paginatedData}
+      />
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </Panel>
   );
 };

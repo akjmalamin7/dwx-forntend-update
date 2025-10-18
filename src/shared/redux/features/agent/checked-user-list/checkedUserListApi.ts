@@ -1,22 +1,20 @@
 import { apiSlice } from "../../api/apiSlice";
-import type { CheckedUserListOptions, CheckedUserListResponse } from "./checkedUserList.types";
- 
-
-export const checkedUserListApi = apiSlice.injectEndpoints({
+import { transformCheckedUserListResponse, type CHECKEDUSER_TRANSFORM_MODEL, type CheckedUserListApiResponse } from "./checkedUserList.types";
+  
+export const CheckedUserListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCheckedUserList: builder.query<CheckedUserListOptions[], void>({
+    getCheckedUserList: builder.query<
+      CHECKEDUSER_TRANSFORM_MODEL[],
+      void
+    >({
       query: () => ({
         url: "/agent/checkuser",
+        method: "GET",
       }),
-      transformResponse: (
-        response: CheckedUserListResponse
-      ): CheckedUserListOptions[] =>
-        response?.data?.map((item) => ({
-          id: item.id,
-          name: item.name,
-          details: item.details,
-        })) || [],
+      transformResponse: (response: CheckedUserListApiResponse) => {
+        return transformCheckedUserListResponse(response.data);
+      },
     }),
   }),
 });
-export const { useGetCheckedUserListQuery } = checkedUserListApi;
+export const { useGetCheckedUserListQuery } = CheckedUserListApi;

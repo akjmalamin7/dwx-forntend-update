@@ -25,14 +25,7 @@ const PatientPrint = () => {
         header={
           <PanelHeading
             title="Print Patient Report"
-            button={
-              <button
-                onClick={handlePrint}
-                className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
-              >
-                 Print Report
-              </button>
-            }
+            button=""
             path=""
           />
         }
@@ -40,6 +33,12 @@ const PatientPrint = () => {
       >
         {/* Table */}
         <div className="overflow-x-auto">
+           <button
+                onClick={handlePrint}
+                className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
+              >
+                 Print Report
+              </button>
           <table className="w-full border border-black mb-4">
             <tbody>
               <tr>

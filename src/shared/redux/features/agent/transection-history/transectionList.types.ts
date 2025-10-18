@@ -1,3 +1,18 @@
+export interface TRANSECTION_SUMMARY_MODEL {
+  _id: string;
+  id: string;
+  month: string;
+  total_patients: string;
+  total_single: string;
+  total_double: string;
+  total_multiple: string;
+  total_ecg: string;
+  total_amount: string;
+  status: string;
+}
+
+
+
 export interface TRANSECTION_TRANSFORM_MODEL { 
   _id: string;
   id: string;
@@ -19,21 +34,22 @@ export interface TRANSECTION_TRANSFORM_MODEL {
   total_single: string;
   trans_id: string;
   updatedAt: string;
-}
-
+} 
+ 
 export interface TransectionListApiResponse {
   message: string;
   success: boolean;
   total: number;
-  data: TRANSECTION_TRANSFORM_MODEL[];
+  bills: TRANSECTION_SUMMARY_MODEL[];
 }
 
+  
 export const transformTransectionListResponse = (
-  data: TRANSECTION_TRANSFORM_MODEL[]
-): TRANSECTION_TRANSFORM_MODEL[] => {
+  data: TRANSECTION_SUMMARY_MODEL[]
+): TRANSECTION_SUMMARY_MODEL[] => {
   return data.map((item) => ({
     _id: item._id,
-    id: item.id, 
+    id: item.id,
     month: item.month,
     total_patients: item.total_patients,
     total_single: item.total_single,
@@ -41,6 +57,6 @@ export const transformTransectionListResponse = (
     total_multiple: item.total_multiple,
     total_ecg: item.total_ecg,
     total_amount: item.total_amount,
-    status: item.status,  
+    status: item.status,
   }));
 };

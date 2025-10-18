@@ -31,7 +31,7 @@ const PatientAllCompleted = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.completed_dr?.email,
+        viewed: item.completed_dr[0]?.email || "" ,
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],

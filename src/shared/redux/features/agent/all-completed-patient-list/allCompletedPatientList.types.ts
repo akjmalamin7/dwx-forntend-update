@@ -21,7 +21,7 @@ export interface ALLCOMPLETED_PATIENT_MODEL {
   status: string;
   soft_delete: string;
   month_year: string;
-  completed_time: string | null;
+  completed_time: string;
   is_checked: boolean | null;
   logged: string | null;
   printstatus: string | null;
@@ -63,7 +63,7 @@ export const transformAllCompletedPatientResponse = (
   return data.map((item) => ({
     _id: item._id,
     id: item.id,
-    completed_dr: item.completed_dr || [],
+    completed_dr: item.completed_dr || "",
     createdAt: item.createdAt,
     completed_time: item.completed_time,
     patient_id: item.patient_id,

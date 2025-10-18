@@ -1,10 +1,10 @@
 import { apiSlice } from "../../api/apiSlice";
-import { transformBillListResponse, type BILL_TRANSFORM_MODEL, type BillListApiResponse } from "./billList.types";
+import { transformBillListResponse, type BILL_MODEL,  type BillListApiResponse } from "./billList.types";
  
 export const BillListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getBillList: builder.query<
-      BILL_TRANSFORM_MODEL[],
+      BILL_MODEL[],
       void
     >({
       query: () => ({

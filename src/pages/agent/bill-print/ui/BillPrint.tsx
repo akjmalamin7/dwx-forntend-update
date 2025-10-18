@@ -1,4 +1,4 @@
-import { Panel, PanelHeading, Text } from "@/shared/ui"; 
+import { Button, Panel, PanelHeading, Text } from "@/shared/ui"; 
 import HEADERPAD from "@/assets/images/header.jpg";
 import FOOTERPAD from "@/assets/images/footer.png";
 
@@ -26,19 +26,18 @@ const BillPrint = () => {
         header={
           <PanelHeading
             title="Print Patient Report"
-            button={
-              <button
-                onClick={handlePrint}
-                className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
-              >
-                 Print Bill
-              </button>
-            }
+            button=""
             path=""
           />
         }
         size="lg"
       >
+        <Button
+          onClick={handlePrint}
+          className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
+        >
+            Print Bill
+        </Button>
         {/* Table */}
         <div className="overflow-x-auto">
           <img src={HEADERPAD} alt="Header" className="w-full mb-4" />

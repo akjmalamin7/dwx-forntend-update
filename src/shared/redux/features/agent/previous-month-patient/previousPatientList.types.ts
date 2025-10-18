@@ -1,13 +1,13 @@
-export interface COMPLETED_DOCTOR {
+export interface PREV_COMPLETED_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-export interface COMPLETED_PATIENT_MODEL {
+export interface PREV_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
-  completed_dr: COMPLETED_DOCTOR[];
+  completed_dr: PREV_COMPLETED_DOCTOR[];
   ignore_dr: string[];
   patient_id: string;
   name: string;
@@ -33,10 +33,10 @@ export interface COMPLETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
+export interface PREV_COMPLETED_PATIENT_TRANSFORM_MODEL {
   _id: string;
   id: string;
-  completed_dr: COMPLETED_DOCTOR[];
+  completed_dr: PREV_COMPLETED_DOCTOR[];
   createdAt: string;
   patient_id: string;
   name: string;
@@ -50,16 +50,16 @@ export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
   is_checked: boolean | null;
 }
 
-export interface CompletedPatientApiResponse {
+export interface PrevCompletedPatientApiResponse {
   message: string;
   success: boolean;
   total: number;
-  data: COMPLETED_PATIENT_MODEL[];
+  data: PREV_COMPLETED_PATIENT_MODEL[];
 }
 
-export const transformCompletedPatientResponse = (
-  data: COMPLETED_PATIENT_MODEL[]
-): COMPLETED_PATIENT_TRANSFORM_MODEL[] => {
+export const transformPrevCompletedPatientResponse = (
+  data: PREV_COMPLETED_PATIENT_MODEL[]
+): PREV_COMPLETED_PATIENT_TRANSFORM_MODEL[] => {
   return data.map((item) => ({
     _id: item._id,
     id: item.id,

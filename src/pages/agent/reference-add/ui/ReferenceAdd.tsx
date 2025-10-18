@@ -1,4 +1,4 @@
-import { Button, ControlInput, Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { Button, ControlInput, Panel, PanelHeading } from "@/shared/ui";
 import { ReferenceFormschema, type ReferenceFormValues } from "./referenceAdd.types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, type SubmitHandler } from "react-hook-form"; 
@@ -10,7 +10,7 @@ const ReferenceAdd = () => {
       control,
       handleSubmit,
       reset,
-      formState: { errors, isValid },
+      formState: {isValid },
     } = useForm<ReferenceFormValues>({
       mode: "onChange",
       resolver: yupResolver(ReferenceFormschema),

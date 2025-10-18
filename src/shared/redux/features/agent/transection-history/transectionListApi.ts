@@ -1,19 +1,16 @@
 import { apiSlice } from "../../api/apiSlice";
-import { transformTransectionListResponse, type TRANSECTION_TRANSFORM_MODEL, type TransectionListApiResponse } from "./transectionList.types";
+import { transformTransectionListResponse, type TRANSECTION_SUMMARY_MODEL, type TransectionListApiResponse } from "./transectionList.types";
  
 export const TransectionListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTransectionList: builder.query<
-      TRANSECTION_TRANSFORM_MODEL[],
-      void
-    >({
+    getTransectionList: builder.query<TRANSECTION_SUMMARY_MODEL[], void>({
       query: () => ({
         url: "/agent/bill/transaction",
         method: "GET",
       }),
-      transformResponse: (response: TransectionListApiResponse) => {
-        return transformTransectionListResponse(response.bills);
-      },
+        transformResponse: (response: TransectionListApiResponse) => {
+              return transformTransectionListResponse(response.bills);
+       }, 
     }),
   }),
 });

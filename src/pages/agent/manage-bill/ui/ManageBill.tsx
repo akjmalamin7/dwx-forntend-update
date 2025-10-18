@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { BILL_DATA_COL } from "./bill.data.col";
 import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
 import { Link } from "react-router-dom";
+import type { DataSource } from "@/shared/ui/table/table.model";
 
 const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
@@ -50,13 +51,13 @@ const ManageBill = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex}>
             <Link
-              to={`/agent/pay-bill`}
+              to={`/agent/pay-bill/${record?.key}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               Pay Bill
             </Link>
             <Link
-              to={`/agent/print-bill`}
+              to={`/agent/print-bill/${record?.key}`}
               className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
             >
               Print Bill

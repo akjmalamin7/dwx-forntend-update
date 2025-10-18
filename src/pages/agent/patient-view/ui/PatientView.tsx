@@ -1,11 +1,25 @@
-import { Panel, PanelHeading, Text } from "@/shared/ui"; 
-import XRAY_FLIM from "@/assets/images/xray-flim.png";
+import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
+import { Panel, PanelHeading } from "@/shared/ui";
+import { Table } from "@/shared/ui/table";
+import type { DataSource } from "@/shared/ui/table/table.model";
+import { Fragment, useEffect, useMemo, useRef } from "react";
+import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
-import { useEffect, useRef } from "react";
-const PatientView = () => { 
+import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 
-   const viewerRef = useRef<HTMLDivElement>(null);
+const PatientView = () => {
+  const { patient_id } = useParams<{ patient_id: string }>();
+  const {
+    data: patient_view,
+    isLoading: patientLoading,
+    error,
+  } = useGetPatientViewQuery(patient_id!, { skip: !patient_id });
+
+  const patient = patient_view?.patient;
+  const attachments = patient_view?.attachments;
+
+  const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
 
   useEffect(() => {
@@ -35,78 +49,89 @@ const PatientView = () => {
     };
   }, []);
 
+  const DATA_TABLE: DataSource[] = useMemo(() => {
+    if (!patient) return [];
 
-  return ( 
+    return [
+      {
+        key: patient._id || `patient-${Date.now()}`,
+        patient_id: patient.patient_id || "N/A",
+        patient_name: patient.name || "N/A",
+        age: patient.age || "N/A",
+        date: patient.createdAt
+          ? new Date(patient.createdAt).toLocaleDateString("en-GB")
+          : "N/A",
+        history: patient.history || "N/A",
+        sex: patient.gender || "N/A",
+        xray_name: patient.xray_name || "N/A",
+        reference_by: patient.ref_doctor || "N/A",
+      },
+    ];
+  }, [patient]);
 
-      <Panel
-        header={
-          <PanelHeading
-            title="Patient View"
-            button="Back to Patient List"
-            path="/agent/patient-completed"
+  if (!patient_id) {
+    return <div>Patient ID not found</div>;
+  }
+
+  if (error) {
+    return <div>Error loading patient data</div>;
+  }
+
+  if (!patient && !patientLoading) {
+    return <div>No patient data found</div>;
+  }
+
+  return (
+    <Panel
+      header={
+        <PanelHeading
+          title="Patient View"
+          button="Back to Patient List"
+          path="/agent/patient-completed"
+        />
+      }
+      size="lg"
+    >
+      {patient && (
+        <div className="p-4">
+          <Table
+            columns={PATIENT_VIEW_DAT_COL}
+            dataSource={DATA_TABLE}
+            loading={patientLoading}
+            border="bordered"
           />
-        }
-        size="lg"
-      >
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full border border-black mb-4">
-            <tbody>
-              <tr>
-                <td className="border border-black px-2 w-1/3">
-                  <Text element="label" className="font-semibold">Patient ID:</Text> P-101
-                </td>
-                <td className="border border-black px-2  w-1/3">
-                  <Text element="label" className="font-semibold">Patient Name:</Text> Miraz
-                </td>
-                <td className="border border-black px-2   w-1/3">
-                  <Text element="label" className="font-semibold">Age:</Text> 24y
-                </td>
-              </tr>
-              <tr>
-                <td className="border border-black px-2">
-                  <Text element="label" className="font-semibold">Date:</Text>  
-                  {new Date().toLocaleDateString('en-GB')}
-                </td>
-                <td className="border border-black px-2">
-                  <Text element="label" className="font-semibold">History:</Text> 
-                   Pain
-                </td>
-                <td className="border border-black px-2">
-                  <Text element="label" className="font-semibold">Sex:</Text> Male
-                </td>
-              </tr>
-              <tr>
-                <td className="border border-black px-2">
-                  <Text element="label" className="font-semibold">Xray Name:</Text> Chest
-                </td>
-                <td colSpan={2} className="border border-black px-2">
-                  <Text element="label" className="font-semibold">Reference By:</Text> Dr. Mahfuj
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
- 
+      )}
 
       {/* Image Viewer Section */}
-      <div ref={viewerRef} className="flex gap-4 flex-wrap mt-5">
-        {[1, 2, 3].map((_, index) => (
-          <div
-            key={index}
-            className="border rounded-md border-gray-300 overflow-hidden"
-          >
-            <img
-              src={XRAY_FLIM}
-              alt={`Patient X-Ray ${index + 1}`}
-              width={200}
-              height={150}
-              className="object-cover cursor-pointer"
-            />
-          </div>
-        ))}
+      <div className="p-4">
+        <h2 className="text-xl font-semibold mb-4">X-Ray Images</h2>
+        <div ref={viewerRef} className="flex gap-4 flex-wrap">
+          {attachments && attachments.length > 0 ? (
+            attachments.map((attachment) => (
+              <Fragment key={attachment._id}>
+                {attachment.attachment.flat().map((img, index) => (
+                  <div
+                    key={`${attachment._id}-${index}`}
+                    className="border rounded-md border-gray-300 overflow-hidden"
+                  >
+                    <img
+                      src={img}
+                      alt={`Patient X-Ray ${index + 1}`}
+                      width={200}
+                      height={150}
+                      className="object-cover cursor-pointer w-full h-auto"
+                    />
+                  </div>
+                ))}
+              </Fragment>
+            ))
+          ) : (
+            <div className="text-gray-500">No X-Ray images available</div>
+          )}
+        </div>
       </div>
-      </Panel> 
+    </Panel>
   );
 };
 

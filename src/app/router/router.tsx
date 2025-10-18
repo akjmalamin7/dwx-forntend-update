@@ -11,9 +11,8 @@ const publicRoutes = {
   children: [
     { path: "/login", element: <Pages.Login /> },
     { path: "*", element: <h1>Not Found</h1> },
-  ]
-}
-
+  ],
+};
 
 const privateRoutes = {
   path: "/",

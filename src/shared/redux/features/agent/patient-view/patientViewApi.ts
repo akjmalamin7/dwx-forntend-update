@@ -10,7 +10,7 @@ export const PatientViewApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPatientView: builder.query<
       {
-        patient: PATIENT_VIEW_TRANSFORM_MODEL;
+        patient: PATIENT_VIEW_TRANSFORM_MODEL | null;
         attachments: PATIENT_IMAGE_MODEL[];
       },
       string

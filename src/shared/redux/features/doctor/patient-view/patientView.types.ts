@@ -89,6 +89,6 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
 
   return {
     patient: transformedPatient,
-    attachments: attachments,
+    attachments: attachments ?? [],
   };
 };

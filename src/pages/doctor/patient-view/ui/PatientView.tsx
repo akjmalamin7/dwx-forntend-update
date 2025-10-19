@@ -1,8 +1,9 @@
-import { useGetPatientViewQuery } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
-import { Button, Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { ReportSubmissionForm, XrayImages } from "@/entities";
+import { useGetDoctorPatientViewQuery } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
+import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
@@ -14,14 +15,13 @@ const PatientView = () => {
     data: patient_view,
     isLoading: patientLoading,
     error,
-  } = useGetPatientViewQuery(patient_id!, { skip: !patient_id });
+  } = useGetDoctorPatientViewQuery(patient_id!);
 
   const patient = patient_view?.patient;
-  const attachments = patient_view?.attachments;
+  const attachments = patient_view?.attachments ?? [];
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
-
   useEffect(() => {
     if (viewerRef.current) {
       viewerInstance.current = new Viewer(viewerRef.current, {
@@ -102,102 +102,9 @@ const PatientView = () => {
           />
         </div>
       )}
-
       {/* Image Viewer Section */}
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">X-Ray Images</h2>
-        <div ref={viewerRef} className="flex gap-4 flex-wrap">
-          {attachments && attachments.length > 0 ? (
-            attachments.map((attachment) => (
-              <Fragment key={attachment._id}>
-                {attachment.attachment.flat().map((img, index) => (
-                  <div
-                    key={`${attachment._id}-${index}`}
-                    className="border rounded-md  border-gray-300 "
-                  > 
-
-                    <img
-                      src={img}
-                      alt={`Patient X-Ray ${index + 1}`}
-                      width={200}
-                      height={150}
-                      className="object-cover cursor-pointer"
-                    />
-                  </div>
-                ))}
-              </Fragment>
-            ))
-          ) : (
-            <div className="text-gray-500">No X-Ray images available</div>
-          )}
-        </div>
-      </div>
-
-
-       <form>
-
-               <div className="flex gap-4 mb-4">
-                <div className="w-1/2">
-
-                 <Text element="label"  
-                 fontWeight="bold" size="md"
-                 className="block mb-2 text-gray-900 dark:text-white"
-                  >
-                  Admin Format
-                  </Text> 
-                   <select className="border px-4 py-2">
-                    <option value="">Select Personal Format</option>
-                    <option value="format1">Format 1</option>
-                    <option value="format2">Format 2</option>
-                    <option value="format3">Format 3</option>
-
-                  </select>
-                </div>
-
-                <div className="w-1/2">
-                 <Text element="label"  
-                 fontWeight="bold" size="md"
-                 className="block mb-2 text-gray-900 dark:text-white"
-                  >
-                  Personal Format
-                  </Text>  
-                  
-                   <select className="border px-4 py-2">
-                    <option value="">Select Personal Format</option>
-                    <option value="format1">Format 1</option>
-                    <option value="format2">Format 2</option>
-                    <option value="format3">Format 3</option>
-
-                  </select>
-                </div>
-              </div>
-
-
-                <Input type="hidden" name="patient_id"   />
-                <Input type="hidden" name="doctor_id" /> 
-                 
-                 <Text element="label" size="md" className="mb-2 block" fontWeight="bold">Doctor Comments</Text>
-                 <Input type="text" placeholder="Report comment box here/ Need jodit Editor" /> 
-
-                <label className="  mt-4 block">
-                  <Input
-                    type="checkbox"
-                    name="passault"
-                    value="Yes" 
-                    size="sm"
-                  />
-                  This report is for medical diagnosis only, not for legal use
-                </label>
-
-                <Button
-                  type="submit" 
-                  className="group flex items-center rounded-md text-white text-sm font-medium pl-5 pr-5 mt-3 py-2 shadow-sm
-                    bg-[#31B0D5] hover:bg-blue-400"
-                >
-                 Submit 
-                </Button>
-              </form>
-
+      <XrayImages attachments={attachments} />
+      <ReportSubmissionForm patient_id={patient_id} />
     </Panel>
   );
 };

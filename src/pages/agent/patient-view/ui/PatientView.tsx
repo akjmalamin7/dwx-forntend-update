@@ -1,8 +1,9 @@
+import { XrayImages } from "@/entities";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
@@ -104,33 +105,7 @@ const PatientView = () => {
       )}
 
       {/* Image Viewer Section */}
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">X-Ray Images</h2>
-        <div ref={viewerRef} className="flex gap-4 flex-wrap">
-          {attachments && attachments.length > 0 ? (
-            attachments.map((attachment) => (
-              <Fragment key={attachment._id}>
-                {attachment.attachment.flat().map((img, index) => (
-                  <div
-                    key={`${attachment._id}-${index}`}
-                    className="border rounded-md border-gray-300 overflow-hidden"
-                  >
-                    <img
-                      src={img}
-                      alt={`Patient X-Ray ${index + 1}`}
-                      width={200}
-                      height={150}
-                      className="object-cover cursor-pointer w-full h-auto"
-                    />
-                  </div>
-                ))}
-              </Fragment>
-            ))
-          ) : (
-            <div className="text-gray-500">No X-Ray images available</div>
-          )}
-        </div>
-      </div>
+      <XrayImages attachments={attachments || []} />
     </Panel>
   );
 };

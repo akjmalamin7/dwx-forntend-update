@@ -25,4 +25,9 @@ export const Pages = {
   AgentTransectionHistory: lazy(
     () => import("@/pages/agent/transection-history")
   ),
+
+
+  DoctorPendingPatient: lazy(() => import("@/pages/doctor/patient-pending")),
+  DoctorViewPatient: lazy(() => import("@/pages/doctor/patient-view")),
+  
 };

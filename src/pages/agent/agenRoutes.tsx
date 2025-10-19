@@ -62,4 +62,13 @@ export const userRoutes = [
     path: "/agent/transection-history",
     element: withSuspense(<Pages.AgentTransectionHistory />),
   },
+  {
+    path: "/doctor/patient",
+    element: withSuspense(<Pages.DoctorPendingPatient />),
+  },
+  {
+    path: "/doctor/patient-view/:patient_id",
+    element: withSuspense(<Pages.DoctorViewPatient />),
+  },
+
 ];

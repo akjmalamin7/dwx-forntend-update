@@ -26,6 +26,12 @@ importers:
       html-react-parser:
         specifier: ^5.2.7
         version: 5.2.7(@types/react@19.2.0)(react@19.2.0)
+      jodit:
+        specifier: ^4.6.13
+        version: 4.6.13
+      jodit-react:
+        specifier: ^5.2.26
+        version: 5.2.26(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -766,6 +772,10 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+  autobind-decorator@2.4.0:
+    resolution: {integrity: sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==}
+    engines: {node: '>=8.10', npm: '>=6.4.1'}
+
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -1077,6 +1087,15 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  jodit-react@5.2.26:
+    resolution: {integrity: sha512-tso49emLe7WlOWMtVbvvhJCIWYe5ZjPFcDImEpuGlk6Oeb2CXfG+vGQgTrPPx5UTBxADnZMOUAzsTHYBTgWTIw==}
+    peerDependencies:
+      react: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+      react-dom: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+
+  jodit@4.6.13:
+    resolution: {integrity: sha512-kCuf1ksHcOXkfYrhabfZDHQPlNzHH/RCScr5kpia/mvPta1Xz3A+OGVt/qyEXWLuUJorkx+B9TwFeuJdq/MFPA==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2149,6 +2168,8 @@ snapshots:
 
   argparse@2.0.1: {}
 
+  autobind-decorator@2.4.0: {}
+
   balanced-match@1.0.2: {}
 
   baseline-browser-mapping@2.8.12: {}
@@ -2471,6 +2492,16 @@ snapshots:
   isexe@2.0.0: {}
 
   jiti@2.6.1: {}
+
+  jodit-react@5.2.26(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      jodit: 4.6.13
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+
+  jodit@4.6.13:
+    dependencies:
+      autobind-decorator: 2.4.0
 
   js-tokens@4.0.0: {}
 

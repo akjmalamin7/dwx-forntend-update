@@ -1,15 +1,16 @@
+import { useAuth } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetPendingPatientListQuery } from "@/shared/redux/features/doctor/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetPendingPatientListQuery } from "@/shared/redux/features/doctor/pending-patient-list/pendingPatientListApi";
 
 const PatientPending = () => {
   const { data: patientList, isLoading } = useGetPendingPatientListQuery();
-
+  const { user } = useAuth();
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
@@ -17,20 +18,24 @@ const PatientPending = () => {
         key: item._id,
         sl: index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
           hour12: true,
-        }), 
-        agent_name: item.agent_id?.email || "",
+        }),
+        agent_name:
+          user?.id && item.doctor_id?.includes(user?.id)
+            ? item.agent_id?.email
+            : "",
+
         patient_name: item.name,
-        patient_id: item.patient_id, 
-        xray_name: item.xray_name, 
+        patient_id: item.patient_id,
+        xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList]
+    [patientList, user?.id]
   );
 
   const {
@@ -57,7 +62,7 @@ const PatientPending = () => {
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               View
-            </Link> 
+            </Link>
           </div>
         ),
       };

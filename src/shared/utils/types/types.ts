@@ -48,27 +48,27 @@ export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
       .required(),
   }) as yup.ObjectSchema<PatientFormValues>;
 
-
-
 //menu
-interface MenuDropDown {
-  id: string;
-  title?: string;
-  path?: string;
-  icon?: string;
-}
 export const RoleEnum = {
   admin: "admin",
   user: "user",
   xray_dr: "xray_dr",
   ecg_dr: "ecg_dr",
-} as const
-export type RoleEnum = (typeof RoleEnum)[keyof typeof RoleEnum]
+} as const;
+export type RoleEnum = (typeof RoleEnum)[keyof typeof RoleEnum];
+interface MenuDropDown {
+  id: string;
+  title?: string;
+  path?: string;
+  role: RoleEnum[];
+  icon?: string;
+}
+
 export interface MenuType {
   id: string;
   title?: string;
   path?: string;
   icon?: React.ReactNode;
   role: RoleEnum[];
-  children?: MenuDropDown[]
+  children?: MenuDropDown[];
 }

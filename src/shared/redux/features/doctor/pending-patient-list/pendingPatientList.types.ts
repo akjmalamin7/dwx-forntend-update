@@ -38,7 +38,7 @@ export interface PENDING_PATIENT_TRANSFORM_MODEL {
   _id: string;
   id: string;
   agent_id: AGENT_DOCTOR[];
-   doctor_id: AGENT_DOCTOR[];
+  doctor_id: AGENT_DOCTOR[];
   completed_dr: AGENT_DOCTOR[];
   createdAt: string;
   patient_id: string;
@@ -46,7 +46,7 @@ export interface PENDING_PATIENT_TRANSFORM_MODEL {
   gender: string;
   age: string;
   xray_name: string;
-  rtype: string; 
+  rtype: string;
   printstatus: string | null;
   completed_time: string;
   viewed: boolean;

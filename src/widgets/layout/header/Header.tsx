@@ -1,13 +1,15 @@
 import LOGO from "@/assets/images/logo.png";
+import { useAuth } from "@/shared/hooks";
 import { NavItem, Text } from "@/shared/ui";
+import type { RoleEnum } from "@/shared/utils/types/types";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { IoIosSend } from "react-icons/io";
-import { MdFileUpload } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { MENU_DATA } from "./menu";
 
 const Header = () => {
+  const { user } = useAuth();
+  console.log(user);
   const [menuOpen, setMenuOpen] = useState(false);
   const [billDropdownOpen, setBillDropdownOpen] = useState(false);
   const [patientDropdownOpen, setPatientDropdownOpen] = useState(false);
@@ -27,8 +29,18 @@ const Header = () => {
     setBillDropdownOpen(false);
     setPatientDropdownOpen(false);
   };
-  console.log(MENU_DATA)
+  if (!user) return null;
 
+  // Filter menus based on user.role
+  const filteredMenu = MENU_DATA.filter((menu) =>
+    menu.role.includes(user.role as RoleEnum)
+  ).map((menu) => ({
+    ...menu,
+    // Filter nested children too
+    children: menu.children?.filter((child) =>
+      child.role.includes(user.role as RoleEnum)
+    ),
+  }));
   return (
     <header className="mb-4 print:hidden">
       {/* Top Header Bar */}
@@ -41,13 +53,20 @@ const Header = () => {
         {/* Hotline */}
         <div className="text-sm font-semibold text-center hidden md:block">
           Hotline:{" "}
-          <Link to="tel:+8801759497773" className="hover:underline">+880 1759497773</Link>,{" "}
-          <Link to="tel:+8801867074078" className="hover:underline">+880 1867074078</Link>
+          <Link to="tel:+8801759497773" className="hover:underline">
+            +880 1759497773
+          </Link>
+          ,{" "}
+          <Link to="tel:+8801867074078" className="hover:underline">
+            +880 1867074078
+          </Link>
         </div>
 
         {/* User Info + Hamburger */}
         <div className="flex items-center space-x-4 text-sm">
-          <Text element="span" className="text-white">UserName</Text>
+          <Text element="span" className="text-white">
+            UserName
+          </Text>
 
           {/* Hamburger Button */}
           <button className="md:hidden" onClick={toggleMenu}>
@@ -57,16 +76,49 @@ const Header = () => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className={`bg-green-500 text-white flex-col md:flex-row md:flex md:flex-wrap md:justify-center ${menuOpen ? 'flex' : 'hidden'} md:flex`}
+      <nav
+        className={`bg-green-500 text-white flex-col md:flex-row md:flex md:flex-wrap md:justify-center ${
+          menuOpen ? "flex" : "hidden"
+        } md:flex`}
         onClick={closeAllDropdowns}
       >
-        <NavItem icon={<IoIosSend />} label="Send Report" to="/agent/patient/add" size="sm" />
-        <NavItem icon={<IoIosSend />} label="Quick Send Report" to="/agent/patient/quick-add" size="sm" />
+        {filteredMenu.map((menu) => (
+          <NavItem
+            key={menu.id}
+            icon={menu.icon}
+            label={menu.title || ""}
+            to={menu.path || ""}
+            size="sm"
+            children={menu?.children}
+          />
+        ))}
+        {/* <NavItem
+          icon={<IoIosSend />}
+          label="Send Report"
+          to="/agent/patient/add"
+          size="sm"
+        />
+        <NavItem
+          icon={<IoIosSend />}
+          label="Quick Send Report"
+          to="/agent/patient/quick-add"
+          size="sm"
+        />
         <NavItem icon={<IoIosSend />} label="Waiting Report" to="/" size="sm" />
-        <NavItem icon={<MdFileUpload />} label="DCM File Uploader" to="/upload" size="sm" color="danger" />
-        <NavItem icon={<IoIosSend />} label="Completed Report" to="/agent/patient/completed" size="sm" />
+        <NavItem
+          icon={<MdFileUpload />}
+          label="DCM File Uploader"
+          to="/upload"
+          size="sm"
+          color="danger"
+        />
+        <NavItem
+          icon={<IoIosSend />}
+          label="Completed Report"
+          to="/agent/patient/completed"
+          size="sm"
+        />
 
-        {/* Dropdown Menu for Bill */}
         <div className="relative" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={togglePatientDropdown}
@@ -96,9 +148,18 @@ const Header = () => {
           )}
         </div>
 
-        <NavItem icon={<IoIosSend />} label="Doctor List" to="/agent/doctor" size="sm" />
-        <NavItem icon={<IoIosSend />} label="Reference List" to="/agent/reference-list" size="sm" />
-        {/* Dropdown Menu for Bill */}
+        <NavItem
+          icon={<IoIosSend />}
+          label="Doctor List"
+          to="/agent/doctor"
+          size="sm"
+        />
+        <NavItem
+          icon={<IoIosSend />}
+          label="Reference List"
+          to="/agent/reference-list"
+          size="sm"
+        />
         <div className="relative" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={toggleBillDropdown}
@@ -128,10 +189,18 @@ const Header = () => {
           )}
         </div>
 
-        <NavItem icon={<IoIosSend />} label="Checked User" to="/agent/checked-user-list" size="sm" />
-        <NavItem icon={<IoIosSend />} label="Software" to="/software" size="sm" />
-
-
+        <NavItem
+          icon={<IoIosSend />}
+          label="Checked User"
+          to="/agent/checked-user-list"
+          size="sm"
+        />
+        <NavItem
+          icon={<IoIosSend />}
+          label="Software"
+          to="/software"
+          size="sm"
+        /> */}
       </nav>
     </header>
   );

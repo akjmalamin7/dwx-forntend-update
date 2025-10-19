@@ -71,5 +71,4 @@ export const userRoutes = [
     path: "/doctor/patient-view/:patient_id",
     element: withSuspense(<Pages.DoctorViewPatient />),
   },
-
 ];

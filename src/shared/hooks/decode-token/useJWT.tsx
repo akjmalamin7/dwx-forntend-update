@@ -28,7 +28,9 @@ export function useJWT() {
       }
 
       const payload = access_token.split(".")[1];
-      const decodedPayload: UserSchema & { exp?: number } = JSON.parse(atob(payload));
+      const decodedPayload: UserSchema & { exp?: number } = JSON.parse(
+        atob(payload)
+      );
 
       if (decodedPayload.exp && decodedPayload.exp * 1000 < Date.now()) {
         console.warn("JWT token expired");
@@ -39,7 +41,9 @@ export function useJWT() {
         return;
       }
 
-      if (JSON.stringify(decodedRef.current) !== JSON.stringify(decodedPayload)) {
+      if (
+        JSON.stringify(decodedRef.current) !== JSON.stringify(decodedPayload)
+      ) {
         setDecoded(decodedPayload);
         decodedRef.current = decodedPayload;
       }
@@ -61,8 +65,8 @@ export function useJWT() {
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [decodeToken]);
 
   return decoded;

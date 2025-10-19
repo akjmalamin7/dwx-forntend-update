@@ -3,6 +3,7 @@ import { withSuspense } from "@/shared/ui";
 
 export const userRoutes = [
   { path: "/", element: withSuspense(<Pages.Patients />) },
+  { path: "/unauthorized", element: withSuspense(<Pages.Unauthorized />) },
   {
     path: "/agent/patient-view/:patient_id",
     element: withSuspense(<Pages.ViewPatient />),

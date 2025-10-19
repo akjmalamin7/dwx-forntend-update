@@ -47,3 +47,17 @@ export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
       .oneOf(["single", "double", "multiple"])
       .required(),
   }) as yup.ObjectSchema<PatientFormValues>;
+interface MenuDropDown {
+  id: string;
+  title?: string;
+  path?: string;
+  icon?: string;
+}
+export interface MenuType {
+  id: string;
+  title?: string;
+  path?: string;
+  icon?: string;
+  role: "admin" | "user" | "xray_dr" | "ecg_dr";
+  children?: MenuDropDown[]
+}

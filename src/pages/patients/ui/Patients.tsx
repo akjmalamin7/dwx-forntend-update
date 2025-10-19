@@ -1,6 +1,7 @@
+import { useAuth } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
+import { Pagination, Panel, Search, Text } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
@@ -9,7 +10,7 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const Patients = () => {
   const { data: patientList, isLoading } = useGetPendingPatientListQuery();
-
+  const { user } = useAuth();
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
@@ -69,11 +70,14 @@ const Patients = () => {
 
   return (
     <Panel header="Pending Report" size="lg">
-      <Search
-        value={searchQuery}
-        onChange={setSearchQuery}
-        placeholder="Search by Name, ID or Xray..."
-      />
+      {
+        user?.role === "user" ? <Search
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search by Name, ID or Xray..."
+        /> : <Text color="danger">Role not matched</Text>
+      }
+
 
       <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
 

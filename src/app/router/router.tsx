@@ -20,7 +20,7 @@ const privateRoutes = {
   errorElement: <h1>Something went wrong</h1>,
   children: [
     {
-      element: <PrivateRoutes allowedRoles={["user", "admin"]} />,
+      element: <PrivateRoutes allowedRoles={["user", "admin","xray_dr","ecg_dr"]} />,
       children: [...userRoutes],
     },
   ],

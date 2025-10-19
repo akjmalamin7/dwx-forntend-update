@@ -4,7 +4,7 @@ export interface InputProps {
   label?: string;
   name?: string;
   value?: string;
-  type?: "text" | "email" | "password" | "number" | "file";
+  type?: "text" | "email" | "password" | "number" | "file" | "hidden" | "checkbox";
   radius?: "sm" | "md" | "lg";
   color?: "dark" | "light";
   bgColor?: "dark" | "light" | "transparent";

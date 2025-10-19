@@ -1,5 +1,5 @@
 import { useGetPatientViewQuery } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
-import { Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { Button, Input, Panel, PanelHeading, Text } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { Fragment, useEffect, useMemo, useRef } from "react";
@@ -173,27 +173,29 @@ const PatientView = () => {
               </div>
 
 
-                <input type="hidden" name="patient_id"   />
-                <input type="hidden" name="doctor_id" /> 
+                <Input type="hidden" name="patient_id"   />
+                <Input type="hidden" name="doctor_id" /> 
                  
+                 <Text element="label" size="md" className="mb-2 block" fontWeight="bold">Doctor Comments</Text>
                  <Input type="text" placeholder="Report comment box here/ Need jodit Editor" /> 
 
-                <label className="flex items-center gap-2 mt-4">
-                  <input
+                <label className="  mt-4 block">
+                  <Input
                     type="checkbox"
                     name="passault"
                     value="Yes" 
+                    size="sm"
                   />
                   This report is for medical diagnosis only, not for legal use
                 </label>
 
-                <button
+                <Button
                   type="submit" 
                   className="group flex items-center rounded-md text-white text-sm font-medium pl-5 pr-5 mt-3 py-2 shadow-sm
                     bg-[#31B0D5] hover:bg-blue-400"
                 >
                  Submit 
-                </button>
+                </Button>
               </form>
 
     </Panel>

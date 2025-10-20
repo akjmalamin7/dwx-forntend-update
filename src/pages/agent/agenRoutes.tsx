@@ -1,17 +1,22 @@
 import { Pages } from "@/app/router/lazy-pages";
 import { withSuspense } from "@/shared/ui";
 
-export const userRoutes = [
-  { path: "/", element: withSuspense(<Pages.Patients />) },
-  { path: "/unauthorized", element: withSuspense(<Pages.Unauthorized />) },
+export const agentRoutes = [
   {
-    path: "/agent/patient-view/:patient_id",
-    element: withSuspense(<Pages.ViewPatient />),
+    path: "/agent/patient/add",
+    element: withSuspense(<Pages.AddPatient />),
   },
-  { path: "/agent/patient/add", element: withSuspense(<Pages.AddPatient />) },
+  {
+    path: "/agent/patient",
+    element: withSuspense(<Pages.Patients />),
+  },
   {
     path: "/agent/patient/quick-add",
     element: withSuspense(<Pages.QuickAddPatient />),
+  },
+  {
+    path: "/upload",
+    element: withSuspense(<h1>Upload</h1>),
   },
   {
     path: "/agent/patient/completed",
@@ -54,7 +59,10 @@ export const userRoutes = [
     path: "/agent/manage-bill",
     element: withSuspense(<Pages.AgentManageBill />),
   },
-  { path: "/agent/pay-bill", element: withSuspense(<Pages.AgentPayBill />) },
+  {
+    path: "/agent/pay-bill",
+    element: withSuspense(<Pages.AgentPayBill />),
+  },
   {
     path: "/agent/print-bill",
     element: withSuspense(<Pages.AgentPrintBill />),
@@ -64,11 +72,7 @@ export const userRoutes = [
     element: withSuspense(<Pages.AgentTransectionHistory />),
   },
   {
-    path: "/",
-    element: withSuspense(<Pages.DoctorPendingPatient />),
-  },
-  {
-    path: "/doctor/patient-view/:patient_id",
-    element: withSuspense(<Pages.DoctorViewPatient />),
+    path: "/agent/patient-view/:patient_id",
+    element: withSuspense(<Pages.ViewPatient />),
   },
 ];

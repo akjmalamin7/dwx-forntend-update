@@ -1,8 +1,10 @@
 import { userLoggedIn } from "@/shared/redux/features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useAuth } from "../use-auth/useAuth";
 
 export function useAuthCheck() {
+  const { user } = useAuth();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   useEffect(() => {
@@ -14,6 +16,7 @@ export function useAuthCheck() {
           dispatch(
             userLoggedIn({
               access_token: auth.access_token,
+              user: user,
             })
           );
         }
@@ -22,6 +25,6 @@ export function useAuthCheck() {
       }
     }
     setAuthChecked(true);
-  }, [dispatch]);
+  }, [dispatch, user]);
   return authChecked;
 }

@@ -1,19 +1,17 @@
-
 import { useAuth } from "@/shared/hooks";
-import { Pages } from "./lazy-pages";
-
+import { Pages } from "@/widgets";
 const RoleBasedHome = () => {
   const { user } = useAuth();
 
-  console.log('RoleBasedHome - User Role:', user?.role);
+  console.log("RoleBasedHome - User Role:", user?.role);
 
   switch (user?.role) {
-    case 'admin':
+    case "admin":
       return <h1>Admin Dashboard</h1>;
-    case 'ecg_dr':
-    case 'xray_dr':
+    case "ecg_dr":
+    case "xray_dr":
       return <Pages.DoctorPendingPatient />;
-    case 'user':
+    case "user":
     default:
       return <Pages.Patients />;
   }

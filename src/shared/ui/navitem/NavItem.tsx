@@ -1,27 +1,40 @@
-import React from "react";
+import type { RoleEnum } from "@/shared/utils/types/types";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+interface ChildMenu {
+  id: string;
+  title?: string;
+  path?: string;
+  icon?: React.ReactNode;
+  role: RoleEnum[];
+}
 interface NavItemProps {
   icon?: React.ReactNode;
-  label: string;
-  to: string;
+  title: string;
+  path: string;
   size?: "sm" | "md" | "lg";
   color?: "default" | "danger" | "white";
   align?: "left" | "center";
   fontWeight?: "regular" | "medium" | "semiBold" | "bold";
   className?: string;
+  children?: ChildMenu[];
 }
 
 const NavItem: React.FC<NavItemProps> = ({
   icon,
-  label,
-  to,
+  title,
+  path,
   size = "md",
   color = "default",
   align = "left",
   fontWeight = "medium",
   className = "",
+  children = [],
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const sizeClasses = {
     sm: "text-sm",
     md: "text-base",
@@ -46,11 +59,38 @@ const NavItem: React.FC<NavItemProps> = ({
     bold: "font-bold",
   }[fontWeight];
 
+  const handleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropdown();
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isDropdownOpen]);
+
+  const hasChildren = children.length > 0;
+
   return (
     <>
-      {
-        to ? <NavLink
-          to={to}
+      {path && !hasChildren ? (
+        <NavLink
+          to={path}
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors
             ${alignClasses} ${sizeClasses} ${colorClasses} ${fontWeightClasses} ${className}
@@ -58,12 +98,41 @@ const NavItem: React.FC<NavItemProps> = ({
           }
         >
           {icon && <span className="text-lg">{icon}</span>}
-          <span>{label}</span>
-        </NavLink> : <div className="relative" onClick={(e) => e.stopPropagation()}>  <button className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"> {icon && <span className="text-lg">{icon}</span>}{label}</button></div>
-
-      }
+          <span>{title}</span>
+        </NavLink>
+      ) : (
+        <div
+          className="relative"
+          onClick={(e) => e.stopPropagation()}
+          ref={dropdownRef}
+        >
+          <button
+            className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"
+            onClick={handleDropdown}
+          >
+            {icon && <span className="text-lg">{icon}</span>}
+            {title}
+          </button>
+          {hasChildren && isDropdownOpen && (
+            <div className="absolute top-full right-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50">
+              {children.map((child) => (
+                <NavLink
+                  key={child.id}
+                  to={child.path || ""}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-3 hover:bg-green-700 transition-colors border-b border-green-500 last:border-b-0
+                    ${isActive ? "bg-green-800 font-semibold" : ""}`
+                  }
+                >
+                  {child.icon && <span className="text-sm">{child.icon}</span>}
+                  <span className="text-sm">{child.title}</span>
+                </NavLink>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </>
-
   );
 };
 

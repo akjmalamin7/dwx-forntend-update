@@ -47,17 +47,23 @@ const NavItem: React.FC<NavItemProps> = ({
   }[fontWeight];
 
   return (
-     <NavLink
-        to={to}
-        className={({ isActive }) =>
+    <>
+      {
+        to ? <NavLink
+          to={to}
+          className={({ isActive }) =>
             `flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors
             ${alignClasses} ${sizeClasses} ${colorClasses} ${fontWeightClasses} ${className}
             ${isActive ? "bg-green-700 text-white font-semibold" : ""}`
-        }
+          }
         >
-        {icon && <span className="text-lg">{icon}</span>}
-        <span>{label}</span>
-        </NavLink>
+          {icon && <span className="text-lg">{icon}</span>}
+          <span>{label}</span>
+        </NavLink> : <div className="relative" onClick={(e) => e.stopPropagation()}>  <button className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"> {icon && <span className="text-lg">{icon}</span>}{label}</button></div>
+
+      }
+    </>
+
   );
 };
 

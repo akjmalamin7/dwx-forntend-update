@@ -1,9 +1,12 @@
 import type { UserSchema } from "@/shared/redux/features/auth/auth.types";
+import { setUser } from "@/shared/redux/features/auth/authSlice";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export function useJWT() {
   const [decoded, setDecoded] = useState<UserSchema | null>(null);
   const decodedRef = useRef<UserSchema | null>(null);
+  const dispatch = useDispatch();
 
   const decodeToken = useCallback(() => {
     const storedAuth = localStorage.getItem("auth");
@@ -12,6 +15,7 @@ export function useJWT() {
       if (decodedRef.current !== null) {
         setDecoded(null);
         decodedRef.current = null;
+        dispatch(setUser(null));
       }
       return;
     }
@@ -23,6 +27,7 @@ export function useJWT() {
         if (decodedRef.current !== null) {
           setDecoded(null);
           decodedRef.current = null;
+          dispatch(setUser(null));
         }
         return;
       }
@@ -37,6 +42,7 @@ export function useJWT() {
         if (decodedRef.current !== null) {
           setDecoded(null);
           decodedRef.current = null;
+          dispatch(setUser(null));
         }
         return;
       }
@@ -46,15 +52,17 @@ export function useJWT() {
       ) {
         setDecoded(decodedPayload);
         decodedRef.current = decodedPayload;
+        dispatch(setUser(decodedPayload));
       }
     } catch (error) {
       console.error("Invalid JWT token:", error);
       if (decodedRef.current !== null) {
         setDecoded(null);
         decodedRef.current = null;
+        dispatch(setUser(null));
       }
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     decodeToken();
@@ -66,8 +74,16 @@ export function useJWT() {
     };
 
     window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+
+    const interval = setInterval(decodeToken, 1000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
   }, [decodeToken]);
 
   return decoded;
 }
+
+export default useJWT;

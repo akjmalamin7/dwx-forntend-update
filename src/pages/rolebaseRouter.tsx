@@ -1,5 +1,6 @@
-import { Pages } from "@/app/router/lazy-pages";
+// pages/rolebaseRouter.tsx
 import { withSuspense } from "@/shared/ui";
+import { Pages } from "@/widgets";
 
 export const userRoutes = [
   { path: "/", element: withSuspense(<Pages.Patients />) },
@@ -63,6 +64,9 @@ export const userRoutes = [
     path: "/agent/transection-history",
     element: withSuspense(<Pages.AgentTransectionHistory />),
   },
+];
+
+export const drDrRoutes = [
   {
     path: "/",
     element: withSuspense(<Pages.DoctorPendingPatient />),
@@ -71,4 +75,25 @@ export const userRoutes = [
     path: "/doctor/patient-view/:patient_id",
     element: withSuspense(<Pages.DoctorViewPatient />),
   },
+  { path: "/unauthorized", element: withSuspense(<Pages.Unauthorized />) },
 ];
+
+export const adminRoutes = [
+  { path: "/", element: withSuspense(<h1>Home for admin</h1>) },
+  { path: "/unauthorized", element: withSuspense(<Pages.Unauthorized />) },
+];
+
+export const getRoutesByRole = (role: string) => {
+  switch (role) {
+    case 'admin':
+      return adminRoutes;
+    case 'ecg_dr':
+      return drDrRoutes;
+    case 'xray_dr':
+      return drDrRoutes;
+    case 'user':
+      return userRoutes;
+    default:
+      return userRoutes;
+  }
+};

@@ -1,5 +1,6 @@
 // shared/redux/features/auth/auth.types.ts
 export interface UserSchema {
+  // _id: string;
   id: string;
   name: string;
   email: string;

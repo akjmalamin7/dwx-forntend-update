@@ -11,7 +11,6 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 const PatientPending = () => {
   const { data: patientList, isLoading } = useGetPendingPatientListQuery();
   const { user } = useAuth();
-  // Prepare data
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
@@ -26,8 +25,10 @@ const PatientPending = () => {
           hour12: true,
         }),
         agent_name:
-          user?.id && item.doctor_id?.includes(user?.id)
-            ? item.agent_id?.email
+          user?.id &&
+          Array.isArray(item.doctor_id) &&
+          item.doctor_id.includes(user.id)
+            ? item.agent_id?.email || ""
             : "",
 
         patient_name: item.name,

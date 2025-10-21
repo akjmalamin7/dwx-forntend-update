@@ -1,14 +1,15 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
+import { useGetDoctorCompletedPatientViewQuery } from "@/shared/redux/features/doctor/completed-patient-view/CompletedPatientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
-import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col"; 
-import { useGetDoctorCompletedPatientViewQuery } from "@/shared/redux/features/doctor/completed-patient-view/CompletedPatientViewApi";
+import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 const CompletedPatientView = () => {
+  const [viewData, setViewData] = useState({ passault: "", comments: "" });
   const { patient_id } = useParams<{ patient_id: string }>();
   const {
     data: patient_view,
@@ -17,13 +18,22 @@ const CompletedPatientView = () => {
   } = useGetDoctorCompletedPatientViewQuery(patient_id!);
 
   const patient = patient_view?.patient;
-  const attachments = patient_view?.attachments ?? []; 
+  const attachments = patient_view?.attachments ?? [];
 
-  //const comments = patient_view?.comments;
-
+  // const comments = patient_view && patient_view?.comments[0]?.comments;
+  useEffect(() => {
+    if (patient_view?.comments && patient_view.comments.length > 0) {
+      const storedComments = patient_view.comments[0];
+      setViewData({
+        passault: storedComments.passault || "",
+        comments: storedComments.comments || "",
+      });
+    }
+  }, [patient_view]);
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
+
   useEffect(() => {
     if (viewerRef.current) {
       viewerInstance.current = new Viewer(viewerRef.current, {
@@ -106,7 +116,11 @@ const CompletedPatientView = () => {
       )}
       {/* Image Viewer Section */}
       <XrayImages attachments={attachments} />
-      <ReportSubmissionForm patient_id={patient_id} />
+      <ReportSubmissionForm
+        patient_id={patient_id}
+        commentsAndPassault={viewData}
+        isUpdate
+      />
     </Panel>
   );
 };

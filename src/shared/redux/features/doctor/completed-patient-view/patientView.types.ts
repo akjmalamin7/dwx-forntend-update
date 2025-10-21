@@ -27,8 +27,8 @@ export interface PATIENT_VIEW_MODEL {
   online_dr: string | null;
   completed_dr: string;
   id: string;
- attachments?: string[][];
-  comments?: PATIENT_COMMENT_MODEL;
+  attachments?: string[][];
+  comments?: PATIENT_COMMENT_MODEL[];
 }
 
 export interface PATIENT_VIEW_TRANSFORM_MODEL {
@@ -73,18 +73,19 @@ export interface PATIENT_COMMENT_MODEL {
 export interface PATIENT_VIEW_RESPONSE {
   message: string;
   success: boolean;
-   data: PATIENT_VIEW_MODEL & {
+  data: PATIENT_VIEW_MODEL & {
+    patient: PATIENT_VIEW_TRANSFORM_MODEL;
     attachments?: PATIENT_IMAGE_MODEL[];
-    doctorcomments?: PATIENT_COMMENT_MODEL | null;
+    doctorComments?: PATIENT_COMMENT_MODEL[] | [];
   };
-} 
+}
 // Transform function for patient view response
 export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   response: PATIENT_VIEW_RESPONSE
 ): {
   patient: PATIENT_VIEW_TRANSFORM_MODEL;
   attachments: PATIENT_IMAGE_MODEL[];
-  comments: PATIENT_COMMENT_MODEL | null;
+  comments: PATIENT_COMMENT_MODEL[] | null;
 } => {
   if (!response.success) {
     throw new Error(response.message);
@@ -93,7 +94,8 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   // The backend returns patient data directly under `data`
   const patient = response.data;
   const attachments = response.data.attachments ?? [];
-  const doctorcomments = response.data.doctorcomments ?? null;
+  const doctorComments = response?.data?.doctorComments;
+  console.log(doctorComments);
 
   if (!patient || !patient._id) {
     console.error("Invalid patient response:", response);
@@ -116,6 +118,6 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   return {
     patient: transformedPatient,
     attachments,
-    comments: doctorcomments,
+    comments: doctorComments ?? [],
   };
 };

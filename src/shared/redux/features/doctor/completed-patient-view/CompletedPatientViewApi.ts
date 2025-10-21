@@ -1,6 +1,7 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
   TRANSFORM_PATIENT_VIEW_RESPONSE,
+  type PATIENT_COMMENT_MODEL,
   type PATIENT_IMAGE_MODEL,
   type PATIENT_VIEW_RESPONSE,
   type PATIENT_VIEW_TRANSFORM_MODEL,
@@ -11,6 +12,7 @@ export const CompletedPatientViewApi = apiSlice.injectEndpoints({
     getDoctorCompletedPatientView: builder.query<
       {
         patient: PATIENT_VIEW_TRANSFORM_MODEL | null;
+        comments: PATIENT_COMMENT_MODEL[] | null;
         attachments: PATIENT_IMAGE_MODEL[];
       },
       string
@@ -26,4 +28,5 @@ export const CompletedPatientViewApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetDoctorCompletedPatientViewQuery } = CompletedPatientViewApi;
+export const { useGetDoctorCompletedPatientViewQuery } =
+  CompletedPatientViewApi;

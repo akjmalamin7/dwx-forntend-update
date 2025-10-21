@@ -9,6 +9,14 @@ export const PatientSaveApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updatePatient: builder.mutation({
+      query: (data) => ({
+        url: `/doctor/patient/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
-export const { useSavePatientMutation } = PatientSaveApi;
+export const { useSavePatientMutation, useUpdatePatientMutation } =
+  PatientSaveApi;

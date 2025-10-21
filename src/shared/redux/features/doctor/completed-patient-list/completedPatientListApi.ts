@@ -12,7 +12,7 @@ export const CompletedPatientListApi = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/agent/patient/completed",
+        url: "/doctor/patient/completed",
         method: "GET",
       }),
       transformResponse: (response: CompletedPatientApiResponse) => {

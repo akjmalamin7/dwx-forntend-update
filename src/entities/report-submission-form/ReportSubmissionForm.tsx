@@ -3,6 +3,7 @@ import { useSavePatientMutation } from "@/shared/redux/features/doctor/patient-s
 import { Button, Input, Text } from "@/shared/ui";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   patient_id: string;
@@ -23,6 +24,7 @@ interface ApiError {
 }
 
 const ReportSubmissionForm = ({ patient_id }: IProps) => {
+  const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
   );
@@ -96,6 +98,7 @@ const ReportSubmissionForm = ({ patient_id }: IProps) => {
 
       await savePatient(submitData).unwrap();
 
+       navigate("/doctor/patient"); 
       resetForm();
     } catch (error) {
       const apiError = error as ApiError;

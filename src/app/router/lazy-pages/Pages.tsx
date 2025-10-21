@@ -29,5 +29,10 @@ export const Pages = {
 
   DoctorPendingPatient: lazy(() => import("@/pages/doctor/patient-pending")),
   DoctorViewPatient: lazy(() => import("@/pages/doctor/patient-view")),
+  DoctorCompletedPatient: lazy(() => import("@/pages/doctor/patient-completed")),
+  DoctorAllCompletedPatient: lazy(() => import("@/pages/doctor/patient-all-completed")),
+  DoctorCompletedPatientView: lazy(() => import("@/pages/doctor/completed-patient-view")),
+  DoctorFormatList: lazy(() => import("@/pages/doctor/format-list")),
+  DoctorFormatAdd: lazy(() => import("@/pages/doctor/format-add")),
   
 };

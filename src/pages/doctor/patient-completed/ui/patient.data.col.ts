@@ -8,12 +8,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "center",
     width: 50,
   },
-  {
-    key: "start_time",
-    title: "Stat Time",
-    dataIndex: "start_time",
-    align: "start",
-  },
+ 
   {
     key: "end_time",
     title: "End Time",
@@ -50,18 +45,8 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "xray_name",
     align: "start",
   },
-  {
-    key: "type",
-    title: "Type",
-    dataIndex: "type",
-    align: "start",
-  },
-  {
-    key: "viewed",
-    title: "CompletedBy",
-    dataIndex: "viewed",
-    align: "start",
-  },
+ 
+ 
   {
     key: "printstatus",
     title: "Print",

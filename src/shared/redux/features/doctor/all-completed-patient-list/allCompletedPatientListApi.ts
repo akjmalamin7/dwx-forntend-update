@@ -12,7 +12,7 @@ export const AllCompletedPatientListApi = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/agent/patient/completed/all?page=1&limit=100",
+        url: "/doctor/patient/completed/all?page=1&limit=100",
         method: "GET",
       }),
       transformResponse: (response: AllCompletedPatientApiResponse) => {

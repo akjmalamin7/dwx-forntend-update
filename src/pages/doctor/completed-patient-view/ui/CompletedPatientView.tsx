@@ -1,5 +1,4 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { useGetDoctorPatientViewQuery } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -7,18 +6,21 @@ import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
-import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
-
-const PatientView = () => {
+import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col"; 
+import { useGetDoctorCompletedPatientViewQuery } from "@/shared/redux/features/doctor/completed-patient-view/CompletedPatientViewApi";
+const CompletedPatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
   const {
     data: patient_view,
     isLoading: patientLoading,
     error,
-  } = useGetDoctorPatientViewQuery(patient_id!);
+  } = useGetDoctorCompletedPatientViewQuery(patient_id!);
 
   const patient = patient_view?.patient;
-  const attachments = patient_view?.attachments ?? [];
+  const attachments = patient_view?.attachments ?? []; 
+
+  //const comments = patient_view?.comments;
+
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
@@ -85,8 +87,8 @@ const PatientView = () => {
     <Panel
       header={
         <PanelHeading
-          title="Patient View"
-          button="Back to Patient List"
+          title="Completed Patient View"
+          button="Back to Pending Patient"
           path="/doctor/patient"
         />
       }
@@ -109,4 +111,4 @@ const PatientView = () => {
   );
 };
 
-export default PatientView;
+export default CompletedPatientView;

@@ -1,5 +1,5 @@
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetAllCompletedPatientListQuery } from "@/shared/redux/features/agent/all-completed-patient-list/allCompletedPatientListApi";
+import { useGetAllCompletedPatientListQuery } from "@/shared/redux/features/doctor/all-completed-patient-list/allCompletedPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -15,23 +15,13 @@ const PatientAllCompleted = () => {
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true,
-        }),
+        sl: index + 1, 
         end_time: new Date(item.completed_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
         patient_age: item.age,
         patient_name: item.name,
         patient_id: item.patient_id,
         patient_sex: item.gender,
         xray_name: item.xray_name,
-        type: item.rtype,
-        viewed: item.completed_dr[0]?.email || "" ,
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
@@ -58,17 +48,11 @@ const PatientAllCompleted = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex}>
             <Link
-              to={`/agent/patient-view/${record?.key}`}
+              to={`/doctor/completed-patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               View
-            </Link>
-            <Link
-              to={`/agent/patient-print/${record?.key}`}
-              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-            >
-              Print
-            </Link>
+            </Link> 
           </div>
         ),
       };

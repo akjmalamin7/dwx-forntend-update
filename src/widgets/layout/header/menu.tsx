@@ -128,4 +128,25 @@ export const MENU_DATA: MenuType[] = [
     icon: <IoIosSend />,
     path: "/doctor/patient",
   },
+    {
+    id: "doctor-2",
+    role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
+    title: "Completed Patient",
+    icon: <IoIosSend />,
+    path: "/doctor/patient-completed",
+  },
+    {
+    id: "doctor-3",
+    role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
+    title: "All Completed Patient",
+    icon: <IoIosSend />,
+    path: "/doctor/patient-all-completed",
+  },
+    {
+    id: "doctor-4",
+    role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
+    title: "Formats",
+    icon: <IoIosSend />,
+    path: "/doctor/format",
+  },
 ];

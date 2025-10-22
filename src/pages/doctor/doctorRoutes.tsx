@@ -18,16 +18,20 @@ export const doctorRoutes = [
     path: "/doctor/patient-all-completed",
     element: withSuspense(<Pages.DoctorAllCompletedPatient />),
   },
-    {
+  {
     path: "doctor/completed-patient-view/:patient_id",
     element: withSuspense(<Pages.DoctorCompletedPatientView />),
   },
-    {
+  {
     path: "/doctor/format",
     element: withSuspense(<Pages.DoctorFormatList />),
   },
-    {
+  {
     path: "/doctor/format-add",
     element: withSuspense(<Pages.DoctorFormatAdd />),
+  },
+  {
+    path: "/doctor/format/:id",
+    element: withSuspense(<Pages.DoctorFormatUpdate />),
   },
 ];

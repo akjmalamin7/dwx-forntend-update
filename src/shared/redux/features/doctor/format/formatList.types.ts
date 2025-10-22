@@ -1,6 +1,6 @@
 export interface FormatListOptions {
   id: string;
-  title: string;  
+  title: string;
 }
 export interface FormatListOptionsTypes {
   _id: string;
@@ -16,4 +16,20 @@ export interface FormatListOptionsTypes {
 export interface FormatListResponse {
   type: string;
   data: FormatListOptionsTypes[];
+}
+
+export interface FORMATE_VIEW_TYPE {
+  _id: string;
+  user_id: string;
+  title: string;
+  details: string;
+  type: "DoctoorFromat";
+  createdAt: string;
+  updatedAt: string;
+  _v: number;
+}
+export interface FORMATE_VIEW_RESPOONSE {
+  message: string;
+  success: boolean;
+  data: FORMATE_VIEW_TYPE[];
 }

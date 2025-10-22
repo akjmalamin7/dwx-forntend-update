@@ -1,12 +1,13 @@
 import { Text } from "@/shared/ui";
 import JoditEditor from "jodit-react";
+import isString from "lodash/isString";
 import { useMemo, useRef } from "react";
 
 interface IProps {
   placeholder?: string;
   value?: string;
   onChange?: (content: string) => void;
-  label?: string;
+  label?: React.ReactNode | string;
 }
 
 const Editor = ({
@@ -59,15 +60,24 @@ const Editor = ({
 
   return (
     <>
-      <Text element="label" size="md" className="mb-2 block" fontWeight="bold">
-        {label}
-      </Text>
+      {isString(label) ? (
+        <Text
+          element="label"
+          size="md"
+          className="mb-2 block"
+          fontWeight="bold"
+        >
+          {label}
+        </Text>
+      ) : (
+        label
+      )}
       <JoditEditor
         ref={editor}
         value={value}
         config={config}
         tabIndex={1}
-        onBlur={(newContent) => onChange?.(newContent)} // শুধু onBlur ব্যবহার
+        onBlur={(newContent) => onChange?.(newContent)}
       />
     </>
   );

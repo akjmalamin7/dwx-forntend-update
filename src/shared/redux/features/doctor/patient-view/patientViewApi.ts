@@ -23,7 +23,15 @@ export const PatientViewApi = apiSlice.injectEndpoints({
         return TRANSFORM_PATIENT_VIEW_RESPONSE(response);
       },
     }),
+    backToOtherApi: builder.mutation({
+      query: (data) => ({
+        url: "/doctor/patient/backtoother",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetDoctorPatientViewQuery } = PatientViewApi;
+export const { useGetDoctorPatientViewQuery, useBackToOtherApiMutation } =
+  PatientViewApi;

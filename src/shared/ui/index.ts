@@ -4,6 +4,7 @@ export { ControlledSelect } from "./control-select";
 export { Input } from "./input";
 export { InputFile } from "./input-file";
 export { Loader } from "./loader";
+export { Modal } from "./modal";
 export { MultiSelect } from "./multi-select";
 export { NavItem } from "./navitem";
 export { Pagination } from "./pagination";

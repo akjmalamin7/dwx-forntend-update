@@ -1,7 +1,7 @@
 import { DoctorFormatForm } from "@/entities";
 import { Panel, PanelHeading } from "@/shared/ui";
 
-const FormatAdd = () => {
+const UpdateFormat = () => {
   return (
     <Panel
       header={
@@ -12,9 +12,9 @@ const FormatAdd = () => {
         />
       }
     >
-      <DoctorFormatForm />
+      <DoctorFormatForm isUpdate={true} />
     </Panel>
   );
 };
 
-export default FormatAdd;
+export default UpdateFormat;

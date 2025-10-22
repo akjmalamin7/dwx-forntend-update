@@ -1,27 +1,32 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { useGetDoctorPatientViewQuery } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
-import { Panel, PanelHeading } from "@/shared/ui";
+import {
+  useBackToOtherApiMutation,
+  useGetDoctorPatientViewQuery,
+} from "@/shared/redux/features/doctor/patient-view/patientViewApi";
+import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useEffect, useMemo, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 
 const PatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
+  const navigate = useNavigate();
   const {
     data: patient_view,
     isLoading: patientLoading,
     error,
   } = useGetDoctorPatientViewQuery(patient_id!);
-
+  const [backToOtherView] = useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
+
   useEffect(() => {
     if (viewerRef.current) {
       viewerInstance.current = new Viewer(viewerRef.current, {
@@ -49,6 +54,19 @@ const PatientView = () => {
     };
   }, []);
 
+  const handleBackToOtherList = async () => {
+    if (!patient_id) return;
+    try {
+      await backToOtherView({
+        _id: patient_id,
+      }).unwrap();
+
+      navigate("/doctor/patient");
+    } catch (error) {
+      console.error("Delete failed:", error);
+      console.log("Full error object:", JSON.stringify(error, null, 2));
+    }
+  };
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 
@@ -86,8 +104,14 @@ const PatientView = () => {
       header={
         <PanelHeading
           title="Patient View"
-          button="Back to Patient List"
-          path="/doctor/patient"
+          button={
+            <Button
+              className="!bg-green-500 !h-auto"
+              onClick={handleBackToOtherList}
+            >
+              Back to Patient List
+            </Button>
+          }
         />
       }
       size="lg"

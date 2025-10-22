@@ -13,6 +13,6 @@ export const apiSlice = createApi({
       }
     },
   }),
-  tagTypes: [],
+  tagTypes: ["FormatList", "Format"],
   endpoints: () => ({}),
 });

@@ -6,6 +6,7 @@ import {
 import { Button, Input, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 interface GetCommentsAndPassaultType {
   passault?: string;
@@ -40,6 +41,7 @@ const ReportSubmissionForm = ({
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
   );
+  const navigate = useNavigate()
   const [isMedicalDiagnosis, setIsMedicalDiagnosis] = useState<boolean>(false);
 
   const [savePatient, { isLoading: isSaving }] = useSavePatientMutation();
@@ -137,6 +139,8 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
+           navigate('/doctor/patient');
+
         resetForm();
       } else {
         console.warn(" Update failed:", response?.message);

@@ -66,7 +66,7 @@ const ReportSubmissionForm = ({
         setValue("passault", "Yes");
       } else {
         setIsMedicalDiagnosis(false);
-        setValue("passault", "");
+        setValue("passault", "No");
       }
 
       if (commentsAndPassault.comments) {
@@ -108,7 +108,7 @@ const ReportSubmissionForm = ({
   ) => {
     const isChecked = e.target.checked;
     setIsMedicalDiagnosis(isChecked);
-    setValue("passault", isChecked ? "Yes" : "", { shouldValidate: true });
+    setValue("passault", isChecked ? "Yes" : "No", { shouldValidate: true });
   };
 
   const resetForm = () => {
@@ -126,7 +126,7 @@ const ReportSubmissionForm = ({
       const submitData = {
         patient_id: data.patient_id || patient_id,
         comments: data.comments || "",
-        passault: data.passault || "",
+        passault: data.passault || "No",
       };
 
       let response;

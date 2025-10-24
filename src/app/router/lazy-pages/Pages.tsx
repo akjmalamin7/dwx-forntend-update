@@ -40,4 +40,9 @@ export const Pages = {
   DoctorFormatList: lazy(() => import("@/pages/doctor/format-list")),
   DoctorFormatAdd: lazy(() => import("@/pages/doctor/format-add")),
   DoctorFormatUpdate: lazy(() => import("@/pages/doctor/update-format")),
+
+  AdminPendingPatient: lazy(() => import("@/pages/admin/patient-pending")),
+  AdminCompletedPatient: lazy(() => import("@/pages/admin/completed-patient")),
+  AdminTodaySummery: lazy(() => import("@/pages/admin/today-summary")),
+  AdminMonthlyCompleted: lazy(() => import("@/pages/admin/monthly-completed")), 
 };

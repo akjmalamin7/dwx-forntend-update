@@ -12,7 +12,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
       <Text element="p">________________</Text>
 
       <div className="start">
-        <img src={signatureImg || ""} alt="Logo" className="w-50 mr-4" />
+        <img src={signatureImg} alt="Logo" className="w-50 mr-4" />
         <Text element="h4" size="xl">
           {signature?.name || ""}
         </Text>

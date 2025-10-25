@@ -8,7 +8,20 @@ export const AddPatientApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: "Patient", id: "LIST" }],
+    }),
+    updatePatient: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/agent/patient/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Patient", id: "LIST" },
+        { type: "Patient", id },
+      ],
     }),
   }),
 });
-export const { useAddPatientMutation } = AddPatientApi;
+export const { useAddPatientMutation, useUpdatePatientMutation } =
+  AddPatientApi;

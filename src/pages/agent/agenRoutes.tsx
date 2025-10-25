@@ -7,6 +7,14 @@ export const agentRoutes = [
     element: withSuspense(<Pages.AddPatient />),
   },
   {
+    path: "/agent/patient-edit/:id",
+    element: withSuspense(<Pages.EditPatient />),
+  },
+  {
+    path: "/agent/patient-print/:id",
+    element: withSuspense(<Pages.PrintPatient />),
+  },
+  {
     path: "/agent/patient",
     element: withSuspense(<Pages.Patients />),
   },

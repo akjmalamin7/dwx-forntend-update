@@ -1,22 +1,76 @@
-import { Panel, PanelHeading, Text } from "@/shared/ui"; 
-import LOGO from "@/assets/images/logo.png";
-
+import { useGetPatientPrintQuery } from "@/shared/redux/features/agent/patient-print/patientPrint";
+import { Button, Panel, PanelHeading, Text } from "@/shared/ui";
+import { useParams } from "react-router-dom";
+import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
+import { PrintPatientComment } from "./print-patient-comment/PrintPatientComment";
+import PrintPatientInfo from "./print-patient-info/PrintPatientInfo";
+import PrintPreparedBy from "./print-prepared-by/PrintPreparedBy";
 const PatientPrint = () => {
+  const { id } = useParams<{ id: string }>();
+  const {
+    data: print_view,
+    isLoading,
+    isError,
+  } = useGetPatientPrintQuery(id!, {
+    skip: !id,
+  });
+  const printPatient = print_view?.data?.patient;
+  const comments = print_view?.data?.patient?.doctorcomments;
+  const signature = print_view?.data?.patient?.completed_dr;
+  const latestPassault = comments?.[0]?.passault;
+  const passaultValue = latestPassault === "Yes" ? "Yes" : "";
 
-  // Print function
   const handlePrint = () => {
     window.print();
   };
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <Panel
+        header={<PanelHeading title="Print Patient Report" button="" path="" />}
+      >
+        <div className="flex justify-center items-center py-8">
+          Loading patient data for printing...
+        </div>
+      </Panel>
+    );
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <Panel
+        header={<PanelHeading title="Print Patient Report" button="" path="" />}
+      >
+        <div className="flex justify-center items-center py-8 text-red-500">
+          Error loading patient data. Please try again.
+        </div>
+      </Panel>
+    );
+  }
+
+  // If no data found
+  if (!print_view || !printPatient) {
+    return (
+      <Panel
+        header={<PanelHeading title="Print Patient Report" button="" path="" />}
+      >
+        <div className="flex justify-center items-center py-8 text-yellow-500">
+          Patient data not found.
+        </div>
+      </Panel>
+    );
+  }
+
   return (
     <>
-      {/* Print-specific style */}
       <style>
         {`
           @media print {
             @page {
-              margin-top: 2in;  
-            } 
+              margin-top: 2in;
+            }
           }
         `}
       </style>
@@ -25,54 +79,17 @@ const PatientPrint = () => {
         header={
           <PanelHeading
             title="Print Patient Report"
-            button=""
-            path=""
+            button={
+              <Button className="bg-green-500" onClick={handlePrint}>
+                Print Report
+              </Button>
+            }
           />
         }
         size="lg"
       >
         {/* Table */}
-        <div className="overflow-x-auto">
-           <button
-                onClick={handlePrint}
-                className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
-              >
-                 Print Report
-              </button>
-          <table className="w-full border border-black mb-4">
-            <tbody>
-              <tr>
-                <td className="border border-black px-2 py-1 w-1/3">
-                  <Text element="label" className="font-semibold">Patient ID:</Text> P-101
-                </td>
-                <td className="border border-black px-2 py-1 w-1/3">
-                  <Text element="label" className="font-semibold">Patient Name:</Text> Miraz
-                </td>
-                <td className="border border-black px-2 py-1 w-1/3">
-                  <Text element="label" className="font-semibold">Age:</Text> 24y
-                </td>
-              </tr>
-              <tr>
-                <td className="border border-black px-2 py-1">
-                  <Text element="label" className="font-semibold">Date:</Text>  
-                  {new Date().toLocaleDateString('en-GB')}
-                </td>
-                <td className="border border-black px-2 py-1">
-                  <Text element="label" className="font-semibold">Print Time:</Text> 
-                  {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </td>
-                <td className="border border-black px-2 py-1">
-                  <Text element="label" className="font-semibold">Sex:</Text> Male
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={3} className="border border-black px-2 py-1">
-                  <Text element="label" className="font-semibold">Reference By:</Text> Dr. Mahfuj
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <PrintPatientInfo printPatient={printPatient} />
 
         <Text
           element="h2"
@@ -85,61 +102,15 @@ const PatientPrint = () => {
           X-Ray Report of Chest P/A View
         </Text>
 
-        <div>
-          <Text element="p">
-            Abdomen: <br />
-            No free gas shadows are noted under both domes of the Diaphragm.<br /> 
-            No abnormal air-fluid level is seen.<br /> 
-            No radio-opaque shadow of calcific density are noted in the abdomen.<br />  
-            No abnormal soft tissue opacity is noted in abdomen.<br /> 
-            Distended gas filled bowel loops are seen in abdomen.<br />  
-            Impression: As per description.  
-          </Text>
-        </div>
+        <PrintPatientComment comments={comments || []} />
 
-        <div className="after:content-[''] after:table after:clear-both"></div>  
+        <div className="after:content-[''] after:table after:clear-both"></div>
 
         {/* Prepared by + Signature Section */}
-       <div
-        className="flex justify-between items-center mt-16 print:fixed print:bottom-0 print:left-0 print:right-0   print:mt-0"      >
-          <div>
-             <Text element="p" >Signature</Text>
-            <Text element="p">________________</Text>
-           
-            <div className="start">
-              <img src={LOGO} alt="Logo" className="w-50 mr-4" />
-              <Text element="h4" size="xl">Dr. Tamanna Zahan</Text>
-              <Text element="p" size="lg">
-                MBBS, MD (BMU)<br/>  
-                Consultant <br/>  
-                Radiology & Imaging<br/>  
-                Holy Family Red Crescent Medical College Hospital.<br/>  
-                BMDC Reg: A 51221
-              </Text>  
-              <Text element="p" size="xl" fontWeight='semiBold' className="mt-2 italic text-gray-600">
-              N.B. This report has been electronically signed
-            </Text> 
-            </div>
-
-          </div>
-
-          <div>
-            <p className="font-semibold">Prepared by:</p>
-            <select className="border border-gray-300 px-2 py-1 print:hidden">
-              <option value="">Select a user</option>
-              <option value="">User A</option>
-              <option value="">User B</option>
-              <option value="">User C</option>  
-            </select> 
-
-              <div className="checkuserDetails">
-                <Text element="p">Technologist</Text> 
-              </div>
-
-
-          </div>
-          
-        </div> 
+        <div className="flex justify-between items-center mt-16 print:fixed print:bottom-0 print:left-0 print:right-0   print:mt-0">
+          <PrintDrSignature signature={signature} passault={passaultValue} />
+          <PrintPreparedBy />
+        </div>
       </Panel>
     </>
   );

@@ -18,6 +18,13 @@ export const PendingPatientListApi = apiSlice.injectEndpoints({
       transformResponse: (response: PendingPatientApiResponse) => {
         return transformPendingPatientResponse(response.data);
       },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Patient" as const, id })),
+              { type: "Patient", id: "LIST" },
+            ]
+          : [{ type: "Patient", id: "LIST" }],
     }),
   }),
 });

@@ -6,6 +6,9 @@ export const Pages = {
   Patients: lazy(() => import("@/pages/patients")),
   ViewPatient: lazy(() => import("@/pages/agent/patient-view")),
   AddPatient: lazy(() => import("@/pages/agent/patient-add")),
+  EditPatient: lazy(() => import("@/pages/agent/patient-edit")),
+  PrintPatient: lazy(() => import("@/pages/agent/patient-print")),
+
   QuickAddPatient: lazy(() => import("@/pages/agent/patient-quick-add")),
   AgentCompleted: lazy(() => import("@/pages/agent/patient-completed")),
   AgentAllCompleted: lazy(() => import("@/pages/agent/patient-all-completed")),
@@ -25,7 +28,7 @@ export const Pages = {
   AgentTransectionHistory: lazy(
     () => import("@/pages/agent/transection-history")
   ),
-
+  // doctor
   DoctorPendingPatient: lazy(() => import("@/pages/doctor/patient-pending")),
   DoctorViewPatient: lazy(() => import("@/pages/doctor/patient-view")),
   DoctorCompletedPatient: lazy(
@@ -45,5 +48,5 @@ export const Pages = {
   AdminCompletedPatient: lazy(() => import("@/pages/admin/completed-patient")),
   AdminTodaySummery: lazy(() => import("@/pages/admin/today-summary")),
   AdminMonthlyCompleted: lazy(() => import("@/pages/admin/monthly-completed")), 
-  AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")),
+  AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")), 
 };

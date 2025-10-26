@@ -3,8 +3,6 @@ import { Pages } from "@/widgets";
 const RoleBasedHome = () => {
   const { user } = useAuth();
 
-  console.log("RoleBasedHome - User Role:", user?.role);
-
   switch (user?.role) {
     case "admin":
       return <h1>Admin Dashboard</h1>;

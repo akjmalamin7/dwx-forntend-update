@@ -30,7 +30,6 @@ interface PatientFormProps {
   defaultValues?: Partial<PatientFormValues>;
   isEdit?: boolean;
   resetCount?: number;
-  onSuccess?: () => void;
 }
 
 // Export form methods for parent component access
@@ -39,7 +38,6 @@ export type PatientFormMethods = UseFormReturn<PatientFormValues>;
 const PatientForm = ({
   onSubmit,
   isLoading = false,
-  onSuccess,
   defaultValues,
   isEdit = false,
   resetCount = 0,
@@ -49,7 +47,6 @@ const PatientForm = ({
   const { data: profileData } = useGetProfileSelectDoctorIdQuery(
     userId ?? skipToken
   );
-
   const methods = useForm<PatientFormValues>({
     mode: "onChange",
     resolver: yupResolver(patientFormschema),
@@ -77,12 +74,29 @@ const PatientForm = ({
     getValues,
     formState: { errors, isValid },
   } = methods;
+  useEffect(() => {
+    if (isEdit && defaultValues) {
+      methods.reset({
+        attachment: defaultValues.attachment || [],
+        patient_id: defaultValues.patient_id || "",
+        name: defaultValues.name || "",
+        age: defaultValues.age || "",
+        history: defaultValues.history || "",
+        gender: defaultValues.gender || "male",
+        xray_name: defaultValues.xray_name || "",
+        ref_doctor: defaultValues.ref_doctor || "",
+        image_type: defaultValues.image_type || "single",
+        selected_drs_id: defaultValues.selected_drs_id || [],
+        ignored_drs_id: defaultValues.ignored_drs_id || [],
+        rtype: defaultValues.rtype || "xray",
+        study_for: defaultValues.study_for || "xray_dr",
+      });
+    }
+  }, [isEdit, defaultValues, methods]);
 
-  const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
-    try {
-      console.log("Form values sent to DB:", data);
-      await onSubmit(data);
-
+  // reset data only add mode
+  useEffect(() => {
+    if (resetCount > 0 && !isEdit) {
       reset({
         attachment: [],
         patient_id: "",
@@ -96,42 +110,10 @@ const PatientForm = ({
         selected_drs_id: profileData?.selected_dr || [],
         ignored_drs_id: profileData?.ignored_dr || [],
       });
-
-      onSuccess?.();
-    } catch (err: unknown) {
-      console.error("Error creating patient:", err);
     }
-  };
+  }, [resetCount, reset, profileData, isEdit]);
 
-  // Reset when resetCount changes
-  // useEffect(() => {
-  //   if (resetCount > 0) {
-  //     reset({
-  //       attachment: [],
-  //       patient_id: "",
-  //       name: "",
-  //       age: "",
-  //       history: "",
-  //       gender: "male",
-  //       xray_name: "",
-  //       ref_doctor: "",
-  //       image_type: "single",
-  //       selected_drs_id: profileData?.selected_dr || [],
-  //       ignored_drs_id: profileData?.ignored_dr || [],
-  //     });
-  //   }
-  // }, [resetCount, reset, profileData]);
-
-  // Reset form when profile data loads or resetCount changes
-  // useEffect(() => {
-  //   if (profileData) {
-  //     reset({
-  //       selected_drs_id: profileData.selected_dr || [],
-  //       ignored_drs_id: profileData.ignored_dr || [],
-  //       ...defaultValues,
-  //     });
-  //   }
-  // }, [profileData, reset, defaultValues, resetCount]);
+  // load profile data
   useEffect(() => {
     if (profileData) {
       const currentValues = getValues();
@@ -147,6 +129,14 @@ const PatientForm = ({
       }
     }
   }, [profileData, reset, getValues]);
+
+  const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
+    try {
+      await onSubmit(data);
+    } catch (err: unknown) {
+      console.error("Error creating patient:", err);
+    }
+  };
   return (
     <FormProvider {...methods}>
       <form

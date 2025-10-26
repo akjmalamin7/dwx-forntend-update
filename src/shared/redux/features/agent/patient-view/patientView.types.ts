@@ -31,15 +31,21 @@ export interface PATIENT_VIEW_MODEL {
 
 export interface PATIENT_VIEW_TRANSFORM_MODEL {
   _id: string;
-  name: string;
-  patient_id: string;
-  age: string;
   createdAt: string;
-  history: string;
   id: string;
-  gender: string;
+  attachment: string[];
+  rtype: string;
+  study_for: string;
+  selected_drs_id: string[];
+  ignored_drs_id: string[];
+  patient_id: string;
+  name: string;
+  age: string;
+  history: string;
+  gender: "male" | "female";
   xray_name: string;
   ref_doctor: string;
+  image_type: "multiple" | "double" | "single";
 }
 
 // Image/Attachment Types
@@ -73,7 +79,18 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   }
 
   const { patient, attachments } = response.data;
-
+  const getGender = (gender: string): "male" | "female" => {
+    return gender === "male" || gender === "female" ? gender : "male";
+  };
+  const getImageType = (
+    imageType: string
+  ): "multiple" | "double" | "single" => {
+    return imageType === "multiple" ||
+      imageType === "double" ||
+      imageType === "single"
+      ? imageType
+      : "single";
+  };
   const transformedPatient: PATIENT_VIEW_TRANSFORM_MODEL = {
     _id: patient._id,
     name: patient.name,
@@ -82,9 +99,15 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     createdAt: patient.createdAt,
     history: patient.history,
     id: patient.id,
-    gender: patient.gender,
+    gender: getGender(patient.gender),
     xray_name: patient.xray_name,
     ref_doctor: patient.ref_doctor,
+    image_type: getImageType(patient.image_type),
+    selected_drs_id: patient.doctor_id || [],
+    ignored_drs_id: patient.ignore_dr || [],
+    attachment: [],
+    rtype: patient.rtype || "xray",
+    study_for: patient.study_for || "xray_dr",
   };
 
   return {

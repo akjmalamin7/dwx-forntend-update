@@ -1,4 +1,3 @@
-
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { type PatientFormValues } from "@/shared/utils/types/types";

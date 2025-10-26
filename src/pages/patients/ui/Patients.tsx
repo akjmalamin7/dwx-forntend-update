@@ -48,16 +48,24 @@ const Patients = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
+          <div key={rowIndex} className="flex items-center gap-[6px]">
             <Link
               to={`/agent/patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               View
             </Link>
+
+            <Link
+              to={`/agent/patient-edit/${record?.key}`}
+              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+            >
+              Edit
+            </Link>
+
             <Link
               to={`/agent/patient-print/${record?.key}`}
-              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+              className="bg-yellow-500  text-white px-2 py-1 rounded text-sm"
             >
               Print
             </Link>
@@ -70,14 +78,15 @@ const Patients = () => {
 
   return (
     <Panel header="Pending Report" size="lg">
-      {
-        user?.role === "user" ? <Search
+      {user?.role === "user" ? (
+        <Search
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search by Name, ID or Xray..."
-        /> : <Text color="danger">Role not matched</Text>
-      }
-
+        />
+      ) : (
+        <Text color="danger">Role not matched</Text>
+      )}
 
       <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
 

@@ -1,33 +1,33 @@
 import { useAuth } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination"; 
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/today-completed-patient/completedPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
 
-const PatientDeleted = () => {
-  const { data: patientList, isLoading } = useGetDeletedPatientListQuery();
+const PatientCompleted = () => {
+  const { data: patientList, isLoading } = useGetCompletedPatientListQuery();
   const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], { 
+        start_time: new Date(item.completed_time).toLocaleString([], { 
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
         agent_name:  item.agent_id?.email, 
         patient_name: item.name,
-        patient_id: item.patient_id,
-        gender: item.gender,
+        patient_id: item.patient_id, 
         age: item.age,
         rtype: item.rtype,
-        completed_dr: item?.completed_dr?.email, 
+       
+        completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
@@ -55,10 +55,23 @@ const PatientDeleted = () => {
           <div key={rowIndex}>
              <Link
               to={`/admin/patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-2 text-sm block"
+              className="bg-green-500 text-white px-2 py-2 text-sm"
             >
-               Delete Back
-            </Link> 
+              View
+            </Link>
+             <Link
+              to={`/admin/patient-view/${record?.key}`}
+              className="bg-blue-500 text-white px-2 py-2 text-sm"
+            >
+               C. Back
+            </Link>
+           
+            <Link
+              to={`/admin/patient-view/${record?.key}`}
+              className="bg-red-500 text-white px-2 py-2 text-sm"
+            >
+              Delete
+            </Link>
           </div>
         ),
       };
@@ -67,7 +80,7 @@ const PatientDeleted = () => {
   });
 
   return (
-    <Panel header="Deleted Report" size="lg">
+    <Panel header="Today Completed Report" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search
@@ -95,4 +108,4 @@ const PatientDeleted = () => {
   );
 };
 
-export default PatientDeleted;
+export default PatientCompleted;

@@ -4,7 +4,7 @@ export interface AGENT_DOCTOR {
   id: string;
 }
 
-export interface DELETED_PATIENT_MODEL {
+export interface COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: AGENT_DOCTOR;
   doctor_id: AGENT_DOCTOR[];
@@ -34,7 +34,7 @@ export interface DELETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface DELETED_PATIENT_TRANSFORM_MODEL {
+export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
   _id: string;
   id: string;
   agent_id: AGENT_DOCTOR;
@@ -54,16 +54,16 @@ export interface DELETED_PATIENT_TRANSFORM_MODEL {
   is_checked: boolean | null;
 }
 
-export interface DeletedPatientApiResponse {
+export interface CompletedPatientApiResponse {
   message: string;
   success: boolean;
   total: number;
-  data: DELETED_PATIENT_MODEL[];
+  data: COMPLETED_PATIENT_MODEL[];
 }
 
-export const transformDeletedPatientResponse = (
-  data: DELETED_PATIENT_MODEL[]
-): DELETED_PATIENT_TRANSFORM_MODEL[] => {
+export const transformCompletedPatientResponse = (
+  data: COMPLETED_PATIENT_MODEL[]
+): COMPLETED_PATIENT_TRANSFORM_MODEL[] => {
   return data.map((item) => ({
     _id: item._id,
     id: item.id,

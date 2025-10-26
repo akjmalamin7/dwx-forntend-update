@@ -1,5 +1,5 @@
 import { XrayImages } from "@/entities";
-import { Button, ControlInput, ControlledSelect, Input, Panel, PanelHeading } from "@/shared/ui";
+import { Button,  Input, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useEffect, useMemo, useRef } from "react";
@@ -259,7 +259,7 @@ const PatientView = () => {
                         />
 
 
-                      <select className="block border">
+                      <select className="block border p-2 mt-3">
                         <option>Xray</option>
                         <option>ECG</option>
                         <option>DCM</option>
@@ -289,7 +289,7 @@ const PatientView = () => {
             }
             size="lg"
             >
-  <form
+            <form
                   className="md:container w-full mx-auto p-5" 
                 >
                   <div className="mb-5">
@@ -509,24 +509,24 @@ const PatientView = () => {
                  
 
                      <div className="mb-5">
-          <label
-            htmlFor="selected_dr"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Select Doctor
-          </label>
-          
-        </div>
+                      <label
+                        htmlFor="selected_dr"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Select Doctor
+                      </label>
+                      
+                    </div>
 
-        <div className="mb-5">
-          <label
-            htmlFor="ignored_dr"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Ignored Doctor
-          </label>
-          
-        </div>
+                    <div className="mb-5">
+                      <label
+                        htmlFor="ignored_dr"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Ignored Doctor
+                      </label>
+                      
+                    </div>
 
       
                     <button

@@ -65,7 +65,7 @@ const PatientPending = () => {
               T.B
             </Link>
              <Link
-              to={`/admin/patient-view/${record?.key}`}
+              to={`/admin/select-doctor/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-2 text-sm"
             >
               S.D

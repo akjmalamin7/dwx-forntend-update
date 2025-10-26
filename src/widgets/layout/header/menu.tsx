@@ -175,7 +175,7 @@ export const MENU_DATA: MenuType[] = [
         {
           id: "today-completed-1",
           title: "Today Completed Report",
-          path: "/admin/completed",
+          path: "/admin/today-completed-patient",
           role: [RoleEnum.admin],
         },
         {
@@ -198,8 +198,8 @@ export const MENU_DATA: MenuType[] = [
         },
         {
           id: "delete-report-5",
-          title: "Deleted Reports",
-          path: "/admin/deleted-reports",
+          title: "Deleted Patient",
+          path: "/admin/deleted-patient",
           role: [RoleEnum.admin],
         },
       ],

@@ -45,4 +45,5 @@ export const Pages = {
   AdminCompletedPatient: lazy(() => import("@/pages/admin/completed-patient")),
   AdminTodaySummery: lazy(() => import("@/pages/admin/today-summary")),
   AdminMonthlyCompleted: lazy(() => import("@/pages/admin/monthly-completed")), 
+  AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")),
 };

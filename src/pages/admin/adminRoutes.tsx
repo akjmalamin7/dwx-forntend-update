@@ -22,17 +22,10 @@ export const adminRoutes = [
     path: "/admin/monthly-completed",
     element: withSuspense(<Pages.AdminMonthlyCompleted />),
   },
- 
-    {
-    path: "doctor/completed-patient-view/:patient_id",
-    element: withSuspense(<Pages.DoctorCompletedPatientView />),
+  
+   {
+    path: "/admin/patient-view/:patient_id",
+    element: withSuspense(<Pages.AdminViewPatient />),
   },
-    {
-    path: "/doctor/format",
-    element: withSuspense(<Pages.DoctorFormatList />),
-  },
-    {
-    path: "/doctor/format-add",
-    element: withSuspense(<Pages.DoctorFormatAdd />),
-  },
+
 ];

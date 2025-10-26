@@ -8,7 +8,26 @@ export const AddCheckedUserApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["CheckedUser"],
+    }),
+    editCheckedUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/agent/checkuser/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["CheckedUser"],
+    }),
+    deleteCheckedUser: builder.mutation({
+      query: (id) => ({
+        url: `/agent/checkuser/${id}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
-export const { useAddCheckedUserMutation } = AddCheckedUserApi;
+export const {
+  useAddCheckedUserMutation,
+  useEditCheckedUserMutation,
+  useDeleteCheckedUserMutation,
+} = AddCheckedUserApi;

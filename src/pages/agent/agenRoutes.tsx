@@ -52,12 +52,20 @@ export const agentRoutes = [
     element: withSuspense(<Pages.AgentReferenceList />),
   },
   {
+    path: "/agent/reference-list/:id",
+    element: withSuspense(<Pages.AgentReferenceEdit />),
+  },
+  {
     path: "/agent/reference-add",
     element: withSuspense(<Pages.AgentReferenceAdd />),
   },
   {
     path: "/agent/checked-user-add",
     element: withSuspense(<Pages.AgentCheckedUserAdd />),
+  },
+  {
+    path: "/agent/checked-user-list/:id",
+    element: withSuspense(<Pages.AgentCheckedUserEdit />),
   },
   {
     path: "/agent/checked-user-list",

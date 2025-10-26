@@ -1,5 +1,7 @@
 export { AdminFormatList } from "./admin-format-list";
 export { AutoCompleteSelect } from "./auto-complete-select";
+export { DeleteCheckedUser } from "./delete-checked-user";
+export { DeleteRerence } from "./delete-reference";
 export { DoctorMultiSelector } from "./doctor-multi-selector";
 export { Editor } from "./editor";
 export { ImageUpload } from "./image-upload";

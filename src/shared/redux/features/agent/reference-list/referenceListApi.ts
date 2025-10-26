@@ -17,6 +17,10 @@ export const ReferenceList = apiSlice.injectEndpoints({
           id: doc.id,
           name: doc.name,
         })) || [],
+      providesTags: (result) =>
+        result
+          ? [{ type: "ReferenceList", id: "LIST" }]
+          : [{ type: "ReferenceList", id: "LIST" }],
     }),
   }),
 });

@@ -13,7 +13,7 @@ type AMOUNT = {
 type BILL_DATA = {
   images?: IMAGES;
   price?: AMOUNT;
-  total_amount?: string;
+  total_amount?: number;
 };
 interface IProps {
   billPrintList?: BILL_DATA;

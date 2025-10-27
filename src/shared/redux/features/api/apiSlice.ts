@@ -23,6 +23,8 @@ export const apiSlice = createApi({
     "Doctor",
     "CheckedUser",
     "User",
+    "PaymentGetway",
+    "Bill",
   ],
   endpoints: () => ({}),
 });

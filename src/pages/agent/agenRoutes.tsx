@@ -76,11 +76,11 @@ export const agentRoutes = [
     element: withSuspense(<Pages.AgentManageBill />),
   },
   {
-    path: "/agent/pay-bill",
+    path: "/agent/pay-bill/:month",
     element: withSuspense(<Pages.AgentPayBill />),
   },
   {
-    path: "/agent/print-bill",
+    path: "/agent/print-bill/:month",
     element: withSuspense(<Pages.AgentPrintBill />),
   },
   {

@@ -8,6 +8,7 @@ export const AddBillPayApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Bill"],
     }),
   }),
 });

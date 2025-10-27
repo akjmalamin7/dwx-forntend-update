@@ -22,7 +22,7 @@ export const AddReferenceApi = apiSlice.injectEndpoints({
       ],
     }),
     DeleteReference: builder.mutation({
-      query: ({ id }) => ({
+      query: (id) => ({
         url: `/agent/reference/${id}`,
         method: "DELETE",
       }),

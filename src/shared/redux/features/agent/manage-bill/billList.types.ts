@@ -1,3 +1,11 @@
+export interface BILL_USER {
+  _id: string;
+  single: number;
+  double: number;
+  multiple: number;
+  ecg: number;
+  id: string;
+}
 export interface BILL_MODEL {
   _id: string;
   id: string;
@@ -11,13 +19,11 @@ export interface BILL_MODEL {
   status: string;
 }
 
-
-
-export interface BILL_TRANSFORM_MODEL { 
+export interface BILL_TRANSFORM_MODEL {
   _id: string;
   id: string;
   user_id: string;
-  month: string; 
+  month: string;
   createdAt: string;
   honorarium: string;
   honorarium_to: string;
@@ -34,8 +40,13 @@ export interface BILL_TRANSFORM_MODEL {
   total_single: string;
   trans_id: string;
   updatedAt: string;
-} 
- 
+}
+
+export interface BILL_RESPONSE {
+  message: string;
+  success: boolean;
+  bills: BILL_TRANSFORM_MODEL[];
+}
 export interface BillListApiResponse {
   message: string;
   success: boolean;
@@ -43,10 +54,7 @@ export interface BillListApiResponse {
   bills: BILL_MODEL[];
 }
 
-  
-export const transformBillListResponse = (
-  data: BILL_MODEL[]
-): BILL_MODEL[] => {
+export const transformBillListResponse = (data: BILL_MODEL[]): BILL_MODEL[] => {
   return data.map((item) => ({
     _id: item._id,
     id: item.id,

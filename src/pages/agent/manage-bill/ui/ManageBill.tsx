@@ -1,11 +1,11 @@
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
-import { useMemo } from "react";
-import { BILL_DATA_COL } from "./bill.data.col";
-import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
-import { Link } from "react-router-dom";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { BILL_DATA_COL } from "./bill.data.col";
 
 const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
@@ -22,8 +22,8 @@ const ManageBill = () => {
         total_double: item.total_double,
         total_multiple: item.total_multiple,
         total_ecg: item.total_ecg,
-        total_amount: item.total_amount??0,
-        status: item.status,  
+        total_amount: item.total_amount ?? 0,
+        status: item.status,
         action: "",
       })) || [],
     [BillList]
@@ -42,8 +42,6 @@ const ManageBill = () => {
     rowsPerPage: 100,
   });
 
-
-  
   const COLUMN = BILL_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
@@ -51,13 +49,13 @@ const ManageBill = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex}>
             <Link
-              to={`/agent/pay-bill/${record?.key}`}
+              to={`/agent/pay-bill/${record?.month}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               Pay Bill
             </Link>
             <Link
-              to={`/agent/print-bill/${record?.key}`}
+              to={`/agent/print-bill/${record?.month}`}
               className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
             >
               Print Bill
@@ -72,18 +70,14 @@ const ManageBill = () => {
   return (
     <Panel header="Manage Bill" size="lg">
       <div className="w-1/3">
-      <Search
-        value={searchQuery}
-        onChange={setSearchQuery}
-        placeholder="Search by month name"
-      />
+        <Search
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search by month name"
+        />
       </div>
 
-      <Table
-        loading={isLoading}
-        columns={COLUMN}
-        dataSource={paginatedData}
-      />
+      <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
 
       {totalPages > 1 && (
         <Pagination

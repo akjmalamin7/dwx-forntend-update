@@ -46,7 +46,9 @@ const BillPrint = () => {
       single: getSafeNumber(transformBill?.user_id, "single"),
       multiple: getSafeNumber(transformBill?.user_id, "multiple"),
     },
-    total_amount: transformBill?.total_amount,
+    total_amount: transformBill?.total_amount
+      ? Number(transformBill.total_amount)
+      : undefined,
   };
   const { data: paymentGetway } = useGetPaymentGetwayListQuery();
 
@@ -57,7 +59,8 @@ const BillPrint = () => {
         value: method.details,
       })) ?? []
     );
-  }, [paymentGetway]); // Print function
+  }, [paymentGetway]);
+
   const handlePrint = () => {
     window.print();
   };

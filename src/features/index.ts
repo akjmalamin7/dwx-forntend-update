@@ -1,3 +1,4 @@
+export { TypingBack } from "./admin";
 export { AdminFormatList } from "./admin-format-list";
 export { AutoCompleteSelect } from "./auto-complete-select";
 export { DeleteCheckedUser } from "./delete-checked-user";

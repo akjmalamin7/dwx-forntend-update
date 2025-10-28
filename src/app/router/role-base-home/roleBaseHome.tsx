@@ -5,7 +5,7 @@ const RoleBasedHome = () => {
 
   switch (user?.role) {
     case "admin":
-      return <h1>Admin Dashboard</h1>;
+      return <Pages.AdminPendingPatient />;
     case "ecg_dr":
     case "xray_dr":
       return <Pages.DoctorPendingPatient />;

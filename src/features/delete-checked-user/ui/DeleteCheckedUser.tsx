@@ -10,7 +10,7 @@ const DeleteCheckedUser = ({ id, onDeleteSuccess }: IProps) => {
   const [deleteCheckedUser, { isLoading }] = useDeleteCheckedUserMutation();
   const handleDelete = async () => {
     if (!id) return;
-    console.log(id);
+   
     try {
       await deleteCheckedUser(id).unwrap();
       setIsModalOpen(false);

@@ -74,7 +74,7 @@ const UpdateDoctorBill = () => {
               Pay
             </Link>
             <Link
-              to={`/admin/doctor-update-bill/${record?.key}`}
+              to={`/admin/doctor-update-bill/?month=${record?.key}&doctorId=${record?.key}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
             >
               Update

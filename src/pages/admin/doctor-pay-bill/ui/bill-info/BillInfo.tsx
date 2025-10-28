@@ -1,5 +1,6 @@
 import { Text } from "@/shared/ui";
 type BillType = {
+  to: string;
   month: string;
   total_amount: string;
 };
@@ -16,6 +17,12 @@ const BillInfo = ({ bill }: IProps) => {
       <table className="w-full border border-black mb-4">
         <tbody>
           <tr>
+             <td className="border border-black px-2 py-1 w-1/3">
+              <Text element="label" className="font-semibold">
+                Pay to:
+              </Text>{" "}
+              {bill?.to || "N/A"}
+            </td>
             <td className="border border-black px-2 py-1 w-1/3">
               <Text element="label" className="font-semibold">
                 Month:

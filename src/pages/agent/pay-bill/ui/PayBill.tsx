@@ -40,9 +40,17 @@ const PayBill = () => {
   }, [paymentGetway]);
 
   const transformBill = data?.bills[0];
+
+  const amount = Number(transformBill?.total_amount) || 0;
+
+  // Add 1.8% charge
+  const totalCost = amount * 0.018;
+  const grandTotal = amount + totalCost;
+  const roundedGrandTotal = Math.round(grandTotal);
+
   const bill = {
     month: transformBill?.month || "N/A",
-    total_amount: transformBill?.total_amount || "0",
+    total_amount: String(roundedGrandTotal),
   };
   const {
     control,
@@ -53,19 +61,19 @@ const PayBill = () => {
     mode: "onChange",
     resolver: yupResolver(BillPayFormschema),
     defaultValues: {
-      received_number: "01737831156",
+      received_number: "",
       total_bill: "",
       month: "",
-      trans_id: "tx-10111",
+      trans_id: "",
     },
   });
   useEffect(() => {
     if (transformBill) {
       reset({
-        received_number: "01737831156",
-        total_bill: transformBill.total_amount || "0",
+        received_number: "",
+        total_bill: String(roundedGrandTotal),
         month: transformBill.month || "N/A",
-        trans_id: "tx-10111",
+        trans_id: "",
       });
     }
   }, [transformBill, reset]);
@@ -137,7 +145,7 @@ const PayBill = () => {
                   size="sm"
                   label="Month"
                   placeholder="Month"
-                  name="month"
+                  name="month"  
                 />
 
                 {/* Transaction ID */}

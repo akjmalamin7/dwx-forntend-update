@@ -22,10 +22,10 @@ const CheckedUserEdit = () => {
     data: typeof checkedUser
   ): Partial<CheckedUserFormValues> => {
     if (!data) return {};
-
+ 
     return {
-      name: data.name || "",
-      details: data.details || "",
+      name: data.data.name || "",
+      details: data.data.details || "",
     };
   };
   const defaultValues = transformCheckedUser(checkedUser);

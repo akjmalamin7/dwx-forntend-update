@@ -10,7 +10,7 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
     width: 20,
   },
   {
-    title: "Doctor Name",
+    title: "DC Name",
     dataIndex: "email",
     key: "email",
     align: "start",

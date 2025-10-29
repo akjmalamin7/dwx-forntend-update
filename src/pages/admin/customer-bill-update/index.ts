@@ -1,1 +1,1 @@
-export { default, default as DoctorUpdateBill } from "./ui/DoctorUpdateBill";
+export { default, default as CustomerUpdateBill } from "./ui/CustomerUpdateBill";

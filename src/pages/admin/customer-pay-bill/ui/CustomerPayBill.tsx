@@ -1,5 +1,4 @@
-import { useAddDoctorBillPayMutation, useGetBillDetailsQuery } from "@/shared/redux/features/admin/manage-doctor-bill/billListApi";
-import {
+ import {
   Button,
   ControlInput, 
   Loader,
@@ -12,8 +11,8 @@ import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
-import { useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
-import { CustomerBillPayFormschema, type CustomerBillPayFormValues } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
+import { useAddCustomerBillPayMutation, useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
+import { AddCustomerBillPayFormschema,  type CustomerBillPayFormValues } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -41,7 +40,7 @@ const CustomerPayBill = () => {
     formState: { isValid },
   } = useForm<CustomerBillPayFormValues>({
     mode: "onChange",
-    resolver: yupResolver(CustomerBillPayFormschema),
+    resolver: yupResolver(AddCustomerBillPayFormschema),
     defaultValues: {
       received_number: "",
       total_bill: "",
@@ -62,7 +61,7 @@ const CustomerPayBill = () => {
     }
   }, [transformBill, reset]);
 
-  const [createBillPayment, { isLoading }] = useAddDoctorBillPayMutation();
+  const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
   const onSubmit: SubmitHandler<CustomerBillPayFormValues> = async (data) => {
     try {
@@ -112,8 +111,8 @@ const CustomerPayBill = () => {
                 <ControlInput
                   control={control}
                   size="sm"
-                  label="Doctor Account Number"
-                  placeholder="Doctor Account Number"
+                  label="Received Account Number"
+                  placeholder="Received Account Number"
                   name="received_number"
                 />
 

@@ -3,11 +3,11 @@ import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col"; 
-import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/doctorReportListApi";
+import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/customerReportListApi";
  
-const DoctorUpdateBill = () => {
+const CustomerUpdateBill = () => {
  
   const [searchParams] = useSearchParams();
 
@@ -22,12 +22,11 @@ const DoctorUpdateBill = () => {
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        username: item.username,
-        xray_name: item.xray_name,
-        patient_id: item.patient_id,
-        agent_id: item.xray_name,
+        username: item.agent_id.email,
+        xray_name: item.xray_name,  
         image_type: item.image_type,
-        month: item.month,
+        month: item.month_year,
+        view: "",
         action: "",
       })) || [],
     [patientList]
@@ -47,6 +46,24 @@ const DoctorUpdateBill = () => {
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
+
+     if (item.key === "view") {
+          return {
+            ...item,
+            render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+              <div key={rowIndex}> 
+                <Link
+                  to={`/admin/patient-view/${record?.key}`}
+                  className="bg-yellow-500 text-white px-2 py-2 text-sm"
+                >
+                  View
+                </Link> 
+                
+              </div>
+            ),
+          };
+      }
+
     if (item.key === "action") {
       return {
         ...item,
@@ -69,13 +86,13 @@ const DoctorUpdateBill = () => {
   });
 
   return (
-    <Panel header="Update Doctor Bill" size="lg">
+    <Panel header="Update Customer Bill" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search by Patient Name, ID or DC Name..."
+            placeholder="Search by Xray Name..."
           />
         </div>
 
@@ -97,4 +114,4 @@ const DoctorUpdateBill = () => {
   );
 };
 
-export default DoctorUpdateBill;
+export default CustomerUpdateBill;

@@ -3,7 +3,7 @@ import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
  
@@ -13,19 +13,18 @@ const DoctorUpdateBill = () => {
 
   const doctorId = searchParams.get("doctorId") ?? "";
   const month = searchParams.get("month") ?? "";
-    console.log(doctorId);
+ 
   const { data: patientList, isLoading } = useGetAdminDoctorReportListQuery({ doctorId, month });
 
  
+  console.log(patientList);
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        username: item.username,
-        xray_name: item.xray_name,
-        patient_id: item.patient_id,
-        doctor_id: item.doctor_id,
+        email: item.username,
+        xray_name: item.xray_name,  
         image_type: item.image_type,
         month: item.month,
         action: "",

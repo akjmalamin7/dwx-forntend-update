@@ -10,41 +10,27 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
   },
   {
     title: "Dr Name",
-    dataIndex: "username",
-    key: "username",
+    dataIndex: "email",
+    key: "email",
     align: "start",
     width: 100,
   },
-  {
-    key: "xray_name",
-    title: "S.Time",
-    dataIndex: "xray_name",
-    align: "start",
-    width: 30,
-  },
-  
-    
-  {
-    key: "image_type",
-    title: "P.ID",
-    dataIndex: "image_type",
-    align: "start",
-    width: 100,
-  },
-  {
-    key: "patient_id",
-    title: "P.Name",
-    dataIndex: "patient_id",
-    align: "start",
-    width: 180,
-  },
-  {
+
+   {
     key: "month",
-    title: "month",
+    title: "Month",
     dataIndex: "month",
     align: "start",
     width: 20,
   },
+
+  {
+    key: "xray_name",
+    title: "Xray Name",
+    dataIndex: "xray_name",
+    align: "start",
+    width: 30,
+  }, 
      
   {
     key: "action",

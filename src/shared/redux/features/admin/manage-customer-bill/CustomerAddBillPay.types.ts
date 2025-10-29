@@ -16,7 +16,7 @@ export interface CustomerBillPayFormValues {
   user_id: BILL_USER;
 }
 
-export const CustomerBillPayFormschema: yup.ObjectSchema<CustomerBillPayFormValues> =
+export const AddCustomerBillPayFormschema: yup.ObjectSchema<CustomerBillPayFormValues> =
   yup.object({ 
     total_bill: yup.string().required("Total Amount is required"),
     month: yup.string().required("Bill Month is required"),

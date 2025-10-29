@@ -236,7 +236,7 @@ export const MENU_DATA: MenuType[] = [
         {
           id: "customer-update-1",
           title: "Customer Update",
-          path: "/admin/update-customer-bill",
+          path: "/admin/manage-customer-bill",
           role: [RoleEnum.admin],
         },
         {

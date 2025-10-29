@@ -3,16 +3,16 @@ import {
   transformDoctorBillResponse,
   type DOCTOR_BILL_TRANSFORM_MODEL,
   type DOCTOR_BILL_RESPONSE,
-} from "./doctorBill.types";
+} from "./customerBill.types";
 
-export const AdminDoctorBillApi = apiSlice.injectEndpoints({
+export const AdminCustomerBillApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAdminDoctorBill: builder.query<
+    getAdminCustomerBill: builder.query<
       DOCTOR_BILL_TRANSFORM_MODEL[],
       string
     >({
-      query: (doctor_id: string) => ({
-        url: `/admin/doctorbill/reportlist/${doctor_id}`,
+      query: (user_id: string) => ({
+        url: `/admin/bill/${user_id}`,
         method: "GET",
       }),
       transformResponse: (response: DOCTOR_BILL_RESPONSE) => {
@@ -22,4 +22,4 @@ export const AdminDoctorBillApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAdminDoctorBillQuery } = AdminDoctorBillApi;
+export const { useGetAdminCustomerBillQuery } = AdminCustomerBillApi;

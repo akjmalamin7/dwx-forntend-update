@@ -35,7 +35,8 @@ const PatientPending = () => {
         ignored_dr:
           Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
             ? item.ignore_dr.map((d) => d.email).join(", ")
-            : "All",
+            : "",
+        online_dr: item.online_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],

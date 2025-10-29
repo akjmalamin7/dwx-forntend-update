@@ -56,9 +56,30 @@ export const adminRoutes = [
     path: "/admin/doctor-pay-bill/:bill_id",
     element: withSuspense(<Pages.AdminDoctorPayBill />),
   },
+
    {
-    path: "/admin/doctor-update-bill/:bill_id",
+    path: "/admin/doctor-update-bill",
     element: withSuspense(<Pages.AdminDoctorUpdateBill />),
+  },
+   {
+    path: "/admin/manage-customer-bill",
+    element: withSuspense(<Pages.AdminManageCustomerBill />),
+  },
+   {
+    path: "/admin/manage-customer-bill-month/:user_id",
+    element: withSuspense(<Pages.AdminManageCustomerBillMonth />),
+  },
+   {
+    path: "/admin/customer-print-bill/:bill_id",
+    element: withSuspense(<Pages.AdminCustomerPrintBill />),
+  },
+     {
+    path: "/admin/customer-pay-bill/:bill_id",
+    element: withSuspense(<Pages.AdminCustomerPayBill />),
+  },
+     {
+    path: "/admin/customer-update-bill",
+    element: withSuspense(<Pages.AdminCustomerUpdateBill />),
   },
 
 ];

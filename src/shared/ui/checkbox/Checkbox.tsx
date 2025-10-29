@@ -22,7 +22,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         />
 
         {label && (
-          <Text element="span" size="md">
+          <Text element="p" color="dark"  size="lg">
             {label}
           </Text>
         )}

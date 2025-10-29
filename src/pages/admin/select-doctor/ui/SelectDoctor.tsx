@@ -5,7 +5,7 @@ const SelectDoctor = () => {
   return (
     <Panel
       header={<PanelHeading title="Select Doctor" button="" path="/" />}
-      size="md"
+      size="lg"
     >
       <AdminSelectedDoctor />
     </Panel>

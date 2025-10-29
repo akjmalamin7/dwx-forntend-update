@@ -26,7 +26,7 @@ const AdminSelectedDoctor = () => {
   const transformDoctorList = allDoctor?.data;
   const doctors = useMemo(
     () =>
-      transformDoctorList?.map((dr) => ({ _id: dr._id, name: dr.name })) ??
+      transformDoctorList?.map((dr) => ({ _id: dr._id, email: dr.email })) ??
       refArr.current,
     [transformDoctorList]
   );
@@ -74,7 +74,7 @@ const AdminSelectedDoctor = () => {
                   title="Selected Doctor"
                   doctor={doctors}
                   isLoading={isDoctorLoading}
-                  name="selected_drs_id"
+                  email="selected_drs_id"
                   selected={(field.value ?? []).filter(Boolean) as string[]}
                   onChangeDoctor={field.onChange}
                 />
@@ -91,7 +91,7 @@ const AdminSelectedDoctor = () => {
                   title="Ignored Doctor"
                   doctor={doctors}
                   isLoading={isDoctorLoading}
-                  name="ignored_drs_id"
+                  email="ignored_drs_id"
                   selected={(field.value ?? []).filter(Boolean) as string[]}
                   onChangeDoctor={field.onChange}
                 />

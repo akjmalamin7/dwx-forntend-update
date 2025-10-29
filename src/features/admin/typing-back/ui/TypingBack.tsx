@@ -9,7 +9,7 @@ const TypingBack = ({ path }: TProps) => {
     try {
       await typingBack({ _id: path }).unwrap();
     } catch (err) {
-      console.error("Delete failed:", err);
+      console.error("T.B failed:", err);
     }
   };
 

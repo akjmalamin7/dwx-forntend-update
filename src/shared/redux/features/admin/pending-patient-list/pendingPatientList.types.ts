@@ -10,6 +10,7 @@ export interface PENDING_PATIENT_MODEL {
   doctor_id: AGENT_DOCTOR[];
   completed_dr: AGENT_DOCTOR[];
   ignore_dr: AGENT_DOCTOR[];
+  online_dr: AGENT_DOCTOR;
   patient_id: string;
   name: string;
   age: string;
@@ -41,6 +42,7 @@ export interface PENDING_PATIENT_TRANSFORM_MODEL {
   doctor_id: AGENT_DOCTOR[];
   completed_dr: AGENT_DOCTOR[];
   ignore_dr: AGENT_DOCTOR[];
+  online_dr: AGENT_DOCTOR;
   createdAt: string;
   patient_id: string;
   name: string;
@@ -69,6 +71,7 @@ export const transformPendingPatientResponse = (
     id: item.id,
     completed_dr: item.completed_dr || [],
     agent_id: item.agent_id || {},
+    online_dr: item.online_dr || {},
     doctor_id: item.doctor_id || [],
     ignore_dr: item.ignore_dr || [],
     createdAt: item.createdAt,

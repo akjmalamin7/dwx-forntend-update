@@ -5,16 +5,16 @@ import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { DOCTOR_DATA_COL } from "./updateDoctorBill.data.col"; 
-import { useGetAdminDoctorBillQuery } from "@/shared/redux/features/admin/doctor-update-month/doctorBillApi";
+import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";  
+import { useGetAdminCustomerBillQuery } from "@/shared/redux/features/admin/manage-customer-bill-by-month/customerBillApi";
 
 const UpdateDoctorBill = () => { 
  
-    const { doctor_id } = useParams<{ doctor_id: string }>();
+    const { user_id } = useParams<{ user_id: string }>();
     const {
       data: billList,
       isLoading
-    } = useGetAdminDoctorBillQuery(doctor_id!, { skip: !doctor_id });
+    } = useGetAdminCustomerBillQuery(user_id!, { skip: !user_id });
   
 
   const DATA_TABLE = useMemo(
@@ -23,18 +23,18 @@ const UpdateDoctorBill = () => {
         key: item._id,
         sl: index + 1, 
         month:  item.month,  
-        doctor_id:  item.doctor_id,  
+        user_id:  item.user_id,  
         total_patients:  item.total_patients,  
         total_amount:  item.total_amount,  
         status:  item.status,  
         paid_amount:  item.paid_amount,   
-        payment_date: item.payment_date
-        ? new Date(item.payment_date).toLocaleDateString("en-GB", {
+        payment_date: item.payment_date ? new Date(item.payment_date).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
           })
         : "—",
+        received_number: item.received_number,
         action: "",
       })) || [],
     [billList]
@@ -56,26 +56,26 @@ const UpdateDoctorBill = () => {
     rowsPerPage: 100,
   });
 
-  const COLUMN = DOCTOR_DATA_COL.map((item) => {
+  const COLUMN = CUSTOMER_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex gap-2"> 
              <Link
-              to={`/admin/doctor-print-bill/${record?.key}`}
+              to={`/admin/customer-print-bill/${record?.key}`}
               className="bg-green-500 text-white px-4 py-2 text-sm rounded"
             >
               Print
             </Link>
             <Link
-              to={`/admin/doctor-pay-bill/${record?.key}`}
+              to={`/admin/customer-pay-bill/${record?.key}`}
               className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
             >
               Pay
             </Link>
             <Link
-              to={`/admin/doctor-update-bill/?doctorId=${record?.doctor_id}&month=${record?.month}`}
+              to={`/admin/customer-update-bill/?userId=${record?.user_id}&month=${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
             >
               Update
@@ -89,13 +89,13 @@ const UpdateDoctorBill = () => {
   });
 
   return (
-    <Panel header="Update Doctor Bill" size="lg">
+    <Panel header="Manage Customer Bill" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search by Doctor"
+            placeholder="Search by Month"
           />
         </div>
 

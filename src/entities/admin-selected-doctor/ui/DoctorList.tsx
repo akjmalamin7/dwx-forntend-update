@@ -2,13 +2,13 @@ import { Checkbox, Loader } from "@/shared/ui";
 
 type DoctorsType = {
   _id: string;
-  name: string;
+  email: string;
 };
 
 interface LProps {
   title?: string;
   doctor: DoctorsType[];
-  name?: string;
+  email?: string;
   selected?: string[];
   isLoading?: boolean;
   onChangeDoctor?: (ids: string[]) => void;
@@ -34,12 +34,12 @@ const DoctorList = ({
         <Loader type="regular" />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-2">
-          {doctor?.map((dr) => (
+          {doctor?.filter((dr) => dr.email !== "All")?.map((dr) => (
             <Checkbox
               key={dr._id}
               value={dr._id}
               name={dr._id}
-              label={dr.name}
+              label={dr.email}
               checked={selected.includes(dr._id)}
               onChange={(e) => handleCheckboxChange(e.target.checked, dr._id)}
             />

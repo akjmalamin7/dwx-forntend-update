@@ -4,17 +4,17 @@ import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
+import { PATIENT_DATA_COL } from "./patient.data.col"; 
+import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/doctorReportListApi";
  
 const DoctorUpdateBill = () => {
  
   const [searchParams] = useSearchParams();
 
-  const doctorId = searchParams.get("doctorId") ?? "";
-  const month = searchParams.get("month") ?? "";
-    console.log(doctorId);
-  const { data: patientList, isLoading } = useGetAdminDoctorReportListQuery({ doctorId, month });
+  const userId = searchParams.get("userId") ?? "";
+  const month = searchParams.get("month") ?? ""; 
+    
+  const { data: patientList, isLoading } = useGetAdminCustomerReportListQuery({ userId, month });
 
  
   const DATA_TABLE = useMemo(
@@ -25,7 +25,7 @@ const DoctorUpdateBill = () => {
         username: item.username,
         xray_name: item.xray_name,
         patient_id: item.patient_id,
-        doctor_id: item.doctor_id,
+        agent_id: item.xray_name,
         image_type: item.image_type,
         month: item.month,
         action: "",

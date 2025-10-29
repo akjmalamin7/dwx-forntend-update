@@ -1,6 +1,6 @@
 import { Text } from "../text";
 interface PanelProps {
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   header?: React.ReactNode | string;
   children?: React.ReactNode;
 }
@@ -9,6 +9,7 @@ const Panel = ({ children, header, size = "md" }: PanelProps) => {
     sm: "",
     md: "max-w-4xl",
     lg: "max-w-7xl",
+    xl: "max-w-8xl",
   }[size];
   return (
     <div

@@ -1,0 +1,1 @@
+export { AdminSelectedDoctor } from "./ui";

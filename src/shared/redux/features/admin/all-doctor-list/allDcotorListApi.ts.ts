@@ -8,6 +8,7 @@ export const AllDoctorListApi = apiSlice.injectEndpoints({
         url: "/admin/users/all?role=xray_dr&role=ecg_dr",
         method: "GET",
       }),
+      providesTags: ["PendingPatient"],
     }),
   }),
 });

@@ -1,3 +1,4 @@
+export { AdminSelectedDoctor } from "./admin-selected-doctor";
 export { CheckedUserForm } from "./checked-user-form";
 export { DoctorFormatForm } from "./doctor-format-form";
 export { PaymentMethod } from "./payment-method";

@@ -24,7 +24,9 @@ export const apiSlice = createApi({
     "CheckedUser",
     "User",
     "PaymentGetway",
+    "SD",
     "Bill",
+    "PendingPatient",
   ],
   endpoints: () => ({}),
 });

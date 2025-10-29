@@ -17,8 +17,8 @@ const PatientView = () => {
     error,
   } = useGetAdminPatientViewQuery(patient_id!, { skip: !patient_id });
 
-  const patient = patient_view?.patient;
-  const attachments = patient_view?.attachments;
+  const patient = patient_view?.data.patient;
+  const attachments = patient_view?.data.attachments;
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);

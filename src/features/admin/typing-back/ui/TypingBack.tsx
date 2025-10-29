@@ -1,16 +1,13 @@
 import { useTypingBackMutation } from "@/shared/redux/features/admin/typing-back/typingBackApi";
 import { Button } from "@/shared/ui";
-import { useNavigate } from "react-router-dom";
 interface TProps {
   path?: string;
 }
 const TypingBack = ({ path }: TProps) => {
-  const navigate = useNavigate();
   const [typingBack, { isLoading }] = useTypingBackMutation();
   const handleTypingBack = async () => {
     try {
       await typingBack({ _id: path }).unwrap();
-      navigate(`/admin/patient-view/${path}`);
     } catch (err) {
       console.error("Delete failed:", err);
     }

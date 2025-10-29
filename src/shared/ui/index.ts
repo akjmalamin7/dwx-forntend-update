@@ -1,4 +1,5 @@
 export { Button } from "./button";
+export { Checkbox } from "./checkbox";
 export { ControlInput } from "./control-input";
 export { ControlledSelect } from "./control-select";
 export { Input } from "./input";

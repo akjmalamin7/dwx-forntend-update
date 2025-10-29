@@ -1,27 +1,19 @@
 import { apiSlice } from "../../api/apiSlice";
-import {
-  TRANSFORM_PATIENT_VIEW_RESPONSE,
-  type PATIENT_IMAGE_MODEL,
-  type PATIENT_VIEW_RESPONSE,
-  type PATIENT_VIEW_TRANSFORM_MODEL,
-} from "./patientView.types";
+import { type PATIENT_VIEW_RESPONSE } from "./patientView.types";
 
 export const AdminPatientViewApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAdminPatientView: builder.query<
-      {
-        patient: PATIENT_VIEW_TRANSFORM_MODEL | null;
-        attachments: PATIENT_IMAGE_MODEL[];
-      },
-      string
-    >({
+    getAdminPatientView: builder.query<PATIENT_VIEW_RESPONSE, string>({
       query: (patient_id: string) => ({
         url: `/admin/patient/${patient_id}`,
         method: "GET",
       }),
-      transformResponse: (response: PATIENT_VIEW_RESPONSE) => {
-        return TRANSFORM_PATIENT_VIEW_RESPONSE(response);
-      },
+      providesTags: (_result, _error, patient_id) => [
+        { type: "Patient", id: patient_id },
+      ],
+      // transformResponse: (response: PATIENT_VIEW_RESPONSE) => {
+      //   return TRANSFORM_PATIENT_VIEW_RESPONSE(response);
+      // },
     }),
   }),
 });

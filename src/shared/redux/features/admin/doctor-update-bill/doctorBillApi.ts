@@ -12,7 +12,7 @@ export const AdminDoctorBillApi = apiSlice.injectEndpoints({
       string
     >({
       query: (doctor_id: string) => ({
-        url: `/admin/doctorbill/${doctor_id}`,
+        url: `/admin/doctorbill/reportlist/${doctor_id}`,
         method: "GET",
       }),
       transformResponse: (response: DOCTOR_BILL_RESPONSE) => {

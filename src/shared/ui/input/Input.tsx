@@ -50,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <Text className="mb-[14px]">
+          <Text className="mb-[4px]">
             <label htmlFor={name}>{label}</label>
           </Text>
         )}

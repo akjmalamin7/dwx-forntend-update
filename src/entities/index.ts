@@ -1,5 +1,8 @@
+export { AddNewImageForm } from "./add-new-image-from";
 export { AdminSelectedDoctor } from "./admin-selected-doctor";
+export { AdminUpdatePatientForm } from "./admin-update-patient-form";
 export { CheckedUserForm } from "./checked-user-form";
+export { ClonePatient } from "./clone-patient";
 export { DoctorFormatForm } from "./doctor-format-form";
 export { PaymentMethod } from "./payment-method";
 export { ReferenceForm } from "./reference-form/";

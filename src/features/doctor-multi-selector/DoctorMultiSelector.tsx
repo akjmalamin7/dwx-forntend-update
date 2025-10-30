@@ -15,6 +15,7 @@ interface IProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   control: Control<TFieldValues>;
   useIgnored?: boolean;
+  weight?: string;
 }
 
 const DoctorMultiSelector = <TFieldValues extends FieldValues>({
@@ -22,6 +23,7 @@ const DoctorMultiSelector = <TFieldValues extends FieldValues>({
   name,
   control,
   useIgnored = false,
+  weight,
 }: IProps<TFieldValues>) => {
   const decoded = useJWT();
   const userId: string | undefined = decoded?.id;
@@ -46,7 +48,10 @@ const DoctorMultiSelector = <TFieldValues extends FieldValues>({
         <>
           <div className="col-span-3">
             {label && (
-              <Text element="label" className="font-semibold">
+              <Text
+                element="label"
+                className={weight ? weight : "font-semibold"}
+              >
                 {label}
               </Text>
             )}

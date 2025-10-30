@@ -11,12 +11,14 @@ interface ImageUploadProps<TFieldValues extends FieldValues> {
   label?: string;
   name: Path<TFieldValues>;
   control: Control<TFieldValues>;
+  isNote?: boolean;
 }
 
 const ImageUpload = <TFieldValues extends FieldValues>({
   label = "Upload Images",
   name,
   control,
+  isNote = true,
 }: ImageUploadProps<TFieldValues>) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -99,10 +101,12 @@ const ImageUpload = <TFieldValues extends FieldValues>({
             </div>
 
             <div className="col-span-9 space-y-2">
-              <Text element="p" color="danger" size="md" fontWeight="medium">
-                Note: Please upload images first then type patient information.
-                Wait a moment for the preview to appear.
-              </Text>
+              {isNote && (
+                <Text element="p" color="danger" size="md" fontWeight="medium">
+                  Note: Please upload images first then type patient
+                  information. Wait a moment for the preview to appear.
+                </Text>
+              )}
 
               <InputFile
                 size="sm"

@@ -17,14 +17,12 @@ const XrayImages = forwardRef<HTMLDivElement, IProps>(
                 {attachment.attachment.flat().map((img, index) => (
                   <div
                     key={`${attachment._id}-${index}`}
-                    className="border rounded-md  border-gray-300 "
+                    className=" w-[100px] h-[100px] border rounded-md  border-gray-300 "
                   >
                     <img
                       src={img}
                       alt={`Patient X-Ray ${index + 1}`}
-                      width={200}
-                      height={150}
-                      className="object-cover cursor-pointer"
+                      className="object-cover w-full h-full cursor-pointer"
                     />
                   </div>
                 ))}

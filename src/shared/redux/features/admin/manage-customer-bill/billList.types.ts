@@ -26,19 +26,13 @@ export interface BILL_TRANSFORM_MODEL {
   id: string;
   user_id: BILL_USER;
   month: string;
-  createdAt: string;  
-  paid_amount: string;
-  payment_date: string;
-  received_number: string;
-  status: string;
-  total_amount: string;
+  total_patients: string;
+  total_single: string;
   total_double: string;
   total_ecg: string;
   total_multiple: string;
-  total_patients: string;
-  total_single: string;
-  trans_id: string;
-  updatedAt: string;
+  status: string;
+  total_amount: string;  
 }
 
 export interface BILL_RESPONSE {

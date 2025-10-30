@@ -8,16 +8,11 @@ const AdminUpdatePatientForm = () => {
   const { control } = useForm({
     resolver: yupResolver(ADMIN_UPDATE_PATIENT_SCHEMA),
     defaultValues: {
-      attachment: [],
-      study_for: "xray_dr",
+      attachment: [], 
       rtype: "xray",
       history: "",
       xray_name: "",
-      name: "",
-      age: "",
-      gender: "",
-      ref_doctor: "",
-      image_type: "single",
+      name: "", 
     },
   });
   return (

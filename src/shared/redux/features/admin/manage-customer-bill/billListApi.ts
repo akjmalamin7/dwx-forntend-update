@@ -29,7 +29,7 @@ export const BillListApi = apiSlice.injectEndpoints({
         url: `/admin/bill/printbill/${bill_id}`,
         method: "GET",
       }),
-    }),
+    }), 
      addCustomerBillPay: builder.mutation({
       query: (data) => ({
         url: "/admin/bill",
@@ -38,6 +38,7 @@ export const BillListApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Bill"],
     }),
+   
   }),
 });
-export const { useGetCustomerListdQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useAddCustomerBillPayMutation} = BillListApi;
+export const { useGetCustomerListdQuery, useGetCustomerBillMonthQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useAddCustomerBillPayMutation} = BillListApi;

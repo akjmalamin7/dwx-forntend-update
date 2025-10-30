@@ -66,4 +66,6 @@ export const Pages = {
   AdminCustomerPrintBill: lazy(() => import("@/pages/admin/customer-print-bill")),
   AdminCustomerPayBill: lazy(() => import("@/pages/admin/customer-pay-bill")),
   AdminCustomerUpdateBill: lazy(() => import("@/pages/admin/customer-bill-update")),
+  AdminCustomerBillMonth: lazy(() => import("@/pages/admin/customer-payment-request")),
+  AdminCustomerBillRequest: lazy(() => import("@/pages/admin/customer-bill-request-list")),
 };

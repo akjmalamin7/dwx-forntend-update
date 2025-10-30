@@ -77,9 +77,17 @@ export const adminRoutes = [
     path: "/admin/customer-pay-bill/:bill_id",
     element: withSuspense(<Pages.AdminCustomerPayBill />),
   },
-     {
+  {
     path: "/admin/customer-update-bill",
     element: withSuspense(<Pages.AdminCustomerUpdateBill />),
+  },
+  {
+    path: "/admin/customer-payment-request",
+    element: withSuspense(<Pages.AdminCustomerBillMonth />),
+  },
+  {
+    path: "/admin/customer-bill-request/:month",
+    element: withSuspense(<Pages.AdminCustomerBillRequest />),
   },
 
 ];

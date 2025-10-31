@@ -30,50 +30,50 @@ export const adminRoutes = [
     path: "/admin/deleted-patient",
     element: withSuspense(<Pages.AdminDeletedPatient />),
   },
-  
+
   {
     path: "/admin/update-doctor-bill",
     element: withSuspense(<Pages.AdminUpdateDoctor />),
   },
-  
-   {
+
+  {
     path: "/admin/patient-view/:patient_id",
     element: withSuspense(<Pages.AdminViewPatient />),
   },
-   {
+  {
     path: "/admin/doctor-bill-month/:doctor_id",
     element: withSuspense(<Pages.AdminDoctorBill />),
   },
-   {
+  {
     path: "/admin/select-doctor/:patient_id",
     element: withSuspense(<Pages.AdminSelectDoctor />),
   },
-   {
+  {
     path: "/admin/doctor-print-bill/:bill_id",
     element: withSuspense(<Pages.AdminDoctorPrintBill />),
   },
-   {
+  {
     path: "/admin/doctor-pay-bill/:bill_id",
     element: withSuspense(<Pages.AdminDoctorPayBill />),
   },
 
-   {
+  {
     path: "/admin/doctor-update-bill",
     element: withSuspense(<Pages.AdminDoctorUpdateBill />),
   },
-   {
+  {
     path: "/admin/manage-customer-bill",
     element: withSuspense(<Pages.AdminManageCustomerBill />),
   },
-   {
+  {
     path: "/admin/manage-customer-bill-month/:user_id",
     element: withSuspense(<Pages.AdminManageCustomerBillMonth />),
   },
-   {
+  {
     path: "/admin/customer-print-bill/:bill_id",
     element: withSuspense(<Pages.AdminCustomerPrintBill />),
   },
-     {
+  {
     path: "/admin/customer-pay-bill/:bill_id",
     element: withSuspense(<Pages.AdminCustomerPayBill />),
   },
@@ -89,5 +89,4 @@ export const adminRoutes = [
     path: "/admin/customer-bill-request/:month",
     element: withSuspense(<Pages.AdminCustomerBillRequest />),
   },
-
 ];

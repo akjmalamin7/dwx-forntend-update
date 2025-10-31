@@ -1,0 +1,1 @@
+export { PatientDeleteBack } from "./ui";

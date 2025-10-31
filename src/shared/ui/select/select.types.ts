@@ -14,6 +14,7 @@ export interface SelectProps {
   isLoading?: boolean;
   disabled?: boolean;
   className?: string;
+  defaultValue?: string;
   onSelect?: (value: string) => void;
   onFocus?: (event: FocusEvent<HTMLSelectElement>) => void;
 }

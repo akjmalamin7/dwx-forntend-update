@@ -16,6 +16,7 @@ const Select = ({
   radius = "sm",
   size = "lg",
   value,
+  defaultValue,
   disabled,
   onSelect,
   onFocus,
@@ -70,6 +71,7 @@ const Select = ({
         <select
           id={name}
           name={name}
+          defaultValue={defaultValue}
           value={selectedValue}
           disabled={disabled}
           onChange={handleSelectedValue}

@@ -18,6 +18,7 @@ export const DeletedPatientListApi = apiSlice.injectEndpoints({
       transformResponse: (response: DeletedPatientApiResponse) => {
         return transformDeletedPatientResponse(response.data);
       },
+      providesTags: ["DeletedPatientList"],
     }),
   }),
 });

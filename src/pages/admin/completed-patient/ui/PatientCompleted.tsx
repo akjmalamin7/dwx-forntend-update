@@ -1,4 +1,4 @@
-import { useAuth } from "@/shared/hooks";
+import { CompletedBack } from "@/features";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patient-list/completedPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -9,29 +9,32 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientCompleted = () => {
-  const { data: patientList, isLoading } = useGetCompletedPatientListQuery();
-  const { user } = useAuth();
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetCompletedPatientListQuery();
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        start_time: new Date(item.completed_time).toLocaleString([], { 
+        start_time: new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
-        agent_name:  item.agent_id?.email, 
+        agent_name: item.agent_id?.email,
         patient_name: item.name,
-        patient_id: item.patient_id, 
+        patient_id: item.patient_id,
         age: item.age,
         rtype: item.rtype,
-       
+
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList, user?.id]
+    [patientList]
   );
 
   const {
@@ -52,20 +55,20 @@ const PatientCompleted = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
-             <Link
+          <div key={rowIndex} className="flex justify-end">
+            <Link
               to={`/admin/patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-2 text-sm"
             >
               View
             </Link>
-             <Link
+            {/* <Link
               to={`/admin/patient-view/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-2 text-sm"
             >
-               C. Back
-            </Link>
-           
+              C. Back
+            </Link> */}
+            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/patient-view/${record?.key}`}
               className="bg-red-500 text-white px-2 py-2 text-sm"

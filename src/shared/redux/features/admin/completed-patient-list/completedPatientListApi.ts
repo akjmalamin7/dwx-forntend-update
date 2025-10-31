@@ -18,6 +18,7 @@ export const CompletedPatientListApi = apiSlice.injectEndpoints({
       transformResponse: (response: CompletedPatientApiResponse) => {
         return transformCompletedPatientResponse(response.data);
       },
+      providesTags: ["CompletedPatient"],
     }),
   }),
 });

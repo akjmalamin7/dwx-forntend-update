@@ -1,14 +1,14 @@
-import { useTypingBackMutation } from "@/shared/redux/features/admin/typing-back/typingBackApi";
+import { useDeleteBackPatientMutation } from "@/shared/redux/features/admin/delete-back-patient/deleteBackPatient";
 import { Button } from "@/shared/ui";
 interface TProps {
   path?: string;
   onDeleteSuccess?: () => void;
 }
-const TypingBack = ({ path, onDeleteSuccess }: TProps) => {
-  const [typingBack, { isLoading }] = useTypingBackMutation();
+const PatientDeleteBack = ({ path, onDeleteSuccess }: TProps) => {
+  const [deleteBackPatient, { isLoading }] = useDeleteBackPatientMutation();
   const handleTypingBack = async () => {
     try {
-      await typingBack({ _id: path }).unwrap();
+      await deleteBackPatient({ _id: path }).unwrap();
       if (onDeleteSuccess) {
         onDeleteSuccess();
       }
@@ -22,10 +22,11 @@ const TypingBack = ({ path, onDeleteSuccess }: TProps) => {
       onClick={handleTypingBack}
       className="bg-green-500 text-white !px-2 !py-2 text-sm !h-auto !rounded-[0px]"
       loading={isLoading}
+      disabled={isLoading}
     >
-      T.B
+      Delete Back
     </Button>
   );
 };
 
-export default TypingBack;
+export default PatientDeleteBack;

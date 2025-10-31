@@ -13,7 +13,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "agent_name",
     key: "agent_name",
     align: "start",
-    width: 40,
+    width: 80,
   },
   {
     key: "start_time",
@@ -22,8 +22,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 30,
   },
-  
-    
+
   {
     key: "patient_id",
     title: "P.ID",
@@ -36,9 +35,9 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "P.Name",
     dataIndex: "patient_name",
     align: "start",
-    width: 100,
+    width: 130,
   },
- 
+
   {
     key: "age",
     title: "Age",
@@ -46,26 +45,26 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 20,
   },
- 
+
   {
     key: "xray_name",
     title: "Xray name",
     dataIndex: "xray_name",
     align: "start",
-    width: 100,
-  },  
+    width: 150,
+  },
   {
     key: "completed_dr",
     title: "Rep. By",
     dataIndex: "completed_dr",
     align: "start",
-    width: 50,
-  }, 
+    width: 70,
+  },
   {
     key: "action",
     title: "Action",
     dataIndex: "action",
-    align: "center",
+    align: "end",
     width: 100,
   },
 ];

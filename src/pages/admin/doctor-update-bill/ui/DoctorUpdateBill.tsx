@@ -1,30 +1,31 @@
+import { DoctorUpdateBillAction } from "@/features";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
- 
+
 const DoctorUpdateBill = () => {
- 
   const [searchParams] = useSearchParams();
 
   const doctorId = searchParams.get("doctorId") ?? "";
   const month = searchParams.get("month") ?? "";
- 
-  const { data: patientList, isLoading } = useGetAdminDoctorReportListQuery({ doctorId, month });
 
- 
-  console.log(patientList);
+  const { data: patientList, isLoading } = useGetAdminDoctorReportListQuery({
+    doctorId,
+    month,
+  });
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
         email: item.username,
-        xray_name: item.xray_name,  
+        xray_name: item.xray_name,
         image_type: item.image_type,
         month: item.month,
         action: "",
@@ -49,19 +50,21 @@ const DoctorUpdateBill = () => {
     if (item.key === "action") {
       return {
         ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
-            
-            <select name="image_type"
-              defaultValue={(record?.image_type ?? "") as string}
-              className="border border-gray-300 rounded px-2 py-1 text-sm">
-              <option value="single">Single</option>
-              <option value="double">Double</option>
-              <option value="multiple">Multiple</option>
-              <option value="ecg">Ecg</option>
-            </select>
-          </div>
-        ),
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => {
+          const originalItem = patientList?.find(
+            (item) => item._id === record?.key
+          );
+
+          return (
+            <div key={rowIndex}>
+              <DoctorUpdateBillAction
+                defaultValue={(record?.image_type ?? "") as string}
+                name="image_type"
+                id={originalItem?._id}
+              />
+            </div>
+          );
+        },
       };
     }
     return item;

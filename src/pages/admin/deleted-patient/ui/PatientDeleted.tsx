@@ -1,37 +1,39 @@
-import { useAuth } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination"; 
+import { PatientDeleteBack } from "@/features";
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
 
 const PatientDeleted = () => {
-  const { data: patientList, isLoading } = useGetDeletedPatientListQuery();
-  const { user } = useAuth();
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetDeletedPatientListQuery();
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], { 
+        start_time: new Date(item.createdAt).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
-        agent_name:  item.agent_id?.email, 
+        agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,
         gender: item.gender,
         age: item.age,
         rtype: item.rtype,
-        completed_dr: item?.completed_dr?.email, 
+        completed_dr: item?.completed_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList, user?.id]
+    [patientList]
   );
 
   const {
@@ -53,12 +55,7 @@ const PatientDeleted = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex}>
-             <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-2 text-sm block"
-            >
-               Delete Back
-            </Link> 
+            <PatientDeleteBack path={record?.key} onDeleteSuccess={refetch} />
           </div>
         ),
       };

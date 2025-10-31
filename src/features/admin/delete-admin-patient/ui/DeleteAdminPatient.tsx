@@ -1,18 +1,18 @@
-import { useDeleteCheckedUserMutation } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUserApi";
+import { useDeleteAdminPatientMutation } from "@/shared/redux/features/admin/delete-admin-patient/deleteAdminPatient";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
 interface IProps {
   id?: string;
   onDeleteSuccess?: () => void;
 }
-const DeleteCheckedUser = ({ id, onDeleteSuccess }: IProps) => {
+const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteCheckedUser, { isLoading }] = useDeleteCheckedUserMutation();
+  const [deleteAdminPatient, { isLoading }] = useDeleteAdminPatientMutation();
   const handleDelete = async () => {
     if (!id) return;
 
     try {
-      await deleteCheckedUser(id).unwrap();
+      await deleteAdminPatient(id).unwrap();
       setIsModalOpen(false);
       if (onDeleteSuccess) {
         onDeleteSuccess();
@@ -23,10 +23,12 @@ const DeleteCheckedUser = ({ id, onDeleteSuccess }: IProps) => {
     }
   };
   return (
-    <div>
+    <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        className="bg-red-500 text-white !px-2 !py-1 !h-auto rounded text-sm"
+        className="bg-red-500 text-white !px-2 !py-1 !h-auto  text-sm rounded-none"
+        loading={isLoading}
+        disabled={isLoading}
       >
         Delete
       </Button>
@@ -46,13 +48,13 @@ const DeleteCheckedUser = ({ id, onDeleteSuccess }: IProps) => {
           disabled={isLoading}
         >
           <Text>
-            Are you sure you want to proceed with this <strong>{id}</strong>{" "}
+            Are you sure you want to proceed with this <strong> {id} </strong>
             action?
           </Text>
         </Modal>
       )}
-    </div>
+    </>
   );
 };
 
-export default DeleteCheckedUser;
+export default DeleteAdminPatient;

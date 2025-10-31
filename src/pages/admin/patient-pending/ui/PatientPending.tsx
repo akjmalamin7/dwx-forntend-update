@@ -1,4 +1,4 @@
-import { TypingBack } from "@/features";
+import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
@@ -10,7 +10,11 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientPending = () => {
-  const { data: patientList, isLoading } = useGetPendingPatientListQuery();
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetPendingPatientListQuery();
   const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>
@@ -62,7 +66,7 @@ const PatientPending = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex">
-            <TypingBack path={record?.key} />
+            <TypingBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/select-doctor/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-2 text-sm"
@@ -75,12 +79,7 @@ const PatientPending = () => {
             >
               View
             </Link>
-            <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-red-500 text-white px-2 py-2 text-sm"
-            >
-              Delete
-            </Link>
+            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>
         ),
       };

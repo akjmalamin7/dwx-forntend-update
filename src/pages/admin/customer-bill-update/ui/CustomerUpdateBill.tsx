@@ -1,29 +1,31 @@
+import { CustomerUpdateBillAction } from "@/features";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/customerReportListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { PATIENT_DATA_COL } from "./patient.data.col"; 
-import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/customerReportListApi";
- 
+import { PATIENT_DATA_COL } from "./patient.data.col";
+
 const CustomerUpdateBill = () => {
- 
   const [searchParams] = useSearchParams();
 
   const userId = searchParams.get("userId") ?? "";
-  const month = searchParams.get("month") ?? ""; 
-    
-  const { data: patientList, isLoading } = useGetAdminCustomerReportListQuery({ userId, month });
+  const month = searchParams.get("month") ?? "";
 
- 
+  const { data: patientList, isLoading } = useGetAdminCustomerReportListQuery({
+    userId,
+    month,
+  });
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
         username: item.agent_id.email,
-        xray_name: item.xray_name,  
+        xray_name: item.xray_name,
         image_type: item.image_type,
         month: item.month_year,
         view: "",
@@ -46,40 +48,39 @@ const CustomerUpdateBill = () => {
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
-
-     if (item.key === "view") {
-          return {
-            ...item,
-            render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-              <div key={rowIndex}> 
-                <Link
-                  to={`/admin/patient-view/${record?.key}`}
-                  className="bg-yellow-500 text-white px-2 py-2 text-sm"
-                >
-                  View
-                </Link> 
-                
-              </div>
-            ),
-          };
-      }
-
-    if (item.key === "action") {
+    if (item.key === "view") {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex}>
-            
-            <select name="image_type"
-              defaultValue={(record?.image_type ?? "") as string}
-              className="border border-gray-300 rounded px-2 py-1 text-sm">
-              <option value="single">Single</option>
-              <option value="double">Double</option>
-              <option value="multiple">Multiple</option>
-              <option value="ecg">Ecg</option>
-            </select>
+            <Link
+              to={`/admin/patient-view/${record?.key}`}
+              className="bg-yellow-500 text-white px-2 py-2 text-sm"
+            >
+              View
+            </Link>
           </div>
         ),
+      };
+    }
+
+    if (item.key === "action") {
+      return {
+        ...item,
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => {
+          const originalItem = patientList?.find(
+            (item) => item._id === record?.key
+          );
+          return (
+            <div key={rowIndex}>
+              <CustomerUpdateBillAction
+                defaultValue={(record?.image_type ?? "") as string}
+                name="image_type"
+                id={originalItem?._id}
+              />
+            </div>
+          );
+        },
       };
     }
     return item;

@@ -19,6 +19,7 @@ interface ControlledSelectProps<TFieldValues extends FieldValues> {
     "valueAsNumber" | "valueAsDate" | "setValueAs"
   >;
   size?: "sm" | "md" | "lg";
+  isInputLabel?: boolean;
 }
 
 const ControlledSelect = <TFieldValues extends FieldValues>({
@@ -28,6 +29,7 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
   options,
   rules,
   size = "sm",
+  isInputLabel = true,
 }: ControlledSelectProps<TFieldValues>) => {
   return (
     <>
@@ -37,13 +39,15 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
         rules={rules}
         render={({ field, fieldState }) => (
           <>
-            <div className="col-span-3">
-              {label && (
-                <Text element="label" className="font-semibold">
-                  {label}
-                </Text>
-              )}
-            </div>
+            {isInputLabel && (
+              <div className="col-span-3">
+                {label && (
+                  <Text element="label" className="font-semibold">
+                    {label}
+                  </Text>
+                )}
+              </div>
+            )}
 
             <div className="col-span-9">
               <Select
@@ -55,6 +59,7 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
                   status: !!fieldState.error,
                   message: fieldState.error?.message as string,
                 }}
+                label={isInputLabel ? "" : label}
               />
             </div>
           </>

@@ -1,5 +1,5 @@
 import { AdminSelectedDoctor, XrayImages } from "@/entities";
-import { useGetAdminPatientViewQuery } from "@/shared/redux/features/admin/patient-view/patientViewApi";
+import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useEffect, useMemo, useRef } from "react";
@@ -9,13 +9,11 @@ import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 const PatientInformation = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
   const {
-    data: patient_view,
-    isLoading: patientLoading,
-    error,
-  } = useGetAdminPatientViewQuery(patient_id!, { skip: !patient_id });
-
-  const patient = patient_view?.data.patient;
-  const attachments = patient_view?.data.attachments;
+    patient,
+    attachments,
+    isAdminViewPatientLoading,
+    adminPatientViewError,
+  } = useAdminPatientView();
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<Viewer | null>(null);
@@ -67,11 +65,11 @@ const PatientInformation = () => {
     return <div>Patient ID not found</div>;
   }
 
-  if (error) {
+  if (adminPatientViewError) {
     return <div>Error loading patient data</div>;
   }
 
-  if (!patient && !patientLoading) {
+  if (!patient && !isAdminViewPatientLoading) {
     return <div>No patient data found</div>;
   }
   return (
@@ -82,7 +80,7 @@ const PatientInformation = () => {
             <Table
               columns={PATIENT_VIEW_DAT_COL}
               dataSource={DATA_TABLE}
-              loading={patientLoading}
+              loading={isAdminViewPatientLoading}
               border="bordered"
               size="xs"
             />

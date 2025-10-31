@@ -1,78 +1,146 @@
-import { DoctorMultiSelector, ImageUpload } from "@/features";
-import { Button, Input, Panel, PanelHeading, Select } from "@/shared/ui";
+import { ImageUpload } from "@/features";
+import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
+import { CLONE_PATIENT_SCHEMA } from "@/shared/redux/features/admin/clone-patient/clonePatient.type";
+import { useCreateClonePatientMutation } from "@/shared/redux/features/admin/clone-patient/clonePatientApi";
+import {
+  Button,
+  ControlInput,
+  ControlledSelect,
+  Panel,
+  PanelHeading,
+} from "@/shared/ui";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 const ClonePatient = () => {
-  const { control } = useForm();
+  const { patient, flattenedAttachments } = useAdminPatientView();
+  const [createClonePatient, { isLoading: isCloneCreating }] =
+    useCreateClonePatientMutation();
+
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(CLONE_PATIENT_SCHEMA),
+    values: {
+      attachment: flattenedAttachments,
+      patient_id: patient?.patient_id || "",
+      name: patient?.name || "",
+      age: patient?.age || "",
+      gender: patient?.gender || "",
+      history: patient?.history || "",
+      xray_name: patient?.xray_name || "",
+      ref_doctor: patient?.ref_doctor || "",
+      image_type: patient?.image_type || "Single",
+    },
+    mode: "onChange",
+  });
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      const formValues = {
+        attachment: values.attachment,
+        patient_id: values.patient_id,
+        name: values.name,
+        age: values.age,
+        gender: values.gender,
+        history: values.history,
+        xray_name: values.xray_name,
+        ref_doctor: values.ref_doctor,
+        image_type: values.image_type,
+        rtype: patient?.rtype || "xray",
+        study_for: patient?.study_for || "xray_dr",
+        status: patient?.status || "pending",
+        selected_drs_id: patient?.doctor_id || [],
+        ignored_drs_id: patient?.ignore_dr || [],
+        customer_id: patient?.agent_id._id || "",
+      };
+      await createClonePatient(formValues).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
+  });
   return (
     <div className="w-full">
       <Panel
         header={<PanelHeading title="Clone Report" button=" " path=" " />}
         size="lg"
       >
-        <form className=" w-full flex flex-col gap-4">
+        <form className=" w-full flex flex-col gap-4" onSubmit={onSubmit}>
           <div>
             <ImageUpload control={control} name="attachment" isNote={false} />
           </div>
-          <Input
-            size="sm"
+          <ControlInput
             label="Patient Id"
-            name="patient_id"
             placeholder="Patient Id"
-          />
-          <Input
             size="sm"
+            name="patient_id"
+            control={control}
+            isInputLabel={false}
+          />
+          <ControlInput
             label="Patient Name"
-            name="name"
             placeholder="Patient Name"
-          />
-          <Input
             size="sm"
-            label="Patient Age"
-            name="age"
+            name="name"
+            control={control}
+            isInputLabel={false}
+          />
+          <ControlInput
+            label="Patient AGe"
             placeholder="Patient Age"
-          />
-          <Select
             size="sm"
-            label="Gender"
+            name="age"
+            control={control}
+            isInputLabel={false}
+          />
+          <ControlledSelect
+            control={control}
             name="gender"
+            label="Gender"
+            isInputLabel={false}
             options={[
               { name: "Male", value: "male" },
               { name: "Female", value: "female" },
             ]}
           />
-          <Input
-            size="sm"
+          <ControlInput
             label="Patient History"
-            name="history"
             placeholder="Patient History"
-          />
-          <Input
             size="sm"
+            name="history"
+            control={control}
+            isInputLabel={false}
+          />
+          <ControlInput
             label="X-ray Name"
-            name="xray_name"
             placeholder="X-ray Name"
-          />
-          <Input
             size="sm"
+            name="xray_name"
+            control={control}
+            isInputLabel={false}
+          />
+          <ControlInput
             label="Reference Doctor"
-            name="ref_doctor"
-            placeholder="Reference Doctor"
-          />
-          <Select
+            placeholder="X-ray Name"
             size="sm"
-            label="Image Category"
+            name="xray_name"
+            control={control}
+            isInputLabel={false}
+          />
+
+          <ControlledSelect
+            control={control}
             name="image_type"
+            label="Image Category"
+            isInputLabel={false}
             options={[
               { name: "Single", value: "single" },
               { name: "Double", value: "double" },
               { name: "Multiple", value: "multiple" },
             ]}
           />
-          <div className="flex flex-col gap-1">
+
+          {/* <div className="flex flex-col gap-1">
             <DoctorMultiSelector
               control={control}
-              name="doctor_ids"
+              name="selected_drs_id"
               label="Selected Doctor"
               weight="font-regular"
             />
@@ -80,14 +148,19 @@ const ClonePatient = () => {
           <div className="flex flex-col gap-1">
             <DoctorMultiSelector
               control={control}
-              name="ignore_dr"
+              name="ignored_drs_id"
               label="Ignore Doctor"
               weight="font-regular"
             />
-          </div>
+          </div> */}
 
-          <Button size="size-2" type="submit" width="full">
-            Submit
+          <Button
+            size="size-2"
+            type="submit"
+            width="full"
+            loading={isCloneCreating}
+          >
+            {isCloneCreating ? "Cloning Patient..." : "Clone Patient"}
           </Button>
         </form>
       </Panel>

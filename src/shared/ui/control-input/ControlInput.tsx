@@ -12,6 +12,7 @@ interface IProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   placeholder?: string;
   control: Control<TFieldValues>;
+  isInputLabel?: boolean;
 }
 
 const ControlInput = <TFieldValues extends FieldValues>({
@@ -20,6 +21,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
   name,
   placeholder,
   control,
+  isInputLabel = true,
 }: IProps<TFieldValues>) => {
   return (
     <Controller
@@ -27,15 +29,19 @@ const ControlInput = <TFieldValues extends FieldValues>({
       name={name}
       render={({ field, fieldState }) => (
         <>
-          <div className="col-span-3">
-            <Text element="label" className="font-semibold">
-              {label}
-            </Text>
-          </div>
+          {isInputLabel && (
+            <div className="col-span-3">
+              <Text element="label" className="font-semibold">
+                {label}
+              </Text>
+            </div>
+          )}
+
           <div className="col-span-9">
             <Input
               {...field}
               value={field.value}
+              label={isInputLabel ? "" : label}
               error={{
                 status: !!fieldState.error,
                 message: fieldState.error?.message,

@@ -23,7 +23,11 @@ const AdminUpdatePatientForm = () => {
   const [adminUpdatePatient, { isLoading: isPatientUpdating }] =
     useAdminUpdatePatientMutation();
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty },
+  } = useForm({
     resolver: yupResolver(ADMIN_UPDATE_PATIENT_SCHEMA),
     values: {
       attachment: flattenedAttachments,
@@ -128,6 +132,7 @@ const AdminUpdatePatientForm = () => {
             size="size-2"
             width="full"
             loading={isPatientUpdating}
+            disabled={!isDirty || isPatientUpdating}
           >
             {isPatientUpdating ? "Updating Patient..." : "Update Patient"}
           </Button>

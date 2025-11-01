@@ -33,6 +33,10 @@ export interface BILL_TRANSFORM_MODEL {
   total_multiple: string;
   status: string;
   total_amount: string;  
+  trans_id: string;  
+  honorarium: string;  
+  honorarium_to: string;  
+  received_number: string;  
 }
 
 export interface BILL_RESPONSE {

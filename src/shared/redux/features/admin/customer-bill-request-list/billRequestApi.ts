@@ -7,6 +7,7 @@ import {
 
 export const BillRequestApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+
     getBillRequestByMonth: builder.query<BILL_TRANSFORM_MODEL[], string>({
       query: (month) => ({
         url: `/admin/bill/billrequest/${month}`,
@@ -17,7 +18,18 @@ export const BillRequestApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Bill"],
     }),
+     getTransectionHistory: builder.query<BILL_TRANSFORM_MODEL[], string>({
+      query: (month) => ({
+        url: `/admin/bill/trangection/${month}`,
+        method: "GET",
+      }),
+      transformResponse: (response: BillListApiResponse) => {
+        return transformBillListResponse(response.data);
+      },
+      providesTags: ["Bill"],
+    }),
+
   }),
 });
 
-export const { useGetBillRequestByMonthQuery } = BillRequestApi;
+export const { useGetBillRequestByMonthQuery, useGetTransectionHistoryQuery } = BillRequestApi;

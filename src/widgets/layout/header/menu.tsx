@@ -263,6 +263,12 @@ export const MENU_DATA: MenuType[] = [
       path: "",
       children: [ 
         {
+          id: "user-list-6",
+          title: "Add User",
+          path: "/admin/add-user",
+          role: [RoleEnum.admin],
+        },
+        {
           id: "user-list-1",
           title: "User List",
           path: "/admin/user-list",

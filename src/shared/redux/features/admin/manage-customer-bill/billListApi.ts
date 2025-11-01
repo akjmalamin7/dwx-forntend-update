@@ -41,4 +41,4 @@ export const BillListApi = apiSlice.injectEndpoints({
    
   }),
 });
-export const { useGetCustomerListdQuery, useGetCustomerBillMonthQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useAddCustomerBillPayMutation} = BillListApi;
+export const { useGetCustomerListdQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useAddCustomerBillPayMutation} = BillListApi;

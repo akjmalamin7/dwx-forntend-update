@@ -47,6 +47,8 @@ const CustomerPayBill = () => {
       month:  "",
       trans_id: transformBill?.trans_id,
       user_id: transformBill?.user_id,
+      honorarium: '0',
+      honorarium_to: transformBill?.honorarium_to,
     },
   });
   useEffect(() => {
@@ -57,6 +59,8 @@ const CustomerPayBill = () => {
         month: transformBill.month || "N/A",
         trans_id: transformBill?.trans_id || "", 
         user_id: transformBill?.user_id,
+         honorarium: transformBill?.honorarium,
+        honorarium_to: transformBill?.honorarium_to,
       });
     }
   }, [transformBill, reset]);
@@ -142,6 +146,21 @@ const CustomerPayBill = () => {
                   label="Transaction ID"
                   placeholder="Transaction ID"
                   name="trans_id"
+                />
+                {/* honorarium   */}
+                <ControlInput
+                  control={control}
+                  size="sm"
+                  label="Honorarium Amount"
+                  placeholder="honorarium"
+                  name="honorarium"
+                />
+                <ControlInput
+                  control={control}
+                  size="sm"
+                  label="Honorarium To"
+                  placeholder="Mr X"
+                  name="honorarium_to"
                 />
 
                 {/* Submit */}

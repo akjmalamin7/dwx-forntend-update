@@ -18,7 +18,7 @@ interface IProps<TFieldValues extends FieldValues> {
 const ControlInput = <TFieldValues extends FieldValues>({
   size = "md",
   label,
-  name,
+  name, 
   placeholder,
   control,
   isInputLabel = true,
@@ -41,7 +41,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
             <Input
               {...field}
               value={field.value}
-              label={isInputLabel ? "" : label}
+              label={isInputLabel ? "" : label} 
               error={{
                 status: !!fieldState.error,
                 message: fieldState.error?.message,

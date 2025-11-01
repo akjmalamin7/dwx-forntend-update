@@ -6,15 +6,15 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";   
-import { useGetBillRequestByMonthQuery } from "@/shared/redux/features/admin/customer-bill-request-list/billRequestApi";
+import {  useGetTransectionHistoryQuery } from "@/shared/redux/features/admin/customer-bill-request-list/billRequestApi";
 
-const CustomerBillRequestList = () => { 
+const CustomerTransectionHistory = () => { 
  
     const { month } = useParams<{ month: string }>();
     const {
       data: billList,
       isLoading
-    } = useGetBillRequestByMonthQuery(month!, { skip: !month });
+    } = useGetTransectionHistoryQuery(month!, { skip: !month });
   
 
   const DATA_TABLE = useMemo(
@@ -57,18 +57,17 @@ const CustomerBillRequestList = () => {
   });
 
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
-    if (item.key === "action"  )  {
+    if (item.key === "action") {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex gap-2"> 
-          
-            <Link
-              to={`/admin/customer-pay-bill/${record?.key}`}
-              className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+
+            <Link    to={`/admin/customer-print-bill/${record?.key}`}
+              className="bg-green-500 text-white px-4 py-2 text-sm rounded"
             >
-              Accept
-            </Link>
+              Print
+            </Link> 
            
             
           </div>
@@ -79,7 +78,7 @@ const CustomerBillRequestList = () => {
   });
 
   return (
-    <Panel header="Manage Customer Bill" size="lg">
+    <Panel header="Manage Customer Transection History" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search
@@ -107,4 +106,4 @@ const CustomerBillRequestList = () => {
   );
 };
 
-export default CustomerBillRequestList;
+export default CustomerTransectionHistory;

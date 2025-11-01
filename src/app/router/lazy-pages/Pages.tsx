@@ -68,4 +68,12 @@ export const Pages = {
   AdminCustomerUpdateBill: lazy(() => import("@/pages/admin/customer-bill-update")),
   AdminCustomerBillMonth: lazy(() => import("@/pages/admin/customer-payment-request")),
   AdminCustomerBillRequest: lazy(() => import("@/pages/admin/customer-bill-request-list")),
+  AdminCustomerTransectionHistory: lazy(() => import("@/pages/admin/customer-transection-history")),
+  AdminCustomerTransectionHistoryList: lazy(() => import("@/pages/admin/customer-transection-history-list")),
+  AdminAddUser: lazy(() => import("@/pages/admin/add-user")),
+  AdminCustomerList: lazy(() => import("@/pages/admin/users")),
+  AdminXrayDoctorList: lazy(() => import("@/pages/admin/xray-doctors")),
+  AdminEcgDoctorList: lazy(() => import("@/pages/admin/ecg-doctors")),
+  AdminDeletedDoctorList: lazy(() => import("@/pages/admin/deleted-doctors")),
+  AdminDeletedUserList: lazy(() => import("@/pages/admin/deleted-users")),
 };

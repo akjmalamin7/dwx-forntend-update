@@ -76,4 +76,7 @@ export const Pages = {
   AdminEcgDoctorList: lazy(() => import("@/pages/admin/ecg-doctors")),
   AdminDeletedDoctorList: lazy(() => import("@/pages/admin/deleted-doctors")),
   AdminDeletedUserList: lazy(() => import("@/pages/admin/deleted-users")),
+  AdminFormatList: lazy(() => import("@/pages/admin/format-list")),
+  AdminFormatAdd: lazy(() => import("@/pages/admin/format-add")),
+  AdminFormatUpdate: lazy(() => import("@/pages/admin/update-format")),
 };

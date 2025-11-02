@@ -2,13 +2,13 @@ import { Editor } from "@/features";
 import {
   FormatFormschema,
   type FormatFormValues,
-} from "@/pages/doctor/format-add/ui/formatAdd.types";
+} from "@/pages/admin/format-add/ui/formatAdd.types";
 
 import {
   useAddFormatMutation,
   useGetFormatQuery,
   useUpdateFormatMutation,
-} from "@/shared/redux/features/doctor/format/formatApi";
+} from "@/shared/redux/features/admin/format/formatApi";
 import { Button, ControlInput, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 interface Iprops {
   isUpdate?: boolean;
 }
-const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
+const AdminFormatForm = ({ isUpdate = false }: Iprops) => {
   const {
     control,
     handleSubmit,
@@ -29,7 +29,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
     defaultValues: {
       title: "",
       details: "",
-      type: "DoctorFormat",
+      type: "AdminFormat",
     },
   });
   const { id } = useParams<{ id: string }>();
@@ -45,10 +45,11 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
   );
   useEffect(() => {
     if (isUpdate && formatData) {
+        console.log(404);
       reset({
         title: formatData.title || "",
         details: formatData.details || "",
-        type: formatData.type || "DoctorFormat",
+        type: formatData.type || "AdminFormat",
       });
     }
   }, [isUpdate, formatData, reset]);
@@ -56,8 +57,9 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
   const onSubmit: SubmitHandler<FormatFormValues> = async (data) => {
     try {
       if (isUpdate && id) {
+      
         await updateFormat({ id, ...data }).unwrap();
-        navigate("/doctor/format");
+        navigate("/admin/formats");
       } else {
         await createFormat(data).unwrap();
         reset();
@@ -122,4 +124,4 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
   );
 };
 
-export default DoctorFormatForm;
+export default AdminFormatForm;

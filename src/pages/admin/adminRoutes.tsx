@@ -125,4 +125,16 @@ export const adminRoutes = [
     path: "/admin/deleted-users",
     element: withSuspense(<Pages.AdminDeletedUserList />),
   },
+  {
+    path: "/admin/formats",
+    element: withSuspense(<Pages.AdminFormatList />),
+  },
+  {
+    path: "/admin/format-add",
+    element: withSuspense(<Pages.AdminFormatAdd />),
+  },
+  {
+    path: "/admin/format/:id",
+    element: withSuspense(<Pages.AdminFormatUpdate />),
+  },
 ];

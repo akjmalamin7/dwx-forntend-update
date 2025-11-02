@@ -20,7 +20,7 @@ export interface BILL_MODEL {
   total_amount: string;
   status: string;
 }
- 
+
 export interface BILL_TRANSFORM_MODEL {
   _id: string;
   id: string;
@@ -31,12 +31,12 @@ export interface BILL_TRANSFORM_MODEL {
   total_double: string;
   total_ecg: string;
   total_multiple: string;
-  status: string;
-  total_amount: string;  
+  status: string; 
   trans_id: string;  
   honorarium: string;  
   honorarium_to: string;  
   received_number: string;  
+  total_amount: string;
 }
 
 export interface BILL_RESPONSE {

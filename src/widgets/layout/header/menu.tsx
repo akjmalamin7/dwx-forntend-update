@@ -322,7 +322,7 @@ export const MENU_DATA: MenuType[] = [
         {
           id: "all-formate-2",
           title: "All Formates",
-          path: "/admin/all-formates",
+          path: "/admin/formats",
           role: [RoleEnum.admin],
         },
         

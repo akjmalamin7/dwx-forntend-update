@@ -18,10 +18,10 @@ export interface CustomerBillPayFormValues {
   honorarium_to: string;
 }
 
-export const AddCustomerBillPayFormschema: yup.ObjectSchema<CustomerBillPayFormValues> =
-  yup.object({ 
-    total_bill: yup.string().required("Total Amount is required"),
+export const AddCustomerBillPayFormschema =
+  yup.object({
+    total_bill: yup.number().required("Total Amount is required"),
     month: yup.string().required("Bill Month is required"),
     trans_id: yup.string().required("Transaction ID is required"),
     received_number: yup.string().required("Received number is required"),
-  }) as yup.ObjectSchema<CustomerBillPayFormValues>;
+  }) 

@@ -18,7 +18,7 @@ const DeletedUserList = () => {
         sl: index + 1,
         name: item.email,
         mobile: item.mobile,
-        role: item.role === "User",
+        role: item.role === "user"?"User":"",
         address: item.address,
         action: "",
       })) || [],

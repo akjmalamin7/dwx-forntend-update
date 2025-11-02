@@ -53,6 +53,9 @@ importers:
       react-router-dom:
         specifier: ^7.9.3
         version: 7.9.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-simple-image-viewer:
+        specifier: ^1.2.2
+        version: 1.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       redux-devtools-extension:
         specifier: ^2.13.9
         version: 2.13.9(redux@5.0.1)
@@ -1354,6 +1357,12 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
+
+  react-simple-image-viewer@1.2.2:
+    resolution: {integrity: sha512-Vk9p6Glm7uE4cSEBGkqZPGC3qoZcAwd48nq5/JN13NKd9rUrUIWZWFEmRzO+FVwl6c0UdjSDkthGoaoiYeWVjg==}
+    peerDependencies:
+      react: ^18.1.0
+      react-dom: ^18.1.0
 
   react@19.2.0:
     resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
@@ -2710,6 +2719,11 @@ snapshots:
       react: 19.2.0
       set-cookie-parser: 2.7.1
     optionalDependencies:
+      react-dom: 19.2.0(react@19.2.0)
+
+  react-simple-image-viewer@1.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
   react@19.2.0: {}

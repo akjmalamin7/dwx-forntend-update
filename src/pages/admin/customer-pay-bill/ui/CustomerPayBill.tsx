@@ -36,7 +36,6 @@ const CustomerPayBill = () => {
     control,
     handleSubmit,
     reset,
-    formState: { isDirty },
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(AddCustomerBillPayFormschema),
@@ -151,7 +150,7 @@ const CustomerPayBill = () => {
                   type="submit"
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   loading={isLoading}
-                  disabled={!isDirty}
+                // disabled={!isDirty}
                 >
                   {isLoading ? "Submitting..." : "Submit"}
                 </Button>

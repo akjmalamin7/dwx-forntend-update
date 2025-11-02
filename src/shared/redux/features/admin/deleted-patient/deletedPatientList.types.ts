@@ -1,3 +1,4 @@
+// deletedPatientList.types.ts
 export interface AGENT_DOCTOR {
   _id: string;
   email: string;
@@ -22,7 +23,7 @@ export interface DELETED_PATIENT_MODEL {
   status: string;
   soft_delete: string;
   month_year: string;
-  completed_time: string;
+  completed_time: string | null;
   is_checked: boolean | null;
   logged: string | null;
   printstatus: string | null;
@@ -34,53 +35,37 @@ export interface DELETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface DELETED_PATIENT_TRANSFORM_MODEL {
-  _id: string;
-  id: string;
-  agent_id: AGENT_DOCTOR;
-  doctor_id: AGENT_DOCTOR[];
-  completed_dr: AGENT_DOCTOR;
-  ignore_dr: AGENT_DOCTOR[];
-  createdAt: string;
-  patient_id: string;
-  name: string;
-  gender: string;
-  age: string;
-  xray_name: string;
-  rtype: string;
-  printstatus: string | null;
-  completed_time: string;
-  viewed: boolean;
-  is_checked: boolean | null;
-}
-
 export interface DeletedPatientApiResponse {
   message: string;
   success: boolean;
-  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
   data: DELETED_PATIENT_MODEL[];
 }
 
+export interface TransformedDeletedPatientResponse {
+  data: DELETED_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
 export const transformDeletedPatientResponse = (
-  data: DELETED_PATIENT_MODEL[]
-): DELETED_PATIENT_TRANSFORM_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || {},
-    agent_id: item.agent_id || {},
-    doctor_id: item.doctor_id || [],
-    ignore_dr: item.ignore_dr || [],
-    createdAt: item.createdAt,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    completed_time: item.completed_time,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-  }));
+  response: DeletedPatientApiResponse
+): TransformedDeletedPatientResponse => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

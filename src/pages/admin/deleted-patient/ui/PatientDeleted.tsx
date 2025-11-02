@@ -1,21 +1,22 @@
 import { PatientDeleteBack } from "@/features";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
+import { Panel, ServerSidePagination } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientDeleted = () => {
+  const [pages, setPages] = useState();
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetDeletedPatientListQuery();
+  } = useGetDeletedPatientListQuery({ page: 1, limit: 10 });
+  console.log(patientList);
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      patientList?.data?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
@@ -36,19 +37,6 @@ const PatientDeleted = () => {
     [patientList]
   );
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "agent_name"],
-    rowsPerPage: 100,
-  });
-
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
@@ -66,27 +54,14 @@ const PatientDeleted = () => {
   return (
     <Panel header="Deleted Report" size="lg">
       <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Patient Name, ID or DC Name..."
-          />
-        </div>
-
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
+        <Table loading={isLoading} columns={COLUMN} dataSource={DATA_TABLE} />
+        <ServerSidePagination
+          currentPage={1}
+          totalPages={patientList?.pagination.totalPages || 1}
+          hasNext={patientList?.pagination.hasNext}
+          hasPrev={patientList?.pagination.hasPrev}
+          onPageChange={() => {}}
         />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
       </div>
     </Panel>
   );

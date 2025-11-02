@@ -9,7 +9,6 @@ import {
   Text,
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
@@ -39,25 +38,14 @@ const CustomerPayBill = () => {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(AddCustomerBillPayFormschema),
-    defaultValues: {
-      received_number: "",
-      total_bill: "",
-      month: "",
-      trans_id: transformBill?.trans_id,
-      user_id: transformBill?.user_id?._id,
+    values: {
+      received_number: transformBill?.received_number || "",
+      total_bill: roundedGrandTotal,
+      month: String(transformBill.month) || "",
+      trans_id: transformBill?.trans_id || "",
     },
   });
-  useEffect(() => {
-    if (transformBill) {
-      reset({
-        received_number: transformBill?.received_number || "",
-        total_bill: String(roundedGrandTotal),
-        month: transformBill.month || "N/A",
-        trans_id: transformBill?.trans_id || "",
-        user_id: transformBill?.user_id?._id,
-      });
-    }
-  }, [transformBill, reset, roundedGrandTotal]);
+
 
   const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
@@ -78,6 +66,7 @@ const CustomerPayBill = () => {
       }
     }
   });
+
 
   if (isBillLoading) <Loader />;
   if (isBillError)

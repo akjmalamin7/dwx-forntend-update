@@ -14,6 +14,8 @@ export interface CustomerBillPayFormValues {
   trans_id: string;
   received_number: string;
   user_id: BILL_USER;
+  honorarium: string;
+  honorarium_to: string;
 }
 
 export const ADD_CUSTOMER_BILL_PAY_SCHEMA = yup.object({

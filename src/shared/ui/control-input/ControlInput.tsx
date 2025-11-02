@@ -27,7 +27,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
   size = "md",
   type = "text",
   label,
-  name,
+  name, 
   placeholder,
   control,
   isInputLabel = true,
@@ -51,7 +51,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
               {...field}
               type={type}
               value={field.value}
-              label={isInputLabel ? "" : label}
+              label={isInputLabel ? "" : label} 
               error={{
                 status: !!fieldState.error,
                 message: fieldState.error?.message,

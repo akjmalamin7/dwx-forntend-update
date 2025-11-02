@@ -35,6 +35,12 @@ const PatientDeleted = () => {
           minute: "2-digit",
           hour12: true,
         }),
+        createdAt: item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+      : "—",
         agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,

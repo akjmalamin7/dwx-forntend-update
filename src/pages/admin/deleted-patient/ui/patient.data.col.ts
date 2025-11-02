@@ -22,6 +22,13 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 30,
   },
+  {
+    key: "createdAt",
+    title: "Date",
+    dataIndex: "createdAt",
+    align: "start",
+    width: 30,
+  },
 
 
   {

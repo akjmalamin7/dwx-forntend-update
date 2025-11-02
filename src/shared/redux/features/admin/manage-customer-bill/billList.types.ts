@@ -31,7 +31,11 @@ export interface BILL_TRANSFORM_MODEL {
   total_double: string;
   total_ecg: string;
   total_multiple: string;
-  status: string;
+  status: string; 
+  trans_id: string;  
+  honorarium: string;  
+  honorarium_to: string;  
+  received_number: string;  
   total_amount: string;
 }
 

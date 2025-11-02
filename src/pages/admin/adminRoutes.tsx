@@ -89,4 +89,52 @@ export const adminRoutes = [
     path: "/admin/customer-bill-request/:month",
     element: withSuspense(<Pages.AdminCustomerBillRequest />),
   },
+  {
+    path: "/admin/customer-transection-history",
+    element: withSuspense(<Pages.AdminCustomerTransectionHistory />),
+  },
+  {
+    path: "/admin/customer-transection-history/:month",
+    element: withSuspense(<Pages.AdminCustomerTransectionHistoryList />),
+  },
+  {
+    path: "/admin/add-user",
+    element: withSuspense(<Pages.AdminAddUser />),
+  },
+  {
+    path: "/admin/user-list",
+    element: withSuspense(<Pages.AdminCustomerList />),
+  },
+  {
+    path: "/admin/user-list",
+    element: withSuspense(<Pages.AdminCustomerList />),
+  },
+  {
+    path: "/admin/xray-doctor-list",
+    element: withSuspense(<Pages.AdminXrayDoctorList />),
+  },
+  {
+    path: "/admin/ecg-doctor-list",
+    element: withSuspense(<Pages.AdminEcgDoctorList />),
+  },
+  {
+    path: "/admin/deleted-doctors",
+    element: withSuspense(<Pages.AdminDeletedDoctorList />),
+  },
+  {
+    path: "/admin/deleted-users",
+    element: withSuspense(<Pages.AdminDeletedUserList />),
+  },
+  {
+    path: "/admin/formats",
+    element: withSuspense(<Pages.AdminFormatList />),
+  },
+  {
+    path: "/admin/format-add",
+    element: withSuspense(<Pages.AdminFormatAdd />),
+  },
+  {
+    path: "/admin/format/:id",
+    element: withSuspense(<Pages.AdminFormatUpdate />),
+  },
 ];

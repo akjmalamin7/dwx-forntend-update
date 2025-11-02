@@ -32,7 +32,7 @@ interface PatientFormProps {
 // Export form methods for parent component access
 export type PatientFormMethods = UseFormReturn<PatientFormValues>;
 
-const PatientForm = ({
+const UserForm = ({
   onSubmit,
   isLoading = false,
   defaultValues,
@@ -257,4 +257,4 @@ const PatientForm = ({
   );
 };
 
-export default PatientForm;
+export default UserForm;

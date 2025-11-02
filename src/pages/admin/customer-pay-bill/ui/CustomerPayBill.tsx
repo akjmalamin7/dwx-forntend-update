@@ -36,7 +36,36 @@ const CustomerPayBill = () => {
   };
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
+<<<<<<< HEAD
     resolver: yupResolver(ADD_CUSTOMER_BILL_PAY_SCHEMA),
+=======
+    resolver: yupResolver(AddCustomerBillPayFormschema),
+<<<<<<< HEAD
+    defaultValues: {
+      received_number: "",
+      total_bill: "",
+      month:  "",
+      trans_id: transformBill?.trans_id,
+      user_id: transformBill?.user_id,
+      honorarium: '0',
+      honorarium_to: transformBill?.honorarium_to,
+    },
+  });
+  useEffect(() => {
+    if (transformBill) {
+      reset({
+        received_number: transformBill?.received_number || "",
+        total_bill: String(roundedGrandTotal),
+        month: transformBill.month || "N/A",
+        trans_id: transformBill?.trans_id || "", 
+        user_id: transformBill?.user_id,
+         honorarium: transformBill?.honorarium,
+        honorarium_to: transformBill?.honorarium_to,
+      });
+    }
+  }, [transformBill, reset]);
+=======
+>>>>>>> dev/mahfuz
     values: {
       received_number: transformBill?.received_number || "",
       total_bill: Number(roundedGrandTotal),
@@ -44,7 +73,12 @@ const CustomerPayBill = () => {
       trans_id: transformBill?.trans_id || "",
     },
   });
+<<<<<<< HEAD
   console.log(transformBill);
+=======
+
+>>>>>>> dev/akjm
+>>>>>>> dev/mahfuz
 
   const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
@@ -108,6 +142,31 @@ const CustomerPayBill = () => {
                 type="number"
               />
 
+<<<<<<< HEAD
+                {/* Transaction ID */}
+                <ControlInput
+                  control={control}
+                  size="sm"
+                  label="Transaction ID"
+                  placeholder="Transaction ID"
+                  name="trans_id"
+                />
+                {/* honorarium   */}
+                <ControlInput
+                  control={control}
+                  size="sm"
+                  label="Honorarium Amount"
+                  placeholder="honorarium"
+                  name="honorarium"
+                />
+                <ControlInput
+                  control={control}
+                  size="sm"
+                  label="Honorarium To"
+                  placeholder="Mr X"
+                  name="honorarium_to"
+                />
+=======
               {/* Month */}
               <ControlInput
                 control={control}
@@ -116,6 +175,7 @@ const CustomerPayBill = () => {
                 placeholder="Month"
                 name="month"
               />
+>>>>>>> dev/akjm
 
               {/* Transaction ID */}
               <ControlInput

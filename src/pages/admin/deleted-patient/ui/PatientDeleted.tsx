@@ -11,6 +11,7 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 const PatientDeleted = () => {
 
   const { page, limit, setPage } = usePageQuery({ defaultPage: 1, defaultLimit: 10 });
+
   const {
     data: patientList,
     isLoading,

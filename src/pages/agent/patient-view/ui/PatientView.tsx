@@ -3,9 +3,8 @@ import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-vi
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 
@@ -20,35 +19,7 @@ const PatientView = () => {
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments;
 
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const viewerInstance = useRef<Viewer | null>(null);
 
-  useEffect(() => {
-    if (viewerRef.current) {
-      viewerInstance.current = new Viewer(viewerRef.current, {
-        inline: false,
-        navbar: false,
-        toolbar: {
-          zoomIn: 1,
-          zoomOut: 1,
-          reset: 1,
-          oneToOne: 1,
-          prev: 1,
-          play: 0,
-          next: 1,
-          rotateLeft: 1,
-          rotateRight: 1,
-          flipHorizontal: 1,
-          flipVertical: 1,
-        },
-        title: false,
-      });
-    }
-
-    return () => {
-      viewerInstance.current?.destroy();
-    };
-  }, []);
 
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];

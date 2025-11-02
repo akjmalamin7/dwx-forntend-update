@@ -12,6 +12,7 @@ const ServerSidePagination = ({
   hasPrev,
   onPageChange,
 }: PaginationProps) => {
+  if (totalPages <= 1) return null;
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     let prev: number | null = null;
@@ -50,8 +51,8 @@ const ServerSidePagination = ({
             <button
               key={`page-${num}`}
               className={`px-3 py-1 rounded transition-colors ${num === currentPage
-                  ? "bg-blue-700 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-blue-700 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
                 }`}
               onClick={() => onPageChange(num as number)}
             >

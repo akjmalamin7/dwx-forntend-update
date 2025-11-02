@@ -1,6 +1,8 @@
- import {
+import { useAddCustomerBillPayMutation, useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
+import { AddCustomerBillPayFormschema } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
+import {
   Button,
-  ControlInput, 
+  ControlInput,
   Loader,
   Panel,
   PanelHeading,
@@ -8,11 +10,9 @@
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
-import { useAddCustomerBillPayMutation, useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
-import { AddCustomerBillPayFormschema,  type CustomerBillPayFormValues } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -21,32 +21,31 @@ const CustomerPayBill = () => {
     isLoading: isBillLoading,
     isError: isBillError,
   } = useGetCustomerBillDetailsQuery(bill_id!, { skip: !bill_id });
- 
 
   const transformBill = data?.data[0];
 
   const roundedGrandTotal = Number(transformBill?.total_amount) || 0;
- 
+
 
   const bill = {
     month: transformBill?.month || "N/A",
     total_amount: String(roundedGrandTotal),
-    to: transformBill?.user_id?.email || "N/A", 
+    to: transformBill?.user_id?.email || "N/A",
   };
   const {
     control,
     handleSubmit,
     reset,
-    formState: { isValid },
-  } = useForm<CustomerBillPayFormValues>({
+    formState: { isDirty },
+  } = useForm({
     mode: "onChange",
     resolver: yupResolver(AddCustomerBillPayFormschema),
     defaultValues: {
       received_number: "",
       total_bill: "",
-      month:  "",
+      month: "",
       trans_id: transformBill?.trans_id,
-      user_id: transformBill?.user_id,
+      user_id: transformBill?.user_id?._id,
     },
   });
   useEffect(() => {
@@ -55,20 +54,20 @@ const CustomerPayBill = () => {
         received_number: transformBill?.received_number || "",
         total_bill: String(roundedGrandTotal),
         month: transformBill.month || "N/A",
-        trans_id: transformBill?.trans_id || "", 
-        user_id: transformBill?.user_id,
+        trans_id: transformBill?.trans_id || "",
+        user_id: transformBill?.user_id?._id,
       });
     }
-  }, [transformBill, reset]);
+  }, [transformBill, reset, roundedGrandTotal]);
 
   const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
-  const onSubmit: SubmitHandler<CustomerBillPayFormValues> = async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     try {
-       const finalData = {
+      const finalData = {
         ...data,
         user_id: transformBill?.user_id?._id,
-      }; 
+      };
       await createBillPayment(finalData).unwrap();
       reset();
     } catch (err: unknown) {
@@ -79,7 +78,7 @@ const CustomerPayBill = () => {
         console.error("Error creating patient:", String(err));
       }
     }
-  };
+  });
 
   if (isBillLoading) <Loader />;
   if (isBillError)
@@ -101,66 +100,66 @@ const CustomerPayBill = () => {
         <div className="flex   mt-16 gap-6">
           {/* Left Side: Payment Form */}
           <div className="w-full md:w-1/2">
-            
-              <form
-                className="grid pt-5 pb-5"
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                {/* Account Number */} 
-                
-                <ControlInput
-                  control={control}
-                  size="sm"
-                  label="Received Account Number"
-                  placeholder="Received Account Number"
-                  name="received_number"
-                />
+
+            <form
+              className="grid pt-5 pb-5"
+              onSubmit={onSubmit}
+            >
+              {/* Account Number */}
+
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Received Account Number"
+                placeholder="Received Account Number"
+                name="received_number"
+              />
 
 
-                {/* Total Pay */}
-                <ControlInput
-                  control={control}
-                  size="sm"
-                  label="Total Pay"
-                  placeholder="Total Pay"
-                  name="total_bill"
-                />
-              
-                {/* Month */}
-                <ControlInput
-                  control={control}
-                  size="sm"
-                  label="Month"
-                  placeholder="Month"
-                  name="month"  
-                />
+              {/* Total Pay */}
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Total Pay"
+                placeholder="Total Pay"
+                name="total_bill"
+              />
 
-                {/* Transaction ID */}
-                <ControlInput
-                  control={control}
-                  size="sm"
-                  label="Transaction ID"
-                  placeholder="Transaction ID"
-                  name="trans_id"
-                />
+              {/* Month */}
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Month"
+                placeholder="Month"
+                name="month"
+              />
 
-                {/* Submit */}
-                <div className="mt-3">
-                  <Button
-                    color="dark"
-                    size="size-2"
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    loading={isLoading}
-                    disabled={!isValid}
-                  >
-                    {isLoading ? "Submitting..." : "Submit"}
-                  </Button>
-                </div>
-              </form> 
+              {/* Transaction ID */}
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Transaction ID"
+                placeholder="Transaction ID"
+                name="trans_id"
+              />
+
+              {/* Submit */}
+              <div className="mt-3">
+                <Button
+                  color="dark"
+                  size="size-2"
+                  type="submit"
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  loading={isLoading}
+                  disabled={!isDirty}
+                >
+                  {isLoading ? "Submitting..." : "Submit"}
+                </Button>
+              </div>
+            </form>
           </div>
 
-          
+
         </div>
       </Panel>
     </>

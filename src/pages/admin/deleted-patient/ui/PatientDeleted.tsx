@@ -1,24 +1,34 @@
 import { PatientDeleteBack } from "@/features";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
 import { Panel, ServerSidePagination } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientDeleted = () => {
-  const [pages, setPages] = useState();
+
+  const { page, limit, setPage } = usePageQuery({ defaultPage: 1, defaultLimit: 10 });
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetDeletedPatientListQuery({ page: 1, limit: 10 });
-  console.log(patientList);
+  } = useGetDeletedPatientListQuery({ page, limit });
+
+  const totalPages = patientList?.pagination?.totalPages || 1;
+
+  useServerSidePagination({
+    totalPages, initialPage: page, onPageChange: setPage,
+  });
+
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -34,7 +44,7 @@ const PatientDeleted = () => {
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList]
+    [patientList, page, limit]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -56,11 +66,11 @@ const PatientDeleted = () => {
       <div className="p-4 bg-white">
         <Table loading={isLoading} columns={COLUMN} dataSource={DATA_TABLE} />
         <ServerSidePagination
-          currentPage={1}
-          totalPages={patientList?.pagination.totalPages || 1}
+          currentPage={page}
+          totalPages={totalPages}
           hasNext={patientList?.pagination.hasNext}
           hasPrev={patientList?.pagination.hasPrev}
-          onPageChange={() => {}}
+          onPageChange={setPage}
         />
       </div>
     </Panel>

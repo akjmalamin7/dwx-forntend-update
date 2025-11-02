@@ -22,8 +22,8 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 30,
   },
-  
-    
+
+
   {
     key: "patient_id",
     title: "P.ID",
@@ -52,30 +52,30 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 20,
   },
- 
+
   {
     key: "xray_name",
     title: "Xray name",
     dataIndex: "xray_name",
     align: "start",
     width: 180,
-  }, 
+  },
   {
     key: "rtype",
     title: "Type",
     dataIndex: "rtype",
     align: "start",
     width: 20,
-  }, 
- 
+  },
+
   {
     key: "completed_dr",
     title: "Complete By",
     dataIndex: "completed_dr",
     align: "start",
     width: 60,
-  }, 
-    
+  },
+
   {
     key: "action",
     title: "Action",

@@ -19,7 +19,6 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     onRow,
     ...rest
   } = props;
-  console.log("Table render with props:", scroll);
   const tableSizes = {
     xs: "!min-w-[500px]",
     sm: "!min-w-[700px]",

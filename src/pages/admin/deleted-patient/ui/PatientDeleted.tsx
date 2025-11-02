@@ -2,9 +2,9 @@ import { PatientDeleteBack } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
-import { Panel, ServerSidePagination } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -63,16 +63,17 @@ const PatientDeleted = () => {
 
   return (
     <Panel header="Deleted Report" size="lg">
-      <div className="p-4 bg-white">
-        <Table loading={isLoading} columns={COLUMN} dataSource={DATA_TABLE} />
-        <ServerSidePagination
-          currentPage={page}
-          totalPages={totalPages}
-          hasNext={patientList?.pagination.hasNext}
-          hasPrev={patientList?.pagination.hasPrev}
-          onPageChange={setPage}
-        />
-      </div>
+
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={patientList?.pagination.hasNext}
+        hasPrev={patientList?.pagination.hasPrev}
+        setPage={setPage} />
+
     </Panel>
   );
 };

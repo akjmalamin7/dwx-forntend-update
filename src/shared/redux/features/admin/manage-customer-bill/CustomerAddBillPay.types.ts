@@ -16,10 +16,9 @@ export interface CustomerBillPayFormValues {
   user_id: BILL_USER;
 }
 
-export const AddCustomerBillPayFormschema =
-  yup.object({
-    total_bill: yup.number().required("Total Amount is required"),
-    month: yup.string().required("Bill Month is required"),
-    trans_id: yup.string().required("Transaction ID is required"),
-    received_number: yup.string().required("Received number is required"),
-  }) 
+export const ADD_CUSTOMER_BILL_PAY_SCHEMA = yup.object({
+  total_bill: yup.number().required("Total Amount is required"),
+  month: yup.string().required("Bill Month is required"),
+  trans_id: yup.string().required("Transaction ID is required"),
+  received_number: yup.string().required("Received number is required"),
+});

@@ -1,5 +1,8 @@
-import { useAddCustomerBillPayMutation, useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
-import { AddCustomerBillPayFormschema } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
+import {
+  useAddCustomerBillPayMutation,
+  useGetCustomerBillDetailsQuery,
+} from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
+import { ADD_CUSTOMER_BILL_PAY_SCHEMA } from "@/shared/redux/features/admin/manage-customer-bill/CustomerAddBillPay.types";
 import {
   Button,
   ControlInput,
@@ -23,29 +26,25 @@ const CustomerPayBill = () => {
 
   const transformBill = data?.data[0];
 
-  const roundedGrandTotal = Number(transformBill?.total_amount) || 0;
+  const roundedGrandTotal = Number(transformBill?.total_amount ?? 0);
 
-
+  console.log("Rounded Grand Total:", typeof roundedGrandTotal);
   const bill = {
     month: transformBill?.month || "N/A",
-    total_amount: String(roundedGrandTotal),
+    total_amount: roundedGrandTotal,
     to: transformBill?.user_id?.email || "N/A",
   };
-  const {
-    control,
-    handleSubmit,
-    reset,
-  } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
-    resolver: yupResolver(AddCustomerBillPayFormschema),
+    resolver: yupResolver(ADD_CUSTOMER_BILL_PAY_SCHEMA),
     values: {
       received_number: transformBill?.received_number || "",
-      total_bill: roundedGrandTotal,
-      month: String(transformBill.month) || "",
+      total_bill: Number(roundedGrandTotal),
+      month: transformBill?.month ?? "",
       trans_id: transformBill?.trans_id || "",
     },
   });
-
+  console.log(transformBill);
 
   const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
@@ -55,6 +54,7 @@ const CustomerPayBill = () => {
         ...data,
         user_id: transformBill?.user_id?._id,
       };
+      console.log("Payload Sending:", finalData);
       await createBillPayment(finalData).unwrap();
       reset();
     } catch (err: unknown) {
@@ -66,7 +66,6 @@ const CustomerPayBill = () => {
       }
     }
   });
-
 
   if (isBillLoading) <Loader />;
   if (isBillError)
@@ -88,11 +87,7 @@ const CustomerPayBill = () => {
         <div className="flex   mt-16 gap-6">
           {/* Left Side: Payment Form */}
           <div className="w-full md:w-1/2">
-
-            <form
-              className="grid pt-5 pb-5"
-              onSubmit={onSubmit}
-            >
+            <form className="grid pt-5 pb-5" onSubmit={onSubmit}>
               {/* Account Number */}
 
               <ControlInput
@@ -103,7 +98,6 @@ const CustomerPayBill = () => {
                 name="received_number"
               />
 
-
               {/* Total Pay */}
               <ControlInput
                 control={control}
@@ -111,6 +105,7 @@ const CustomerPayBill = () => {
                 label="Total Pay"
                 placeholder="Total Pay"
                 name="total_bill"
+                type="number"
               />
 
               {/* Month */}
@@ -139,15 +134,13 @@ const CustomerPayBill = () => {
                   type="submit"
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   loading={isLoading}
-                // disabled={!isDirty}
+                  // disabled={!isDirty}
                 >
                   {isLoading ? "Submitting..." : "Submit"}
                 </Button>
               </div>
             </form>
           </div>
-
-
         </div>
       </Panel>
     </>

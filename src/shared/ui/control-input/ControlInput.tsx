@@ -8,6 +8,14 @@ import {
 
 interface IProps<TFieldValues extends FieldValues> {
   size?: "sm" | "md" | "lg";
+  type?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "file"
+    | "hidden"
+    | "checkbox";
   label?: string;
   name: Path<TFieldValues>;
   placeholder?: string;
@@ -17,6 +25,7 @@ interface IProps<TFieldValues extends FieldValues> {
 
 const ControlInput = <TFieldValues extends FieldValues>({
   size = "md",
+  type = "text",
   label,
   name,
   placeholder,
@@ -40,6 +49,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
           <div className="col-span-9">
             <Input
               {...field}
+              type={type}
               value={field.value}
               label={isInputLabel ? "" : label}
               error={{

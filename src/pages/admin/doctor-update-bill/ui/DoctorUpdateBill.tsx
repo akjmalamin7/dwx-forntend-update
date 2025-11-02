@@ -82,6 +82,8 @@ const DoctorUpdateBill = () => {
         </div>
 
         <Table
+          scroll={true}
+          size="md"
           loading={isLoading}
           columns={COLUMN}
           dataSource={paginatedData}

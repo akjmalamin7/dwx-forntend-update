@@ -19,7 +19,6 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     onRow,
     ...rest
   } = props;
-
   const tableSizes = {
     xs: "!min-w-[500px]",
     sm: "!min-w-[700px]",
@@ -38,12 +37,10 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     striped: "even:bg-gray-50 odd:bg-white", // alternate row color
   }[bg || "transparent"];
 
-  const tableClasses = classNames("", className, {
+  const tableHeaderClasses = classNames("align-bottom bg-gray-100");
+  const tableClasses = classNames(className, {
     "overflow-x-auto touch-pan-x": scroll,
   });
-
-  const tableHeaderClasses = classNames("align-bottom bg-gray-100");
-
   const handleRow = (
     event: React.MouseEvent<HTMLTableRowElement>,
     data: DataSource

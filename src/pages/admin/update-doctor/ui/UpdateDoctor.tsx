@@ -1,30 +1,28 @@
- 
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetUpdateDoctorListQuery } from "@/shared/redux/features/admin/update-doctor-list/updateDoctorListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";
-import { useGetUpdateDoctorListQuery } from "@/shared/redux/features/admin/update-doctor-list/updateDoctorListApi";
 
 const UpdateDoctor = () => {
   const { data: doctorList, isLoading } = useGetUpdateDoctorListQuery();
- 
+
   const DATA_TABLE = useMemo(
     () =>
-      doctorList?.filter((item) => item.email !== "All").map((item, index) => ({
-        key: item._id,
-        sl: index + 1, 
-        email:  item.email, 
-        role: item.role=='xray_dr'?'Radiology Doctor':'Ecg Doctor', 
-        action: "",
-      })) || [],
+      doctorList
+        ?.filter((item) => item.email !== "All")
+        .map((item, index) => ({
+          key: item._id,
+          sl: index + 1,
+          email: item.email,
+          role: item.role == "xray_dr" ? "Radiology Doctor" : "Ecg Doctor",
+          action: "",
+        })) || [],
     [doctorList]
   );
-
-
- 
 
   const {
     searchQuery,
@@ -44,14 +42,13 @@ const UpdateDoctor = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}> 
-             <Link
+          <div key={rowIndex}>
+            <Link
               to={`/admin/doctor-bill-month/${record?.key}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
             >
               View
             </Link>
-            
           </div>
         ),
       };
@@ -71,6 +68,8 @@ const UpdateDoctor = () => {
         </div>
 
         <Table
+          scroll={true}
+          size="md"
           loading={isLoading}
           columns={COLUMN}
           dataSource={paginatedData}

@@ -13,5 +13,6 @@ export { Panel } from "./panel";
 export { PanelHeading } from "./panel-heading";
 export { Search } from "./search";
 export { Select } from "./select";
+export { ServerSidePagination } from "./server-side-pagination";
 export { Text } from "./text";
 export { withSuspense } from "./with-suspense";

@@ -1,47 +1,40 @@
- 
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetAdminDoctorBillQuery } from "@/shared/redux/features/admin/doctor-update-month/doctorBillApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { DOCTOR_DATA_COL } from "./updateDoctorBill.data.col"; 
-import { useGetAdminDoctorBillQuery } from "@/shared/redux/features/admin/doctor-update-month/doctorBillApi";
+import { DOCTOR_DATA_COL } from "./updateDoctorBill.data.col";
 
-const UpdateDoctorBill = () => { 
- 
-    const { doctor_id } = useParams<{ doctor_id: string }>();
-    const {
-      data: billList,
-      isLoading
-    } = useGetAdminDoctorBillQuery(doctor_id!, { skip: !doctor_id });
-  
+const UpdateDoctorBill = () => {
+  const { doctor_id } = useParams<{ doctor_id: string }>();
+  const { data: billList, isLoading } = useGetAdminDoctorBillQuery(doctor_id!, {
+    skip: !doctor_id,
+  });
 
   const DATA_TABLE = useMemo(
     () =>
       billList?.map((item, index) => ({
         key: item._id,
-        sl: index + 1, 
-        month:  item.month,  
-        doctor_id:  item.doctor_id,  
-        total_patients:  item.total_patients,  
-        total_amount:  item.total_amount,  
-        status:  item.status,  
-        paid_amount:  item.paid_amount,   
+        sl: index + 1,
+        month: item.month,
+        doctor_id: item.doctor_id,
+        total_patients: item.total_patients,
+        total_amount: item.total_amount,
+        status: item.status,
+        paid_amount: item.paid_amount,
         payment_date: item.payment_date
-        ? new Date(item.payment_date).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          })
-        : "—",
+          ? new Date(item.payment_date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
+          : "—",
         action: "",
       })) || [],
     [billList]
   );
-
-
- 
 
   const {
     searchQuery,
@@ -61,8 +54,8 @@ const UpdateDoctorBill = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex gap-2"> 
-             <Link
+          <div key={rowIndex} className="flex gap-2">
+            <Link
               to={`/admin/doctor-print-bill/${record?.key}`}
               className="bg-green-500 text-white px-4 py-2 text-sm rounded"
             >
@@ -80,7 +73,6 @@ const UpdateDoctorBill = () => {
             >
               Update
             </Link>
-            
           </div>
         ),
       };
@@ -100,6 +92,8 @@ const UpdateDoctorBill = () => {
         </div>
 
         <Table
+          scroll={true}
+          size="md"
           loading={isLoading}
           columns={COLUMN}
           dataSource={paginatedData}

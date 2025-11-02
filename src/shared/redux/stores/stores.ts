@@ -8,6 +8,12 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: {
+    name: "MyApp Store",
+    trace: true,
+    traceLimit: 25,
+  },
+
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

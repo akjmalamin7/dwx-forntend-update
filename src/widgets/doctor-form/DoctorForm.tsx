@@ -1,27 +1,26 @@
 // features/user-form/UserForm.tsx
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { 
+import {
   FormProvider,
   useForm,
   type SubmitHandler,
   type UseFormReturn,
 } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
+  Button,
   ControlInput,
   ControlledSelect,
-  Button, 
 } from "@/shared/ui";
 
+import { ImageUpload } from "@/features";
 import {
-    
-  type UserFormValues,
   RoleEnum,
   StatusEnum,
-  userFormSchema, 
+  userFormSchema,
+  type UserFormValues,
 } from "@/shared/utils/types/userTypes";
-import { ImageUpload } from "@/features";
 
 interface UserFormProps {
   onSubmit: SubmitHandler<UserFormValues>;
@@ -105,9 +104,9 @@ const UserForm = ({
         onSubmit={methods.handleSubmit(handleSubmit)}
       >
         {/* Image Upload */}
-         <ImageUpload key={resetCount} control={control} name="image" />
+        <ImageUpload key={resetCount} control={control} name="image" />
 
-      {/* Role */}
+        {/* Role */}
         <ControlledSelect
           label="User Role"
           control={control}
@@ -131,14 +130,14 @@ const UserForm = ({
           label="Email/Username"
           placeholder="Enter Username"
         />
-         
+
         <ControlInput
-            control={control}
-            name="password"
-            label="Password"
-            placeholder="Enter password" 
-         />
-       
+          control={control}
+          name="password"
+          label="Password"
+          placeholder="Enter password"
+        />
+
 
         <ControlInput
           control={control}
@@ -146,7 +145,7 @@ const UserForm = ({
           label="Mobile"
           placeholder="Enter mobile number"
         />
- 
+
 
         <ControlInput
           control={control}
@@ -155,28 +154,28 @@ const UserForm = ({
           placeholder="Enter address"
         />
 
-        
 
-        
+
+
 
         {/* Prices */}
         <ControlInput
           control={control}
           name="single"
-          label="Single Price" 
+          label="Single Price"
         />
         <ControlInput
           control={control}
           name="double"
-          label="Double Price" 
+          label="Double Price"
         />
         <ControlInput
           control={control}
           name="multiple"
-          label="Multiple Price" 
+          label="Multiple Price"
         />
 
-        <ControlInput control={control} name="ecg" label="ECG Price"  />
+        <ControlInput control={control} name="ecg" label="ECG Price" />
 
         {/* Flags */}
         <ControlledSelect
@@ -208,7 +207,7 @@ const UserForm = ({
             name: s,
             value: s,
           }))}
-        /> 
+        />
 
         {/* Selected / Ignored Doctors */}
         <ControlInput

@@ -1,22 +1,47 @@
-import { useAddUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi"; 
-import { Panel, PanelHeading } from "@/shared/ui"; 
-import type { UserFormValues } from "@/shared/utils/types/userTypes";
+import { useAddUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi";
+import { Panel, PanelHeading } from "@/shared/ui";
+import {
+  ADD_ADMIN_USER_SCHEMA,
+  type XRayDoctorPayload,
+} from "@/shared/utils/types/userTypes";
 import { DoctorForm } from "@/widgets";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { type SubmitHandler } from "react-hook-form";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 
 const AddUser = () => {
   const [createUser, { isLoading }] = useAddUserMutation();
   const [resetCount, setResetCount] = useState<number>(0);
 
-  const onSubmit: SubmitHandler<UserFormValues> = async (data) => {
-   
+  const form = useForm({
+    resolver: yupResolver(ADD_ADMIN_USER_SCHEMA),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      mobile: "",
+      address: "",
+      single: undefined,
+      double: undefined,
+      multiple: undefined,
+      ecg: undefined,
+      is_default: "No",
+      status: "inactive",
+      hide_bill: "No",
+      role: "xray_dr",
+      image: null,
+      selected_dr: [],
+      ignored_dr: [],
+    },
+    mode: "onChange",
+  });
+  const onSubmit: SubmitHandler<XRayDoctorPayload> = async (data) => {
     try {
       await createUser(data).unwrap();
-      // Reset through resetCount prop
       setResetCount((prev) => prev + 1);
-    } catch (err: unknown) {
-      console.error("Error creating patient:", err);
+      form.reset();
+    } catch (err) {
+      console.error("Error creating user:", err);
     }
   };
 
@@ -30,11 +55,13 @@ const AddUser = () => {
         />
       }
     >
-      <DoctorForm
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        resetCount={resetCount}
-      />
+      <FormProvider {...form}>
+        <DoctorForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          resetCount={resetCount}
+        />
+      </FormProvider>
     </Panel>
   );
 };

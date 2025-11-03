@@ -1,3 +1,4 @@
+import { adminRoutes } from "@/pages/admin/adminRoutes";
 import { agentRoutes } from "@/pages/agent/agenRoutes";
 import { doctorRoutes } from "@/pages/doctor/doctorRoutes";
 import { withSuspense } from "@/shared/ui";
@@ -7,7 +8,6 @@ import { Pages } from "./lazy-pages";
 import PrivateRoutes from "./private-routers/PrivateRouters";
 import PublicRoutes from "./public-routers/PublicRouters";
 import RoleBasedHome from "./role-base-home/roleBaseHome";
-import { adminRoutes } from "@/pages/admin/adminRoutes";
 
 const publicRoutes = {
   element: withSuspense(<PublicRoutes />),
@@ -51,7 +51,7 @@ const privateRoutes = {
 
     {
       element: <PrivateRoutes allowedRoles={["admin"]} />,
-      children: [...adminRoutes], 
+      children: [...adminRoutes],
     },
   ],
 };

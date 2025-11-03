@@ -28,7 +28,6 @@ const CustomerPayBill = () => {
 
   const roundedGrandTotal = Number(transformBill?.total_amount ?? 0);
 
-  console.log("Rounded Grand Total:", typeof roundedGrandTotal);
   const bill = {
     month: transformBill?.month || "N/A",
     total_amount: roundedGrandTotal,

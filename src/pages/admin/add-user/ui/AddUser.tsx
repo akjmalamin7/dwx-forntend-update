@@ -1,13 +1,11 @@
 import { useAddUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi";
-import { Panel, PanelHeading } from "@/shared/ui";
-import {
-  ADD_ADMIN_USER_SCHEMA,
-  type XRayDoctorPayload,
-} from "@/shared/utils/types/userTypes";
+import { ADD_ADMIN_USER_SCHEMA } from "@/shared/redux/features/admin/add-user/user.types";
+import { Button, Panel, PanelHeading } from "@/shared/ui";
+
 import { DoctorForm } from "@/widgets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 const AddUser = () => {
   const [createUser, { isLoading }] = useAddUserMutation();
@@ -26,7 +24,7 @@ const AddUser = () => {
       multiple: undefined,
       ecg: undefined,
       is_default: "No",
-      status: "inactive",
+      status: "Inactive",
       hide_bill: "No",
       role: "xray_dr",
       image: null,
@@ -35,7 +33,7 @@ const AddUser = () => {
     },
     mode: "onChange",
   });
-  const onSubmit: SubmitHandler<XRayDoctorPayload> = async (data) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     try {
       await createUser(data).unwrap();
       setResetCount((prev) => prev + 1);
@@ -43,7 +41,7 @@ const AddUser = () => {
     } catch (err) {
       console.error("Error creating user:", err);
     }
-  };
+  });
 
   return (
     <Panel
@@ -56,12 +54,23 @@ const AddUser = () => {
       }
     >
       <FormProvider {...form}>
-        <DoctorForm
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          resetCount={resetCount}
-        />
+        <DoctorForm resetCount={resetCount} />
       </FormProvider>
+      {/* submit */}
+      <div className="grid grid-cols-12 gap-y-4 items-center mt-4">
+        <div className="col-span-3"></div>
+        <div className="col-span-9">
+          <Button
+            onClick={onSubmit}
+            type="submit"
+            color="dark"
+            size="size-2"
+            loading={isLoading}
+          >
+            {isLoading ? "Submitting" : "Create User"}
+          </Button>
+        </div>
+      </div>
     </Panel>
   );
 };

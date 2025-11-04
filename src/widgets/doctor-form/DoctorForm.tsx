@@ -1,50 +1,28 @@
 // features/user-form/UserForm.tsx
 
 import { useEffect } from "react";
-import { useFormContext, type SubmitHandler } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
-import { ImageUpload } from "@/features";
-import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
-import {
-  RoleEnum,
-  StatusEnum,
-  type XRayDoctorPayload,
-} from "@/shared/utils/types/userTypes";
+import { AdminDoctorMultiSelect, ImageUpload } from "@/features";
+import type { XRayDoctorPayload } from "@/shared/redux/features/admin/add-user/user.types";
+import { ControlInput, ControlledSelect } from "@/shared/ui";
+import { RoleEnum } from "@/shared/utils/types/types";
+import { StatusEnum } from "@/shared/utils/types/userTypes";
 
 interface UserFormProps {
-  onSubmit: SubmitHandler<XRayDoctorPayload>;
-  isLoading?: boolean;
-  defaultValues?: Partial<XRayDoctorPayload>;
-  isEdit?: boolean;
   resetCount?: number;
+  isEdit?: boolean;
 }
 
-const UserForm = ({
-  onSubmit,
-  isLoading = false,
-  isEdit = false,
-  resetCount = 0,
-}: UserFormProps) => {
-  const {
-    control,
-    reset,
-    handleSubmit,
-    formState: { isValid },
-  } = useFormContext<XRayDoctorPayload>();
-
+const UserForm = ({ resetCount = 0, isEdit = false }: UserFormProps) => {
+  const { control, reset } = useFormContext<XRayDoctorPayload>();
+  // const form = useFormContext<XRayDoctorPayload>();
+  console.log(isEdit);
   useEffect(() => {
-    if (resetCount > 0 && !isEdit) {
+    if (resetCount > 0) {
       reset();
     }
-  }, [resetCount, reset, isEdit]);
-
-  const onFormSubmit: SubmitHandler<XRayDoctorPayload> = async (data) => {
-    try {
-      await onSubmit(data);
-    } catch (err) {
-      console.error("Error submitting user form:", err);
-    }
-  };
+  }, [resetCount, reset]);
 
   return (
     <div className="grid grid-cols-12 gap-y-4 items-center">
@@ -133,33 +111,18 @@ const UserForm = ({
       />
 
       {/* Selected / Ignored Doctors */}
-      <ControlInput
-        control={control}
-        name="selected_dr"
+      <AdminDoctorMultiSelect
         label="Selected Doctors (IDs)"
-        placeholder="Comma separated IDs"
-      />
-      <ControlInput
+        name="selected_dr"
         control={control}
-        name="ignored_dr"
+      />
+      <AdminDoctorMultiSelect
         label="Ignored Doctors (IDs)"
-        placeholder="Comma separated IDs"
+        name="ignored_dr"
+        control={control}
       />
 
       {/* Submit */}
-      <div className="col-span-3"></div>
-      <div className="col-span-9">
-        <Button
-          onClick={handleSubmit(onFormSubmit)}
-          type="submit"
-          color="dark"
-          size="size-2"
-          loading={isLoading}
-          disabled={!isValid}
-        >
-          {isLoading ? "Submitting" : isEdit ? "Update User" : "Create User"}
-        </Button>
-      </div>
     </div>
   );
 };

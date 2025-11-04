@@ -61,16 +61,34 @@ export const Pages = {
   AdminDoctorPrintBill: lazy(() => import("@/pages/admin/doctor-print-bill")),
   AdminDoctorPayBill: lazy(() => import("@/pages/admin/doctor-pay-bill")),
   AdminDoctorUpdateBill: lazy(() => import("@/pages/admin/doctor-update-bill")),
-  AdminManageCustomerBill: lazy(() => import("@/pages/admin/manage-customer-bill")),
-  AdminManageCustomerBillMonth: lazy(() => import("@/pages/admin/manage-customer-bill-by-month")),
-  AdminCustomerPrintBill: lazy(() => import("@/pages/admin/customer-print-bill")),
+  AdminManageCustomerBill: lazy(
+    () => import("@/pages/admin/manage-customer-bill")
+  ),
+  AdminManageCustomerBillMonth: lazy(
+    () => import("@/pages/admin/manage-customer-bill-by-month")
+  ),
+  AdminCustomerPrintBill: lazy(
+    () => import("@/pages/admin/customer-print-bill")
+  ),
   AdminCustomerPayBill: lazy(() => import("@/pages/admin/customer-pay-bill")),
-  AdminCustomerUpdateBill: lazy(() => import("@/pages/admin/customer-bill-update")),
-  AdminCustomerBillMonth: lazy(() => import("@/pages/admin/customer-payment-request")),
-  AdminCustomerBillRequest: lazy(() => import("@/pages/admin/customer-bill-request-list")),
-  AdminCustomerTransectionHistory: lazy(() => import("@/pages/admin/customer-transection-history")),
-  AdminCustomerTransectionHistoryList: lazy(() => import("@/pages/admin/customer-transection-history-list")),
+  AdminCustomerUpdateBill: lazy(
+    () => import("@/pages/admin/customer-bill-update")
+  ),
+  AdminCustomerBillMonth: lazy(
+    () => import("@/pages/admin/customer-payment-request")
+  ),
+  AdminCustomerBillRequest: lazy(
+    () => import("@/pages/admin/customer-bill-request-list")
+  ),
+  AdminCustomerTransectionHistory: lazy(
+    () => import("@/pages/admin/customer-transection-history")
+  ),
+  AdminCustomerTransectionHistoryList: lazy(
+    () => import("@/pages/admin/customer-transection-history-list")
+  ),
   AdminAddUser: lazy(() => import("@/pages/admin/add-user")),
+  AdminEditUser: lazy(() => import("@/pages/admin/edit-user")),
+  AdminChangePassword: lazy(() => import("@/pages/admin/change-password")),
   AdminCustomerList: lazy(() => import("@/pages/admin/users")),
   AdminXrayDoctorList: lazy(() => import("@/pages/admin/xray-doctors")),
   AdminEcgDoctorList: lazy(() => import("@/pages/admin/ecg-doctors")),

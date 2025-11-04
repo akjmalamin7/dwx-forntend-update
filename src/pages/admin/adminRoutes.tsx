@@ -102,8 +102,16 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminAddUser />),
   },
   {
+    path: "/admin/user/:id",
+    element: withSuspense(<Pages.AdminEditUser />),
+  },
+  {
     path: "/admin/user-list",
     element: withSuspense(<Pages.AdminCustomerList />),
+  },
+  {
+    path: "/admin/change-password/:id",
+    element: withSuspense(<Pages.AdminChangePassword />),
   },
   {
     path: "/admin/user-list",

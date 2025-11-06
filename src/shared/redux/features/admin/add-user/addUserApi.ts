@@ -1,5 +1,10 @@
 import { apiSlice } from "../../api/apiSlice";
-import { transformUserListResponse, type USER_MODEL, type UserListApiResponse } from "./user.types";
+import {
+  transformUserListResponse,
+  type AdminUserResponse,
+  type USER_MODEL,
+  type UserListApiResponse,
+} from "./user.types";
 
 export const AddUserApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -41,7 +46,13 @@ export const AddUserApi = apiSlice.injectEndpoints({
       },
       providesTags: ["User"],
     }),
-
+    getUser: builder.query<AdminUserResponse, string>({
+      query: (id) => ({
+        url: `/admin/users/${id}`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, id) => [{ type: "User", id }],
+    }),
     updateUser: builder.mutation({
       query: ({ id, data }) => ({
         url: `/admin/users/${id}`,
@@ -53,7 +64,28 @@ export const AddUserApi = apiSlice.injectEndpoints({
         { type: "User", id },
       ],
     }),
+    deleteAdminUser: builder.mutation({
+      query: (id) => ({
+        url: `/admin/users/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: `/admin/users/password`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
-export const { useAddUserMutation, useUpdateUserMutation, useGetUserListQuery, useGetDeletedDoctorListQuery, useGetDeletedUserListQuery } =
-  AddUserApi;
+export const {
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useGetUserListQuery,
+  useGetDeletedDoctorListQuery,
+  useGetDeletedUserListQuery,
+  useGetUserQuery,
+  useDeleteAdminUserMutation,
+  useChangePasswordMutation,
+} = AddUserApi;

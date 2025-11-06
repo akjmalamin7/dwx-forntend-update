@@ -5,7 +5,7 @@ export const DoctorOptionsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorOptions: builder.query<DoctorOption[], void>({
       query: () => ({
-        url: "/agent/alldoctorlist", // Vite proxy will forward /api prefix
+        url: "/agent/alldoctorlist",
         method: "GET",
       }),
       transformResponse: (response: DoctorApiResponse): DoctorOption[] =>

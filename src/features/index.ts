@@ -1,6 +1,8 @@
 export {
+  AdminDoctorMultiSelect,
   CompletedBack,
   DeleteAdminPatient,
+  DeleteAdminUser,
   PatientDeleteBack,
   TypingBack,
 } from "./admin";

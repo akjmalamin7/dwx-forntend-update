@@ -33,6 +33,7 @@ export const apiSlice = createApi({
     "AdminPatient",
     "DeleteAdminPatient",
     "DeletedPatientList",
+    "XraytypeList",
   ],
   endpoints: () => ({}),
 });

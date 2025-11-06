@@ -1,0 +1,1 @@
+export { DeleteXraytype } from "./ui";

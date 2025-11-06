@@ -329,7 +329,7 @@ export const MENU_DATA: MenuType[] = [
         {
           id: "all-xray-name-3",
           title: "All x-ray name",
-          path: "/admin/all-xray-name",
+          path: "/admin/xraytype-list",
           role: [RoleEnum.admin],
         },
         

@@ -137,4 +137,14 @@ export const adminRoutes = [
     path: "/admin/format/:id",
     element: withSuspense(<Pages.AdminFormatUpdate />),
   },
+
+    {
+    path: "/admin/xraytype-list",
+    element: withSuspense(<Pages.AdminXraytypeList />),
+  },
+  {
+    path: "/admin/xraytype-add",
+    element: withSuspense(<Pages.AdminXraytypeAdd />),
+  },
+
 ];

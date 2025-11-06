@@ -79,4 +79,6 @@ export const Pages = {
   AdminFormatList: lazy(() => import("@/pages/admin/format-list")),
   AdminFormatAdd: lazy(() => import("@/pages/admin/format-add")),
   AdminFormatUpdate: lazy(() => import("@/pages/admin/update-format")),
+  AdminXraytypeList: lazy(() => import("@/pages/admin/xraytype-list")),
+  AdminXraytypeAdd: lazy(() => import("@/pages/admin/xraytype-add")),
 };

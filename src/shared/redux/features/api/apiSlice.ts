@@ -34,6 +34,9 @@ export const apiSlice = createApi({
     "DeleteAdminPatient",
     "DeletedPatientList",
     "XraytypeList",
+    "HistoryList",
+    "PaymentList",
+    "Payment",
   ],
   endpoints: () => ({}),
 });

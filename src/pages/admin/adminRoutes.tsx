@@ -155,4 +155,24 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminXraytypeAdd />),
   },
 
+      {
+    path: "/admin/history-list",
+    element: withSuspense(<Pages.AdminHistoryList />),
+  },
+  {
+    path: "/admin/history-add",
+    element: withSuspense(<Pages.AdminHistoryAdd />),
+  },
+
+     {
+    path: "/admin/payment-list",
+    element: withSuspense(<Pages.AdminPaymentList />),
+  },
+  {
+    path: "/admin/payment-add",
+    element: withSuspense(<Pages.AdminPaymentAdd />),
+  },
+ 
+
+
 ];

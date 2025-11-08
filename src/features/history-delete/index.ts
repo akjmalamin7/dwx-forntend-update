@@ -1,0 +1,1 @@
+export { DeleteHistory } from "./ui";

@@ -314,8 +314,8 @@ export const MENU_DATA: MenuType[] = [
       children: [ 
         {
           id: "view-payment-1",
-          title: "View All Payment",
-          path: "/admin/view-all-payment",
+          title: "All Payment",
+          path: "/admin/payment-list",
           role: [RoleEnum.admin],
         },
        
@@ -336,7 +336,7 @@ export const MENU_DATA: MenuType[] = [
         {
           id: "all-history-4",
           title: "All History",
-          path: "/admin/all-history",
+          path: "/admin/history-list",
           role: [RoleEnum.admin],
         },
           

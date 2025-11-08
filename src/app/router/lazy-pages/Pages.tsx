@@ -99,4 +99,8 @@ export const Pages = {
   AdminFormatUpdate: lazy(() => import("@/pages/admin/update-format")),
   AdminXraytypeList: lazy(() => import("@/pages/admin/xraytype-list")),
   AdminXraytypeAdd: lazy(() => import("@/pages/admin/xraytype-add")),
+  AdminHistoryList: lazy(() => import("@/pages/admin/history-list")),
+  AdminHistoryAdd: lazy(() => import("@/pages/admin/history-add")),
+  AdminPaymentList: lazy(() => import("@/pages/admin/payment-list")),
+  AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")), 
 };

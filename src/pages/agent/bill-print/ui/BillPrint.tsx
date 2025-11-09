@@ -16,7 +16,7 @@ const BillPrint = () => {
     isLoading: isBillLoading,
     isError: isBillError,
   } = useGetBillQuery(month!, { skip: !month });
-  const transformBill = bill?.bills[0];
+  const transformBill = bill?.data[0];
 
   const billingHeaderData = {
     month: transformBill?.month || "N/A",
@@ -71,6 +71,9 @@ const BillPrint = () => {
         Error occured
       </Text>
     );
+
+  const currentMonth = new Date().toISOString().slice(0, 7);
+
   return (
     <>
       {/* Print-specific style */}
@@ -88,12 +91,18 @@ const BillPrint = () => {
         header={<PanelHeading title="Print Patient Report" button="" path="" />}
         size="lg"
       >
-        <Button
+
+         {month != currentMonth && (
+             <Button
           onClick={handlePrint}
           className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
         >
           Print Bill
         </Button>
+          )}
+         
+
+      
         {/* Table */}
         <BillingPadHeader billingHeader={billingHeaderData} />
         <BillPrintList billPrintList={billPrint} />

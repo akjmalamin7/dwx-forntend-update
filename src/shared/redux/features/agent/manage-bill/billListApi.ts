@@ -10,11 +10,11 @@ export const BillListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getBillList: builder.query<BILL_MODEL[], void>({
       query: () => ({
-        url: "/agent/bill",
+        url: "/agent/bill?page=1&limit=100",
         method: "GET",
       }),
       transformResponse: (response: BillListApiResponse) => {
-        return transformBillListResponse(response.bills);
+        return transformBillListResponse(response.data);
       },
       providesTags: ["Bill"],
     }),

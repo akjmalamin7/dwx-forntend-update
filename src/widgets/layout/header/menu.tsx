@@ -84,13 +84,7 @@ export const MENU_DATA: MenuType[] = [
         title: "Manage Bill",
         path: "/agent/manage-bill",
         role: [RoleEnum.user],
-      },
-      {
-        id: "user-bill-report-2",
-        title: "Transaction History",
-        path: "/agent/transaction-history",
-        role: [RoleEnum.user],
-      },
+      }, 
     ],
   },
   {

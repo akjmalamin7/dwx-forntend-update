@@ -17,13 +17,13 @@ const PreviousMonthPatient = () => {
         key: item._id,
         sl: index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: true,
-}),
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        }),
         end_time: new Date(item.completed_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
         patient_age: item.age,
         patient_name: item.name,
@@ -31,7 +31,7 @@ const PreviousMonthPatient = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.completed_dr[0]?.email || "",
+        viewed: item.completed_dr?.email,
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
@@ -48,7 +48,7 @@ const PreviousMonthPatient = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 10,
+    rowsPerPage: 200,
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

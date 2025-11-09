@@ -39,7 +39,7 @@ const PayBill = () => {
     );
   }, [paymentGetway]);
 
-  const transformBill = data?.bills[0];
+  const transformBill = data?.data[0];
 
   const amount = Number(transformBill?.total_amount) || 0;
 

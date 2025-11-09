@@ -31,7 +31,7 @@ const PatientCompleted = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.completed_dr[0]?.email || "",
+        viewed: item.completed_dr?.email || "",
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
@@ -48,7 +48,7 @@ const PatientCompleted = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 10,
+    rowsPerPage: 50,
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

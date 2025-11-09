@@ -23,8 +23,15 @@ const Patients = () => {
         patient_id: item.patient_id,
         patient_sex: item.gender,
         xray_name: item.xray_name,
-        type: item.rtype,
-        viewed: item.doctor_id?.[0]?.email || "",
+        type: item.rtype, 
+        selected_dr: Array.isArray(item.doctor_id) && item.doctor_id.length > 0
+            ? item.doctor_id.map((d) => d.email).join(", ")
+            : "All",
+        ignore_dr:
+          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
+            ? item.ignore_dr.map((d) => d.email).join(", ")
+            : "",
+        online_dr: item.online_dr?.email || "",
         action: "",
       })) || [],
     [patientList]
@@ -40,7 +47,7 @@ const Patients = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 10,
+    rowsPerPage: 20,
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -49,12 +56,7 @@ const Patients = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex items-center gap-[6px]">
-            <Link
-              to={`/agent/patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-            >
-              View
-            </Link>
+         
 
             <Link
               to={`/agent/patient-edit/${record?.key}`}
@@ -62,13 +64,7 @@ const Patients = () => {
             >
               Edit
             </Link>
-
-            <Link
-              to={`/agent/patient-print/${record?.key}`}
-              className="bg-yellow-500  text-white px-2 py-1 rounded text-sm"
-            >
-              Print
-            </Link>
+ 
           </div>
         ),
       };
@@ -78,6 +74,7 @@ const Patients = () => {
 
   return (
     <Panel header="Pending Report" size="lg">
+      <div className="w-1/3">
       {user?.role === "user" ? (
         <Search
           value={searchQuery}
@@ -87,6 +84,7 @@ const Patients = () => {
       ) : (
         <Text color="danger">Role not matched</Text>
       )}
+      </div>
 
       <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
 

@@ -51,9 +51,21 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
   },
   {
-    key: "viewed",
-    title: "Viewed",
-    dataIndex: "viewed",
+    key: "selected_dr",
+    title: "Selected Dr",
+    dataIndex: "selected_dr",
+    align: "start",
+  },
+  {
+    key: "ignore_dr",
+    title: "Ignored Dr",
+    dataIndex: "ignore_dr",
+    align: "start",
+  },
+  {
+    key: "online_dr",
+    title: "Online Dr",
+    dataIndex: "online_dr",
     align: "start",
   },
   {

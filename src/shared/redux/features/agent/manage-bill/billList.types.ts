@@ -45,17 +45,22 @@ export interface BILL_TRANSFORM_MODEL {
 export interface BILL_RESPONSE {
   message: string;
   success: boolean;
-  bills: BILL_TRANSFORM_MODEL[];
+  data: BILL_TRANSFORM_MODEL[];
 }
 export interface BillListApiResponse {
   message: string;
   success: boolean;
   total: number;
-  bills: BILL_MODEL[];
+  data: BILL_MODEL[];
 }
 
 export const transformBillListResponse = (data: BILL_MODEL[]): BILL_MODEL[] => {
-  return data.map((item) => ({
+   if (!data) return [];
+
+  // sort before mapping
+  const sortedData = [...data].sort((a, b) => b.month.localeCompare(a.month));
+
+  return sortedData.map((item) => ({
     _id: item._id,
     id: item.id,
     month: item.month,

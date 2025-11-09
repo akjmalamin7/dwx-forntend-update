@@ -5,7 +5,7 @@ export const AllDoctorListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     allDoctorList: builder.query<ALL_DOCTOR_LIST_RESPONSE, void>({
       query: () => ({
-        url: "/admin/users/all?role=xray_dr&role=ecg_dr",
+        url: "/admin/users/all?role=xray_dr&role=ecg_dr&page=1&limit=100",
         method: "GET",
       }),
       providesTags: ["PendingPatient"],

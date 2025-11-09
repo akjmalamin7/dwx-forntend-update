@@ -14,9 +14,9 @@ const PatientPrint = () => {
   } = useGetPatientPrintQuery(id!, {
     skip: !id,
   });
-  const printPatient = print_view?.data?.patient;
-  const comments = print_view?.data?.patient?.doctorcomments;
-  const signature = print_view?.data?.patient?.completed_dr;
+  const printPatient = print_view?.data;
+  const comments = print_view?.data?.doctorcomments;
+  const signature = print_view?.data?.completed_dr;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
 

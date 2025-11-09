@@ -12,7 +12,7 @@ export const PendingPatientListApi = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/doctor/patient",
+        url: "/doctor/patient?page=1&limit=100",
         method: "GET",
       }),
       transformResponse: (response: PendingPatientApiResponse) => {

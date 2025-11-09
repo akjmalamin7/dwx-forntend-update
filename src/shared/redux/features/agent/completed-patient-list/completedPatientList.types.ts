@@ -7,7 +7,7 @@ export interface COMPLETED_DOCTOR {
 export interface COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
-  completed_dr: COMPLETED_DOCTOR[];
+  completed_dr: COMPLETED_DOCTOR;
   ignore_dr: string[];
   patient_id: string;
   name: string;
@@ -36,7 +36,7 @@ export interface COMPLETED_PATIENT_MODEL {
 export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
   _id: string;
   id: string;
-  completed_dr: COMPLETED_DOCTOR[];
+  completed_dr: COMPLETED_DOCTOR;
   createdAt: string;
   patient_id: string;
   name: string;

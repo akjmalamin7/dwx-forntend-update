@@ -10,6 +10,8 @@ interface IProps {
   billingHeader?: BillingType;
 }
 const BillingPadHeader = ({ billingHeader }: IProps) => {
+
+
   return (
     <div className="overflow-x-auto">
       <img src={HEADERPAD} alt="Header" className="w-full mb-4" />

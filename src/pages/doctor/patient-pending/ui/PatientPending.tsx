@@ -37,20 +37,20 @@ const PatientPending = () => {
         action: "",
       })) || [],
     [patientList, user?.id]
-  );
+  ); 
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 100,
-  });
+    const {
+      searchQuery,
+      setSearchQuery,
+      currentPage,
+      setCurrentPage,
+      paginatedData,
+      totalPages,
+    } = useSearchPagination({
+      data: DATA_TABLE,
+      searchFields: ["patient_name", "patient_id", "xray_name"],
+      rowsPerPage: 100,
+    });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {

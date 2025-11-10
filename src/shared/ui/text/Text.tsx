@@ -1,6 +1,7 @@
 import React from "react";
 
 interface TextProps {
+  isEditable?: boolean;
   children?: React.ReactNode;
   size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
   element?:
@@ -38,6 +39,7 @@ const Text = ({
   textDecoration = "none",
   children,
   className = "",
+  isEditable = false,
 }: TextProps) => {
   const Tag = element as keyof React.JSX.IntrinsicElements;
 
@@ -82,7 +84,11 @@ const Text = ({
 
   const finalClass = `${sizeClasses} ${colorClasses} ${textAlignClasses} ${fontWeightClasses} ${textDecorationClasses} ${className}`;
 
-  return <Tag className={finalClass}>{children}</Tag>;
+  return (
+    <Tag className={finalClass} contentEditable={isEditable ?? false}>
+      {children}
+    </Tag>
+  );
 };
 
 export default Text;

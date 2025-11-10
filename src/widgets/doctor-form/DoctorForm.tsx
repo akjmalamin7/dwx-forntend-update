@@ -1,23 +1,21 @@
 // features/user-form/UserForm.tsx
 
 import { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
-import { AdminDoctorMultiSelect, ImageUpload } from "@/features";
+import { AdminDoctorMultiSelect, Editor, ImageUpload } from "@/features";
 import type { XRayDoctorPayload } from "@/shared/redux/features/admin/add-user/user.types";
-import { ControlInput, ControlledSelect } from "@/shared/ui";
+import { ControlInput, ControlledSelect, Text } from "@/shared/ui";
 import { RoleEnum } from "@/shared/utils/types/types";
 import { StatusEnum } from "@/shared/utils/types/userTypes";
 
 interface UserFormProps {
   resetCount?: number;
-  isEdit?: boolean;
 }
 
-const UserForm = ({ resetCount = 0, isEdit = false }: UserFormProps) => {
+const UserForm = ({ resetCount = 0 }: UserFormProps) => {
   const { control, reset } = useFormContext<XRayDoctorPayload>();
   // const form = useFormContext<XRayDoctorPayload>();
-  console.log(isEdit);
   useEffect(() => {
     if (resetCount > 0) {
       reset();
@@ -65,12 +63,34 @@ const UserForm = ({ resetCount = 0, isEdit = false }: UserFormProps) => {
         label="Mobile"
         placeholder="Enter mobile number"
       />
-      <ControlInput
+      {/* <ControlInput
         control={control}
         name="address"
         label="Address"
         placeholder="Enter address"
-      />
+      /> */}
+      <div className="col-span-3">
+        <Text element="label" className="font-semibold">
+          Address
+        </Text>
+      </div>
+      <div className="col-span-9">
+        <Controller
+          control={control}
+          name="address"
+          render={({ field }) => {
+            return (
+              <div className="col-span-12 block">
+                <Editor
+                  label={<Text fontWeight="medium"></Text>}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </div>
+            );
+          }}
+        />
+      </div>
 
       {/* Prices */}
       <ControlInput control={control} name="single" label="Single Price" />

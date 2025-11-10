@@ -7,7 +7,7 @@ interface IProps {
 const PrintPatientInfo = ({ printPatient }: IProps) => {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border border-black mb-4">
+      <table className="w-full border border-black mb-4" contentEditable>
         <tbody>
           <tr>
             <td className="border border-black px-2 py-1 w-1/3">

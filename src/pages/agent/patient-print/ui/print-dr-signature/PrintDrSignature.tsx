@@ -5,11 +5,11 @@ interface IProps {
   passault?: "Yes" | "" | undefined;
 }
 const PrintDrSignature = ({ signature, passault }: IProps) => {
-   let signatureImg = '';
-  if(signature?.image){
-      signatureImg = signature?.image[0]?.[0];
+  let signatureImg = "";
+  if (signature?.image) {
+    signatureImg = signature?.image[0]?.[0];
   }
-  
+
   return (
     <div>
       <Text element="p">Signature</Text>
@@ -17,10 +17,10 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
 
       <div className="start">
         <img src={signatureImg} alt="Logo" className="w-50 mr-4" />
-        <Text element="h4" size="xl">
+        <Text element="h4" size="xl" isEditable>
           {signature?.name || ""}
         </Text>
-        <Text element="p" size="lg">
+        <Text element="p" size="lg" isEditable>
           {signature?.address || ""}
         </Text>
         {passault === "Yes" ? (

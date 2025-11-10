@@ -49,13 +49,8 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
     .string()
     .required("hide_bill is required")
     .oneOf(["Yes", "No"], "hide_bill must be 'Yes' or 'No'"),
-  role: yup
-    .string()
-    .required("Role is required")
-    .oneOf(
-      ["xray_dr", "doctor", "agent", "admin"],
-      "Role must be one of: xray_dr, doctor, agent, admin"
-    ),
+  role: yup.string().required("Role is required"),
+
   status: yup.string().oneOf(["active", "inactive"]),
   image: yup
     .string()

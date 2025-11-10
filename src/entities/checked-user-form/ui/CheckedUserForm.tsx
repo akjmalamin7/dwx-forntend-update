@@ -1,11 +1,17 @@
+import { Editor } from "@/features";
 import {
   CheckedUserFormschema,
   type CheckedUserFormValues,
 } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUser.types";
-import { Button, ControlInput } from "@/shared/ui";
+import { Button, ControlInput, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  type SubmitHandler,
+} from "react-hook-form";
 interface IProps {
   onSubmit: SubmitHandler<CheckedUserFormValues>;
   isLoading?: boolean;
@@ -53,7 +59,8 @@ const CheckedUserForm = ({
 
   const handleSubmit: SubmitHandler<CheckedUserFormValues> = async (data) => {
     try {
-      await onSubmit(data);
+      const result = await onSubmit(data);
+      console.log(result);
       if (!isEdit) {
         reset();
       }
@@ -74,16 +81,24 @@ const CheckedUserForm = ({
           placeholder="Name"
           name="name"
         />
-        <ControlInput
+
+        <Controller
           control={control}
-          size="sm"
-          label="User Designation"
-          placeholder="User Designation"
           name="details"
+          render={({ field }) => {
+            return (
+              <div className="col-span-12 block">
+                <Editor
+                  label={<Text fontWeight="medium">User Designation</Text>}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </div>
+            );
+          }}
         />
         {/* Submit */}
-        <div className="col-span-3"></div>
-        <div className="col-span-9">
+        <div className="col-span-12">
           <Button
             color="dark"
             size="size-2"

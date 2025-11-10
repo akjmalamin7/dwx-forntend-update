@@ -1,38 +1,42 @@
-import { useAuth } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/today-completed-patient/completedPatientListApi";
+import { CompletedBack, DeleteAdminPatient } from "@/features";
+import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination"; 
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { CompletedBack, DeleteAdminPatient } from "@/features";
+import { useGetArchivePatientListQuery } from "@/shared/redux/features/admin/patient-archive/archivePatientListApi";
 
 const PatientCompleted = () => {
-  const { data: patientList, isLoading,refetch } = useGetCompletedPatientListQuery();
-  const { user } = useAuth();
+  const { month } = useParams<{ month: string }>();
+
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetArchivePatientListQuery(month);
   const DATA_TABLE = useMemo(
     () =>
       patientList?.map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        start_time: new Date(item.completed_time).toLocaleString([], { 
+        start_time: new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
-        agent_name:  item.agent_id?.email, 
+        agent_name: item.agent_id?.email,
         patient_name: item.name,
-        patient_id: item.patient_id, 
+        patient_id: item.patient_id,
         age: item.age,
         rtype: item.rtype,
-       
+
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList, user?.id]
+    [patientList]
   );
 
   const {
@@ -45,7 +49,7 @@ const PatientCompleted = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["patient_name", "patient_id", "agent_name"],
-    rowsPerPage: 100,
+    rowsPerPage: 200,
   });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -53,16 +57,16 @@ const PatientCompleted = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
-             <Link
+          <div key={rowIndex} className="flex justify-end">
+            <Link
               to={`/admin/patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-2 text-sm"
             >
               View
-            </Link> 
+            </Link>
+        
             <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
-           
           </div>
         ),
       };
@@ -71,7 +75,7 @@ const PatientCompleted = () => {
   });
 
   return (
-    <Panel header="Today Completed Report" size="lg">
+    <Panel header="Archive Completed Report" size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search

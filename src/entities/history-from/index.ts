@@ -1,1 +1,1 @@
-export { XraytypeForm } from "./ui";
+export { HistoryForm } from "./ui";

@@ -12,7 +12,7 @@ export const CustomerListApi = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/admin/users/all?role=user",
+        url: "/admin/users/all?role=user&page=1&limit=300",
         method: "GET",
       }),
       transformResponse: (response: UpdateDoctorApiResponse) => {

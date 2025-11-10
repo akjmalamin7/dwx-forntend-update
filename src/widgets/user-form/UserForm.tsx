@@ -63,8 +63,7 @@ const UserForm = ({
 
   const {
     control,
-    reset,
-    getValues,
+    reset, 
     formState: { errors, isValid },
   } = methods;
   useEffect(() => {

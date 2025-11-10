@@ -36,7 +36,7 @@ const ManageCustomerBillByMonth = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["email","address"],
-    rowsPerPage: 100,
+    rowsPerPage: 50,
   });
 
   const COLUMN = DOCTOR_DATA_COL.map((item) => {

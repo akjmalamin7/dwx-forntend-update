@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";  
 import { useGetAdminCustomerBillQuery } from "@/shared/redux/features/admin/manage-customer-bill-by-month/customerBillApi";
 
-const UpdateDoctorBill = () => { 
+const PatientArchive = () => { 
  
     const { user_id } = useParams<{ user_id: string }>();
     const {
@@ -117,4 +117,4 @@ const UpdateDoctorBill = () => {
   );
 };
 
-export default UpdateDoctorBill;
+export default PatientArchive;

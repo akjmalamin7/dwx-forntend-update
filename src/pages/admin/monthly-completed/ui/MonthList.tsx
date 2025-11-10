@@ -44,7 +44,7 @@ const MonthList = () => {
           render: (_: unknown, record?: DataSource, rowIndex?: number) => (
             <div key={rowIndex}>
                <Link
-                to={`/admin/patient-view/${record?.key}`}
+                to={`/admin/patient-archive/${record?.key}`}
                 className="bg-green-500 text-white px-2 py-2 rounded text-sm"
               >
                 View

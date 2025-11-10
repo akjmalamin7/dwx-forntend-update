@@ -12,7 +12,7 @@ export const UpdateDoctorListApi = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/admin/users/all?role=xray_dr&role=ecg_dr",
+        url: "/admin/users/all?role=xray_dr&role=ecg_dr?page=1&limit=100",
         method: "GET",
       }),
       transformResponse: (response: UpdateDoctorApiResponse) => {

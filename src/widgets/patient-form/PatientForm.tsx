@@ -6,6 +6,7 @@ import {
   ReferenceDoctorSelect,
   XRrayNameSelect,
 } from "@/features"; 
+import { useAuth } from "@/shared/hooks";
 import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
 import {
   patientFormschema,
@@ -40,6 +41,8 @@ const PatientForm = ({
   resetCount = 0,
 }: PatientFormProps) => { 
 
+  const {user} = useAuth();
+  console.log(user);
   const methods = useForm<PatientFormValues>({
     mode: "onChange",
     resolver: yupResolver(patientFormschema),

@@ -1,8 +1,12 @@
 import LOGO from "@/assets/images/logo.png";
-import { Text } from "@/shared/ui";
+import { useAuth } from "@/shared/hooks";
+import useLoggedOut from "@/shared/hooks/use-logged-out/useLoggedOut";
+import { Button, Text } from "@/shared/ui";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const TopHeader = () => {
+  const { handleLoggedOut } = useLoggedOut();
+  const { user } = useAuth();
   return (
     <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
       {/* Logo */}
@@ -24,9 +28,18 @@ const TopHeader = () => {
 
       {/* User Info + Hamburger */}
       <div className="flex items-center space-x-4 text-sm">
-        <Text element="span" className="text-white">
-          UserName
-        </Text>
+        <div className="flex  gap-3">
+          <Text element="span" className="text-white">
+            {user?.name}
+          </Text>
+          <Button
+            variant="text"
+            className="text-white! text-semibold"
+            onClick={handleLoggedOut}
+          >
+            Logout
+          </Button>
+        </div>
 
         {/* Hamburger Button */}
         <button className="md:hidden">

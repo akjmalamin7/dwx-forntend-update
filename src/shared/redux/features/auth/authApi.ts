@@ -18,7 +18,7 @@ export const authApi = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
 
           if (!data?.access_token) {
-            console.error('No access token received');
+            console.error("No access token received");
             return;
           }
 
@@ -43,7 +43,13 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    logout: builder.mutation<{ success: boolean }, void>({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation } = authApi;

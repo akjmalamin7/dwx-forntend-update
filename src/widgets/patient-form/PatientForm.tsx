@@ -5,14 +5,13 @@ import {
   PatientHistorySelect,
   ReferenceDoctorSelect,
   XRrayNameSelect,
-} from "@/features"; 
-import { useAuth } from "@/shared/hooks";
+} from "@/features";
 import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
 import {
   patientFormschema,
   type PatientFormValues,
 } from "@/shared/utils/types/types";
-import { yupResolver } from "@hookform/resolvers/yup"; 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import {
   Controller,
@@ -39,10 +38,7 @@ const PatientForm = ({
   defaultValues,
   isEdit = false,
   resetCount = 0,
-}: PatientFormProps) => { 
-
-  const {user} = useAuth();
-  console.log(user);
+}: PatientFormProps) => {
   const methods = useForm<PatientFormValues>({
     mode: "onChange",
     resolver: yupResolver(patientFormschema),
@@ -66,7 +62,7 @@ const PatientForm = ({
 
   const {
     control,
-    reset, 
+    reset,
     formState: { errors, isValid },
   } = methods;
   useEffect(() => {
@@ -109,7 +105,6 @@ const PatientForm = ({
   }, [resetCount, reset, isEdit]);
 
   // load profile data
-  
 
   const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     try {

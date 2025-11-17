@@ -6,7 +6,7 @@ import type { DataSource, TableProps } from "./table.model";
 
 const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
   const {
-    scroll = false,
+    scroll = true,
     size,
     className,
     border = "bordered",

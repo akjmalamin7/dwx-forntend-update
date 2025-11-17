@@ -1,12 +1,25 @@
 import LOGO from "@/assets/images/logo.png";
 import { useAuth } from "@/shared/hooks";
 import useLoggedOut from "@/shared/hooks/use-logged-out/useLoggedOut";
+import { toggleMobileMenu } from "@/shared/redux/features/mobile-menu/mobileMenuSlice";
+import type { RootState } from "@/shared/redux/stores/stores";
 import { Button, Text } from "@/shared/ui";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const TopHeader = () => {
+  const dispatch = useDispatch();
+  const { isToggle } = useSelector((state: RootState) => state.mobileMenu);
+  const userFromReduxStore = useSelector(
+    (state: RootState) => state.auth.user?.name
+  );
+  console.log(userFromReduxStore);
+  const handleMobileMenu = () => {
+    dispatch(toggleMobileMenu({ isToggle: !isToggle }));
+  };
   const { handleLoggedOut } = useLoggedOut();
   const { user } = useAuth();
+  const userName = userFromReduxStore ?? user?.name ?? "";
   return (
     <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
       {/* Logo */}
@@ -30,7 +43,7 @@ const TopHeader = () => {
       <div className="flex items-center space-x-4 text-sm">
         <div className="flex  gap-3">
           <Text element="span" className="text-white">
-            {user?.name}
+            {userName}
           </Text>
           <Button
             variant="text"
@@ -42,8 +55,8 @@ const TopHeader = () => {
         </div>
 
         {/* Hamburger Button */}
-        <button className="md:hidden">
-          <FaTimes size={22} /> : <FaBars size={22} />
+        <button className="lg:hidden relative z-30" onClick={handleMobileMenu}>
+          {isToggle ? <FaTimes size={22} /> : <FaBars size={22} />}
         </button>
       </div>
     </div>

@@ -1,7 +1,8 @@
+import { toggleMobileMenu } from "@/shared/redux/features/mobile-menu/mobileMenuSlice";
 import type { RoleEnum } from "@/shared/utils/types/types";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-
 interface ChildMenu {
   id: string;
   title?: string;
@@ -20,7 +21,6 @@ interface NavItemProps {
   className?: string;
   children?: ChildMenu[];
 }
-
 const NavItem: React.FC<NavItemProps> = ({
   icon,
   title,
@@ -32,6 +32,8 @@ const NavItem: React.FC<NavItemProps> = ({
   className = "",
   children = [],
 }) => {
+  const dispatch = useDispatch();
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -65,7 +67,9 @@ const NavItem: React.FC<NavItemProps> = ({
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
-
+  const handleToggleMenu = () => {
+    dispatch(toggleMobileMenu({ isToggle: false }));
+  };
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
@@ -91,8 +95,9 @@ const NavItem: React.FC<NavItemProps> = ({
       {path && !hasChildren ? (
         <NavLink
           to={path}
+          onClick={handleToggleMenu}
           className={({ isActive }) =>
-            `flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors
+            `flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors border-b border-b-[#f7f7f770] lg:border-b-transparent!
             ${alignClasses} ${sizeClasses} ${colorClasses} ${fontWeightClasses} ${className}
             ${isActive ? "bg-green-700 text-white font-semibold" : ""}`
           }
@@ -102,23 +107,24 @@ const NavItem: React.FC<NavItemProps> = ({
         </NavLink>
       ) : (
         <div
-          className="relative"
+          className="relative border-b border-b-[#f7f7f770] lg:border-b-transparent!"
           onClick={(e) => e.stopPropagation()}
           ref={dropdownRef}
         >
           <button
-            className="flex flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium"
+            className="flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium "
             onClick={handleDropdown}
           >
             {icon && <span className="text-lg">{icon}</span>}
             {title}
           </button>
           {hasChildren && isDropdownOpen && (
-            <div className="absolute top-full right-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50">
+            <div className="lg:absolute top-full right-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50">
               {children.map((child) => (
                 <NavLink
                   key={child.id}
                   to={child.path || ""}
+                  onClick={handleToggleMenu}
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-4 py-3 hover:bg-green-700 transition-colors border-b border-green-500 last:border-b-0
                     ${isActive ? "bg-green-800 font-semibold" : ""}`

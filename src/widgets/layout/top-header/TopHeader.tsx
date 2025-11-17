@@ -13,7 +13,6 @@ const TopHeader = () => {
   const userFromReduxStore = useSelector(
     (state: RootState) => state.auth.user?.name
   );
-  console.log(userFromReduxStore);
   const handleMobileMenu = () => {
     dispatch(toggleMobileMenu({ isToggle: !isToggle }));
   };

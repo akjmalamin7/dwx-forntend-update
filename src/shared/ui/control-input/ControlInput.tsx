@@ -9,28 +9,30 @@ import {
 interface IProps<TFieldValues extends FieldValues> {
   size?: "sm" | "md" | "lg";
   type?:
-    | "text"
-    | "email"
-    | "password"
-    | "number"
-    | "file"
-    | "hidden"
-    | "checkbox";
+  | "text"
+  | "email"
+  | "password"
+  | "number"
+  | "file"
+  | "hidden"
+  | "checkbox";
   label?: string;
   name: Path<TFieldValues>;
   placeholder?: string;
   control: Control<TFieldValues>;
   isInputLabel?: boolean;
+  className?: string;
 }
 
 const ControlInput = <TFieldValues extends FieldValues>({
   size = "md",
   type = "text",
   label,
-  name, 
+  name,
   placeholder,
   control,
   isInputLabel = true,
+  className
 }: IProps<TFieldValues>) => {
   return (
     <Controller
@@ -51,13 +53,14 @@ const ControlInput = <TFieldValues extends FieldValues>({
               {...field}
               type={type}
               value={field.value}
-              label={isInputLabel ? "" : label} 
+              label={isInputLabel ? "" : label}
               error={{
                 status: !!fieldState.error,
                 message: fieldState.error?.message,
               }}
               placeholder={placeholder}
               size={size}
+              className={className}
             />
           </div>
         </>

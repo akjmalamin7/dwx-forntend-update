@@ -77,42 +77,51 @@ const PatientQuickAdd = () => {
         <ReadTextFile onParsed={handleParsed} />
 
         {/* Patient ID */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient ID"
-          placeholder="Patient Id"
-          name="patient_id"
-        />
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient ID"
+            placeholder="Patient Id"
+            name="patient_id"
+
+          />
+        </div>
 
         {/* Patient Name */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient Name"
-          placeholder="Patient Name"
-          name="name"
-        />
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient Name"
+            placeholder="Patient Name"
+            name="name"
+          />
+        </div>
 
         {/* Patient Age */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient Age"
-          placeholder="Patient Age"
-          name="age"
-        />
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient Age"
+            placeholder="Patient Age"
+            name="age"
+          />
+        </div>
 
         {/* Gender */}
-        <ControlledSelect
-          label="Patient Sex"
-          control={control}
-          name="gender"
-          options={[
-            { name: "Male", value: "male" },
-            { name: "Female", value: "female" },
-          ]}
-        />
+        <div className="hidden">
+          <ControlledSelect
+            label="Patient Sex"
+            control={control}
+            name="gender"
+            options={[
+              { name: "Male", value: "male" },
+              { name: "Female", value: "female" },
+            ]}
+          />
+        </div>
         {/* Patient History */}
         <Controller
           control={control}
@@ -131,21 +140,23 @@ const PatientQuickAdd = () => {
         />
 
         {/* X-ray Name */}
-        <Controller
-          control={control}
-          name="xray_name"
-          render={({ field }) => (
-            <XRrayNameSelect
-              label="X-ray Name"
-              value={field.value}
-              onSelectedValue={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.xray_name,
-                message: errors.xray_name?.message as string,
-              }}
-            />
-          )}
-        />
+        <div className="hidden">
+          <Controller
+            control={control}
+            name="xray_name"
+            render={({ field }) => (
+              <XRrayNameSelect
+                label="X-ray Name"
+                value={field.value}
+                onSelectedValue={(val) => field.onChange(val)}
+                error={{
+                  status: !!errors.xray_name,
+                  message: errors.xray_name?.message as string,
+                }}
+              />
+            )}
+          />
+        </div>
 
         {/* Reference Doctor */}
         <Controller
@@ -165,16 +176,18 @@ const PatientQuickAdd = () => {
         />
 
         {/* Image Category */}
-        <ControlledSelect
-          label="Image Category"
-          control={control}
-          name="image_type"
-          options={[
-            { name: "Single", value: "single" },
-            { name: "Double", value: "double" },
-            { name: "Multiple", value: "multiple" },
-          ]}
-        />
+        <div className="hidden">
+          <ControlledSelect
+            label="Image Category"
+            control={control}
+            name="image_type"
+            options={[
+              { name: "Single", value: "single" },
+              { name: "Double", value: "double" },
+              { name: "Multiple", value: "multiple" },
+            ]}
+          />
+        </div>
 
         {/* Doctor MultiSelectors */}
         <DoctorMultiSelector

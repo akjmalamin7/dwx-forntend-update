@@ -8,7 +8,11 @@ export const SelectedDoctorApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["PendingPatient"],
+
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "PendingPatient", id: "LIST" },
+        { type: "PendingPatient", id },
+      ],
     }),
   }),
 });

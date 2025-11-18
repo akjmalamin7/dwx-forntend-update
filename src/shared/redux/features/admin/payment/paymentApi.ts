@@ -1,5 +1,5 @@
 import { apiSlice } from "../../api/apiSlice";
-import type { 
+import type {
   PaymentListOptions,
   PaymentListResponse,
 } from "./paymentList.types";
@@ -12,7 +12,9 @@ export const PaymentList = apiSlice.injectEndpoints({
         url: "/admin/payment",
         method: "GET",
       }),
-      transformResponse: (response: PaymentListResponse): PaymentListOptions[] =>
+      transformResponse: (
+        response: PaymentListResponse
+      ): PaymentListOptions[] =>
         response?.data?.map((payment) => ({
           id: payment._id,
           name: payment.name,
@@ -20,7 +22,7 @@ export const PaymentList = apiSlice.injectEndpoints({
         })) || [],
       providesTags: [{ type: "PaymentList", id: "LIST" }],
     }),
-    
+
     /* Add Payment  */
     addPayment: builder.mutation({
       query: (data) => ({
@@ -30,7 +32,7 @@ export const PaymentList = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "PaymentList", id: "LIST" }],
     }),
-  
+
     deletePayment: builder.mutation({
       query: (id) => ({
         url: `/admin/payment/${id}`,
@@ -45,7 +47,7 @@ export const PaymentList = apiSlice.injectEndpoints({
   }),
 });
 export const {
-  useGetPaymentListQuery, 
+  useGetPaymentListQuery,
   useAddPaymentMutation,
   useDeletePaymentMutation,
 } = PaymentList;

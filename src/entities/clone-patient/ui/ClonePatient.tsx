@@ -118,9 +118,9 @@ const ClonePatient = () => {
           />
           <ControlInput
             label="Reference Doctor"
-            placeholder="X-ray Name"
+            placeholder="Reference Doctor"
             size="sm"
-            name="xray_name"
+            name="ref_doctor"
             control={control}
             isInputLabel={false}
           />

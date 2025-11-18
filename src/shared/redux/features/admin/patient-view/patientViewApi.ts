@@ -8,8 +8,9 @@ export const AdminPatientViewApi = apiSlice.injectEndpoints({
         url: `/admin/patient/${patient_id}`,
         method: "GET",
       }),
+
       providesTags: (_result, _error, patient_id) => [
-        { type: "Patient", id: patient_id },
+        { type: "PendingPatient", id: patient_id },
       ],
       // transformResponse: (response: PATIENT_VIEW_RESPONSE) => {
       //   return TRANSFORM_PATIENT_VIEW_RESPONSE(response);

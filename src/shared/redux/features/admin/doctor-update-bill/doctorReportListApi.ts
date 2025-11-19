@@ -1,15 +1,15 @@
 import { apiSlice } from "../../api/apiSlice";
-import {  
+import {
   transformDoctorXrayResponse,
-  type DOCTOR_XRAY_TRANSFORM_MODEL,
   type DOCTOR_XRAY_RESPONSE,
+  type DOCTOR_XRAY_TRANSFORM_MODEL,
 } from "./doctorBill.types";
 
 export const AdminDoctorReportListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdminDoctorReportList: builder.query<
       DOCTOR_XRAY_TRANSFORM_MODEL[],
-       { doctorId: string; month: string }
+      { doctorId: string; month: string }
     >({
       query: ({ doctorId, month }) => ({
         url: `/admin/doctorbill/reportlist/?doctorId=${doctorId}&month=${month}&page=1&limit=100`,

@@ -1,15 +1,15 @@
 import { CompletedBack } from "@/features";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patient-list/completedPatientListApi";
+import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
-const PatientCompleted = () => {
+const CompletedPatients = () => {
   const {
     data: patientList,
     isLoading,
@@ -84,10 +84,10 @@ const PatientCompleted = () => {
   });
 
   usePageTitle("Completed Report", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   return (
     <Panel header="Completed Report" size="lg">
@@ -118,4 +118,4 @@ const PatientCompleted = () => {
   );
 };
 
-export default PatientCompleted;
+export default CompletedPatients;

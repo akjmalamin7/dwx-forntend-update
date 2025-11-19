@@ -3,11 +3,10 @@ export interface DOCTOR_XRAY_MODEL {
   id: string;
   patient_id: string;
   username: string;
-  image_type: "single" | "double" | "multiple" | "ecg" | string; 
-  month: string; 
-  xray_name: string; 
+  image_type: "single" | "double" | "multiple" | "ecg" | string;
+  month: string;
+  xray_name: string;
 }
-
 
 export interface DOCTOR_XRAY_RESPONSE {
   message: string;
@@ -17,7 +16,7 @@ export interface DOCTOR_XRAY_RESPONSE {
 
 export interface DOCTOR_XRAY_TRANSFORM_MODEL {
   id: string;
-  _id: string; 
+  _id: string;
   month: string;
   xray_name: string;
   image_type: string;
@@ -29,7 +28,7 @@ export const transformDoctorXrayResponse = (
 ): DOCTOR_XRAY_TRANSFORM_MODEL[] => {
   return data.map((item) => ({
     id: item.id,
-    _id: item._id, 
+    _id: item._id,
     month: item.month,
     xray_name: item.xray_name,
     image_type: item.image_type,

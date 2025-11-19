@@ -25,7 +25,7 @@ const EditUser = () => {
     values: {
       name: userData?.name || "",
       email: userData?.email || "",
-      password: "",
+      password: userData?.password || "",
       mobile: userData?.name || "",
       address: userData?.address || "",
       single: userData?.single || 0,
@@ -53,11 +53,11 @@ const EditUser = () => {
   });
 
   usePageTitle("Update  User", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
-      
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
   return (
     <Panel
       header={

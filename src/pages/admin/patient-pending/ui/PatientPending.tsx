@@ -29,6 +29,7 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+
   const { user } = useAuth();
 
   const DATA_TABLE = useMemo(

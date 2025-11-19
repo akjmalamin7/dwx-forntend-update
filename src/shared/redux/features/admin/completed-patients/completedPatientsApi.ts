@@ -3,7 +3,7 @@ import {
   transformCompletedPatientResponse,
   type COMPLETED_PATIENT_TRANSFORM_MODEL,
   type CompletedPatientApiResponse,
-} from "./completedPatientList.types";
+} from "./completedPatients.types";
 
 export const CompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

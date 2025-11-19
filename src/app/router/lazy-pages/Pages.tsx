@@ -47,14 +47,16 @@ export const Pages = {
   DoctorFormatUpdate: lazy(() => import("@/pages/doctor/update-format")),
 
   AdminPendingPatient: lazy(() => import("@/pages/admin/patient-pending")),
-  AdminCompletedPatient: lazy(() => import("@/pages/admin/completed-patient")),
+  AdminCompletedPatients: lazy(
+    () => import("@/pages/admin/completed-patients")
+  ),
   AdminTodayCompletedPatient: lazy(
     () => import("@/pages/admin/today-completed-patient")
   ),
   AdminTodaySummery: lazy(() => import("@/pages/admin/today-summary")),
   AdminMonthlyCompleted: lazy(() => import("@/pages/admin/monthly-completed")),
   AdminDeletedPatient: lazy(() => import("@/pages/admin/deleted-patient")),
-  AdminUpdateDoctor: lazy(() => import("@/pages/admin/update-doctor")),
+  AdminDoctorList: lazy(() => import("@/pages/admin/doctor-list")),
   AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")),
   AdminSelectDoctor: lazy(() => import("@/pages/admin/select-doctor")),
   AdminPatientArchive: lazy(() => import("@/pages/admin/patient-archive")),
@@ -103,5 +105,5 @@ export const Pages = {
   AdminHistoryList: lazy(() => import("@/pages/admin/history-list")),
   AdminHistoryAdd: lazy(() => import("@/pages/admin/history-add")),
   AdminPaymentList: lazy(() => import("@/pages/admin/payment-list")),
-  AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")), 
+  AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")),
 };

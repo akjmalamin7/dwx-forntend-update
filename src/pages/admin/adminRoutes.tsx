@@ -11,8 +11,8 @@ export const adminRoutes = [
     element: withSuspense(<Pages.DoctorViewPatient />),
   },
   {
-    path: "/admin/completed-patient",
-    element: withSuspense(<Pages.AdminCompletedPatient />),
+    path: "/admin/completed-patients",
+    element: withSuspense(<Pages.AdminCompletedPatients />),
   },
   {
     path: "/admin/today-completed-patient",
@@ -32,8 +32,8 @@ export const adminRoutes = [
   },
 
   {
-    path: "/admin/update-doctor-bill",
-    element: withSuspense(<Pages.AdminUpdateDoctor />),
+    path: "/admin/doctor-list",
+    element: withSuspense(<Pages.AdminDoctorList />),
   },
 
   {
@@ -150,7 +150,7 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminFormatUpdate />),
   },
 
-    {
+  {
     path: "/admin/xraytype-list",
     element: withSuspense(<Pages.AdminXraytypeList />),
   },
@@ -159,7 +159,7 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminXraytypeAdd />),
   },
 
-      {
+  {
     path: "/admin/history-list",
     element: withSuspense(<Pages.AdminHistoryList />),
   },
@@ -168,7 +168,7 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminHistoryAdd />),
   },
 
-     {
+  {
     path: "/admin/payment-list",
     element: withSuspense(<Pages.AdminPaymentList />),
   },
@@ -176,7 +176,4 @@ export const adminRoutes = [
     path: "/admin/payment-add",
     element: withSuspense(<Pages.AdminPaymentAdd />),
   },
- 
-
-
 ];

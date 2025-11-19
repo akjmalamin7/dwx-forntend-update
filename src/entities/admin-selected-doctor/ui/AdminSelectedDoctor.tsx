@@ -6,12 +6,13 @@ import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DoctorList from "./DoctorList";
 interface CProps {
   title?: string;
 }
 const AdminSelectedDoctor = ({ title }: CProps) => {
+  const navigate = useNavigate();
   const refArr = useRef([]);
   const { patient_id } = useParams<{ patient_id: string }>();
   const [selectdDoctor, { isLoading: isUpdating }] = useSelectdDoctorMutation();
@@ -54,6 +55,8 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     if (!patient_id) return;
     try {
       await selectdDoctor({ id: patient_id, data });
+
+      navigate("/admin/patient");
     } catch (err) {
       console.error(err);
     }

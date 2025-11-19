@@ -12,9 +12,10 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AdminUpdatePatientForm = () => {
+  const navigate = useNavigate();
   const { patient_id } = useParams<{ patient_id: string }>();
   const { patient, flattenedAttachments } = useAdminPatientView();
 
@@ -59,6 +60,9 @@ const AdminUpdatePatientForm = () => {
         data: submitData,
       }).unwrap();
       setResetCount((prev) => prev + 1);
+
+      navigate("/admin/patient");
+
     } catch (error) {
       console.error(error);
     }

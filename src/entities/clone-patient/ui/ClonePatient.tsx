@@ -11,8 +11,10 @@ import {
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const ClonePatient = () => {
+  const navigate = useNavigate();
   const { patient, flattenedAttachments } = useAdminPatientView();
   const [createClonePatient, { isLoading: isCloneCreating }] =
     useCreateClonePatientMutation();
@@ -52,6 +54,7 @@ const ClonePatient = () => {
         customer_id: patient?.agent_id._id || "",
       };
       await createClonePatient(formValues).unwrap();
+      navigate("/admin/patient");
     } catch (error) {
       console.error(error);
     }

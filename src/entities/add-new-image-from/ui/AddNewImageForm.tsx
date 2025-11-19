@@ -5,9 +5,10 @@ import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddNewImageForm = () => {
+  const navigate = useNavigate();
   const { patient_id } = useParams<{ patient_id: string }>();
   const [resetCount, setResetCount] = useState<number>(0);
   const [addNewImage, { isLoading: isUploading }] = useAddNewImageMutation();
@@ -24,6 +25,7 @@ const AddNewImageForm = () => {
   const handleOnSubmit = handleSubmit(async (values) => {
     try {
       await addNewImage(values).unwrap();
+      navigate("/admin/patient");
       reset();
       setResetCount((prev) => prev + 1);
     } catch (error) {

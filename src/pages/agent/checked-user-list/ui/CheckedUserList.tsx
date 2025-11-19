@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { CHECKED_USER_DATA_COL } from "./checkedUser.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const CheckedUserList = () => {
   const {
@@ -59,6 +60,13 @@ const CheckedUserList = () => {
       };
     }
     return item;
+  });
+
+
+  usePageTitle("Checked User List", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
   });
 
   return (

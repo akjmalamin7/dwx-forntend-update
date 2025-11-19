@@ -3,8 +3,16 @@ import { Text } from "@/shared/ui";
 import { ContactInfo } from "./contact-info";
 import { LoginForm } from "./login-form";
 import { LogoSection } from "./logo-section";
+import { usePageTitle } from "@/shared/hooks";
 
 const Login = () => {
+
+  usePageTitle("Login Digital Web Xray", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
   return (
     <div>
       <div className="w-screen h-screen flex bg-gray-100">

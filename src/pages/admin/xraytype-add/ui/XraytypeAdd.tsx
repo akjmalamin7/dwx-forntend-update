@@ -4,6 +4,7 @@ import { type SubmitHandler } from "react-hook-form";
 import { type XrayTypeFormValues } from "./xraytypeAdd.types";
 import { useAddXraytypeMutation } from "@/shared/redux/features/admin/xraytype-add/addXraytypeApi";
 import { XraytypeForm } from "@/entities/xraytype-form";
+import { usePageTitle } from "@/shared/hooks";
 
 const XraytypeAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -22,6 +23,13 @@ const XraytypeAdd = () => {
       }
     }
   };
+
+
+  usePageTitle("Add Xray type", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   return (
     <Panel

@@ -1,6 +1,7 @@
 import { AdminSelectedDoctor } from "@/entities";
 
 const SelectDoctor = () => {
+  
   return <AdminSelectedDoctor />;
 };
 

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list"; 
 import { BillingPadHeader } from "./billing-pad-header";
 import { useGetBillDetailsQuery } from "@/shared/redux/features/admin/manage-doctor-bill/billListApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const DoctorBillPrint = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -61,6 +62,14 @@ const DoctorBillPrint = () => {
         Error occured
       </Text>
     );
+
+    usePageTitle("Print Patient Report", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <>
       {/* Print-specific style */}

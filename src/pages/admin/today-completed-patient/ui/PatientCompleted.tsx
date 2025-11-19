@@ -1,4 +1,4 @@
-import { useAuth } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/today-completed-patient/completedPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -70,6 +70,14 @@ const PatientCompleted = () => {
     return item;
   });
 
+
+  usePageTitle("Today Completed Report", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel header="Today Completed Report" size="lg">
       <div className="p-4 bg-white">

@@ -6,8 +6,16 @@ import {
 import { Panel, PanelHeading } from "@/shared/ui";
 import "viewerjs/dist/viewer.css";
 import { PatientInformation } from "./patient-iformation";
+import { usePageTitle } from "@/shared/hooks";
 
 const PatientView = () => {
+
+  usePageTitle("Patient View", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel
       header={

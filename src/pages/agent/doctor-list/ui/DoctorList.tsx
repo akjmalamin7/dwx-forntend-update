@@ -4,6 +4,7 @@ import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import { useMemo } from "react";
 import { DOCTOR_DATA_COL } from "./doctor.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const DoctorList = () => {
   const { data: DoctorList, isLoading } = useGetDoctorListQuery();
@@ -35,6 +36,13 @@ const DoctorList = () => {
     searchFields: ["name"],
     rowsPerPage: 100,
   });
+
+
+   usePageTitle("Doctor List", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
 
   return (
     <Panel header="Doctor List" size="lg">

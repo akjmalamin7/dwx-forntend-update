@@ -6,6 +6,7 @@ import { useGetDeletedDoctorListQuery } from "@/shared/redux/features/admin/add-
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { Link } from "react-router-dom";
 import { USER_DATA_COL } from "../../users/ui/userList.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const DeletedUserList = () => { 
   const { data: DoctorList, isLoading } = useGetDeletedDoctorListQuery();
@@ -73,6 +74,14 @@ const DeletedUserList = () => {
       return item;
     });
 
+
+    usePageTitle("Deleted Doctor List", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel header="Deleted Doctor List" size="lg">
       <div className="w-1/3">

@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { USER_DATA_COL } from "./userList.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const UserList = () => {
   const role = "user";
@@ -73,6 +74,14 @@ const UserList = () => {
     }
     return item;
   });
+
+
+  usePageTitle("User List", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
 
   return (
     <Panel header="User List" size="lg">

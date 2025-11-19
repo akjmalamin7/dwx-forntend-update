@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { XRAYTYPE_DATA_COL } from "./xraytype.data.col";
 import { useGetXraytypeListQuery } from "@/shared/redux/features/admin/xraytype-list/xraytypeListApi";
 import { DeleteXraytype } from "@/features/delete-xraytype";
+import { usePageTitle } from "@/shared/hooks";
 
 const XraytypeList = () => {
   const {
@@ -52,6 +53,13 @@ const XraytypeList = () => {
   }
   return item;
 });
+
+
+  usePageTitle("Xraytype List", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   return (
     <Panel

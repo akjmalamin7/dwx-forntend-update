@@ -15,6 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -73,6 +74,13 @@ const CustomerPayBill = () => {
       </Text>
     );
 
+
+    usePageTitle("Customer Pay Bill", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
+    
   return (
     <>
       <Panel

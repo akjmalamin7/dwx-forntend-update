@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list";
 import { BillingInformation } from "./billing-information";
 import { BillingPadHeader } from "./billing-pad-header";
+import { usePageTitle } from "@/shared/hooks";
 
 const BillPrint = () => {
   const { month } = useParams<{ month: string }>();
@@ -74,6 +75,13 @@ const BillPrint = () => {
 
   const currentMonth = new Date().toISOString().slice(0, 7);
 
+
+    usePageTitle("Print Bill", {
+          prefix: "DWX - ",
+          defaultTitle: "DWX",
+          restoreOnUnmount: true,
+        });
+
   return (
     <>
       {/* Print-specific style */}
@@ -88,7 +96,7 @@ const BillPrint = () => {
       </style>
 
       <Panel
-        header={<PanelHeading title="Print Patient Report" button="" path="" />}
+        header={<PanelHeading title="Print Bill" button="" path="" />}
         size="lg"
       >
 

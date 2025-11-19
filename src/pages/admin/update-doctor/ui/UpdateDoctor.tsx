@@ -6,6 +6,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const UpdateDoctor = () => {
   const { data: doctorList, isLoading } = useGetUpdateDoctorListQuery();
@@ -56,6 +57,13 @@ const UpdateDoctor = () => {
     return item;
   });
 
+
+  usePageTitle("Update Doctor Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+      
   return (
     <Panel header="Update Doctor Bill" size="lg">
       <div className="p-4 bg-white">

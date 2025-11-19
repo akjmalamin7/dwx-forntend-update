@@ -6,6 +6,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { BILL_DATA_COL } from "./bill.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
@@ -66,6 +67,12 @@ const ManageBill = () => {
     }
     return item;
   });
+
+   usePageTitle("Manage Bill", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
 
   return (
     <Panel header="Manage Bill" size="lg">

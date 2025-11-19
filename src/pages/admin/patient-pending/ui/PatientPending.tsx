@@ -87,6 +87,7 @@ const PatientPending = () => {
     }
     return item;
   });
+
   return (
     <Panel header="Deleted Report" size="lg">
       <DataTable

@@ -1,4 +1,5 @@
 import { CheckedUserForm } from "@/entities";
+import { usePageTitle } from "@/shared/hooks";
 import { type CheckedUserFormValues } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUser.types";
 import { useAddCheckedUserMutation } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUserApi";
 import { Panel, PanelHeading } from "@/shared/ui";
@@ -22,6 +23,12 @@ const CheckedUserAdd = () => {
       }
     }
   };
+
+  usePageTitle("Add New Checked User", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
 
   return (
     <Panel

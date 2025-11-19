@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 import { useGetPreviousMonthPatientQuery } from "@/shared/redux/features/agent/previous-month-patient/PreviousMonthPatientApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const PreviousMonthPatient = () => {
   const { data: patientList, isLoading } = useGetPreviousMonthPatientQuery();
@@ -76,6 +77,13 @@ const PreviousMonthPatient = () => {
     return item;
   });
 
+
+  usePageTitle("Previous Month Completed Report", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel header="Previous Month Completed Report" size="lg">
       <div className="p-4 bg-white">

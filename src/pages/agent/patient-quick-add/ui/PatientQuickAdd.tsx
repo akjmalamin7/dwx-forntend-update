@@ -9,6 +9,7 @@ import {
   ReadTextFile,
   type ParsedPatientData,
 } from "@/features/read-text-file";
+import { usePageTitle } from "@/shared/hooks";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 
 import { Button, ControlInput, ControlledSelect, Panel } from "@/shared/ui";
@@ -64,6 +65,13 @@ const PatientQuickAdd = () => {
       console.error("Error creating patient:", err);
     }
   });
+
+  usePageTitle("Quick Add Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+  
   return (
     <Panel header="Quick Add Report">
       <form

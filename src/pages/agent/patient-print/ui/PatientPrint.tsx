@@ -5,6 +5,7 @@ import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
 import { PrintPatientComment } from "./print-patient-comment/PrintPatientComment";
 import PrintPatientInfo from "./print-patient-info/PrintPatientInfo";
 import PrintPreparedBy from "./print-prepared-by/PrintPreparedBy";
+import { usePageTitle } from "@/shared/hooks";
 const PatientPrint = () => {
   const { id } = useParams<{ id: string }>();
   const {
@@ -23,6 +24,12 @@ const PatientPrint = () => {
   const handlePrint = () => {
     window.print();
   };
+
+  usePageTitle("Print Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   // Loading state
   if (isLoading) {

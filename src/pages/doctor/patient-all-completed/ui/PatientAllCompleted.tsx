@@ -6,6 +6,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const PatientAllCompleted = () => {
   const { data: patientList, isLoading } = useGetAllCompletedPatientListQuery();
@@ -60,6 +61,13 @@ const PatientAllCompleted = () => {
     return item;
   });
 
+
+  usePageTitle("This Month All Completed Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+  
   return (
     <Panel header="This Month All Completed Report" size="lg">
       <div className="p-4 bg-white">

@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { REFERENCE_DOCTOR_DATA_COL } from "./format.data.col";
 import { useGetFormatListQuery } from "@/shared/redux/features/admin/format/formatApi";
+import { usePageTitle } from "@/shared/hooks";
 
 
 const FormatList = () => {
@@ -57,6 +58,13 @@ const FormatList = () => {
     return item;
   });
 
+
+  usePageTitle("Format List List", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+  
   return (
     <Panel
       header={

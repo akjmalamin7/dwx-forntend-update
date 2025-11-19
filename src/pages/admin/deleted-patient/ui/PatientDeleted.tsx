@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const PatientDeleted = () => {
   const { page, limit, setPage } = usePageQuery({
@@ -72,6 +73,13 @@ const PatientDeleted = () => {
     return item;
   });
 
+
+    usePageTitle("Deleted Report", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel header="Deleted Report" size="lg">
       <DataTable

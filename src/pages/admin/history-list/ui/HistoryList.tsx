@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { HISTORY_DATA_COL } from "./history.data.col";  
 import { useGetHistoryListQuery } from "@/shared/redux/features/admin/history-list/xraytypeListApi";
 import { DeleteHistory } from "@/features/history-delete";
+import { usePageTitle } from "@/shared/hooks";
 
 const HistoryList = () => {
   const {
@@ -52,6 +53,14 @@ const HistoryList = () => {
   }
   return item;
 });
+
+
+    usePageTitle("History List", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
 
   return (
     <Panel

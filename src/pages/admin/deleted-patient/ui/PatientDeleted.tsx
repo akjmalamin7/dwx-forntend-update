@@ -9,8 +9,10 @@ import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientDeleted = () => {
-
-  const { page, limit, setPage } = usePageQuery({ defaultPage: 1, defaultLimit: 10 });
+  const { page, limit, setPage } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
 
   const {
     data: patientList,
@@ -21,9 +23,10 @@ const PatientDeleted = () => {
   const totalPages = patientList?.pagination?.totalPages || 1;
 
   useServerSidePagination({
-    totalPages, initialPage: page, onPageChange: setPage,
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
   });
-
 
   const DATA_TABLE = useMemo(
     () =>
@@ -35,12 +38,13 @@ const PatientDeleted = () => {
           minute: "2-digit",
           hour12: true,
         }),
-        createdAt: item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
-      : "—",
+        createdAt: item.createdAt
+          ? new Date(item.createdAt).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
+          : "—",
         agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,
@@ -70,7 +74,6 @@ const PatientDeleted = () => {
 
   return (
     <Panel header="Deleted Report" size="lg">
-
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
@@ -79,8 +82,8 @@ const PatientDeleted = () => {
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
-        setPage={setPage} />
-
+        setPage={setPage}
+      />
     </Panel>
   );
 };

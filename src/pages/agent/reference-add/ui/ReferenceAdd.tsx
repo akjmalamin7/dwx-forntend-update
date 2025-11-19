@@ -4,6 +4,7 @@ import { Panel, PanelHeading } from "@/shared/ui";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { type ReferenceFormValues } from "./referenceAdd.types";
+import { usePageTitle } from "@/shared/hooks";
 
 const ReferenceAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -23,6 +24,12 @@ const ReferenceAdd = () => {
     }
   };
 
+  usePageTitle("Add Reference", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
+    
   return (
     <Panel
       header={

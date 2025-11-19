@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const PatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -67,6 +68,14 @@ const PatientView = () => {
   if (!patient && !patientLoading) {
     return <div>No patient data found</div>;
   }
+
+
+  usePageTitle("Patient View", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
 
   return (
     <Panel

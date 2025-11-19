@@ -1,3 +1,4 @@
+import { usePageTitle } from "@/shared/hooks";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
@@ -50,11 +51,18 @@ const EditUser = () => {
       console.error("Error creating user:", err);
     }
   });
+
+  usePageTitle("Update  User", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel
       header={
         <PanelHeading
-          title="Update New User"
+          title="Update  User"
           button="User List"
           path="admin/users/doctor"
         />

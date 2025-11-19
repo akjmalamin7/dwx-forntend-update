@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";   
 import { useGetBillRequestByMonthQuery } from "@/shared/redux/features/admin/customer-bill-request-list/billRequestApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerBillRequestList = () => { 
  
@@ -78,6 +79,12 @@ const CustomerBillRequestList = () => {
     return item;
   });
 
+    usePageTitle("Manage Customer Bill", {
+          prefix: "DWX - ",
+          defaultTitle: "DWX",
+          restoreOnUnmount: true,
+        });
+        
   return (
     <Panel header="Manage Customer Bill" size="lg">
       <div className="p-4 bg-white">

@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerUpdateBill = () => {
   const [searchParams] = useSearchParams();
@@ -86,6 +87,12 @@ const CustomerUpdateBill = () => {
     return item;
   });
 
+  usePageTitle("Update Customer Bill", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
+    
   return (
     <Panel header="Update Customer Bill" size="lg">
       <div className="p-4 bg-white">

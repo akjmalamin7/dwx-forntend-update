@@ -1,4 +1,4 @@
-import { useAuth } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table"; 
@@ -37,7 +37,12 @@ const TodaySummery = () => {
     rowsPerPage: 100,
   });
 
- 
+  usePageTitle("Today Summery", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
 
   return (
     <Panel header="Today Summery" size="lg">

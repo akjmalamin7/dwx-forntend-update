@@ -1,4 +1,4 @@
-import { useAuth } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table"; 
@@ -58,6 +58,13 @@ const MonthList = () => {
     });
 
 
+    usePageTitle("Monthly Report Manage", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel header="Monthly Report Manage" size="lg">
       <div className="p-4 bg-white">

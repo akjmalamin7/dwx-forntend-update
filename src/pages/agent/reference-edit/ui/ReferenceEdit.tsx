@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import type { ReferenceFormValues } from "../../reference-add/ui/referenceAdd.types";
+import { usePageTitle } from "@/shared/hooks";
 
 interface ReferenceListType {
   _id: string;
@@ -67,6 +68,12 @@ const ReferenceEdit = () => {
       }
     }
   };
+
+  usePageTitle("Edit Reference", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
 
   return (
     <Panel

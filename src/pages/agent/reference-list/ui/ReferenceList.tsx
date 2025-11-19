@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { REFERENCE_DOCTOR_DATA_COL } from "./reference.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const ReferenceList = () => {
   const {
@@ -60,6 +61,12 @@ const ReferenceList = () => {
     return item;
   });
 
+    usePageTitle("Reference Doctor List", {
+          prefix: "DWX - ",
+          defaultTitle: "DWX",
+          restoreOnUnmount: true,
+        });
+        
   return (
     <Panel
       header={

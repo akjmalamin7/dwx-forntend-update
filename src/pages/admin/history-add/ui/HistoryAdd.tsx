@@ -4,6 +4,7 @@ import { type SubmitHandler } from "react-hook-form";
 import { type HistoryFormValues } from "./historyAdd.types";
 import { useAddHistoryMutation } from "@/shared/redux/features/admin/history-add/addHistoryApi"; 
 import { HistoryForm } from "@/entities/history-from/ui";
+import { usePageTitle } from "@/shared/hooks";
 
 const HistoryAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -22,6 +23,12 @@ const HistoryAdd = () => {
       }
     }
   };
+
+  usePageTitle("Add History", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
 
   return (
     <Panel

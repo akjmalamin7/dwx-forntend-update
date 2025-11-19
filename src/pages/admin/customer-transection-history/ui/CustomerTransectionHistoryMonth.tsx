@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { MONTH_DATA_COL } from "./transectionHistory.data.col";    
 import { useGetBillMonthListQuery } from "@/shared/redux/features/admin/customer-bill-request-month/billMonthListApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerTransectionHistoryMonth = () => {
   const { data: monthList, isLoading } = useGetBillMonthListQuery();
@@ -58,6 +59,13 @@ const CustomerTransectionHistoryMonth = () => {
     return item;
   });
 
+  usePageTitle("Customer Payment Request", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel header="Customer Payment Request" size="md">
       <div className="p-4 bg-white">

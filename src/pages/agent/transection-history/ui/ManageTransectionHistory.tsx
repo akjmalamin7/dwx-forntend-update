@@ -6,6 +6,7 @@ import { BILL_DATA_COL } from "./bill.data.col";
  import { Link } from "react-router-dom";
 import { useGetTransectionListQuery } from "@/shared/redux/features/agent/transection-history/transectionListApi";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { usePageTitle } from "@/shared/hooks";
 
 const ManageTransectionHistory = () => {
   const { data: TransectionList, isLoading } = useGetTransectionListQuery();
@@ -62,6 +63,13 @@ const ManageTransectionHistory = () => {
     }
     return item;
   });
+
+  
+  usePageTitle("Manage Transection History", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
 
   return (
     <Panel header="Manage Transection History" size="lg">

@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";   
 import { useGetCustomerListQuery } from "@/shared/redux/features/admin/manage-customer/customerListApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const ManageCustomerBillByMonth = () => {
   const { data: customerList, isLoading } = useGetCustomerListQuery();
@@ -58,6 +59,12 @@ const ManageCustomerBillByMonth = () => {
     }
     return item;
   });
+
+  usePageTitle("Manage Customer Bill", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
 
   return (
     <Panel header="Manage Customer Bill" size="lg">

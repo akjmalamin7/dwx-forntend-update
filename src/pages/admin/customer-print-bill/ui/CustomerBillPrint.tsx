@@ -9,6 +9,7 @@ import { BillingInformation } from "@/pages/agent/bill-print/ui/billing-informat
 import { PaymentMethod } from "@/entities"; 
 import { useMemo } from "react";
 import { useGetAdminPaymentGetwayListQuery } from "@/shared/redux/features/admin/payment-getway/paymentGetwayApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerBillPrint = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -76,6 +77,15 @@ const CustomerBillPrint = () => {
         Error occured
       </Text>
     );
+
+    usePageTitle("Print Customer Bill", {
+      prefix: "DWX - ",
+      defaultTitle: "DWX",
+      restoreOnUnmount: true,
+    });
+
+      
+
   return (
     <>
       {/* Print-specific style */}

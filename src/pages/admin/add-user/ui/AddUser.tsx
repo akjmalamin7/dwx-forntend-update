@@ -1,3 +1,4 @@
+import { usePageTitle } from "@/shared/hooks";
 import { useAddUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi";
 import { ADD_ADMIN_USER_SCHEMA } from "@/shared/redux/features/admin/add-user/user.types";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
@@ -42,6 +43,12 @@ const AddUser = () => {
       console.error("Error creating user:", err);
     }
   });
+
+    usePageTitle("Add New user", {
+          prefix: "DWX - ",
+          defaultTitle: "DWX",
+          restoreOnUnmount: true,
+        });
 
   return (
     <Panel

@@ -1,4 +1,4 @@
-import { useAuth } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/doctor/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -71,6 +71,13 @@ const PatientPending = () => {
     return item;
   });
 
+
+  usePageTitle("Pending Report", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel header="Pending Report" size="lg">
       <div className="p-4 bg-white">

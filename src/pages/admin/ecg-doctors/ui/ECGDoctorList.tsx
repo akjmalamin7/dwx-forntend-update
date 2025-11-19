@@ -6,6 +6,7 @@ import { useGetUserListQuery } from "@/shared/redux/features/admin/add-user/addU
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { Link } from "react-router-dom";
 import { USER_DATA_COL } from "../../users/ui/userList.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const ECGDoctorList = () => {
   const role ="ecg_dr";
@@ -74,6 +75,14 @@ const ECGDoctorList = () => {
       return item;
     });
 
+
+    usePageTitle("ECG Doctor List", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel header="ECG Doctor List" size="lg">
       <div className="w-1/3">

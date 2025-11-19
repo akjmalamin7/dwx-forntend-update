@@ -1,4 +1,5 @@
 import { CheckedUserForm } from "@/entities";
+import { usePageTitle } from "@/shared/hooks";
 import type { CheckedUserFormValues } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUser.types";
 import { useEditCheckedUserMutation } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUserApi";
 import { useGetCheckeduserQuery } from "@/shared/redux/features/agent/checked-user-list/checkedUserListApi";
@@ -43,6 +44,14 @@ const CheckedUserEdit = () => {
       }
     }
   };
+
+  usePageTitle("Edit Checked User", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
+
   const isLoading = isUpdateLoading || isViewLoading;
   if (isViewLoading) {
     return (
@@ -67,7 +76,7 @@ const CheckedUserEdit = () => {
       <Panel
         header={
           <PanelHeading
-            title="Edit X-ray Report"
+            title="Edit User"
             button="Patient List"
             path="agent/patient/completed"
           />

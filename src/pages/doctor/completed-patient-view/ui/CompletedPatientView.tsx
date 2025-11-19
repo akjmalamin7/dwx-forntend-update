@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import { usePageTitle } from "@/shared/hooks";
 const CompletedPatientView = () => {
   const [viewData, setViewData] = useState({ passault: "", comments: "" });
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -92,6 +93,14 @@ const CompletedPatientView = () => {
   if (!patient && !patientLoading) {
     return <div>No patient data found</div>;
   }
+
+
+  usePageTitle("Completed Patient View", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
 
   return (
     <Panel

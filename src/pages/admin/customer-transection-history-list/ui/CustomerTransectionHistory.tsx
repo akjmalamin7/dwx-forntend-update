@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";   
 import {  useGetTransectionHistoryQuery } from "@/shared/redux/features/admin/customer-bill-request-list/billRequestApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const CustomerTransectionHistory = () => { 
  
@@ -77,6 +78,13 @@ const CustomerTransectionHistory = () => {
     return item;
   });
 
+
+  usePageTitle("Manage Customer Transection History", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+      
   return (
     <Panel header="Manage Customer Transection History" size="lg">
       <div className="p-4 bg-white">

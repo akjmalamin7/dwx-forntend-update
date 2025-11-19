@@ -7,6 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { REFERENCE_DOCTOR_DATA_COL } from "./format.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const FormatList = () => {
   const { data: FormatList, isLoading, refetch } = useGetFormatListQuery();
@@ -56,6 +57,12 @@ const FormatList = () => {
     return item;
   });
 
+  usePageTitle("Format List List", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+  
   return (
     <Panel
       header={

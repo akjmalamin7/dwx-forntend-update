@@ -1,3 +1,4 @@
+import { usePageTitle } from "@/shared/hooks";
 import { useUpdatePatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
@@ -77,6 +78,14 @@ const PatientEdit = () => {
       console.error("Error creating patient:", err);
     }
   };
+
+  usePageTitle("Edit Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
+
   const isLoading = isUpdateLoading || isViewLoading;
 
   if (isViewLoading) {

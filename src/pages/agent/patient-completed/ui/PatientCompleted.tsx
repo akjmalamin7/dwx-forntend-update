@@ -6,6 +6,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import { usePageTitle } from "@/shared/hooks";
 
 const PatientCompleted = () => {
   const { data: patientList, isLoading } = useGetCompletedPatientListQuery();
@@ -74,6 +75,13 @@ const PatientCompleted = () => {
       };
     }
     return item;
+  });
+
+
+  usePageTitle("Completed Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
   });
 
   return (

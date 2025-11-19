@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";    
 import { useGetBillMonthListQuery } from "@/shared/redux/features/admin/customer-bill-request-month/billMonthListApi";
+import { usePageTitle } from "@/shared/hooks";
 
 const ManageCustomerBillByMonth = () => {
   const { data: monthList, isLoading } = useGetBillMonthListQuery();
@@ -56,6 +57,13 @@ const ManageCustomerBillByMonth = () => {
       };
     }
     return item;
+  });
+
+  
+  usePageTitle("Customer Payment Request", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
   });
 
   return (

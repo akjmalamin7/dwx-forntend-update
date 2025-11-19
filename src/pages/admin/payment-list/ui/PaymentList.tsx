@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { PAYMENT_DATA_COL } from "./payment.data.col"; 
 import { useGetPaymentListQuery } from "@/shared/redux/features/admin/payment/paymentApi";
 import DeletePayment from "@/features/delete-payment/DeletePayment";
+import { usePageTitle } from "@/shared/hooks";
 
 
 const PaymentList = () => {
@@ -51,6 +52,14 @@ const PaymentList = () => {
     return item;
   });
 
+
+  usePageTitle("Payment List", {
+        prefix: "DWX - ",
+        defaultTitle: "DWX",
+        restoreOnUnmount: true,
+      });
+
+      
   return (
     <Panel
       header={

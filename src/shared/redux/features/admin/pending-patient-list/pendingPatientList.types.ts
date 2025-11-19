@@ -1,4 +1,4 @@
-export interface AGENT_DOCTOR {
+interface AGENT_DOCTOR {
   _id: string;
   email: string;
   id: string;

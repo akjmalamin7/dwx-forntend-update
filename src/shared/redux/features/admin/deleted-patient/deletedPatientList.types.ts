@@ -1,11 +1,11 @@
 // deletedPatientList.types.ts
-export interface AGENT_DOCTOR {
+interface AGENT_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-export interface DELETED_PATIENT_MODEL {
+export interface ADMIN_DELETED_PATIENT_MODEL {
   _id: string;
   agent_id: AGENT_DOCTOR;
   doctor_id: AGENT_DOCTOR[];
@@ -35,17 +35,17 @@ export interface DELETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface DeletedPatientApiResponse {
+export interface ADMIN_DELETE_PATIENT_API_RESPONSE_MODEL {
   message: string;
   success: boolean;
   page: number;
   limit: number;
   totalPages: number;
-  data: DELETED_PATIENT_MODEL[];
+  data: ADMIN_DELETED_PATIENT_MODEL[];
 }
 
-export interface TransformedDeletedPatientResponse {
-  data: DELETED_PATIENT_MODEL[];
+export interface ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL {
+  data: ADMIN_DELETED_PATIENT_MODEL[];
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -55,9 +55,9 @@ export interface TransformedDeletedPatientResponse {
   };
 }
 
-export const transformDeletedPatientResponse = (
-  response: DeletedPatientApiResponse
-): TransformedDeletedPatientResponse => {
+export const ADMIN_TRANSFORMED_DELETE_PATIENT_RESPONSE = (
+  response: ADMIN_DELETE_PATIENT_API_RESPONSE_MODEL
+): ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL => {
   return {
     data: response.data,
     pagination: {

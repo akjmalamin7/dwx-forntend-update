@@ -34,7 +34,12 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     [transformDoctorList]
   );
 
-  const { control, handleSubmit, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm({
     resolver: yupResolver(DOCTOR_SELECTED_SCHEMA),
     defaultValues: {
       selected_drs_id: [],
@@ -61,6 +66,32 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
       console.error(err);
     }
   });
+  const handleUncheckedSelectedDoctor = handleSubmit(async (data) => {
+    if (!patient_id) return;
+    try {
+      const newData = {
+        ...data,
+        ignored_drs_id: data.ignored_drs_id,
+        selected_drs_id: [],
+      };
+      await selectdDoctor({ id: patient_id, data: newData });
+    } catch (err) {
+      console.error(err);
+    }
+  });
+  const handleUncheckedIgnoredDoctor = handleSubmit(async (data) => {
+    if (!patient_id) return;
+    try {
+      const newData = {
+        ...data,
+        ignored_drs_id: [],
+        selected_drs_id: data.selected_drs_id,
+      };
+      await selectdDoctor({ id: patient_id, data: newData });
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
   if (!patient_id) return <div>Patient ID not found</div>;
   if (error) return <div>Error loading patient data</div>;
@@ -73,7 +104,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
       }
       size="lg"
     >
-      <form className="md:container w-full mx-auto" onSubmit={onSubmit}>
+      <div className="md:container w-full mx-auto">
         <div className="mb-5">
           <div className="flex flex-col md:flex-row gap-6 mb-6">
             <div className="md:w-1/2 w-full">
@@ -85,9 +116,11 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
                     title="Selected Doctor"
                     doctor={doctors}
                     isLoading={isDoctorLoading}
+                    isUpdating={isUpdating}
                     email="selected_drs_id"
                     selected={(field.value ?? []).filter(Boolean) as string[]}
                     onChangeDoctor={field.onChange}
+                    onUnchecked={handleUncheckedSelectedDoctor}
                   />
                 )}
               />
@@ -98,24 +131,34 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
                 name="ignored_drs_id"
                 control={control}
                 render={({ field }) => (
-                  <DoctorList
-                    title="Ignored Doctor"
-                    doctor={doctors}
-                    isLoading={isDoctorLoading}
-                    email="ignored_drs_id"
-                    selected={(field.value ?? []).filter(Boolean) as string[]}
-                    onChangeDoctor={field.onChange}
-                  />
+                  <>
+                    <DoctorList
+                      title="Ignored Doctor"
+                      doctor={doctors}
+                      isLoading={isDoctorLoading}
+                      isUpdating={isUpdating}
+                      email="ignored_drs_id"
+                      selected={(field.value ?? []).filter(Boolean) as string[]}
+                      onChangeDoctor={field.onChange}
+                      onUnchecked={handleUncheckedIgnoredDoctor}
+                    />
+                  </>
                 )}
               />
             </div>
           </div>
         </div>
 
-        <Button size="size-2" type="submit" loading={isUpdating}>
-          {isUpdating ? "Updating..." : "Submit"}
+        <Button
+          size="size-2"
+          type="submit"
+          loading={isUpdating}
+          onClick={onSubmit}
+          disabled={!isDirty}
+        >
+          Submit
         </Button>
-      </form>
+      </div>
     </Panel>
   );
 };

@@ -1,4 +1,4 @@
-export interface AGENT_DOCTOR {
+interface AGENT_DOCTOR {
   _id: string;
   email: string;
   id: string;
@@ -56,34 +56,35 @@ export interface PENDING_PATIENT_TRANSFORM_MODEL {
   is_checked: boolean | null;
 }
 
-export interface PendingPatientApiResponse {
+export interface PENDING_PATIENT_API_RESPONSE {
   message: string;
   success: boolean;
-  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
   data: PENDING_PATIENT_MODEL[];
 }
-
-export const transformPendingPatientResponse = (
-  data: PENDING_PATIENT_MODEL[]
-): PENDING_PATIENT_TRANSFORM_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || [],
-    agent_id: item.agent_id || {},
-    online_dr: item.online_dr || {},
-    doctor_id: item.doctor_id || [],
-    ignore_dr: item.ignore_dr || [],
-    createdAt: item.createdAt,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    completed_time: item.completed_time,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-  }));
+export interface TRANSFORM_PENDING_PATIENT_MODEL {
+  data: PENDING_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+export const TRANSFORM_PENDING_PATIENT_RESPONSE = (
+  response: PENDING_PATIENT_API_RESPONSE
+): TRANSFORM_PENDING_PATIENT_MODEL => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

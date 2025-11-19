@@ -1,14 +1,14 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
-  transformDeletedPatientResponse,
-  type DeletedPatientApiResponse,
-  type TransformedDeletedPatientResponse,
+  ADMIN_TRANSFORMED_DELETE_PATIENT_RESPONSE,
+  type ADMIN_DELETE_PATIENT_API_RESPONSE_MODEL,
+  type ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL,
 } from "./deletedPatientList.types";
 
 export const DeletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDeletedPatientList: builder.query<
-      TransformedDeletedPatientResponse,
+      ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL,
       { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
@@ -26,8 +26,10 @@ export const DeletedPatientListApi = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: DeletedPatientApiResponse) => {
-        return transformDeletedPatientResponse(response);
+      transformResponse: (
+        response: ADMIN_DELETE_PATIENT_API_RESPONSE_MODEL
+      ) => {
+        return ADMIN_TRANSFORMED_DELETE_PATIENT_RESPONSE(response);
       },
       providesTags: ["DeletedPatientList"],
     }),

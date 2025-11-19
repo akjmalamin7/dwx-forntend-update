@@ -1,4 +1,4 @@
-import { Checkbox, Loader } from "@/shared/ui";
+import { Button, Checkbox, Loader } from "@/shared/ui";
 
 type DoctorsType = {
   _id: string;
@@ -11,7 +11,9 @@ interface LProps {
   email?: string;
   selected?: string[];
   isLoading?: boolean;
+  isUpdating?: boolean;
   onChangeDoctor?: (ids: string[]) => void;
+  onUnchecked?: () => void;
 }
 
 const DoctorList = ({
@@ -19,7 +21,9 @@ const DoctorList = ({
   doctor,
   selected = [],
   isLoading,
+  isUpdating,
   onChangeDoctor,
+  onUnchecked,
 }: LProps) => {
   const handleCheckboxChange = (checked: boolean, id: string) => {
     const updated = checked
@@ -29,7 +33,17 @@ const DoctorList = ({
   };
   return (
     <div className="border border-gray-300 rounded-md p-4">
-      <h2 className="text-sm font-semibold text-gray-700 mb-2">{title}</h2>
+      <div className="flex items-center gap-2 mb-4">
+        <h2 className="text-sm font-semibold text-gray-700 ">{title}</h2>
+        <Button
+          className={`h-auto! py-[4px]! rounded-[12px]! text-[13px]! `}
+          disabled={isUpdating}
+          type="button"
+          onClick={onUnchecked}
+        >
+          Uncheck all
+        </Button>
+      </div>
       {isLoading ? (
         <Loader type="regular" />
       ) : (

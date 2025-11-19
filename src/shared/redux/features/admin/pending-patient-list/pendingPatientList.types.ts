@@ -34,7 +34,7 @@ interface ADMIN_PENDING_PATIENT_MODEL {
   __v: number;
   id: string;
 }
-export interface ADMIN_PENDING_PATIENT_API_RESPONSE {
+export interface ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL {
   message: string;
   success: boolean;
   page: number;
@@ -53,7 +53,7 @@ export interface ADMIN_TRANSFORM_PENDING_PATIENT_MODEL {
   };
 }
 export const ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE = (
-  response: ADMIN_PENDING_PATIENT_API_RESPONSE
+  response: ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL
 ): ADMIN_TRANSFORM_PENDING_PATIENT_MODEL => {
   return {
     data: response.data,

@@ -1,7 +1,7 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
   ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE,
-  type ADMIN_PENDING_PATIENT_API_RESPONSE,
+  type ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL,
   type ADMIN_TRANSFORM_PENDING_PATIENT_MODEL,
 } from "./pendingPatientList.types";
 
@@ -24,7 +24,9 @@ export const PendingPatientListApi = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: ADMIN_PENDING_PATIENT_API_RESPONSE) => {
+      transformResponse: (
+        response: ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL
+      ) => {
         return ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE(response);
       },
 

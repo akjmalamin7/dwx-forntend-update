@@ -1,14 +1,14 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
-  TRANSFORM_PENDING_PATIENT_RESPONSE,
-  type PENDING_PATIENT_API_RESPONSE,
-  type TRANSFORM_PENDING_PATIENT_MODEL,
+  ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE,
+  type ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL,
+  type ADMIN_TRANSFORM_PENDING_PATIENT_MODEL,
 } from "./pendingPatientList.types";
 
 export const PendingPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPendingPatientList: builder.query<
-      TRANSFORM_PENDING_PATIENT_MODEL,
+      ADMIN_TRANSFORM_PENDING_PATIENT_MODEL,
       { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
@@ -24,8 +24,10 @@ export const PendingPatientListApi = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: PENDING_PATIENT_API_RESPONSE) => {
-        return TRANSFORM_PENDING_PATIENT_RESPONSE(response);
+      transformResponse: (
+        response: ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL
+      ) => {
+        return ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE(response);
       },
 
       providesTags: () => [{ type: "PendingPatient", id: "LIST" }],

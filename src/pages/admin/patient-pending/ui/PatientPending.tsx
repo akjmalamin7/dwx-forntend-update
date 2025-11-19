@@ -15,6 +15,7 @@ const PatientPending = () => {
     defaultPage: 1,
     defaultLimit: 5,
   });
+
   const {
     data: patientList,
     isLoading,

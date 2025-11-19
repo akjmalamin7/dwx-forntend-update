@@ -5,7 +5,7 @@ interface AGENT_DOCTOR {
   id: string;
 }
 
-export interface ADMIN_DELETED_PATIENT_MODEL {
+interface ADMIN_DELETED_PATIENT_MODEL {
   _id: string;
   agent_id: AGENT_DOCTOR;
   doctor_id: AGENT_DOCTOR[];

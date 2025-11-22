@@ -1,6 +1,7 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+
 import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -9,7 +10,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-const CompletedPatients = () => {
+const TodayCompletedPatient = () => {
   const { page, limit, setPage } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -20,7 +21,6 @@ const CompletedPatients = () => {
     refetch,
   } = useGetAdminCompletedPatientListQuery({ page, limit });
   const totalPages = patientList?.pagination.totalPages || 1;
-
   useServerSidePagination({
     totalPages,
     initialPage: page,
@@ -88,4 +88,4 @@ const CompletedPatients = () => {
   );
 };
 
-export default CompletedPatients;
+export default TodayCompletedPatient;

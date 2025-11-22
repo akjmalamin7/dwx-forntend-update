@@ -15,7 +15,6 @@ const PatientInformation = () => {
     adminPatientViewError,
   } = useAdminPatientView();
 
-
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 

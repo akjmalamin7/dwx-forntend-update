@@ -1,1 +1,4 @@
-export { default, default as PatientCompleted } from "./ui/PatientCompleted";
+export {
+  default,
+  default as TodayCompletedPatient,
+} from "./ui/TodayCompletedPatient";

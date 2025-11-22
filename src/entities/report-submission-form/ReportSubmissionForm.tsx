@@ -41,7 +41,7 @@ const ReportSubmissionForm = ({
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isMedicalDiagnosis, setIsMedicalDiagnosis] = useState<boolean>(false);
 
   const [savePatient, { isLoading: isSaving }] = useSavePatientMutation();
@@ -139,7 +139,7 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
-           navigate('/doctor/patient');
+        navigate("/doctor/patient");
 
         resetForm();
       } else {

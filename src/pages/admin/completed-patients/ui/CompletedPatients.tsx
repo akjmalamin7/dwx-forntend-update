@@ -1,8 +1,7 @@
-import { DeleteAdminPatient, TypingBack } from "@/features";
-import { useAuth } from "@/shared/hooks";
+import { CompletedBack } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
+import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -10,18 +9,16 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-const PatientPending = () => {
+const CompletedPatients = () => {
   const { page, limit, setPage } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 5,
+    defaultLimit: 10,
   });
-
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetPendingPatientListQuery({ page, limit });
-
+  } = useGetCompletedPatientListQuery({ page, limit });
   const totalPages = patientList?.pagination.totalPages || 1;
 
   useServerSidePagination({
@@ -29,15 +26,12 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
-  const { user } = useAuth();
-
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], {
+        start_time: new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
@@ -45,22 +39,14 @@ const PatientPending = () => {
         agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,
-        gender: item.gender,
         age: item.age,
         rtype: item.rtype,
-        selected_dr:
-          user?.id && Array.isArray(item.doctor_id) && item.doctor_id.length > 0
-            ? item.doctor_id.map((d) => d.email).join(", ")
-            : "All",
-        ignored_dr:
-          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-            ? item.ignore_dr.map((d) => d.email).join(", ")
-            : "",
-        online_dr: item.online_dr?.email,
+
+        completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList?.data, user?.id, limit, page]
+    [patientList?.data, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -68,21 +54,21 @@ const PatientPending = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex">
-            <TypingBack path={record?.key} onDeleteSuccess={refetch} />
-            <Link
-              to={`/admin/select-doctor/${record?.key}`}
-              className="bg-blue-500 text-white px-2 py-2 text-sm"
-            >
-              S.D
-            </Link>
+          <div key={rowIndex} className="flex justify-end">
             <Link
               to={`/admin/patient-view/${record?.key}`}
-              className="bg-yellow-500 text-white px-2 py-2 text-sm"
+              className="bg-green-500 text-white px-2 py-2 text-sm"
             >
               View
             </Link>
-            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+
+            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
+            <Link
+              to={`/admin/patient-view/${record?.key}`}
+              className="bg-red-500 text-white px-2 py-2 text-sm"
+            >
+              Delete
+            </Link>
           </div>
         ),
       };
@@ -106,4 +92,4 @@ const PatientPending = () => {
   );
 };
 
-export default PatientPending;
+export default CompletedPatients;

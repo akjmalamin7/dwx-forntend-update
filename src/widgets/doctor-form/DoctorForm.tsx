@@ -11,9 +11,10 @@ import { StatusEnum } from "@/shared/utils/types/userTypes";
 
 interface UserFormProps {
   resetCount?: number;
+  isEdit?: boolean;
 }
 
-const UserForm = ({ resetCount = 0 }: UserFormProps) => {
+const UserForm = ({ resetCount = 0, isEdit }: UserFormProps) => {
   const { control, reset } = useFormContext<XRayDoctorPayload>();
   // const form = useFormContext<XRayDoctorPayload>();
   useEffect(() => {
@@ -51,12 +52,15 @@ const UserForm = ({ resetCount = 0 }: UserFormProps) => {
         label="Email/Username"
         placeholder="Enter Username"
       />
-      <ControlInput
-        control={control}
-        name="password"
-        label="Password"
-        placeholder="Enter password"
-      />
+      {!isEdit && (
+        <ControlInput
+          control={control}
+          name="password"
+          label="Password"
+          placeholder="Enter password"
+        />
+      )}
+
       <ControlInput
         control={control}
         name="mobile"

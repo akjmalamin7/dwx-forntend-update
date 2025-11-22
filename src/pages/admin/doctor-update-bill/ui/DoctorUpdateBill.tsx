@@ -1,4 +1,5 @@
 import { DoctorUpdateBillAction } from "@/features";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -7,7 +8,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
 const DoctorUpdateBill = () => {
   const [searchParams] = useSearchParams();
@@ -71,13 +71,11 @@ const DoctorUpdateBill = () => {
     return item;
   });
 
-
   usePageTitle("Update Doctor Bill", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
-
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   return (
     <Panel header="Update Doctor Bill" size="lg">

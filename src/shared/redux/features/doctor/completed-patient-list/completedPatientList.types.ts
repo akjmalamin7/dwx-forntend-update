@@ -43,7 +43,7 @@ export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
   gender: string;
   age: string;
   xray_name: string;
-  rtype: string; 
+  rtype: string;
   printstatus: string | null;
   completed_time: string;
   viewed: boolean;

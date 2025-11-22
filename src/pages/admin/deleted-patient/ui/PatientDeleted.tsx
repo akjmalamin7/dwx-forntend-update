@@ -8,6 +8,8 @@ import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 import { usePageTitle } from "@/shared/hooks";
+import { Link } from "react-router-dom";
+import { PermanentDeleteAdminPatient } from "@/features/admin/permanent-delete-admin-patient";
 
 const PatientDeleted = () => {
   const { page, limit, setPage } = usePageQuery({
@@ -64,8 +66,16 @@ const PatientDeleted = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
+          <div key={rowIndex} className="flex">
             <PatientDeleteBack path={record?.key} onDeleteSuccess={refetch} />
+            <PermanentDeleteAdminPatient path={record?.key} onDeleteSuccess={refetch} />
+             <Link
+                          to={`/admin/patient-view/${record?.key}`}
+                className="bg-yellow-500 text-white px-2 py-2 text-sm"
+              >
+                View
+              </Link>
+
           </div>
         ),
       };

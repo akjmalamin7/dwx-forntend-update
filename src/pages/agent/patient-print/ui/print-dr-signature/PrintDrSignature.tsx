@@ -1,5 +1,7 @@
 import type { PRINT_COMPLETED_DOCTOR } from "@/shared/redux/features/agent/patient-print/patientPrint.type";
 import { Text } from "@/shared/ui";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 interface IProps {
   signature?: PRINT_COMPLETED_DOCTOR;
   passault?: "Yes" | "" | undefined;
@@ -17,11 +19,11 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
 
       <div className="start">
         <img src={signatureImg} alt="Logo" className="w-50 mr-4" />
-        <Text element="h4" size="xl" isEditable>
+        <Text element="h4" size="xl"  >
           {signature?.name || ""}
         </Text>
-        <Text element="p" size="lg" isEditable>
-          {signature?.address || ""}
+        <Text element="p" size="lg"  >
+          { parse(DOMPurify.sanitize(String(signature?.address) || "")) }
         </Text>
         {passault === "Yes" ? (
           <Text

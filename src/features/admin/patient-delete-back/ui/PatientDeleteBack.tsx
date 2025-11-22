@@ -24,7 +24,7 @@ const PatientDeleteBack = ({ path, onDeleteSuccess }: TProps) => {
       loading={isLoading}
       disabled={isLoading}
     >
-      Delete Back
+      &lt;D.Back
     </Button>
   );
 };

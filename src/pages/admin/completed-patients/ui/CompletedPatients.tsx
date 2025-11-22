@@ -1,4 +1,4 @@
-import { CompletedBack } from "@/features";
+import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
@@ -63,12 +63,8 @@ const CompletedPatients = () => {
             </Link>
 
             <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
-            <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-red-500 text-white px-2 py-2 text-sm"
-            >
-              Delete
-            </Link>
+           
+            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>
         ),
       };

@@ -6,8 +6,8 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
     .min(2, "Name must be at least 2 characters"),
   email: yup
     .string()
-    .required("Email is required")
-    .email("Enter a valid email address"),
+    .required("Email/Username is required")
+    .min(2, "Name must be at least 2 characters"),
   password: yup
     .string()
     .required("Password is required")
@@ -15,11 +15,7 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
   mobile: yup
     .string()
     .required("Mobile number is required")
-
-    .matches(
-      /^01[0-9]{9}$/,
-      "Enter a valid Bangladesh mobile number (11 digits)"
-    ),
+    .min(11, "Password must be at least 11 characters"),
   address: yup.string().required("Address is required"),
   single: yup
     .number()

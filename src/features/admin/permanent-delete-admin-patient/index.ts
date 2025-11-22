@@ -1,0 +1,1 @@
+export { PermanentDeleteAdminPatient } from "./ui";

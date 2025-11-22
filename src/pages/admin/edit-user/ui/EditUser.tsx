@@ -82,7 +82,7 @@ const EditUser = () => {
             size="size-2"
             loading={isUpdating}
           >
-            {isUpdating ? "Submitting" : "Create User"}
+            {isUpdating ? "Submitting" : "Update User"}
           </Button>
         </div>
       </div>

@@ -12,7 +12,7 @@ import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";
 const DoctorList = () => {
   const { page, limit, setPage } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const { data: doctorList, isLoading } = useGetUpdateDoctorListQuery({
     page,

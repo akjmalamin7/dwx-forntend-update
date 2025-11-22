@@ -61,7 +61,7 @@ const PatientCompleted = () => {
               View
             </Link> 
             <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
-            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} /> 
            
           </div>
         ),

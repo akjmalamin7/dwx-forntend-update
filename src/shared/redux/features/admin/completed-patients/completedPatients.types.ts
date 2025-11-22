@@ -1,15 +1,15 @@
-export interface AGENT_DOCTOR {
+export interface ADMIN_AGENT_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-export interface COMPLETED_PATIENT_MODEL {
+export interface ADMIN_COMPLETED_PATIENT_MODEL {
   _id: string;
-  agent_id: AGENT_DOCTOR;
-  doctor_id: AGENT_DOCTOR[];
-  completed_dr: AGENT_DOCTOR;
-  ignore_dr: AGENT_DOCTOR[];
+  agent_id: ADMIN_AGENT_DOCTOR;
+  doctor_id: ADMIN_AGENT_DOCTOR[];
+  completed_dr: ADMIN_AGENT_DOCTOR;
+  ignore_dr: ADMIN_AGENT_DOCTOR[];
   patient_id: string;
   name: string;
   age: string;
@@ -34,53 +34,35 @@ export interface COMPLETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface COMPLETED_PATIENT_TRANSFORM_MODEL {
-  _id: string;
-  id: string;
-  agent_id: AGENT_DOCTOR;
-  doctor_id: AGENT_DOCTOR[];
-  completed_dr: AGENT_DOCTOR;
-  ignore_dr: AGENT_DOCTOR[];
-  createdAt: string;
-  patient_id: string;
-  name: string;
-  gender: string;
-  age: string;
-  xray_name: string;
-  rtype: string;
-  printstatus: string | null;
-  completed_time: string;
-  viewed: boolean;
-  is_checked: boolean | null;
-}
-
-export interface CompletedPatientApiResponse {
+export interface ADMIN_COMPLETED_PATIENT_API_RRSPONSE {
   message: string;
   success: boolean;
-  total: number;
-  data: COMPLETED_PATIENT_MODEL[];
+  page: number;
+  limit: number;
+  totalPages: number;
+  data: ADMIN_COMPLETED_PATIENT_MODEL[];
 }
-
-export const transformCompletedPatientResponse = (
-  data: COMPLETED_PATIENT_MODEL[]
-): COMPLETED_PATIENT_TRANSFORM_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || {},
-    agent_id: item.agent_id || {},
-    doctor_id: item.doctor_id || [],
-    ignore_dr: item.ignore_dr || [],
-    createdAt: item.createdAt,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    completed_time: item.completed_time,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-  }));
+export interface ADMIN_COMPLETED_PATIENT_TRANSFORM_MODEL {
+  data: ADMIN_COMPLETED_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+export const ADMIN_COMPLETED_PATIENT_TRANSFORM_RESPONSE = (
+  response: ADMIN_COMPLETED_PATIENT_API_RRSPONSE
+): ADMIN_COMPLETED_PATIENT_TRANSFORM_MODEL => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

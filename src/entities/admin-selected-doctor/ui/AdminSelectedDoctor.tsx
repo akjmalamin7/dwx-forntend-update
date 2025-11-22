@@ -37,6 +37,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { isDirty },
   } = useForm({
     resolver: yupResolver(DOCTOR_SELECTED_SCHEMA),
@@ -63,32 +64,18 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
       console.error(err);
     }
   });
-  const handleUncheckedSelectedDoctor = handleSubmit(async (data) => {
-    if (!patient_id) return;
-    try {
-      const newData = {
-        ...data,
-        ignored_drs_id: data.ignored_drs_id,
-        selected_drs_id: [],
-      };
-      await selectdDoctor({ id: patient_id, data: newData });
-    } catch (err) {
-      console.error(err);
-    }
-  });
-  const handleUncheckedIgnoredDoctor = handleSubmit(async (data) => {
-    if (!patient_id) return;
-    try {
-      const newData = {
-        ...data,
-        ignored_drs_id: [],
-        selected_drs_id: data.selected_drs_id,
-      };
-      await selectdDoctor({ id: patient_id, data: newData });
-    } catch (err) {
-      console.error(err);
-    }
-  });
+  const handleUncheckedSelectedDoctor = () => {
+    setValue("selected_drs_id", [], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
+  const handleUncheckedIgnoredDoctor = () => {
+    setValue("ignored_drs_id", [], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
 
   if (!patient_id) return <div>Patient ID not found</div>;
   if (error) return <div>Error loading patient data</div>;
@@ -113,7 +100,6 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
                     title="Selected Doctor"
                     doctor={doctors}
                     isLoading={isDoctorLoading}
-                    isUpdating={isUpdating}
                     email="selected_drs_id"
                     selected={(field.value ?? []).filter(Boolean) as string[]}
                     onChangeDoctor={field.onChange}
@@ -133,7 +119,6 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
                       title="Ignored Doctor"
                       doctor={doctors}
                       isLoading={isDoctorLoading}
-                      isUpdating={isUpdating}
                       email="ignored_drs_id"
                       selected={(field.value ?? []).filter(Boolean) as string[]}
                       onChangeDoctor={field.onChange}

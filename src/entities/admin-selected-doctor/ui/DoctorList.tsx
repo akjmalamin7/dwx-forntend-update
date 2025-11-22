@@ -11,7 +11,6 @@ interface LProps {
   email?: string;
   selected?: string[];
   isLoading?: boolean;
-  isUpdating?: boolean;
   onChangeDoctor?: (ids: string[]) => void;
   onUnchecked?: () => void;
 }
@@ -21,7 +20,6 @@ const DoctorList = ({
   doctor,
   selected = [],
   isLoading,
-  isUpdating,
   onChangeDoctor,
   onUnchecked,
 }: LProps) => {
@@ -37,7 +35,6 @@ const DoctorList = ({
         <h2 className="text-sm font-semibold text-gray-700 ">{title}</h2>
         <Button
           className={`h-auto! py-[4px]! rounded-[12px]! text-[13px]! `}
-          disabled={isUpdating}
           type="button"
           onClick={onUnchecked}
         >

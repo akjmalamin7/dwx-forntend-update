@@ -20,12 +20,12 @@ const DoctorList = () => {
   });
 
   const totalPages = doctorList?.pagination.totalPages || 1;
-
   useServerSidePagination({
     totalPages,
     initialPage: page,
     onPageChange: setPage,
   });
+
   const DATA_TABLE = useMemo(
     () =>
       doctorList?.data.map((item, index) => ({

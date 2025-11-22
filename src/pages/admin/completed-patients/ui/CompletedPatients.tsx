@@ -1,25 +1,36 @@
 import { CompletedBack } from "@/features";
-import { usePageTitle } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useGetCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
+  const { page, limit, setPage } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetCompletedPatientListQuery();
+  } = useGetCompletedPatientListQuery({ page, limit });
+  const totalPages = patientList?.pagination.totalPages || 1;
+
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
+  });
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      patientList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -35,21 +46,8 @@ const CompletedPatients = () => {
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList]
+    [patientList?.data, limit, page]
   );
-
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "agent_name"],
-    rowsPerPage: 100,
-  });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
@@ -63,12 +61,7 @@ const CompletedPatients = () => {
             >
               View
             </Link>
-            {/* <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-blue-500 text-white px-2 py-2 text-sm"
-            >
-              C. Back
-            </Link> */}
+
             <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/patient-view/${record?.key}`}
@@ -83,37 +76,18 @@ const CompletedPatients = () => {
     return item;
   });
 
-  usePageTitle("Completed Report", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
-
   return (
-    <Panel header="Completed Report" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Patient Name, ID or DC Name..."
-          />
-        </div>
-
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
-        />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+    <Panel header="Deleted Report" size="lg">
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={patientList?.pagination.hasNext}
+        hasPrev={patientList?.pagination.hasPrev}
+        setPage={setPage}
+      />
     </Panel>
   );
 };

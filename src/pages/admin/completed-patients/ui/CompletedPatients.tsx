@@ -56,7 +56,7 @@ const CompletedPatients = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex justify-end">
             <Link
-              to={`/admin/patient-view/${record?.key}`}
+              to={`/admin/completed-patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-2 text-sm"
             >
               View

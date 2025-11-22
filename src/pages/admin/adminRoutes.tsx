@@ -41,6 +41,10 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminViewPatient />),
   },
   {
+    path: "/admin/completed-patient-view/:patient_id",
+    element: withSuspense(<Pages.AdminCompletedPatientView />),
+  },
+  {
     path: "/admin/patient-archive/:month",
     element: withSuspense(<Pages.AdminPatientArchive />),
   },

@@ -1,10 +1,11 @@
-import { AdminSelectedDoctor, XrayImages } from "@/entities";
+
 import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import { XrayImages } from "@/entities";
 
 const PatientInformation = () => {
   const { patient_id } = useParams<{ patient_id: string }>();

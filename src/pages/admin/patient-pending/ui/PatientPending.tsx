@@ -91,7 +91,7 @@ const PatientPending = () => {
   });
 
   return (
-    <Panel header="Deleted Report" size="lg">
+    <Panel header="Pending Patients" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

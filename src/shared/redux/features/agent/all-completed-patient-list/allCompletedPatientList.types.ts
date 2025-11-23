@@ -1,13 +1,13 @@
-export interface COMPLETED_DOCTOR {
+interface AGEND_ALL_COMPLETED_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-export interface ALLCOMPLETED_PATIENT_MODEL {
+interface AGEND_ALL_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
-  completed_dr: COMPLETED_DOCTOR;
+  completed_dr: AGEND_ALL_COMPLETED_DOCTOR;
   ignore_dr: string[];
   patient_id: string;
   name: string;
@@ -33,47 +33,35 @@ export interface ALLCOMPLETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface ALLCOMPLETED_PATIENT_TRANSFORM_MODEL {
-  _id: string;
-  id: string;
-  completed_dr: COMPLETED_DOCTOR;
-  createdAt: string;
-  completed_time: string;
-  patient_id: string;
-  name: string;
-  gender: string;
-  age: string;
-  xray_name: string;
-  rtype: string;
-  printstatus: string | null;
-  viewed: boolean;
-  is_checked: boolean | null;
-}
-
-export interface AllCompletedPatientApiResponse {
-  message: string;
+export interface AGEND_ALL_COMPLETED_PATIENT_API_RESPONSE {
   success: boolean;
-  total: number;
-  data: ALLCOMPLETED_PATIENT_MODEL[];
+  message: string;
+  page: number;
+  limit: number;
+  totalPages: number;
+  data: AGEND_ALL_COMPLETED_PATIENT_MODEL[];
 }
-
-export const transformAllCompletedPatientResponse = (
-  data: ALLCOMPLETED_PATIENT_MODEL[]
-): ALLCOMPLETED_PATIENT_TRANSFORM_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || "",
-    createdAt: item.createdAt,
-    completed_time: item.completed_time,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-  }));
+export interface AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL {
+  data: AGEND_ALL_COMPLETED_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+export const AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_RESPONSE = (
+  response: AGEND_ALL_COMPLETED_PATIENT_API_RESPONSE
+): AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

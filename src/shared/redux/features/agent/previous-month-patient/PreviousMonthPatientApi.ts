@@ -1,20 +1,35 @@
 import { apiSlice } from "../../api/apiSlice";
-import { transformPrevCompletedPatientResponse, type PREV_COMPLETED_PATIENT_TRANSFORM_MODEL, type PrevCompletedPatientApiResponse } from "./previousPatientList.types";
- 
+import {
+  AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_RESPONSE,
+  type AGENT_PREV_MONTH_COMPLETED_PATIENT_API_RESPONSE,
+  type AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL,
+} from "./previousPatientList.types";
+
 export const PreviousMonthPatientApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPreviousMonthPatient: builder.query<
-      PREV_COMPLETED_PATIENT_TRANSFORM_MODEL[],
-      void
+    getAgentPreviousMonthPatient: builder.query<
+      AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL,
+      { page?: number; limit?: number; search?: "" }
     >({
-      query: () => ({
-        url: "/agent/patient/completed/previous?page=1&limit=100",
-        method: "GET",
-      }),
-      transformResponse: (response: PrevCompletedPatientApiResponse) => {
-        return transformPrevCompletedPatientResponse(response.data);
+      query: ({ page = 1, limit = 10, search = "" }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+        if (search) {
+          params.append("search", search);
+        }
+        return {
+          url: `/agent/patient/completed/previous?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (
+        response: AGENT_PREV_MONTH_COMPLETED_PATIENT_API_RESPONSE
+      ) => {
+        return AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_RESPONSE(response);
       },
     }),
   }),
 });
-export const { useGetPreviousMonthPatientQuery } = PreviousMonthPatientApi;
+export const { useGetAgentPreviousMonthPatientQuery } = PreviousMonthPatientApi;

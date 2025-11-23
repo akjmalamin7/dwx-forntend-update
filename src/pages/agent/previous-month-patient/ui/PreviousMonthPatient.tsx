@@ -1,31 +1,47 @@
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
- import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { usePageTitle } from "@/shared/hooks";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { useGetAgentPreviousMonthPatientQuery } from "@/shared/redux/features/agent/previous-month-patient/PreviousMonthPatientApi";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-import { useGetPreviousMonthPatientQuery } from "@/shared/redux/features/agent/previous-month-patient/PreviousMonthPatientApi";
-import { usePageTitle } from "@/shared/hooks";
 
 const PreviousMonthPatient = () => {
-  const { data: patientList, isLoading } = useGetPreviousMonthPatientQuery();
-
+  const { page, limit, setPage } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
+  const { data: patientList, isLoading } = useGetAgentPreviousMonthPatientQuery(
+    { page, limit }
+  );
+  const totalPages = patientList?.pagination.totalPages || 1;
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
+  });
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      patientList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
           hour12: true,
         }),
-        end_time: new Date(item.completed_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+        end_time: new Date(item.completed_time).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
         patient_age: item.age,
         patient_name: item.name,
         patient_id: item.patient_id,
@@ -36,21 +52,8 @@ const PreviousMonthPatient = () => {
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
-    [patientList]
+    [patientList?.data, page, limit]
   );
-
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 200,
-  });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
@@ -77,38 +80,24 @@ const PreviousMonthPatient = () => {
     return item;
   });
 
-
   usePageTitle("Previous Month Completed Report", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
-      
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
   return (
     <Panel header="Previous Month Completed Report" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Name, ID or Xray..."
-          />
-        </div>
-
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
-        />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={patientList?.pagination.hasNext}
+        hasPrev={patientList?.pagination.hasPrev}
+        setPage={setPage}
+      />
     </Panel>
   );
 };

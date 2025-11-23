@@ -1,24 +1,36 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
-  transformAllCompletedPatientResponse,
-  type ALLCOMPLETED_PATIENT_TRANSFORM_MODEL,
-  type AllCompletedPatientApiResponse,
+  AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_RESPONSE,
+  type AGEND_ALL_COMPLETED_PATIENT_API_RESPONSE,
+  type AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL,
 } from "./allCompletedPatientList.types";
 
 export const AllCompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllCompletedPatientList: builder.query<
-      ALLCOMPLETED_PATIENT_TRANSFORM_MODEL[],
-      void
+    getAgendAllCompletedPatientList: builder.query<
+      AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL,
+      { page?: number; limit?: number; search?: "" }
     >({
-      query: () => ({
-        url: "/agent/patient/completed/all?page=1&limit=100",
-        method: "GET",
-      }),
-      transformResponse: (response: AllCompletedPatientApiResponse) => {
-        return transformAllCompletedPatientResponse(response.data);
+      query: ({ page = 1, limit = 10, search = "" }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+        if (search) {
+          params.append("search", search);
+        }
+        return {
+          url: `/agent/patient/completed/all?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (
+        response: AGEND_ALL_COMPLETED_PATIENT_API_RESPONSE
+      ) => {
+        return AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_RESPONSE(response);
       },
     }),
   }),
 });
-export const { useGetAllCompletedPatientListQuery } = AllCompletedPatientListApi;
+export const { useGetAgendAllCompletedPatientListQuery } =
+  AllCompletedPatientListApi;

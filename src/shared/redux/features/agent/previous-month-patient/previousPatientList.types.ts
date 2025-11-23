@@ -1,13 +1,13 @@
-export interface PREV_COMPLETED_DOCTOR {
+interface AGENT_PREV_MONTH_COMPLETED_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-export interface PREV_COMPLETED_PATIENT_MODEL {
+interface AAGENT_PREV_MONTH_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
-  completed_dr: PREV_COMPLETED_DOCTOR;
+  completed_dr: AGENT_PREV_MONTH_COMPLETED_DOCTOR;
   ignore_dr: string[];
   patient_id: string;
   name: string;
@@ -33,47 +33,35 @@ export interface PREV_COMPLETED_PATIENT_MODEL {
   id: string;
 }
 
-export interface PREV_COMPLETED_PATIENT_TRANSFORM_MODEL {
-  _id: string;
-  id: string;
-  completed_dr: PREV_COMPLETED_DOCTOR;
-  createdAt: string;
-  patient_id: string;
-  name: string;
-  gender: string;
-  age: string;
-  xray_name: string;
-  rtype: string; 
-  printstatus: string | null;
-  completed_time: string;
-  viewed: boolean;
-  is_checked: boolean | null;
-}
-
-export interface PrevCompletedPatientApiResponse {
-  message: string;
+export interface AGENT_PREV_MONTH_COMPLETED_PATIENT_API_RESPONSE {
   success: boolean;
-  total: number;
-  data: PREV_COMPLETED_PATIENT_MODEL[];
+  message: string;
+  page: number;
+  limit: number;
+  totalPages: number;
+  data: AAGENT_PREV_MONTH_COMPLETED_PATIENT_MODEL[];
 }
-
-export const transformPrevCompletedPatientResponse = (
-  data: PREV_COMPLETED_PATIENT_MODEL[]
-): PREV_COMPLETED_PATIENT_TRANSFORM_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || [],
-    createdAt: item.createdAt,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    completed_time: item.completed_time,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-  }));
+export interface AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL {
+  data: AAGENT_PREV_MONTH_COMPLETED_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+export const AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_RESPONSE = (
+  response: AGENT_PREV_MONTH_COMPLETED_PATIENT_API_RESPONSE
+): AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

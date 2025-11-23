@@ -37,7 +37,7 @@ export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
 
     patient_id: yup.string().required("Patient ID is required"),
     name: yup.string().required("Patient name is required"),
-    age: yup.string().required("Patient age is required"),
+    age: yup.string().optional().default(""),
     history: yup.string().required("Patient history is required"),
     gender: yup.mixed<"male" | "female">().oneOf(["male", "female"]).required(),
     xray_name: yup.string().required("X-ray name is required"),

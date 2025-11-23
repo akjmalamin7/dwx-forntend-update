@@ -71,7 +71,7 @@ const PatientQuickAdd = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  
+
   return (
     <Panel header="Quick Add Report">
       <form
@@ -92,7 +92,6 @@ const PatientQuickAdd = () => {
             label="Patient ID"
             placeholder="Patient Id"
             name="patient_id"
-
           />
         </div>
 

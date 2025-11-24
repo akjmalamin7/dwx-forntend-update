@@ -1,101 +1,14 @@
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetCompletedPatientListQuery } from "@/shared/redux/features/doctor/completed-patient-list/completedPatientListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
-import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { PATIENT_DATA_COL } from "./patient.data.col";
+import { CompletedPatients } from "@/entities/doctor";
 import { usePageTitle } from "@/shared/hooks";
 
 const PatientCompleted = () => {
-  const { data: patientList, isLoading } = useGetCompletedPatientListQuery();
-
-  // Prepare data
-  const DATA_TABLE = useMemo(
-    () =>
-      patientList?.map((item, index) => ({
-        key: item._id,
-        sl: index + 1, 
-        end_time: new Date(item.completed_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
-        patient_age: item.age,
-        patient_name: item.name,
-        patient_id: item.patient_id,
-        patient_sex: item.gender,
-        xray_name: item.xray_name, 
-        printstatus: item.printstatus || "Waiting",
-        action: "",
-      })) || [],
-    [patientList]
-  );
-
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 10,
-  });
-
-  const COLUMN = PATIENT_DATA_COL.map((item) => {
-    if (item.key === "action") {
-      return {
-        ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
-            <Link
-              to={`/doctor/completed-patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-            >
-              View
-            </Link>
-          
-          </div>
-        ),
-      };
-    }
-    return item;
-  });
-
-
   usePageTitle("Completed Report", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
 
-  return (
-    <Panel header="Completed Report" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Name, ID or Xray..."
-          />
-        </div>
-
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
-        />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
-    </Panel>
-  );
+  return <CompletedPatients />;
 };
 
 export default PatientCompleted;

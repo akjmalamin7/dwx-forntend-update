@@ -37,7 +37,7 @@ export const Pages = {
     () => import("@/pages/doctor/patient-completed")
   ),
   DoctorAllCompletedPatient: lazy(
-    () => import("@/pages/doctor/patient-all-completed")
+    () => import("@/pages/doctor/all-completed-patients")
   ),
   DoctorCompletedPatientView: lazy(
     () => import("@/pages/doctor/completed-patient-view")

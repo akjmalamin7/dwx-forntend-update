@@ -1,13 +1,13 @@
-interface AGENT_COMPLETED_DOCTOR {
+interface DOCTOR_COMPLETED_DOCTOR {
   _id: string;
   email: string;
   id: string;
 }
 
-interface AGENT_COMPLETED_PATIENT_MODEL {
+interface DOCTOR_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
-  completed_dr: AGENT_COMPLETED_DOCTOR;
+  completed_dr: DOCTOR_COMPLETED_DOCTOR[];
   ignore_dr: string[];
   patient_id: string;
   name: string;
@@ -32,18 +32,16 @@ interface AGENT_COMPLETED_PATIENT_MODEL {
   __v: number;
   id: string;
 }
-
-export interface AGENT_COMPLETED_DOCTOR_API_RESPONSE {
-  message: string;
+export interface DOCTOR_COMPLETED_PATIENT_API_RESPONSE {
   success: boolean;
+  message: string;
   page: number;
   limit: number;
-  lotalPages: number;
-  data: AGENT_COMPLETED_PATIENT_MODEL[];
+  totalPages: number;
+  data: DOCTOR_COMPLETED_PATIENT_MODEL[];
 }
-
-export interface AGENT_COMPLETED_PATIENT_TRANSFORM_MODEL {
-  data: AGENT_COMPLETED_PATIENT_MODEL[];
+export interface DOCTOR_COMPLETED_PATIENT_TRANSFORM_MODEL {
+  data: DOCTOR_COMPLETED_PATIENT_MODEL[];
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -53,16 +51,16 @@ export interface AGENT_COMPLETED_PATIENT_TRANSFORM_MODEL {
   };
 }
 
-export const AGENT_COMPLETED_PATIENT_TRANSFORM_RESPONSE = (
-  response: AGENT_COMPLETED_DOCTOR_API_RESPONSE
-): AGENT_COMPLETED_PATIENT_TRANSFORM_MODEL => {
+export const DOCTOR_COMPLETED_PATIENT_TRANSFORM_RESPONSE = (
+  response: DOCTOR_COMPLETED_PATIENT_API_RESPONSE
+): DOCTOR_COMPLETED_PATIENT_TRANSFORM_MODEL => {
   return {
     data: response.data,
     pagination: {
       currentPage: response.page,
-      totalPages: response.lotalPages,
+      totalPages: response.totalPages,
       limit: response.limit,
-      hasNext: response.page < response.lotalPages,
+      hasNext: response.page < response.totalPages,
       hasPrev: response.page > 1,
     },
   };

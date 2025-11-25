@@ -4,37 +4,69 @@ import { useSearchParams } from "react-router-dom";
 interface UsePageQueryProps {
   defaultPage?: number;
   defaultLimit?: number;
+  doctorId?: string;
+  userId?: string;
+  month?: string;
 }
 
 export function usePageQuery({
   defaultPage = 1,
   defaultLimit = 10,
+  doctorId,
+  userId,
+  month,
 }: UsePageQueryProps = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // read page & limit from URL or default
   const page = Number(searchParams.get("page")) || defaultPage;
   const limit = Number(searchParams.get("limit")) || defaultLimit;
 
-  // sync URL on initial load if missing
+  const urlDoctorId = searchParams.get("doctorId") || doctorId || "";
+  const urlUserId = searchParams.get("userId") || userId || "";
+  const urlMonth = searchParams.get("month") || month || "";
+
+  // Sync URL on initial load if missing
   useEffect(() => {
-    const urlPage = searchParams.get("page");
-    const urlLimit = searchParams.get("limit");
+    const params: Record<string, string> = {
+      page: String(page),
+      limit: String(limit),
+    };
+    if (urlDoctorId) params.doctorId = urlDoctorId;
+    if (urlUserId) params.userId = urlUserId;
+    if (urlMonth) params.month = urlMonth;
 
-    if (!urlPage || !urlLimit) {
-      setSearchParams({ page: String(page), limit: String(limit) });
-    }
-  }, [page, limit, searchParams, setSearchParams]);
+    setSearchParams(params);
+  }, [page, limit, urlDoctorId, urlMonth, urlUserId, setSearchParams]);
 
-  // update URL page
+  // Update page while keeping other params
   const setPage = (newPage: number) => {
-    setSearchParams({ page: String(newPage), limit: String(limit) });
+    setSearchParams({
+      page: String(newPage),
+      limit: String(limit),
+      doctorId: urlDoctorId,
+      userId: urlUserId,
+      month: urlMonth,
+    });
   };
 
-  // update URL limit (resets page)
+  // Update limit while keeping other params
   const setLimit = (newLimit: number) => {
-    setSearchParams({ page: "1", limit: String(newLimit) });
+    setSearchParams({
+      page: "1",
+      limit: String(newLimit),
+      doctorId: urlDoctorId,
+      userId: urlUserId,
+      month: urlMonth,
+    });
   };
 
-  return { page, limit, setPage, setLimit };
+  return {
+    page,
+    limit,
+    setPage,
+    setLimit,
+    doctorId: urlDoctorId,
+    userId: urlUserId,
+    month: urlMonth,
+  };
 }

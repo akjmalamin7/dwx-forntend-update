@@ -1,15 +1,11 @@
 import { DeleteAdminUser } from "@/features";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetUserListQuery } from "@/shared/redux/features/admin/add-user/addUserApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { USER_DATA_COL } from "./userList.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
-const UserList = () => {
+const AllUserList = () => {
   const role = "user";
   const {
     data: DoctorList,
@@ -34,18 +30,6 @@ const UserList = () => {
     [DoctorList]
   );
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["name"],
-    rowsPerPage: 100,
-  });
   const handleRefetch = () => {
     refetch();
   };
@@ -74,36 +58,7 @@ const UserList = () => {
     }
     return item;
   });
-
-
-  usePageTitle("User List", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
-
-
-  return (
-    <Panel header="User List" size="lg">
-      <div className="w-1/3">
-        <Search
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search by Name"
-        />
-      </div>
-
-      <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
-
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
-    </Panel>
-  );
+  return <div>AllUserList</div>;
 };
 
-export default UserList;
+export default AllUserList;

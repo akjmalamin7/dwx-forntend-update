@@ -121,10 +121,7 @@ export const adminRoutes = [
     path: "/admin/change-password/:id",
     element: withSuspense(<Pages.AdminChangePassword />),
   },
-  {
-    path: "/admin/user-list",
-    element: withSuspense(<Pages.AdminCustomerList />),
-  },
+
   {
     path: "/admin/xray-doctor-list",
     element: withSuspense(<Pages.AdminXrayDoctorList />),

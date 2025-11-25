@@ -1,58 +1,54 @@
+import { useGetAdminDoctorUdateBillListQuery } from "@/entities/admin/doctors/api/query";
 import { DoctorUpdateBillAction } from "@/features";
 import { usePageTitle } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetAdminDoctorReportListQuery } from "@/shared/redux/features/admin/doctor-update-bill/doctorReportListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const DoctorUpdateBill = () => {
-  const [searchParams] = useSearchParams();
+  const { page, limit, setPage, doctorId, month } = usePageQuery();
 
-  const doctorId = searchParams.get("doctorId") ?? "";
-  const month = searchParams.get("month") ?? "";
+  const { data: doctorList, isLoading } = useGetAdminDoctorUdateBillListQuery(
+    doctorId && month ? { page, limit, doctorId, month } : skipToken
+  );
 
-  const { data: patientList, isLoading } = useGetAdminDoctorReportListQuery({
-    doctorId,
-    month,
+  const totalPages = doctorList?.pagination.totalPages || 1;
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
   });
 
+  usePageTitle("Update Doctor Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      doctorList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         email: item.username,
         xray_name: item.xray_name,
         image_type: item.image_type,
         month: item.month,
         action: "",
       })) || [],
-    [patientList]
+    [doctorList?.data, page, limit]
   );
-
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["xray_name"],
-    rowsPerPage: 100,
-  });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
-          const originalItem = patientList?.find(
+          const originalItem = doctorList?.data.find(
             (item) => item._id === record?.key
           );
 
@@ -71,39 +67,18 @@ const DoctorUpdateBill = () => {
     return item;
   });
 
-  usePageTitle("Update Doctor Bill", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
-
   return (
     <Panel header="Update Doctor Bill" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Patient Name, ID or DC Name..."
-          />
-        </div>
-
-        <Table
-          scroll={true}
-          size="md"
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
-        />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={doctorList?.pagination.hasNext}
+        hasPrev={doctorList?.pagination.hasPrev}
+        setPage={setPage}
+      />
     </Panel>
   );
 };

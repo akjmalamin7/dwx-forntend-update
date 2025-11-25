@@ -16,16 +16,7 @@ export const AddUserApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
     }),
-    getUserList: builder.query<USER_MODEL[], string>({
-      query: (role) => ({
-        url: `/admin/users/all?role=${role}`,
-        method: "GET",
-      }),
-      transformResponse: (response: UserListApiResponse) => {
-        return transformUserListResponse(response.data);
-      },
-      providesTags: ["User"],
-    }),
+
     getDeletedDoctorList: builder.query<USER_MODEL[], void>({
       query: () => ({
         url: "/admin/users/deleted?role=xray_dr&role=ecg_dr",
@@ -36,16 +27,7 @@ export const AddUserApi = apiSlice.injectEndpoints({
       },
       providesTags: ["User"],
     }),
-    getDeletedUserList: builder.query<USER_MODEL[], void>({
-      query: () => ({
-        url: "/admin/users/deleted?role=user",
-        method: "GET",
-      }),
-      transformResponse: (response: UserListApiResponse) => {
-        return transformUserListResponse(response.data);
-      },
-      providesTags: ["User"],
-    }),
+
     getUser: builder.query<AdminUserResponse, string>({
       query: (id) => ({
         url: `/admin/users/${id}`,
@@ -82,9 +64,7 @@ export const AddUserApi = apiSlice.injectEndpoints({
 export const {
   useAddUserMutation,
   useUpdateUserMutation,
-  useGetUserListQuery,
   useGetDeletedDoctorListQuery,
-  useGetDeletedUserListQuery,
   useGetUserQuery,
   useDeleteAdminUserMutation,
   useChangePasswordMutation,

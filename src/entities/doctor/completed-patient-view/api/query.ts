@@ -1,11 +1,11 @@
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 import {
   TRANSFORM_PATIENT_VIEW_RESPONSE,
   type PATIENT_COMMENT_MODEL,
   type PATIENT_IMAGE_MODEL,
   type PATIENT_VIEW_RESPONSE,
   type PATIENT_VIEW_TRANSFORM_MODEL,
-} from "./patientView.types";
+} from "../model/schema";
 
 export const CompletedPatientViewApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

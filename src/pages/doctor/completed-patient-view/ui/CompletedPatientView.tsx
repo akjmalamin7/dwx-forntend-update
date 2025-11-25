@@ -1,5 +1,6 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { useGetDoctorCompletedPatientViewQuery } from "@/shared/redux/features/doctor/completed-patient-view/CompletedPatientViewApi";
+import { useGetDoctorCompletedPatientViewQuery } from "@/entities/doctor/completed-patient-view/api/query";
+import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -8,7 +9,6 @@ import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
-import { usePageTitle } from "@/shared/hooks";
 const CompletedPatientView = () => {
   const [viewData, setViewData] = useState({ passault: "", comments: "" });
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -20,8 +20,14 @@ const CompletedPatientView = () => {
 
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
+  usePageTitle("Completed Patient View", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   // const comments = patient_view && patient_view?.comments[0]?.comments;
+
   useEffect(() => {
     if (patient_view?.comments && patient_view.comments.length > 0) {
       const storedComments = patient_view.comments[0];
@@ -95,11 +101,7 @@ const CompletedPatientView = () => {
   }
 
 
-  usePageTitle("Completed Patient View", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
+
 
 
   return (

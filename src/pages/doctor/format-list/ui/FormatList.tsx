@@ -1,4 +1,5 @@
 import DeleteFormat from "@/features/delete-format/DeleteFormat";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetFormatListQuery } from "@/shared/redux/features/doctor/format/formatApi";
 import { Pagination, Panel, PanelHeading, Search } from "@/shared/ui";
@@ -7,7 +8,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { REFERENCE_DOCTOR_DATA_COL } from "./format.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
 const FormatList = () => {
   const { data: FormatList, isLoading, refetch } = useGetFormatListQuery();
@@ -62,7 +62,7 @@ const FormatList = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  
+
   return (
     <Panel
       header={

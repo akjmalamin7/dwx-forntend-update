@@ -40,7 +40,6 @@ const DoctorMultiSelector = <TFieldValues extends FieldValues>({
   const allOptions = doctorOptions
     .filter((doc) => doc != null)
     .map((doc) => ({ value: doc.id, name: doc.name }));
-  console.log(selectedDrData);
   return (
     <Controller
       name={name}

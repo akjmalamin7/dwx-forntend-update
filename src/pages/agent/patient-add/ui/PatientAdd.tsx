@@ -33,32 +33,27 @@ const PatientAdd = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  let content: React.ReactNode;
   if (isProfileLoading) <Loader />;
   if (status !== "active") {
-    return (content = (
-      <AgentFormError title="Something went wrong!. Please contact with support." />
-    ));
-  } else {
-    return (content = (
-      <Panel
-        header={
-          <PanelHeading
-            title="Add X-ray Report"
-            button="Patient List"
-            path="agent/patient/completed"
-          />
-        }
-      >
-        <PatientForm
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          resetCount={resetCount}
-        />
-      </Panel>
-    ));
+    <AgentFormError title="Something went wrong!. Please contact with support." />;
   }
-  return content;
+  return (
+    <Panel
+      header={
+        <PanelHeading
+          title="Add X-ray Report"
+          button="Patient List"
+          path="agent/patient/completed"
+        />
+      }
+    >
+      <PatientForm
+        onSubmit={onSubmit}
+        isLoading={isLoading}
+        resetCount={resetCount}
+      />
+    </Panel>
+  );
 };
 
 export default PatientAdd;

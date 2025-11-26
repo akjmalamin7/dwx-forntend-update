@@ -144,34 +144,30 @@ const PatientEdit = () => {
     );
   }
 
-  let content: React.ReactNode;
   if (isProfileLoading) <Loader />;
   if (status !== "active") {
-    return (content = (
-      <AgentFormError title="Something went wrong!. Please contact with support." />
-    ));
-  } else {
-    return (content = (
-      <Panel
-        header={
-          <PanelHeading
-            title="Add X-ray Report"
-            button="Patient List"
-            path="agent/patient/completed"
-          />
-        }
-      >
-        <PatientForm
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          resetCount={resetCount}
-          defaultValues={defaultValues}
-          isEdit
-        />
-      </Panel>
-    ));
+    <AgentFormError title="Something went wrong!. Please contact with support." />;
   }
-  return content;
+
+  return (
+    <Panel
+      header={
+        <PanelHeading
+          title="Add X-ray Report"
+          button="Patient List"
+          path="agent/patient/completed"
+        />
+      }
+    >
+      <PatientForm
+        onSubmit={onSubmit}
+        isLoading={isLoading}
+        resetCount={resetCount}
+        defaultValues={defaultValues}
+        isEdit
+      />
+    </Panel>
+  );
 };
 
 export default PatientEdit;

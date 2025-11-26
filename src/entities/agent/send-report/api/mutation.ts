@@ -1,8 +1,8 @@
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 
-export const AddPatientApi = apiSlice.injectEndpoints({
+const SendReportApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addPatient: builder.mutation({
+    sendReport: builder.mutation({
       query: (data) => ({
         url: "/agent/patient",
         method: "POST",
@@ -10,7 +10,7 @@ export const AddPatientApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Patient", id: "LIST" }],
     }),
-    updatePatient: builder.mutation({
+    updateReport: builder.mutation({
       query: ({ id, data }) => ({
         url: `/agent/patient/${id}`,
         method: "PUT",
@@ -23,5 +23,4 @@ export const AddPatientApi = apiSlice.injectEndpoints({
     }),
   }),
 });
-export const { useAddPatientMutation, useUpdatePatientMutation } =
-  AddPatientApi;
+export const { useSendReportMutation, useUpdateReportMutation } = SendReportApi;

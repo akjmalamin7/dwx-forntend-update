@@ -1,3 +1,4 @@
+import { useSendReportMutation } from "@/entities/agent/send-report";
 import {
   DoctorMultiSelector,
   ImageUpload,
@@ -12,7 +13,6 @@ import {
 } from "@/features/read-text-file";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
-import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import {
   Button,
   ControlInput,
@@ -25,9 +25,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-const PatientQuickAdd = () => {
+const QuickSendReprt = () => {
   const { status, isProfileLoading } = useGetProfile();
-  const [createPatient, { isLoading }] = useAddPatientMutation();
+  const [createSendReport, { isLoading }] = useSendReportMutation();
   const [resetCount, setResetCount] = useState<number>(0);
   const {
     control,
@@ -65,7 +65,7 @@ const PatientQuickAdd = () => {
   };
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createPatient(data).unwrap();
+      await createSendReport(data).unwrap();
       setResetCount((prev) => prev + 1);
       reset();
     } catch (err: unknown) {
@@ -100,50 +100,50 @@ const PatientQuickAdd = () => {
         <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />
 
         {/* Patient ID */}
-        {/* <div className="hidden"> */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient ID"
-          placeholder="Patient Id"
-          name="patient_id"
-        />
-        {/* </div> */}
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient ID"
+            placeholder="Patient Id"
+            name="patient_id"
+          />
+        </div>
 
         {/* Patient Name */}
-        {/* <div className="hidden"> */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient Name"
-          placeholder="Patient Name"
-          name="name"
-        />
-        {/* </div> */}
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient Name"
+            placeholder="Patient Name"
+            name="name"
+          />
+        </div>
 
         {/* Patient Age */}
-        {/* <div className="hidden"> */}
-        <ControlInput
-          control={control}
-          size="sm"
-          label="Patient Age"
-          placeholder="Patient Age"
-          name="age"
-        />
-        {/* </div> */}
+        <div className="hidden">
+          <ControlInput
+            control={control}
+            size="sm"
+            label="Patient Age"
+            placeholder="Patient Age"
+            name="age"
+          />
+        </div>
 
         {/* Gender */}
-        {/* <div className="hidden"> */}
-        <ControlledSelect
-          label="Patient Sex"
-          control={control}
-          name="gender"
-          options={[
-            { name: "Male", value: "male" },
-            { name: "Female", value: "female" },
-          ]}
-        />
-        {/* </div> */}
+        <div className="hidden">
+          <ControlledSelect
+            label="Patient Sex"
+            control={control}
+            name="gender"
+            options={[
+              { name: "Male", value: "male" },
+              { name: "Female", value: "female" },
+            ]}
+          />
+        </div>
         {/* Patient History */}
         <Controller
           control={control}
@@ -241,4 +241,4 @@ const PatientQuickAdd = () => {
   );
 };
 
-export default PatientQuickAdd;
+export default QuickSendReprt;

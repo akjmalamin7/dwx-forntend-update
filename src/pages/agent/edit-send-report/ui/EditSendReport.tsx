@@ -1,7 +1,7 @@
+import { useUpdateReportMutation } from "@/entities/agent/send-report";
 import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
-import { useUpdatePatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Loader, Panel, PanelHeading } from "@/shared/ui";
 import type { PatientFormValues } from "@/shared/utils/types/types";
@@ -9,13 +9,13 @@ import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-const PatientEdit = () => {
+const EditSendReport = () => {
   const { status, isProfileLoading } = useGetProfile();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [updatePatient, { isLoading: isUpdateLoading }] =
-    useUpdatePatientMutation();
+  const [updateSendReport, { isLoading: isUpdateLoading }] =
+    useUpdateReportMutation();
 
   const [resetCount, setResetCount] = useState<number>(0);
   const {
@@ -74,7 +74,7 @@ const PatientEdit = () => {
       study_for: "xray_dr",
     };
     try {
-      await updatePatient({ id, data: finalData }).unwrap();
+      await updateSendReport({ id, data: finalData }).unwrap();
       setResetCount((prev) => prev + 1);
       navigate("/");
     } catch (err: unknown) {
@@ -173,4 +173,4 @@ const PatientEdit = () => {
   );
 };
 
-export default PatientEdit;
+export default EditSendReport;

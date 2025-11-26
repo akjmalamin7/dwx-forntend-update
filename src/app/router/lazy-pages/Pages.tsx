@@ -5,11 +5,11 @@ export const Pages = {
   Unauthorized: lazy(() => import("@/pages/unauthorized")),
   Patients: lazy(() => import("@/pages/patients")),
   ViewPatient: lazy(() => import("@/pages/agent/patient-view")),
-  AddPatient: lazy(() => import("@/pages/agent/patient-add")),
-  EditPatient: lazy(() => import("@/pages/agent/patient-edit")),
+  SendReport: lazy(() => import("@/pages/agent/send-report")),
+  EditSendReport: lazy(() => import("@/pages/agent/edit-send-report")),
   PrintPatient: lazy(() => import("@/pages/agent/patient-print")),
 
-  QuickAddPatient: lazy(() => import("@/pages/agent/patient-quick-add")),
+  QuickSendReport: lazy(() => import("@/pages/agent/quick-send-report")),
   AgentCompleted: lazy(() => import("@/pages/agent/patient-completed")),
   AgentAllCompleted: lazy(() => import("@/pages/agent/patient-all-completed")),
   AgentPreviousMonthCompleted: lazy(

@@ -4,11 +4,11 @@ import { withSuspense } from "@/shared/ui";
 export const agentRoutes = [
   {
     path: "/agent/patient/add",
-    element: withSuspense(<Pages.AddPatient />),
+    element: withSuspense(<Pages.SendReport />),
   },
   {
     path: "/agent/patient-edit/:id",
-    element: withSuspense(<Pages.EditPatient />),
+    element: withSuspense(<Pages.EditSendReport />),
   },
   {
     path: "/agent/patient-print/:id",
@@ -20,7 +20,7 @@ export const agentRoutes = [
   },
   {
     path: "/agent/patient/quick-add",
-    element: withSuspense(<Pages.QuickAddPatient />),
+    element: withSuspense(<Pages.QuickSendReport />),
   },
   {
     path: "/upload",

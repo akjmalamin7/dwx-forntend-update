@@ -1,5 +1,5 @@
 
-import { useGetCustomerBillRequestByMonthQuery } from "@/entities/admin/bill/api/query";
+import { useGetCustomerTransactionHistoryQuery } from "@/entities/admin/bill/api/query";
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
@@ -10,15 +10,14 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";
 
-const CustomerBillRequestList = () => {
+const CustomerTransactionHistory = () => {
 
   const { month } = useParams<{ month: string }>();
   const { page, limit, setPage } = usePageQuery();
   const {
     data: billList,
     isLoading
-  } = useGetCustomerBillRequestByMonthQuery({ page, limit, month });
-
+  } = useGetCustomerTransactionHistoryQuery({ page, limit, month });
 
   const totalPages = billList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -26,7 +25,6 @@ const CustomerBillRequestList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
   const DATA_TABLE = useMemo(
     () =>
       billList?.data?.map((item, index) => ({
@@ -47,8 +45,10 @@ const CustomerBillRequestList = () => {
         received_number: item.received_number,
         action: "",
       })) || [],
-    [billList?.data, limit, page]
+    [billList?.data, page, limit]
   );
+
+
 
 
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
@@ -58,11 +58,10 @@ const CustomerBillRequestList = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex gap-2">
 
-            <Link
-              to={`/admin/customer-pay-bill/${record?.key}`}
-              className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+            <Link to={`/admin/customer-print-bill/${record?.key}`}
+              className="bg-green-500 text-white px-4 py-2 text-sm rounded"
             >
-              Accept
+              Print
             </Link>
 
 
@@ -73,14 +72,16 @@ const CustomerBillRequestList = () => {
     return item;
   });
 
-  usePageTitle("Manage Customer Bill", {
+
+  usePageTitle("Manage Customer Transaction History", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
 
   return (
-    <Panel header="Manage Customer Bill" size="lg">
+
+    <Panel header="Manage Customer Transaction History" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
@@ -96,4 +97,4 @@ const CustomerBillRequestList = () => {
   );
 };
 
-export default CustomerBillRequestList;
+export default CustomerTransactionHistory;

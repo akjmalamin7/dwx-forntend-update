@@ -86,11 +86,11 @@ export const Pages = {
   AdminCustomerBillRequest: lazy(
     () => import("@/pages/admin/customer-bill-request-list")
   ),
-  AdminCustomerTransectionHistory: lazy(
-    () => import("@/pages/admin/customer-transection-history")
+  AdminCustomerTransactionHistory: lazy(
+    () => import("@/pages/admin/customer-transaction-history")
   ),
-  AdminCustomerTransectionHistoryList: lazy(
-    () => import("@/pages/admin/customer-transection-history-list")
+  AdminCustomerTransactionHistoryList: lazy(
+    () => import("@/pages/admin/customer-transaction-history-list")
   ),
   AdminAddUser: lazy(() => import("@/pages/admin/add-user")),
   AdminEditUser: lazy(() => import("@/pages/admin/edit-user")),

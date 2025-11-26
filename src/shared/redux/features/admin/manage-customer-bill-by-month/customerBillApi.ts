@@ -1,8 +1,8 @@
 import { apiSlice } from "../../api/apiSlice";
 import {
   transformDoctorBillResponse,
-  type DOCTOR_BILL_TRANSFORM_MODEL,
   type DOCTOR_BILL_RESPONSE,
+  type DOCTOR_BILL_TRANSFORM_MODEL,
 } from "./customerBill.types";
 
 export const AdminCustomerBillApi = apiSlice.injectEndpoints({

@@ -99,11 +99,11 @@ export const adminRoutes = [
   },
   {
     path: "/admin/customer-transection-history",
-    element: withSuspense(<Pages.AdminCustomerTransectionHistory />),
+    element: withSuspense(<Pages.AdminCustomerTransactionHistory />),
   },
   {
     path: "/admin/customer-transection-history/:month",
-    element: withSuspense(<Pages.AdminCustomerTransectionHistoryList />),
+    element: withSuspense(<Pages.AdminCustomerTransactionHistoryList />),
   },
   {
     path: "/admin/add-user",

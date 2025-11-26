@@ -1,30 +1,33 @@
+import { useGetAdminDoctorBillingListQuery } from "@/entities/admin/bill/api/query";
 import { CustomerUpdateBillAction } from "@/features";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetAdminCustomerReportListQuery } from "@/shared/redux/features/admin/customer-bill-update/customerReportListApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
-import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { PATIENT_DATA_COL } from "./patient.data.col";
 import { usePageTitle } from "@/shared/hooks";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { Panel } from "@/shared/ui";
+import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CustomerUpdateBill = () => {
-  const [searchParams] = useSearchParams();
-
-  const userId = searchParams.get("userId") ?? "";
-  const month = searchParams.get("month") ?? "";
-
-  const { data: patientList, isLoading } = useGetAdminCustomerReportListQuery({
+  const { userId, month, page, limit, setPage } = usePageQuery()
+  const { data: doctorList, isLoading } = useGetAdminDoctorBillingListQuery({
     userId,
     month,
+    page, limit
   });
-
+  const totalPages = doctorList?.pagination.totalPages || 1;
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
+  });
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      doctorList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         username: item.agent_id.email,
         xray_name: item.xray_name,
         image_type: item.image_type,
@@ -32,21 +35,10 @@ const CustomerUpdateBill = () => {
         view: "",
         action: "",
       })) || [],
-    [patientList]
+    [doctorList?.data, page, limit]
   );
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["xray_name"],
-    rowsPerPage: 100,
-  });
+
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "view") {
@@ -69,7 +61,7 @@ const CustomerUpdateBill = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
-          const originalItem = patientList?.find(
+          const originalItem = doctorList?.data?.find(
             (item) => item._id === record?.key
           );
           return (
@@ -88,37 +80,26 @@ const CustomerUpdateBill = () => {
   });
 
   usePageTitle("Update Customer Bill", {
-      prefix: "DWX - ",
-      defaultTitle: "DWX",
-      restoreOnUnmount: true,
-    });
-    
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
+
   return (
+
     <Panel header="Update Customer Bill" size="lg">
-      <div className="p-4 bg-white">
-        <div className="mb-4 w-1/3">
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Xray Name..."
-          />
-        </div>
-
-        <Table
-          loading={isLoading}
-          columns={COLUMN}
-          dataSource={paginatedData}
-        />
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={doctorList?.pagination.hasNext}
+        hasPrev={doctorList?.pagination.hasPrev}
+        setPage={setPage}
+      />
     </Panel>
+
   );
 };
 

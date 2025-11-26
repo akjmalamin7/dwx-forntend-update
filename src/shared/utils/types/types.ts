@@ -27,7 +27,7 @@ export interface PatientFormValues {
 
 export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
   yup.object({
-    attachment: yup.array().of(yup.string().url()),
+    attachment: yup.array().of(yup.string().url()).required().min(1),
 
     rtype: yup.string().default(""),
     study_for: yup.string().default(""),

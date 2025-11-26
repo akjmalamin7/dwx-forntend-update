@@ -26,7 +26,12 @@ const UserForm = ({ resetCount = 0, isEdit }: UserFormProps) => {
   return (
     <div className="grid grid-cols-12 gap-y-4 items-center">
       {/* Image Upload */}
-      <ImageUpload key={resetCount} control={control} name="image" />
+      <ImageUpload
+        key={resetCount}
+        control={control}
+        name="image"
+        directory="signature"
+      />
 
       {/* Role */}
       <ControlledSelect

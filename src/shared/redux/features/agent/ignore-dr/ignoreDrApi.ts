@@ -5,7 +5,7 @@ export const DoctorOptionsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorOptions: builder.query<DoctorOption[], void>({
       query: () => ({
-        url: "/agent/alldoctorlist",
+        url: "/agent/alldoctorlist?limit=1000",
         method: "GET",
       }),
       transformResponse: (response: DoctorApiResponse): DoctorOption[] =>

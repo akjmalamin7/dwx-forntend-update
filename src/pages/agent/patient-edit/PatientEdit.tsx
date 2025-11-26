@@ -1,13 +1,16 @@
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
+import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 import { useUpdatePatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
-import { Panel, PanelHeading } from "@/shared/ui";
+import { Loader, Panel, PanelHeading } from "@/shared/ui";
 import type { PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 const PatientEdit = () => {
+  const { status, isProfileLoading } = useGetProfile();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -85,7 +88,6 @@ const PatientEdit = () => {
     restoreOnUnmount: true,
   });
 
-
   const isLoading = isUpdateLoading || isViewLoading;
 
   if (isViewLoading) {
@@ -141,25 +143,35 @@ const PatientEdit = () => {
       </Panel>
     );
   }
-  return (
-    <Panel
-      header={
-        <PanelHeading
-          title="Add X-ray Report"
-          button="Patient List"
-          path="agent/patient/completed"
+
+  let content: React.ReactNode;
+  if (isProfileLoading) <Loader />;
+  if (status !== "active") {
+    return (content = (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    ));
+  } else {
+    return (content = (
+      <Panel
+        header={
+          <PanelHeading
+            title="Add X-ray Report"
+            button="Patient List"
+            path="agent/patient/completed"
+          />
+        }
+      >
+        <PatientForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          resetCount={resetCount}
+          defaultValues={defaultValues}
+          isEdit
         />
-      }
-    >
-      <PatientForm
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        resetCount={resetCount}
-        defaultValues={defaultValues}
-        isEdit
-      />
-    </Panel>
-  );
+      </Panel>
+    ));
+  }
+  return content;
 };
 
 export default PatientEdit;

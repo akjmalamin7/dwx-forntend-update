@@ -9,7 +9,7 @@ interface IProps {
 const PrintDrSignature = ({ signature, passault }: IProps) => {
   let signatureImg = "";
   if (signature?.image) {
-    signatureImg = signature?.image[0]?.[0];
+    signatureImg = signature?.image[0] ?? "";
   }
 
   return (
@@ -19,11 +19,11 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
 
       <div className="start">
         <img src={signatureImg} alt="Logo" className="w-50 mr-4" />
-        <Text element="h4" size="xl"  >
+        <Text element="h4" size="xl">
           {signature?.name || ""}
         </Text>
-        <Text element="p" size="lg"  >
-          { parse(DOMPurify.sanitize(String(signature?.address) || "")) }
+        <Text element="p" size="lg">
+          {parse(DOMPurify.sanitize(String(signature?.address) || ""))}
         </Text>
         {passault === "Yes" ? (
           <Text

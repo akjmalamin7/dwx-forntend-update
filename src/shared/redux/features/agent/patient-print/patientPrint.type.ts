@@ -18,7 +18,7 @@ export interface PRINT_COMPLETED_DOCTOR {
   name: string;
   email: string;
   address: string;
-  image: string[][];
+  image: string[];
   id: string;
 }
 
@@ -49,7 +49,7 @@ export interface PRINT_PATIENT {
   updatedAt: string;
   __v: number;
   online_dr: string | null;
-  completed_dr: PRINT_COMPLETED_DOCTOR; 
+  completed_dr: PRINT_COMPLETED_DOCTOR;
   doctorcomments: PRINT_DOCTOR_COMMENT[];
   id: string;
 }
@@ -57,5 +57,5 @@ export interface PRINT_PATIENT {
 export interface PRINT_PATIENT_RESPONSE {
   message: string;
   success: boolean;
-  data: PRINT_PATIENT
+  data: PRINT_PATIENT;
 }

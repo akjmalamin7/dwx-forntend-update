@@ -1,12 +1,15 @@
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
+import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
-import { Panel, PanelHeading } from "@/shared/ui";
+import { Loader, Panel, PanelHeading } from "@/shared/ui";
 import { type PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 
 const PatientAdd = () => {
+  const { status, isProfileLoading } = useGetProfile();
   const [createPatient, { isLoading }] = useAddPatientMutation();
   const [resetCount, setResetCount] = useState<number>(0);
 
@@ -30,23 +33,32 @@ const PatientAdd = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  return (
-    <Panel
-      header={
-        <PanelHeading
-          title="Add X-ray Report"
-          button="Patient List"
-          path="agent/patient/completed"
+  let content: React.ReactNode;
+  if (isProfileLoading) <Loader />;
+  if (status !== "active") {
+    return (content = (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    ));
+  } else {
+    return (content = (
+      <Panel
+        header={
+          <PanelHeading
+            title="Add X-ray Report"
+            button="Patient List"
+            path="agent/patient/completed"
+          />
+        }
+      >
+        <PatientForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          resetCount={resetCount}
         />
-      }
-    >
-      <PatientForm
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        resetCount={resetCount}
-      />
-    </Panel>
-  );
+      </Panel>
+    ));
+  }
+  return content;
 };
 
 export default PatientAdd;

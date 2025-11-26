@@ -10,8 +10,9 @@ export interface ParsedPatientData {
 
 interface ReadTextFileProps {
   onParsed?: (data: ParsedPatientData) => void;
+  setIndex?: number;
 }
-const ReadTextFile = ({ onParsed }: ReadTextFileProps) => {
+const ReadTextFile = ({ onParsed, setIndex }: ReadTextFileProps) => {
   const handleFileRead = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -22,12 +23,24 @@ const ReadTextFile = ({ onParsed }: ReadTextFileProps) => {
     const reader = new FileReader();
     reader.onload = () => {
       const text = reader.result as string;
+
       const lines = text.split("\n").map((l) => l.trim());
+
+      const getAgeString = (str: string) => {
+        const match = str.match(/\d+\s*[A-Za-z]+/);
+        return match ? match[0] : null;
+      };
+
+      let getAge: string = "";
+
       const getValue = (...keys: string[]) => {
         for (const key of keys) {
           const line = lines.find((l) =>
             l.toLowerCase().startsWith(key.toLowerCase())
           );
+          if (!getAge) {
+            getAge = getAgeString(line as string) || "";
+          }
           if (line) return line.split(":")[1]?.trim() || "";
         }
         return "";
@@ -35,7 +48,7 @@ const ReadTextFile = ({ onParsed }: ReadTextFileProps) => {
       const parsedData: ParsedPatientData = {
         patient_id: getValue("Patient ID"),
         name: getValue("Patient Name", "Patient's Name"),
-        age: getValue("Age"),
+        age: getValue("Age") || getAge,
         gender: getValue("Sex", "Gender"),
         xray_name: getValue("Exposure Menu Name", "Menu Name"),
       };
@@ -52,6 +65,7 @@ const ReadTextFile = ({ onParsed }: ReadTextFileProps) => {
       </div>
       <div className="col-span-9">
         <Input
+          key={setIndex}
           size="sm"
           type="file"
           onChange={handleFileRead}

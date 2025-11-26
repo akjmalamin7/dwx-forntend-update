@@ -1,5 +1,6 @@
 import type { PRINT_PATIENT } from "@/shared/redux/features/agent/patient-print/patientPrint.type";
 import { Text } from "@/shared/ui";
+import { formatDate } from "@/shared/utils/date-format/dateTime";
 
 interface IProps {
   printPatient: PRINT_PATIENT;
@@ -7,7 +8,7 @@ interface IProps {
 const PrintPatientInfo = ({ printPatient }: IProps) => {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border border-black mb-4" contentEditable>
+      <table className="w-full border border-black mb-4">
         <tbody>
           <tr>
             <td className="border border-black px-2 py-1 w-1/3">
@@ -16,7 +17,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
               </Text>{" "}
               {printPatient?.patient_id || "N/A"}
             </td>
-            <td className="border border-black px-2 py-1 w-1/3">
+            <td className="border border-black px-2 py-1 w-1/3" contentEditable>
               <Text element="label" className="font-semibold">
                 Patient Name:
               </Text>{" "}
@@ -32,14 +33,16 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
           <tr>
             <td className="border border-black px-2 py-1">
               <Text element="label" className="font-semibold">
-                Date:
+                Date:{" "}
               </Text>
-              {new Date().toLocaleDateString("en-GB")}
+              {formatDate(printPatient.createdAt)}
             </td>
             <td className="border border-black px-2 py-1">
               <Text element="label" className="font-semibold">
-                Print Time:
+                Print Time:{" "}
               </Text>
+              {new Date().toLocaleDateString("en-GB")}
+              {", "}
               {new Date().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -53,7 +56,11 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
             </td>
           </tr>
           <tr>
-            <td colSpan={3} className="border border-black px-2 py-1">
+            <td
+              colSpan={3}
+              className="border border-black px-2 py-1"
+              contentEditable
+            >
               <Text element="label" className="font-semibold">
                 Reference By:
               </Text>{" "}

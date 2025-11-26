@@ -5,20 +5,28 @@ import {
   ReferenceDoctorSelect,
   XRrayNameSelect,
 } from "@/features";
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import {
   ReadTextFile,
   type ParsedPatientData,
 } from "@/features/read-text-file";
 import { usePageTitle } from "@/shared/hooks";
+import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 import { useAddPatientMutation } from "@/shared/redux/features/agent/add-patient/addPatientApi";
-
-import { Button, ControlInput, ControlledSelect, Panel } from "@/shared/ui";
+import {
+  Button,
+  ControlInput,
+  ControlledSelect,
+  Loader,
+  Panel,
+} from "@/shared/ui";
 import { patientFormschema } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const PatientQuickAdd = () => {
+  const { status, isProfileLoading } = useGetProfile();
   const [createPatient, { isLoading }] = useAddPatientMutation();
   const [resetCount, setResetCount] = useState<number>(0);
   const {
@@ -55,7 +63,6 @@ const PatientQuickAdd = () => {
     );
     setValue("xray_name", data.xray_name);
   };
-
   const onSubmit = handleSubmit(async (data) => {
     try {
       await createPatient(data).unwrap();
@@ -72,20 +79,28 @@ const PatientQuickAdd = () => {
     restoreOnUnmount: true,
   });
 
-  return (
-    <Panel header="Quick Add Report">
-      <form
-        className="grid grid-cols-12 gap-y-4 items-center"
-        onSubmit={onSubmit}
-      >
-        {/* Patient ID */}
-        <ImageUpload key={resetCount} control={control} name="attachment" />
+  let content: React.ReactNode;
+  if (isProfileLoading) <Loader />;
 
-        {/* Patient ID */}
-        <ReadTextFile onParsed={handleParsed} />
+  if (status !== "active") {
+    return (content = (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    ));
+  } else {
+    return (content = (
+      <Panel header="Quick Add Report">
+        <form
+          className="grid grid-cols-12 gap-y-4 items-center"
+          onSubmit={onSubmit}
+        >
+          {/* Patient ID */}
+          <ImageUpload key={resetCount} control={control} name="attachment" />
 
-        {/* Patient ID */}
-        <div className="hidden">
+          {/* Patient ID */}
+          <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />
+
+          {/* Patient ID */}
+          {/* <div className="hidden"> */}
           <ControlInput
             control={control}
             size="sm"
@@ -93,10 +108,10 @@ const PatientQuickAdd = () => {
             placeholder="Patient Id"
             name="patient_id"
           />
-        </div>
+          {/* </div> */}
 
-        {/* Patient Name */}
-        <div className="hidden">
+          {/* Patient Name */}
+          {/* <div className="hidden"> */}
           <ControlInput
             control={control}
             size="sm"
@@ -104,10 +119,10 @@ const PatientQuickAdd = () => {
             placeholder="Patient Name"
             name="name"
           />
-        </div>
+          {/* </div> */}
 
-        {/* Patient Age */}
-        <div className="hidden">
+          {/* Patient Age */}
+          {/* <div className="hidden"> */}
           <ControlInput
             control={control}
             size="sm"
@@ -115,10 +130,10 @@ const PatientQuickAdd = () => {
             placeholder="Patient Age"
             name="age"
           />
-        </div>
+          {/* </div> */}
 
-        {/* Gender */}
-        <div className="hidden">
+          {/* Gender */}
+          {/* <div className="hidden"> */}
           <ControlledSelect
             label="Patient Sex"
             control={control}
@@ -128,102 +143,105 @@ const PatientQuickAdd = () => {
               { name: "Female", value: "female" },
             ]}
           />
-        </div>
-        {/* Patient History */}
-        <Controller
-          control={control}
-          name="history"
-          render={({ field }) => (
-            <PatientHistorySelect
-              label="Patient History"
-              value={field.value}
-              onSelectedValue={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.history,
-                message: errors.history?.message as string,
-              }}
-            />
-          )}
-        />
-
-        {/* X-ray Name */}
-        <div className="hidden">
+          {/* </div> */}
+          {/* Patient History */}
           <Controller
             control={control}
-            name="xray_name"
+            name="history"
             render={({ field }) => (
-              <XRrayNameSelect
-                label="X-ray Name"
+              <PatientHistorySelect
+                label="Patient History"
                 value={field.value}
                 onSelectedValue={(val) => field.onChange(val)}
                 error={{
-                  status: !!errors.xray_name,
-                  message: errors.xray_name?.message as string,
+                  status: !!errors.history,
+                  message: errors.history?.message as string,
                 }}
               />
             )}
           />
-        </div>
 
-        {/* Reference Doctor */}
-        <Controller
-          control={control}
-          name="ref_doctor"
-          render={({ field }) => (
-            <ReferenceDoctorSelect
-              label="Reference Doctor"
-              value={field.value}
-              onSelectedValue={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.ref_doctor,
-                message: errors.ref_doctor?.message as string,
-              }}
+          {/* X-ray Name */}
+          <div className="hidden">
+            <Controller
+              control={control}
+              name="xray_name"
+              render={({ field }) => (
+                <XRrayNameSelect
+                  label="X-ray Name"
+                  value={field.value}
+                  onSelectedValue={(val) => field.onChange(val)}
+                  error={{
+                    status: !!errors.xray_name,
+                    message: errors.xray_name?.message as string,
+                  }}
+                />
+              )}
             />
-          )}
-        />
+          </div>
 
-        {/* Image Category */}
-        <div className="hidden">
-          <ControlledSelect
-            label="Image Category"
+          {/* Reference Doctor */}
+          <Controller
             control={control}
-            name="image_type"
-            options={[
-              { name: "Single", value: "single" },
-              { name: "Double", value: "double" },
-              { name: "Multiple", value: "multiple" },
-            ]}
+            name="ref_doctor"
+            render={({ field }) => (
+              <ReferenceDoctorSelect
+                label="Reference Doctor"
+                value={field.value}
+                onSelectedValue={(val) => field.onChange(val)}
+                error={{
+                  status: !!errors.ref_doctor,
+                  message: errors.ref_doctor?.message as string,
+                }}
+              />
+            )}
           />
-        </div>
 
-        {/* Doctor MultiSelectors */}
-        <DoctorMultiSelector
-          label="Selected Doctor"
-          control={control}
-          name="selected_drs_id"
-        />
-        <DoctorMultiSelector
-          label="Ignored Doctor"
-          control={control}
-          name="ignored_drs_id"
-          useIgnored
-        />
+          {/* Image Category */}
+          <div className="hidden">
+            <ControlledSelect
+              label="Image Category"
+              control={control}
+              name="image_type"
+              options={[
+                { name: "Single", value: "single" },
+                { name: "Double", value: "double" },
+                { name: "Multiple", value: "multiple" },
+              ]}
+            />
+          </div>
 
-        {/* Submit */}
-        <div className="col-span-3"></div>
-        <div className="col-span-9">
-          <Button
-            color="dark"
-            size="size-2"
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            {isLoading ? "Submitting..." : "Submit"}
-          </Button>
-        </div>
-      </form>
-    </Panel>
-  );
+          {/* Doctor MultiSelectors */}
+          <DoctorMultiSelector
+            label="Selected Doctor"
+            control={control}
+            name="selected_drs_id"
+          />
+          <DoctorMultiSelector
+            label="Ignored Doctor"
+            control={control}
+            name="ignored_drs_id"
+            useIgnored
+          />
+
+          {/* Submit */}
+          <div className="col-span-3"></div>
+          <div className="col-span-9">
+            <Button
+              color="dark"
+              size="size-2"
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              {isLoading ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
+        </form>
+      </Panel>
+    ));
+  }
+
+  return { content };
 };
 
 export default PatientQuickAdd;

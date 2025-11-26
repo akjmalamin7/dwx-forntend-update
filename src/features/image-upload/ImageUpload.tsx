@@ -12,6 +12,7 @@ interface ImageUploadProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   control: Control<TFieldValues>;
   isNote?: boolean;
+  directory?: "signature" | "upload";
 }
 
 const ImageUpload = <TFieldValues extends FieldValues>({
@@ -19,6 +20,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
   name,
   control,
   isNote = true,
+  directory = "upload",
 }: ImageUploadProps<TFieldValues>) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -36,7 +38,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
 
     try {
       setError("");
-      const response = await fetch("https://dwxserver.store/upload/", {
+      const response = await fetch(`https://dwxserver.store/${directory}/`, {
         method: "POST",
         body: formData,
       });

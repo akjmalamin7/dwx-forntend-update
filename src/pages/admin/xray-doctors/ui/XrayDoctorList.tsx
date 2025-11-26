@@ -1,48 +1,53 @@
+import { useGetAdminUserListQuery } from "@/entities/admin/users/api/query";
 import { usePageTitle } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useGetUserListQuery } from "@/shared/redux/features/admin/add-user/addUserApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { USER_DATA_COL } from "../../../../entities/admin/user-list/ui/userList.data.col";
+import { XRAY_DOCTOR_LIST } from "./userList.data.col";
 
 const XrayDoctorList = () => {
-  const role = "xray_dr";
-  const { data: DoctorList, isLoading } = useGetUserListQuery(role!, {
-    skip: !role,
+  const { page, limit, setPage } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
   });
-
+  const { data: doctorList, isLoading } = useGetAdminUserListQuery({
+    page,
+    limit,
+    role: "xray_dr",
+  });
+  const totalPages = doctorList?.pagination.totalPages || 1;
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
+  });
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
-      DoctorList?.filter((item) => item.email !== "All").map((item, index) => ({
-        key: item._id,
-        sl: index + 1,
-        name: item.email,
-        mobile: item.mobile,
-        role: item.role === "xray_dr" ? "Radiology" : "",
-        address: item.address,
-        action: "",
-      })) || [],
-    [DoctorList]
+      doctorList?.data
+        ?.filter((item) => item.email !== "All")
+        .map((item, index) => ({
+          key: item._id,
+          sl: (page - 1) * limit + index + 1,
+          name: item.email,
+          mobile: item.mobile,
+          role: item.role === "xray_dr" ? "Radiology" : "",
+          signature: item.image && (
+            <div className="flex items-center justify-center">
+              <img className="h-[50px]" src={item.image[0]} />
+            </div>
+          ),
+          address: item.address,
+          action: "",
+        })) || [],
+    [doctorList?.data, page, limit]
   );
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["name"],
-    rowsPerPage: 100,
-  });
-
-  const COLUMN = USER_DATA_COL.map((item) => {
+  const COLUMN = XRAY_DOCTOR_LIST.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
@@ -71,6 +76,7 @@ const XrayDoctorList = () => {
         ),
       };
     }
+
     return item;
   });
 
@@ -82,23 +88,16 @@ const XrayDoctorList = () => {
 
   return (
     <Panel header="Radiology Doctor List" size="lg">
-      <div className="w-1/3">
-        <Search
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search by Name"
-        />
-      </div>
-
-      <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
-
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        page={page}
+        totalPages={totalPages}
+        hasNext={doctorList?.pagination.hasNext}
+        hasPrev={doctorList?.pagination.hasPrev}
+        setPage={setPage}
+      />
     </Panel>
   );
 };

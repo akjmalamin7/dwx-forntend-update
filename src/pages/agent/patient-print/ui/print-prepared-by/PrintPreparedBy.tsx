@@ -17,15 +17,33 @@ const PrintPreparedBy = () => {
   if (isError) return <div>Error loading prepared by list</div>;
 
   return (
-    <div className="max-w-[250px] w-full">
-      <p className="font-semibold">Prepared by:</p>
+    <>
+      <style>
+        {`
+          @media print {
+          .no-print {
+            display: none !important;
+          }
+        `}
+      </style>
 
-      <Select size="sm" options={transForm || []} onSelect={setPreparedBy} />
+      <div className="max-w-[250px] w-full">
+        <p className="font-semibold">Prepared by:</p>
 
-      <div className="checkuserDetails">
-        {parse(DOMPurify.sanitize(String(preparedBy)))}
+        <div className="no-print">
+          <Select
+            size="sm"
+            options={transForm || []}
+            onSelect={setPreparedBy}
+            className="no-print"
+          />
+        </div>
+
+        <div className="checkuserDetails">
+          {parse(DOMPurify.sanitize(String(preparedBy)))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

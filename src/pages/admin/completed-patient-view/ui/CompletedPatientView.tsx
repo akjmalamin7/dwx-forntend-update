@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { ADMIN_COMPLETED_REPORT_UDPAT_SCHEMA } from "../model/schema";
 import { PatientInformation } from "./patient-iformation";
+import { AddNewImageForm, AdminUpdatePatientForm, ClonePatient } from "@/entities";
 
 const CompletedPatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -125,7 +126,7 @@ const CompletedPatientView = () => {
         {revisions && (
           <div>
             {revisions.map((r) => (
-              <div key={r.label}>
+              <div key={r.label} className="mt-2 p-4 border rounded-md bg-gray-50">
                 <Text element="h5" fontWeight="semiBold">
                   {r.label}
                 </Text>
@@ -135,6 +136,16 @@ const CompletedPatientView = () => {
           </div>
         )}
       </div>
+
+       <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">
+          <div className="flex-1/2">
+            <ClonePatient />
+          </div>
+          <div className="flex-1/2 flex flex-col gap-6">
+            <AddNewImageForm />
+            <AdminUpdatePatientForm />
+          </div>
+        </div>
     </Panel>
   );
 };

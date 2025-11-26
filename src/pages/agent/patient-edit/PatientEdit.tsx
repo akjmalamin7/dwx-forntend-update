@@ -145,8 +145,11 @@ const PatientEdit = () => {
   }
 
   if (isProfileLoading) <Loader />;
+
   if (status !== "active") {
-    <AgentFormError title="Something went wrong!. Please contact with support." />;
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
   }
 
   return (

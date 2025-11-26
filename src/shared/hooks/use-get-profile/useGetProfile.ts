@@ -7,9 +7,10 @@ export const useGetProfile = () => {
   const userId: string | undefined = decoded?.id;
   const { data, isLoading } = useGetProfileQuery(userId ?? skipToken);
 
+  const profileStatus = data?.data?.status;
   return {
-    profileData: data,
-    status: data?.status,
+    profileData: data?.data,
+    status: profileStatus,
     isProfileLoading: isLoading,
   };
 };

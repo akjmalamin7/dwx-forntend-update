@@ -28,5 +28,5 @@ export interface ProfileSchemaTypes {
 
 export interface ProfileReferenceResponse {
   status: string;
-  data: ProfileSchemaTypes[];
+  data: ProfileSchemaTypes;
 }

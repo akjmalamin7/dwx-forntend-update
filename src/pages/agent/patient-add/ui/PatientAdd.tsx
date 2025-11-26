@@ -34,7 +34,7 @@ const PatientAdd = () => {
     restoreOnUnmount: true,
   });
   if (isProfileLoading) <Loader />;
-  if (status !== "active") {
+  if (status == "inactive") {
     return (
       <AgentFormError title="Something went wrong!. Please contact with support." />
     );

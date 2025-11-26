@@ -1,14 +1,16 @@
 import { apiSlice } from "../api/apiSlice";
 import type {
+  ProfileReferenceResponse,
   ProfileSchemaTypes,
   ProfileSelectedDrIdsSchema,
 } from "./profile.types";
 
 export const ProfileApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProfile: builder.query<ProfileSchemaTypes, string>({
+    getProfile: builder.query<ProfileReferenceResponse, string>({
       query: (id) => ({
         url: `/agent/profile/${id}`,
+        method: "GET",
       }),
     }),
     getProfileSelectDoctorId: builder.query<ProfileSelectedDrIdsSchema, string>(

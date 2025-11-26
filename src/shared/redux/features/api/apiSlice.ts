@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api",
+    baseUrl: "https://api.dwxapp.store/api",
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
       const access_token = state.auth.access_token;

@@ -11,10 +11,14 @@ import { useMemo } from "react";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const DoctorUpdateBill = () => {
-  const { page, limit, setPage, doctorId, month } = usePageQuery();
+  const { page, limit, search, setPage, setSearch, setLimit, doctorId, month } =
+    usePageQuery({
+      defaultPage: 1,
+      defaultLimit: 10,
+    });
 
   const { data: doctorList, isLoading } = useGetAdminDoctorUdateBillListQuery(
-    doctorId && month ? { page, limit, doctorId, month } : skipToken
+    doctorId && month ? { page, limit, doctorId, month, search } : skipToken
   );
 
   const totalPages = doctorList?.pagination.totalPages || 1;
@@ -73,11 +77,15 @@ const DoctorUpdateBill = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorList?.pagination.hasNext}
         hasPrev={doctorList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

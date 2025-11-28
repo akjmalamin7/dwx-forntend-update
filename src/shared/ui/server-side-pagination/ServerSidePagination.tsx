@@ -50,10 +50,11 @@ const ServerSidePagination = ({
           ) : (
             <button
               key={`page-${num}`}
-              className={`px-3 py-1 rounded transition-colors ${num === currentPage
-                ? "bg-blue-700 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
-                }`}
+              className={`px-3 py-1 rounded transition-colors ${
+                num === currentPage
+                  ? "bg-blue-700 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
               onClick={() => onPageChange(num as number)}
             >
               {num}

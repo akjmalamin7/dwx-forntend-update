@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { USER_DATA_COL } from "../../users-list/ui/userList.data.col";
 
 const DeletedUserList = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
@@ -18,6 +18,7 @@ const DeletedUserList = () => {
     page,
     limit,
     role: "user",
+    search,
   });
   const totalPages = userList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -84,11 +85,15 @@ const DeletedUserList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={userList?.pagination.hasNext}
         hasPrev={userList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

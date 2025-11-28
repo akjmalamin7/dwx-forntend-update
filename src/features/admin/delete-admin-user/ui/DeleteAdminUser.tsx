@@ -6,7 +6,6 @@ interface IProps {
   onDeleteSuccess?: () => void;
 }
 const DeleteAdminUser = ({ id, onDeleteSuccess }: IProps) => {
-  console.log(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteAdminUser, { isLoading }] = useDeleteAdminUserMutation();
   const handleDelete = async () => {

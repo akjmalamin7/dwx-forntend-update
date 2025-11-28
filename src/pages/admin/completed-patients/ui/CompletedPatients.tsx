@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
@@ -18,7 +18,7 @@ const CompletedPatients = () => {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetAdminCompletedPatientListQuery({ page, limit });
+  } = useGetAdminCompletedPatientListQuery({ page, limit, search });
   const totalPages = patientList?.pagination.totalPages || 1;
 
   useServerSidePagination({
@@ -78,11 +78,15 @@ const CompletedPatients = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
+        setSearch={setSearch}
         page={page}
+        limit={limit}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
       />
     </Panel>
   );

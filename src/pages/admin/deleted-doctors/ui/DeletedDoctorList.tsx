@@ -15,13 +15,14 @@ const DeletedUserList = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
   const { data: doctorlist, isLoading } = useGetAdminDoctorDeletedListQuery({
     page,
     limit,
+    search,
   });
   const totalPages = doctorlist?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -84,11 +85,15 @@ const DeletedUserList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorlist?.pagination.hasNext}
         hasPrev={doctorlist?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

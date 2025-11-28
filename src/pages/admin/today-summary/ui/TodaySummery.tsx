@@ -11,7 +11,7 @@ const formDate = (date: Date) => {
 };
 const TodaySummery = () => {
   const [date, setDate] = useState(formDate(new Date()));
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
@@ -19,6 +19,7 @@ const TodaySummery = () => {
     page,
     limit,
     date,
+    search,
   });
   const totalPages = summeryList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -66,11 +67,15 @@ const TodaySummery = () => {
         isLoading={isLoading}
         column={SUMMERY_DATA_COL}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={summeryList?.pagination.hasNext}
         hasPrev={summeryList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

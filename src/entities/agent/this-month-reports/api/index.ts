@@ -1,0 +1,1 @@
+export { useGetAgendAllCompletedPatientListQuery } from "./query";

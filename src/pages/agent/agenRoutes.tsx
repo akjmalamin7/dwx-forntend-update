@@ -31,12 +31,12 @@ export const agentRoutes = [
     element: withSuspense(<Pages.AgentCompleted />),
   },
   {
-    path: "/agent/patient/all-completed",
-    element: withSuspense(<Pages.AgentAllCompleted />),
+    path: "/agent/patient/this-month-reports",
+    element: withSuspense(<Pages.AgentThisMonthReports />),
   },
   {
-    path: "/agent/patient/previous-month",
-    element: withSuspense(<Pages.AgentPreviousMonthCompleted />),
+    path: "/agent/patient/previous-month-reports",
+    element: withSuspense(<Pages.AgentPreviousMonthReports />),
   },
   {
     path: "/agent/patient-view",

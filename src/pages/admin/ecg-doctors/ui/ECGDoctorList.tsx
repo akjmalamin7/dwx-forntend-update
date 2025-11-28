@@ -16,7 +16,7 @@ const ECGDoctorList = () => {
     restoreOnUnmount: true,
   });
 
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
@@ -24,6 +24,7 @@ const ECGDoctorList = () => {
     page,
     limit,
     role: "ecg_dr",
+    search,
   });
   const totalPages = doctorList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -92,11 +93,15 @@ const ECGDoctorList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorList?.pagination.hasNext}
         hasPrev={doctorList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

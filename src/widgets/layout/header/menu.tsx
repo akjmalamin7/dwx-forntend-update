@@ -47,13 +47,13 @@ export const MENU_DATA: MenuType[] = [
       {
         id: "user-all-report-1",
         title: "This Month Report",
-        path: "/agent/patient/all-completed",
+        path: "/agent/patient/this-month-reports",
         role: [RoleEnum.user],
       },
       {
         id: "user-all-report-2",
         title: "Previous Month",
-        path: "/agent/patient/previous-month",
+        path: "/agent/patient/previous-month-reports",
         role: [RoleEnum.user],
       },
     ],

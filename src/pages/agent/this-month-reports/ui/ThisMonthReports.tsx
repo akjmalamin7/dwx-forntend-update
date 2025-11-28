@@ -1,7 +1,7 @@
+import { useGetAgendAllCompletedPatientListQuery } from "@/entities/agent/this-month-reports/api";
 import { usePageTitle } from "@/shared/hooks";
-import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import { useGetAgentPreviousMonthPatientQuery } from "@/shared/redux/features/agent/previous-month-patient/PreviousMonthPatientApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -9,14 +9,14 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-const PreviousMonthPatient = () => {
-  const { page, limit, setPage } = usePageQuery({
+const ThisMonthReports = () => {
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
-  const { data: patientList, isLoading } = useGetAgentPreviousMonthPatientQuery(
-    { page, limit }
-  );
+
+  const { data: patientList, isLoading } =
+    useGetAgendAllCompletedPatientListQuery({ page, limit, search });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,
@@ -48,11 +48,11 @@ const PreviousMonthPatient = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype,
-        viewed: item.completed_dr?.email,
+        viewed: item.completed_dr?.email || "",
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
-    [patientList?.data, page, limit]
+    [patientList?.data, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -80,26 +80,30 @@ const PreviousMonthPatient = () => {
     return item;
   });
 
-  usePageTitle("Previous Month Completed Report", {
+  usePageTitle("This Month All Completed Report", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
 
   return (
-    <Panel header="Previous Month Completed Report" size="lg">
+    <Panel header="This Month All Completed Report" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );
 };
 
-export default PreviousMonthPatient;
+export default ThisMonthReports;

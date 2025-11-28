@@ -9,12 +9,12 @@ import { useGetDoctorAllCompletedPatientListQuery } from "../api/query";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const AllCompletedPatientList = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
   const { data: patientList, isLoading } =
-    useGetDoctorAllCompletedPatientListQuery({ page, limit });
+    useGetDoctorAllCompletedPatientListQuery({ page, limit, search });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,
@@ -67,11 +67,15 @@ const AllCompletedPatientList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
+        setSearch={setSearch}
         page={page}
+        limit={limit}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
       />
     </Panel>
   );

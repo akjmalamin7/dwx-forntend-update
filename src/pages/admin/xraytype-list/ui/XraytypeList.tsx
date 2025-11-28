@@ -1,19 +1,15 @@
+import { DeleteXraytype } from "@/features/delete-xraytype";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useGetXraytypeListQuery } from "@/shared/redux/features/admin/xraytype-list/xraytypeListApi";
 import { Pagination, Panel, PanelHeading, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { XRAYTYPE_DATA_COL } from "./xraytype.data.col";
-import { useGetXraytypeListQuery } from "@/shared/redux/features/admin/xraytype-list/xraytypeListApi";
-import { DeleteXraytype } from "@/features/delete-xraytype";
-import { usePageTitle } from "@/shared/hooks";
 
 const XraytypeList = () => {
-  const {
-    data: XraytypeList,
-    isLoading,
-    refetch,
-  } = useGetXraytypeListQuery();
+  const { data: XraytypeList, isLoading, refetch } = useGetXraytypeListQuery();
 
   // Prepare data
   const DATA_TABLE = useMemo(
@@ -41,19 +37,18 @@ const XraytypeList = () => {
   });
 
   const COLUMN = XRAYTYPE_DATA_COL.map((item) => {
-  if (item.key === "action") {
-    return {
-      ...item,
-      render: (_: unknown, record?: DataSource) => (
-        <div className="flex gap-2">
-          <DeleteXraytype id={record?.key} onDeleteSuccess={refetch} />
-        </div>
-      ),
-    };
-  }
-  return item;
-});
-
+    if (item.key === "action") {
+      return {
+        ...item,
+        render: (_: unknown, record?: DataSource) => (
+          <div className="flex gap-2">
+            <DeleteXraytype id={record?.key} onDeleteSuccess={refetch} />
+          </div>
+        ),
+      };
+    }
+    return item;
+  });
 
   usePageTitle("Xraytype List", {
     prefix: "DWX - ",

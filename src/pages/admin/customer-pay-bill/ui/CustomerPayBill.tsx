@@ -1,3 +1,4 @@
+import { usePageTitle } from "@/shared/hooks";
 import {
   useAddCustomerBillPayMutation,
   useGetCustomerBillDetailsQuery,
@@ -15,7 +16,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
-import { usePageTitle } from "@/shared/hooks";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -65,6 +65,11 @@ const CustomerPayBill = () => {
       }
     }
   });
+  usePageTitle("Customer Pay Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   if (isBillLoading) <Loader />;
   if (isBillError)
@@ -74,13 +79,6 @@ const CustomerPayBill = () => {
       </Text>
     );
 
-
-    usePageTitle("Customer Pay Bill", {
-      prefix: "DWX - ",
-      defaultTitle: "DWX",
-      restoreOnUnmount: true,
-    });
-    
   return (
     <>
       <Panel
@@ -147,15 +145,15 @@ const CustomerPayBill = () => {
                   type="submit"
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   loading={isLoading}
-                // disabled={!isDirty}
+                  // disabled={!isDirty}
                 >
                   {isLoading ? "Submitting..." : "Submit"}
                 </Button>
               </div>
-            </form >
-          </div >
-        </div >
-      </Panel >
+            </form>
+          </div>
+        </div>
+      </Panel>
     </>
   );
 };

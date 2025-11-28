@@ -4,67 +4,59 @@ import { useSearchParams } from "react-router-dom";
 interface UsePageQueryProps {
   defaultPage?: number;
   defaultLimit?: number;
+  defaultSearch?: string;
   doctorId?: string;
   userId?: string;
   month?: string;
 }
 
+import { useState } from "react";
+
 export function usePageQuery({
   defaultPage = 1,
   defaultLimit = 10,
+  defaultSearch = "",
   doctorId,
   userId,
   month,
 }: UsePageQueryProps = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = Number(searchParams.get("page")) || defaultPage;
-  const limit = Number(searchParams.get("limit")) || defaultLimit;
+  const [page, setPage] = useState(
+    () => Number(searchParams.get("page")) || defaultPage
+  );
+  const [limit, setLimit] = useState(
+    () => Number(searchParams.get("limit")) || defaultLimit
+  );
+  const [search, setSearch] = useState(
+    () => searchParams.get("search") || defaultSearch
+  );
 
   const urlDoctorId = searchParams.get("doctorId") || doctorId || "";
   const urlUserId = searchParams.get("userId") || userId || "";
   const urlMonth = searchParams.get("month") || month || "";
 
-  // Sync URL on initial load if missing
+  // Sync URL whenever state changes
   useEffect(() => {
     const params: Record<string, string> = {
+      search,
       page: String(page),
       limit: String(limit),
     };
-    if (urlDoctorId) params.doctorId = urlDoctorId;
-    if (urlUserId) params.userId = urlUserId;
-    if (urlMonth) params.month = urlMonth;
+    if (doctorId) params.doctorId = doctorId;
+    if (userId) params.userId = userId;
+    if (month) params.month = month;
 
-    setSearchParams(params);
-  }, [page, limit, urlDoctorId, urlMonth, urlUserId, setSearchParams]);
-
-  // Update page while keeping other params
-  const setPage = (newPage: number) => {
-    setSearchParams({
-      page: String(newPage),
-      limit: String(limit),
-      doctorId: urlDoctorId,
-      userId: urlUserId,
-      month: urlMonth,
-    });
-  };
-
-  // Update limit while keeping other params
-  const setLimit = (newLimit: number) => {
-    setSearchParams({
-      page: "1",
-      limit: String(newLimit),
-      doctorId: urlDoctorId,
-      userId: urlUserId,
-      month: urlMonth,
-    });
-  };
+    setSearchParams(params, { replace: true });
+  }, [page, limit, search, doctorId, userId, month, setSearchParams]);
 
   return {
     page,
     limit,
+    search,
     setPage,
     setLimit,
+    setSearch,
     doctorId: urlDoctorId,
     userId: urlUserId,
     month: urlMonth,

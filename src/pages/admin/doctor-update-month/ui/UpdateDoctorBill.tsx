@@ -1,3 +1,4 @@
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetAdminDoctorBillQuery } from "@/shared/redux/features/admin/doctor-update-month/doctorBillApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -6,7 +7,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctorBill.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
 const UpdateDoctorBill = () => {
   const { doctor_id } = useParams<{ doctor_id: string }>();
@@ -81,13 +81,12 @@ const UpdateDoctorBill = () => {
     return item;
   });
 
+  usePageTitle("Update Doctor Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
-    usePageTitle("Update Doctor Bill", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
-      
   return (
     <Panel header="Update Doctor Bill" size="lg">
       <div className="p-4 bg-white">

@@ -69,7 +69,11 @@ const DoctorPayBill = () => {
       }
     }
   });
-
+  usePageTitle("Pay Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
   if (isBillLoading) <Loader />;
   if (isBillError)
     return (
@@ -77,12 +81,6 @@ const DoctorPayBill = () => {
         Error occured
       </Text>
     );
-
-  usePageTitle("Pay Bill", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
 
   return (
     <>

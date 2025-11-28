@@ -1,11 +1,11 @@
-import FOOTERPAD from "@/assets/images/footer.png"; 
+import FOOTERPAD from "@/assets/images/footer.png";
 import { Button, Loader, Panel, PanelHeading, Text } from "@/shared/ui";
- 
-import { useParams } from "react-router-dom";
-import { BillPrintList } from "./bill-print-list"; 
-import { BillingPadHeader } from "./billing-pad-header";
-import { useGetBillDetailsQuery } from "@/shared/redux/features/admin/manage-doctor-bill/billListApi";
+
 import { usePageTitle } from "@/shared/hooks";
+import { useGetBillDetailsQuery } from "@/shared/redux/features/admin/manage-doctor-bill/billListApi";
+import { useParams } from "react-router-dom";
+import { BillPrintList } from "./bill-print-list";
+import { BillingPadHeader } from "./billing-pad-header";
 
 const DoctorBillPrint = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -15,11 +15,11 @@ const DoctorBillPrint = () => {
     isError: isBillError,
   } = useGetBillDetailsQuery(bill_id!, { skip: !bill_id });
   const transformBill = bill?.data[0];
- 
-  const billingHeaderData = { 
+
+  const billingHeaderData = {
     month: transformBill?.month || "N/A",
-    printDate: new Date().toLocaleDateString("en-GB") || "N/A", 
-    to: transformBill?.doctor_id?.email || "N/A", 
+    printDate: new Date().toLocaleDateString("en-GB") || "N/A",
+    to: transformBill?.doctor_id?.email || "N/A",
     status: transformBill?.status,
   };
 
@@ -50,11 +50,17 @@ const DoctorBillPrint = () => {
     total_patients: transformBill?.total_patients
       ? Number(transformBill.total_patients)
       : undefined,
-  }; 
+  };
 
   const handlePrint = () => {
     window.print();
   };
+
+  usePageTitle("Print Patient Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
   if (isBillLoading) <Loader />;
   if (isBillError)
     return (
@@ -63,13 +69,6 @@ const DoctorBillPrint = () => {
       </Text>
     );
 
-    usePageTitle("Print Patient Report", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
-        restoreOnUnmount: true,
-      });
-
-      
   return (
     <>
       {/* Print-specific style */}
@@ -97,12 +96,11 @@ const DoctorBillPrint = () => {
         <BillingPadHeader billingHeader={billingHeaderData} />
         <BillPrintList billPrintList={billPrint} />
 
-      
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none print:opacity-100 opacity-20 text-6xl font-bold  text-green-300"
           style={{ zIndex: 0 }}
         >
-          {transformBill?.status=="Paid"?"Paid":"Un-paid"}
+          {transformBill?.status == "Paid" ? "Paid" : "Un-paid"}
         </div>
 
         <div className="after:content-[''] after:table after:clear-both"></div>

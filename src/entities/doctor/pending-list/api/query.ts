@@ -9,7 +9,7 @@ const PendingPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorPendingPatientList: builder.query<
       DOCTOR_PENDING_PATIENT_TRANSFORM_MODEL,
-      { page?: number; limit?: number; search?: "" }
+      { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
         const params = new URLSearchParams({

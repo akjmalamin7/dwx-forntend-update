@@ -1,4 +1,5 @@
 import { XrayImages } from "@/entities";
+import { usePageTitle } from "@/shared/hooks";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
@@ -7,7 +8,6 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
 const PatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -19,8 +19,6 @@ const PatientView = () => {
 
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments;
-
-
 
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
@@ -42,6 +40,11 @@ const PatientView = () => {
     ];
   }, [patient]);
 
+  usePageTitle("View Patient", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
   if (!patient_id) {
     return <div>Patient ID not found</div>;
   }
@@ -53,13 +56,6 @@ const PatientView = () => {
   if (!patient && !patientLoading) {
     return <div>No patient data found</div>;
   }
-
-
-  usePageTitle("View Patient", {
-      prefix: "DWX - ",
-      defaultTitle: "DWX",
-      restoreOnUnmount: true,
-    });
 
   return (
     <Panel

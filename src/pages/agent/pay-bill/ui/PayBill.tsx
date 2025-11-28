@@ -1,4 +1,5 @@
 import { PaymentMethod } from "@/entities";
+import { usePageTitle } from "@/shared/hooks";
 import {
   BillPayFormschema,
   type BillPayFormValues,
@@ -20,7 +21,6 @@ import { useEffect, useMemo } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
-import { usePageTitle } from "@/shared/hooks";
 
 const PayBill = () => {
   const { month } = useParams<{ month: string }>();
@@ -77,7 +77,7 @@ const PayBill = () => {
         trans_id: "",
       });
     }
-  }, [transformBill, reset]);
+  }, [transformBill, reset, roundedGrandTotal]);
 
   const [createBillPayment, { isLoading }] = useAddBillPayMutation();
 
@@ -95,12 +95,11 @@ const PayBill = () => {
     }
   };
 
-
   usePageTitle("Pay Bill", {
-      prefix: "DWX - ",
-      defaultTitle: "DWX",
-      restoreOnUnmount: true,
-    });
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   if (isBillLoading) <Loader />;
   if (isBillError)
@@ -153,7 +152,7 @@ const PayBill = () => {
                   size="sm"
                   label="Month"
                   placeholder="Month"
-                  name="month"  
+                  name="month"
                 />
 
                 {/* Transaction ID */}

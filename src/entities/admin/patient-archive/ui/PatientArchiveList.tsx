@@ -11,7 +11,7 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientArchiveList = () => {
   const { month } = useParams<{ month: string }>();
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
@@ -19,7 +19,7 @@ const PatientArchiveList = () => {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetAdminArchivePatientListQuery({ page, limit, month });
+  } = useGetAdminArchivePatientListQuery({ page, limit, month, search });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,
@@ -76,11 +76,15 @@ const PatientArchiveList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
+        setSearch={setSearch}
         page={page}
+        limit={limit}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
       />
     </Panel>
   );

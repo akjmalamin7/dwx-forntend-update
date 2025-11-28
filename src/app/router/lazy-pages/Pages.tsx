@@ -11,9 +11,9 @@ export const Pages = {
 
   QuickSendReport: lazy(() => import("@/pages/agent/quick-send-report")),
   AgentCompleted: lazy(() => import("@/pages/agent/patient-completed")),
-  AgentAllCompleted: lazy(() => import("@/pages/agent/patient-all-completed")),
-  AgentPreviousMonthCompleted: lazy(
-    () => import("@/pages/agent/previous-month-patient")
+  AgentThisMonthReports: lazy(() => import("@/pages/agent/this-month-reports")),
+  AgentPreviousMonthReports: lazy(
+    () => import("@/pages/agent/previous-month-reports")
   ),
   AgentPatientView: lazy(() => import("@/pages/agent/patient-view")),
   AgentPatientPrint: lazy(() => import("@/pages/agent/patient-print")),

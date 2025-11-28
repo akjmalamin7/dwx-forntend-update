@@ -1,0 +1,1 @@
+export { useGetAgentPreviousMonthPatientQuery } from "./query";

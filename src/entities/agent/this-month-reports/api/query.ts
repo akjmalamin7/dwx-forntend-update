@@ -1,15 +1,15 @@
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 import {
   AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_RESPONSE,
   type AGEND_ALL_COMPLETED_PATIENT_API_RESPONSE,
   type AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL,
-} from "./allCompletedPatientList.types";
+} from "../model/schema";
 
-export const AllCompletedPatientListApi = apiSlice.injectEndpoints({
+const AllCompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAgendAllCompletedPatientList: builder.query<
       AGEND_ALL_COMPLETED_PATIENT_TRANSFORM_MODEL,
-      { page?: number; limit?: number; search?: "" }
+      { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
         const params = new URLSearchParams({

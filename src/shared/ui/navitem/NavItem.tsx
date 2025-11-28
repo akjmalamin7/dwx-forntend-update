@@ -2,7 +2,7 @@ import { toggleMobileMenu } from "@/shared/redux/features/mobile-menu/mobileMenu
 import type { RoleEnum } from "@/shared/utils/types/types";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 interface ChildMenu {
   id: string;
   title?: string;
@@ -33,7 +33,10 @@ const NavItem: React.FC<NavItemProps> = ({
   children = [],
 }) => {
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  const isParentActive = children.some(
+    (child) => child.path && location.pathname.startsWith(child.path)
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -112,7 +115,8 @@ const NavItem: React.FC<NavItemProps> = ({
           ref={dropdownRef}
         >
           <button
-            className="flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium "
+            className={`flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium
+    ${isParentActive ? "bg-green-700 text-white font-semibold" : ""}`}
             onClick={handleDropdown}
           >
             {icon && <span className="text-lg">{icon}</span>}
@@ -122,7 +126,7 @@ const NavItem: React.FC<NavItemProps> = ({
             <div className="lg:absolute top-full right-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50">
               {children.map((child) => (
                 <NavLink
-                  key={child.id}
+                  key={child.id || child.path || crypto.randomUUID()}
                   to={child.path || ""}
                   onClick={handleToggleMenu}
                   className={({ isActive }) =>

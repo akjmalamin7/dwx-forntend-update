@@ -1,5 +1,6 @@
 import FOOTERPAD from "@/assets/images/footer.png";
 import { PaymentMethod } from "@/entities";
+import { usePageTitle } from "@/shared/hooks";
 import { useGetBillQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
 import { useGetPaymentGetwayListQuery } from "@/shared/redux/features/agent/payment-getway/paymentGetwayApi";
 import { Button, Loader, Panel, PanelHeading, Text } from "@/shared/ui";
@@ -8,7 +9,6 @@ import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list";
 import { BillingInformation } from "./billing-information";
 import { BillingPadHeader } from "./billing-pad-header";
-import { usePageTitle } from "@/shared/hooks";
 
 const BillPrint = () => {
   const { month } = useParams<{ month: string }>();
@@ -65,6 +65,12 @@ const BillPrint = () => {
   const handlePrint = () => {
     window.print();
   };
+
+  usePageTitle("Print Bill", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
   if (isBillLoading) <Loader />;
   if (isBillError)
     return (
@@ -74,13 +80,6 @@ const BillPrint = () => {
     );
 
   const currentMonth = new Date().toISOString().slice(0, 7);
-
-
-    usePageTitle("Print Bill", {
-          prefix: "DWX - ",
-          defaultTitle: "DWX",
-          restoreOnUnmount: true,
-        });
 
   return (
     <>
@@ -99,18 +98,15 @@ const BillPrint = () => {
         header={<PanelHeading title="Print Bill" button="" path="" />}
         size="lg"
       >
+        {month != currentMonth && (
+          <Button
+            onClick={handlePrint}
+            className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
+          >
+            Print Bill
+          </Button>
+        )}
 
-         {month != currentMonth && (
-             <Button
-          onClick={handlePrint}
-          className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
-        >
-          Print Bill
-        </Button>
-          )}
-         
-
-      
         {/* Table */}
         <BillingPadHeader billingHeader={billingHeaderData} />
         <BillPrintList billPrintList={billPrint} />

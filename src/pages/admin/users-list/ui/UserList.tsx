@@ -16,15 +16,16 @@ const UserList = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
+
   const {
     data: doctorList,
     isLoading,
     refetch,
-  } = useGetAdminUserListQuery({ page, limit, role: "user" });
+  } = useGetAdminUserListQuery({ page, limit, role: "user", search });
   const totalPages = doctorList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,
@@ -81,11 +82,15 @@ const UserList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorList?.pagination.hasNext}
         hasPrev={doctorList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

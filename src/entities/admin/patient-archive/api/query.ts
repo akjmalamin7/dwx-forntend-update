@@ -9,7 +9,12 @@ export const ArchivePatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdminArchivePatientList: builder.query<
       ADMIN_ARCHIVE_DOCTOR_TRANSFORM_MODEL,
-      { page?: number; limit?: number; search?: ""; month?: string | number }
+      {
+        page?: number;
+        limit?: number;
+        search?: string;
+        month?: string | number;
+      }
     >({
       query: ({ page = 1, limit = 10, search = "", month }) => {
         const params = new URLSearchParams({

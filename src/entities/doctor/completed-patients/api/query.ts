@@ -9,7 +9,7 @@ const CompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorCompletedPatientList: builder.query<
       DOCTOR_COMPLETED_PATIENT_TRANSFORM_MODEL,
-      { page?: number; limit?: number; search?: "" }
+      { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
         const params = new URLSearchParams({

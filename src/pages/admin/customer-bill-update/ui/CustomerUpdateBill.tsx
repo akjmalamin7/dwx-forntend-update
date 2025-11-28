@@ -11,11 +11,17 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CustomerUpdateBill = () => {
-  const { userId, month, page, limit, setPage } = usePageQuery()
+  const { page, limit, search, setPage, setSearch, setLimit, userId, month } =
+    usePageQuery({
+      defaultPage: 1,
+      defaultLimit: 10,
+    });
   const { data: doctorList, isLoading } = useGetAdminDoctorBillingListQuery({
     userId,
     month,
-    page, limit
+    page,
+    limit,
+    search,
   });
   const totalPages = doctorList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -37,8 +43,6 @@ const CustomerUpdateBill = () => {
       })) || [],
     [doctorList?.data, page, limit]
   );
-
-
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "view") {
@@ -86,20 +90,22 @@ const CustomerUpdateBill = () => {
   });
 
   return (
-
     <Panel header="Update Customer Bill" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorList?.pagination.hasNext}
         hasPrev={doctorList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
-
   );
 };
 

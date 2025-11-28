@@ -1,15 +1,15 @@
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 import {
   AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_RESPONSE,
   type AGENT_PREV_MONTH_COMPLETED_PATIENT_API_RESPONSE,
   type AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL,
-} from "./previousPatientList.types";
+} from "../model/schema";
 
 export const PreviousMonthPatientApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAgentPreviousMonthPatient: builder.query<
       AGENT_PREV_MONTH_COMPLETED_PATIENT_TRANSFORM_MODEL,
-      { page?: number; limit?: number; search?: "" }
+      { page?: number; limit?: number; search?: string }
     >({
       query: ({ page = 1, limit = 10, search = "" }) => {
         const params = new URLSearchParams({

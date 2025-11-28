@@ -10,13 +10,14 @@ import { useGetDoctorPendingPatientListQuery } from "../api/query";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PendingPatientsList = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
   const { data: patientList, isLoading } = useGetDoctorPendingPatientListQuery({
     page,
     limit,
+    search
   });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -77,11 +78,15 @@ const PendingPatientsList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
+        setSearch={setSearch}
         page={page}
+        limit={limit}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
       />
     </Panel>
   );

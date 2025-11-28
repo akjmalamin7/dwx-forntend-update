@@ -14,5 +14,6 @@ export { PanelHeading } from "./panel-heading";
 export { Search } from "./search";
 export { Select } from "./select";
 export { ServerSidePagination } from "./server-side-pagination";
+export { ServerSideSearch } from "./server-side-seach";
 export { Text } from "./text";
 export { withSuspense } from "./with-suspense";

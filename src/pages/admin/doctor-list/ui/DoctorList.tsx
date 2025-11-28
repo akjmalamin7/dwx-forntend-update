@@ -10,13 +10,14 @@ import { Link } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctor.data.col";
 
 const DoctorList = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 100,
+    defaultLimit: 10,
   });
   const { data: doctorList, isLoading } = useGetUpdateDoctorListQuery({
     page,
     limit,
+    search,
   });
 
   const totalPages = doctorList?.pagination.totalPages || 1;
@@ -69,11 +70,15 @@ const DoctorList = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={doctorList?.pagination.hasNext}
         hasPrev={doctorList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

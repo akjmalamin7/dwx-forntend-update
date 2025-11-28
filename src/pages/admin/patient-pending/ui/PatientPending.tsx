@@ -11,16 +11,16 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientPending = () => {
-  const { page, limit, setPage } = usePageQuery({
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 5,
+    defaultLimit: 10,
   });
 
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetPendingPatientListQuery({ page, limit });
+  } = useGetPendingPatientListQuery({ page, limit, search });
 
   const totalPages = patientList?.pagination.totalPages || 1;
 
@@ -96,11 +96,15 @@ const PatientPending = () => {
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={patientList?.pagination.hasNext}
         hasPrev={patientList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
   );

@@ -1,4 +1,3 @@
-
 import { useGetCustomerTransactionHistoryQuery } from "@/entities/admin/bill/api/query";
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
@@ -11,13 +10,17 @@ import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";
 
 const CustomerTransactionHistory = () => {
-
   const { month } = useParams<{ month: string }>();
-  const { page, limit, setPage } = usePageQuery();
-  const {
-    data: billList,
-    isLoading
-  } = useGetCustomerTransactionHistoryQuery({ page, limit, month });
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
+  const { data: billList, isLoading } = useGetCustomerTransactionHistoryQuery({
+    page,
+    limit,
+    month,
+    search,
+  });
 
   const totalPages = billList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -36,11 +39,12 @@ const CustomerTransactionHistory = () => {
         total_amount: item.total_amount,
         status: item.status,
         paid_amount: item.paid_amount,
-        payment_date: item.payment_date ? new Date(item.payment_date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
+        payment_date: item.payment_date
+          ? new Date(item.payment_date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
           : "—",
         received_number: item.received_number,
         action: "",
@@ -48,30 +52,24 @@ const CustomerTransactionHistory = () => {
     [billList?.data, page, limit]
   );
 
-
-
-
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex gap-2">
-
-            <Link to={`/admin/customer-print-bill/${record?.key}`}
+            <Link
+              to={`/admin/customer-print-bill/${record?.key}`}
               className="bg-green-500 text-white px-4 py-2 text-sm rounded"
             >
               Print
             </Link>
-
-
           </div>
         ),
       };
     }
     return item;
   });
-
 
   usePageTitle("Manage Customer Transaction History", {
     prefix: "DWX - ",
@@ -80,20 +78,22 @@ const CustomerTransactionHistory = () => {
   });
 
   return (
-
     <Panel header="Manage Customer Transaction History" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
+        search={search}
         page={page}
         totalPages={totalPages}
         hasNext={billList?.pagination.hasNext}
         hasPrev={billList?.pagination.hasPrev}
         setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
       />
     </Panel>
-
   );
 };
 

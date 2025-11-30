@@ -98,6 +98,10 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminCustomerBillRequest />),
   },
   {
+    path: "/admin/customer-bill-list/:month",
+    element: withSuspense(<Pages.AdminCustomerBillList />),
+  },
+  {
     path: "/admin/customer-transection-history",
     element: withSuspense(<Pages.AdminCustomerTransactionHistory />),
   },

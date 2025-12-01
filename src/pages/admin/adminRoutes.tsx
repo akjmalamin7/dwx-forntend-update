@@ -66,9 +66,10 @@ export const adminRoutes = [
   },
 
   {
-    path: "/admin/doctor-update-bill",
+    path: "/admin/doctor-update-bill/:doctorId/:month",
     element: withSuspense(<Pages.AdminDoctorUpdateBill />),
   },
+
   {
     path: "/admin/manage-customer-bill",
     element: withSuspense(<Pages.AdminManageCustomerBill />),

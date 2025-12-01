@@ -1,25 +1,35 @@
 import { useGetAdminDoctorUdateBillListQuery } from "@/entities/admin/doctors/api/query";
 import { DoctorUpdateBillAction } from "@/features";
 import { usePageTitle } from "@/shared/hooks";
-import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const DoctorUpdateBill = () => {
-  const { page, limit, search, setPage, setSearch, setLimit, doctorId, month } =
-    usePageQuery({
-      defaultPage: 1,
-      defaultLimit: 10,
-    });
+  const { doctorId, month } = useParams<{
+    doctorId: string;
+    month: string;
+  }>();
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
 
-  const { data: doctorList, isLoading } = useGetAdminDoctorUdateBillListQuery(
-    doctorId && month ? { page, limit, doctorId, month, search } : skipToken
-  );
+  const { data: doctorList, isLoading } = useGetAdminDoctorUdateBillListQuery({
+    page,
+    limit,
+    doctorId,
+    month,
+    search,
+  });
+  // const { data: doctorList, isLoading } = useGetAdminDoctorUdateBillListQuery(
+  //   doctorId && month ? { page, limit, doctorId, month, search } : skipToken
+  // );
 
   const totalPages = doctorList?.pagination.totalPages || 1;
   useServerSidePagination({

@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { DOCTOR_DATA_COL } from "./updateDoctorBill.data.col";
 
-const UpdateDoctorBill = () => {
+const DoctorUpdateMonth = () => {
   const { doctor_id } = useParams<{ doctor_id: string }>();
   const { data: billList, isLoading } = useGetAdminDoctorBillQuery(doctor_id!, {
     skip: !doctor_id,
@@ -69,7 +69,7 @@ const UpdateDoctorBill = () => {
               Pay
             </Link>
             <Link
-              to={`/admin/doctor-update-bill/?doctorId=${record?.doctor_id}&month=${record?.month}`}
+              to={`/admin/doctor-update-bill/${record?.doctor_id}/${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
             >
               Update
@@ -118,4 +118,4 @@ const UpdateDoctorBill = () => {
   );
 };
 
-export default UpdateDoctorBill;
+export default DoctorUpdateMonth;

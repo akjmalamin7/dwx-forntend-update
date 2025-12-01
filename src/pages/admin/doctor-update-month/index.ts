@@ -1,1 +1,1 @@
-export { default, default as UpdateDoctorBill } from "./ui/UpdateDoctorBill";
+export { default, default as DoctorUpdateMonth } from "./ui/DoctorUpdateMonth";

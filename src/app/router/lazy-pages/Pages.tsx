@@ -67,6 +67,7 @@ export const Pages = {
   AdminDoctorPrintBill: lazy(() => import("@/pages/admin/doctor-print-bill")),
   AdminDoctorPayBill: lazy(() => import("@/pages/admin/doctor-pay-bill")),
   AdminDoctorUpdateBill: lazy(() => import("@/pages/admin/doctor-update-bill")),
+
   AdminManageCustomerBill: lazy(
     () => import("@/pages/admin/manage-customer-bill")
   ),

@@ -56,7 +56,7 @@ const Modal = ({
   return createPortal(
     <>
       {/* Separate Overlay */}
-      <div className="fixed w-full h-screen top-0 left-0 z-30 bg-[#1A1A1Ad2] " />
+      <div className="fixed w-full h-screen top-0 left-0 z-40 bg-[#1A1A1Ad2]  " />
 
       {/* Modal Content */}
       <div className="fixed w-full h-screen top-0 left-0 z-40 flex items-start justify-center pt-[60px]">
@@ -98,7 +98,7 @@ const Modal = ({
                     type="button"
                     variant="outline"
                     color={cancelColor}
-                    className={`text-white ${
+                    className={`text-gray-700 ${
                       disabled === false ? "lg:cursor-pointer" : "cursor-alias"
                     }`}
                     onClick={onCancel}

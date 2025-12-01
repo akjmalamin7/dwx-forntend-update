@@ -184,12 +184,7 @@ export const MENU_DATA: MenuType[] = [
         path: "/admin/monthly-completed",
         role: [RoleEnum.admin],
       },
-      {
-        id: "search-report-4",
-        title: "Search Report",
-        path: "/admin/search-report",
-        role: [RoleEnum.admin],
-      },
+  
       {
         id: "delete-report-5",
         title: "Deleted Patient",
@@ -210,13 +205,7 @@ export const MENU_DATA: MenuType[] = [
         title: "Doctor List",
         path: "/admin/doctor-list",
         role: [RoleEnum.admin],
-      },
-      {
-        id: "transection-history-2",
-        title: "Transection History",
-        path: "/admin/doctor-transection-history",
-        role: [RoleEnum.admin],
-      },
+      }
     ],
   },
   {

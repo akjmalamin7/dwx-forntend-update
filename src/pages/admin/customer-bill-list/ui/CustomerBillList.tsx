@@ -29,7 +29,6 @@ const CustomerBillList = () => {
     search,
   });
   const matchHasPendigHistory = (id: string | undefined) => {
-    console.log(id);
     if (!id) return false;
     return !!billList?.data.find(
       (bill) => bill.user_id._id === id && bill.hasPendingHistory

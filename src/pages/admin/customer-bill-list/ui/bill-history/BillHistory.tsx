@@ -1,6 +1,8 @@
 import { useLazyGetAdminBillHistoryQuery } from "@/entities/admin/bill/api/query";
 import { Button, Modal } from "@/shared/ui";
+import { Table } from "@/shared/ui/table";
 import { useState } from "react";
+import { BILL_HISTORY_DATA_COL } from "./billHistory.dat";
 
 interface IProps {
   userId?: string;
@@ -17,13 +19,20 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
     const nextState = !isModalOpen;
     setIsModalOpen(nextState);
 
-    // API runs only when opening modal
     if (nextState && userId) {
       getBillHistory(userId);
     }
   };
-
-  console.log("bill history data", data);
+  const DATA_TABLE = data?.data.map((item, index) => ({
+    key: item._id,
+    sl: index + 1,
+    month: item.month,
+    paid_amount: item.paid_amount,
+    status: item.status,
+    total_amount: item.total_amount,
+    trans_id: item.trans_id,
+    total_patients: item.total_patients,
+  }));
 
   return (
     <>
@@ -39,7 +48,13 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
           cancelButton="Close"
           cancelColor="secondary"
         >
-          {isLoading ? "Loading..." : JSON.stringify(data)}
+          <div className="p-4">
+            <Table
+              loading={isLoading}
+              columns={BILL_HISTORY_DATA_COL}
+              dataSource={DATA_TABLE}
+            />
+          </div>
         </Modal>
       )}
     </>

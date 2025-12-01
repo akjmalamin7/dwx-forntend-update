@@ -13,13 +13,13 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "month",
     key: "month",
     align: "start",
-    width: 360,
+    width: 140,
   }, 
   {
     key: "action",
     title: "Action",
     dataIndex: "action",
     align: "center",
-    width: 30,
+    width: 70,
   },
 ];

@@ -1,5 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Input } from "../input";
+
+// Simple debounce util (no re-renders, stable)
+function debounceFunc<T extends (...args: unknown[]) => void>(
+  fn: T,
+  delay: number
+) {
+  let timer: ReturnType<typeof setTimeout>;
+
+  return {
+    call: (...args: Parameters<T>) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), delay);
+    },
+    cancel: () => clearTimeout(timer),
+  };
+}
 
 interface SearchProps {
   value?: string;
@@ -16,14 +32,14 @@ const ServerSideSearch = ({
 }: SearchProps) => {
   const [internalValue, setInternalValue] = useState(value);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onChange?.(internalValue);
-    }, debounceTime);
+  const debounced = useMemo(() => {
+    return debounceFunc((val) => onChange?.(val as string), debounceTime);
+  }, [onChange, debounceTime]);
 
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [internalValue]);
+  useEffect(() => {
+    debounced.call(internalValue);
+    return () => debounced.cancel();
+  }, [internalValue, debounced]);
 
   return (
     <Input
@@ -31,7 +47,7 @@ const ServerSideSearch = ({
       size="sm"
       placeholder={placeholder}
       value={internalValue}
-      onChange={(e) => setInternalValue(e.target.value)}
+      onChange={(e) => setInternalValue(e.target.value.toLowerCase())}
     />
   );
 };

@@ -87,6 +87,9 @@ export const Pages = {
   AdminCustomerBillRequest: lazy(
     () => import("@/pages/admin/customer-bill-request-list")
   ),
+  AdminCustomerBillList: lazy(
+    () => import("@/pages/admin/customer-bill-list")
+  ),
   AdminCustomerTransactionHistory: lazy(
     () => import("@/pages/admin/customer-transaction-history")
   ),

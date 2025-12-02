@@ -1,4 +1,4 @@
-import { useDeleteAdminFormatMutation } from "@/entities/admin/formates/api/mutation";
+import { useDeleteAdminFormatMutation } from "@/entities/formates/api/mutation";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
 interface IProps {

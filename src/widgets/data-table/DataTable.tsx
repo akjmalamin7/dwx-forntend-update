@@ -21,6 +21,7 @@ interface DataTableProps {
   setSearch?: (value: string) => void;
   setPage: (page: number) => void;
   setLimit?: (page: number) => void;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
 const DataTable = ({
@@ -36,6 +37,7 @@ const DataTable = ({
   setLimit,
   setSearch,
   setPage,
+  size,
 }: DataTableProps) => {
   const handleLimit = (value: string) => {
     setLimit?.(Number(value));
@@ -72,7 +74,12 @@ const DataTable = ({
           />
         </div>
       </div>
-      <Table loading={isLoading} columns={column} dataSource={dataSource} />
+      <Table
+        size={size}
+        loading={isLoading}
+        columns={column}
+        dataSource={dataSource}
+      />
       <ServerSidePagination
         currentPage={page}
         totalPages={totalPages}

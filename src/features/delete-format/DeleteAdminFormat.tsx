@@ -1,13 +1,13 @@
-import { useDeleteFormatMutation } from "@/shared/redux/features/admin/format/formatApi";
+import { useDeleteAdminFormatMutation } from "@/entities/admin/formates/api/mutation";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
 interface IProps {
   id?: string;
   onDeleteSuccess?: () => void;
 }
-const DeleteAdminFormat  = ({ id, onDeleteSuccess }: IProps) => {
+const DeleteAdminFormat = ({ id, onDeleteSuccess }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteFormat, { isLoading }] = useDeleteFormatMutation();
+  const [deleteFormat, { isLoading }] = useDeleteAdminFormatMutation();
 
   const handleDelete = async () => {
     if (!id) return;

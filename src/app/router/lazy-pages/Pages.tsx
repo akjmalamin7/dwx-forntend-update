@@ -87,9 +87,7 @@ export const Pages = {
   AdminCustomerBillRequest: lazy(
     () => import("@/pages/admin/customer-bill-request-list")
   ),
-  AdminCustomerBillList: lazy(
-    () => import("@/pages/admin/customer-bill-list")
-  ),
+  AdminCustomerBillList: lazy(() => import("@/pages/admin/customer-bill-list")),
   AdminCustomerTransactionHistory: lazy(
     () => import("@/pages/admin/customer-transaction-history")
   ),
@@ -104,12 +102,12 @@ export const Pages = {
   AdminEcgDoctorList: lazy(() => import("@/pages/admin/ecg-doctors")),
   AdminDeletedDoctorList: lazy(() => import("@/pages/admin/deleted-doctors")),
   AdminDeletedUserList: lazy(() => import("@/pages/admin/deleted-users")),
-  AdminFormatList: lazy(() => import("@/pages/admin/format-list")),
+  AdminAllFormates: lazy(() => import("@/pages/admin/all-formates")),
   AdminFormatAdd: lazy(() => import("@/pages/admin/format-add")),
   AdminFormatUpdate: lazy(() => import("@/pages/admin/update-format")),
-  AdminXraytypeList: lazy(() => import("@/pages/admin/xraytype-list")),
+  AdminAllXrayName: lazy(() => import("@/pages/admin/all-xray-name")),
   AdminXraytypeAdd: lazy(() => import("@/pages/admin/xraytype-add")),
-  AdminHistoryList: lazy(() => import("@/pages/admin/history-list")),
+  AdminAllHistory: lazy(() => import("@/pages/admin/all-history")),
   AdminHistoryAdd: lazy(() => import("@/pages/admin/history-add")),
   AdminPaymentList: lazy(() => import("@/pages/admin/payment-list")),
   AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")),

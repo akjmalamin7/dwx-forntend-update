@@ -144,8 +144,8 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminDeletedUserList />),
   },
   {
-    path: "/admin/formats",
-    element: withSuspense(<Pages.AdminFormatList />),
+    path: "/admin/all-formates",
+    element: withSuspense(<Pages.AdminAllFormates />),
   },
   {
     path: "/admin/format-add",
@@ -157,8 +157,8 @@ export const adminRoutes = [
   },
 
   {
-    path: "/admin/xraytype-list",
-    element: withSuspense(<Pages.AdminXraytypeList />),
+    path: "/admin/all-xray-name",
+    element: withSuspense(<Pages.AdminAllXrayName />),
   },
   {
     path: "/admin/xraytype-add",
@@ -166,8 +166,8 @@ export const adminRoutes = [
   },
 
   {
-    path: "/admin/history-list",
-    element: withSuspense(<Pages.AdminHistoryList />),
+    path: "/admin/all-history",
+    element: withSuspense(<Pages.AdminAllHistory />),
   },
   {
     path: "/admin/history-add",

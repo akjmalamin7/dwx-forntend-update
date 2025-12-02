@@ -4,16 +4,16 @@ import {
   type FormatFormValues,
 } from "@/pages/doctor/format-add/ui/formatAdd.types";
 
-import {
-  useAddFormatMutation,
-  useGetFormatQuery,
-  useUpdateFormatMutation,
-} from "@/shared/redux/features/doctor/format/formatApi";
 import { Button, ControlInput, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  useAddFormatMutation,
+  useUpdateFormatMutation,
+} from "../formates/api/mutation";
+import { useGetAdminFormatQuery } from "../formates/api/query";
 interface Iprops {
   isUpdate?: boolean;
 }
@@ -37,7 +37,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
 
   const [createFormat, { isLoading: isCreating }] = useAddFormatMutation();
   const [updateFormat, { isLoading: isUpdating }] = useUpdateFormatMutation();
-  const { data: formatData, isLoading: isViewLoading } = useGetFormatQuery(
+  const { data: formatData, isLoading: isViewLoading } = useGetAdminFormatQuery(
     id!,
     {
       skip: !isUpdate || !id,
@@ -93,7 +93,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
           return (
             <div className="col-span-12 block">
               <Editor
-                label={<Text fontWeight="medium">Details</Text>} 
+                label={<Text fontWeight="medium">Details</Text>}
                 value={field.value}
                 onChange={field.onChange}
               />

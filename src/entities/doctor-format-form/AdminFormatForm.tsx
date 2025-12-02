@@ -1,19 +1,20 @@
 import { Editor } from "@/features";
-import {
-  FormatFormschema,
-  type FormatFormValues,
-} from "@/pages/admin/format-add/ui/formatAdd.types";
 
-import {
-  useAddFormatMutation,
-  useGetFormatQuery,
-  useUpdateFormatMutation,
-} from "@/shared/redux/features/admin/format/formatApi";
 import { Button, ControlInput, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  useAddFormatMutation,
+  useUpdateFormatMutation,
+} from "../formates/api/mutation";
+import { useGetAdminFormatQuery } from "../formates/api/query";
+import {
+  ADMIN_FORAMTE_SCHEMA,
+  type ADMIN_FORMATE_FORM_VALUES,
+} from "../formates/model/schema";
+
 interface Iprops {
   isUpdate?: boolean;
 }
@@ -23,9 +24,9 @@ const AdminFormatForm = ({ isUpdate = false }: Iprops) => {
     handleSubmit,
     reset,
     formState: { isValid },
-  } = useForm<FormatFormValues>({
+  } = useForm<ADMIN_FORMATE_FORM_VALUES>({
     mode: "onChange",
-    resolver: yupResolver(FormatFormschema),
+    resolver: yupResolver(ADMIN_FORAMTE_SCHEMA),
     defaultValues: {
       title: "",
       details: "",
@@ -37,7 +38,7 @@ const AdminFormatForm = ({ isUpdate = false }: Iprops) => {
 
   const [createFormat, { isLoading: isCreating }] = useAddFormatMutation();
   const [updateFormat, { isLoading: isUpdating }] = useUpdateFormatMutation();
-  const { data: formatData, isLoading: isViewLoading } = useGetFormatQuery(
+  const { data: formatData, isLoading: isViewLoading } = useGetAdminFormatQuery(
     id!,
     {
       skip: !isUpdate || !id,
@@ -45,21 +46,21 @@ const AdminFormatForm = ({ isUpdate = false }: Iprops) => {
   );
   useEffect(() => {
     if (isUpdate && formatData) {
-        console.log(404);
+      const data = Array.isArray(formatData) ? formatData[0] : formatData;
+
       reset({
-        title: formatData.title || "",
-        details: formatData.details || "",
-        type: formatData.type || "AdminFormat",
+        title: data.title ?? "",
+        details: data.details ?? "",
+        type: data.type ?? "AdminFormat",
       });
     }
   }, [isUpdate, formatData, reset]);
 
-  const onSubmit: SubmitHandler<FormatFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<ADMIN_FORMATE_FORM_VALUES> = async (data) => {
     try {
       if (isUpdate && id) {
-      
         await updateFormat({ id, ...data }).unwrap();
-        navigate("/admin/formats");
+        navigate("/admin/all-formates");
       } else {
         await createFormat(data).unwrap();
         reset();
@@ -95,7 +96,7 @@ const AdminFormatForm = ({ isUpdate = false }: Iprops) => {
           return (
             <div className="col-span-12 block">
               <Editor
-                label={<Text fontWeight="medium">Details</Text>} 
+                label={<Text fontWeight="medium">Details</Text>}
                 value={field.value}
                 onChange={field.onChange}
               />

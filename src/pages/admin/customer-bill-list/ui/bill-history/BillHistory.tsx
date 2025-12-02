@@ -43,7 +43,7 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
       if (item.key === "action") {
         return {
           ...item,
-          render: (_: unknown,   rowIndex?: number) => {
+          render: (_: unknown, record: any,  rowIndex?: number) => {
           
            
             return (
@@ -67,7 +67,7 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
                 </Link>
              
   
-                { item.status === "Waiting" && (
+                { record.status === "Waiting" && (
                 <Link
                   to={`/admin/customer-pay-bill/${item.key}`}
                   className="bg-blue-500 text-white px-4 py-2 text-sm rounded"

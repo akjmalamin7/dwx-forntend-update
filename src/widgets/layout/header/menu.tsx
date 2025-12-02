@@ -184,7 +184,7 @@ export const MENU_DATA: MenuType[] = [
         path: "/admin/monthly-completed",
         role: [RoleEnum.admin],
       },
-  
+
       {
         id: "delete-report-5",
         title: "Deleted Patient",
@@ -205,7 +205,7 @@ export const MENU_DATA: MenuType[] = [
         title: "Doctor List",
         path: "/admin/doctor-list",
         role: [RoleEnum.admin],
-      }
+      },
     ],
   },
   {
@@ -302,21 +302,21 @@ export const MENU_DATA: MenuType[] = [
       {
         id: "all-formate-2",
         title: "All Formates",
-        path: "/admin/formats",
+        path: "/admin/all-formates",
         role: [RoleEnum.admin],
       },
 
       {
         id: "all-xray-name-3",
         title: "All x-ray name",
-        path: "/admin/xraytype-list",
+        path: "/admin/all-xray-name",
         role: [RoleEnum.admin],
       },
 
       {
         id: "all-history-4",
         title: "All History",
-        path: "/admin/history-list",
+        path: "/admin/all-history",
         role: [RoleEnum.admin],
       },
     ],

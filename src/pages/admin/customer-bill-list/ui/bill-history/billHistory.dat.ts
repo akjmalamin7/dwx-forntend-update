@@ -38,4 +38,14 @@ export const BILL_HISTORY_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "total_patients",
     key: "total_patients",
   },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Action",
+    dataIndex: "action",
+    key: "action",
+  },
 ];

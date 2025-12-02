@@ -1,4 +1,4 @@
-import { useGetCustomerBillRequestByMonthQuery } from "@/entities/admin/bill/api/query";
+import { useGetCustomerBillListByMonthQuery } from "@/entities/admin/bill/api/query";
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
@@ -22,7 +22,7 @@ const CustomerBillList = () => {
     defaultPage: 1,
     defaultLimit: 10,
   });
-  const { data: billList, isLoading } = useGetCustomerBillRequestByMonthQuery({
+  const { data: billList, isLoading } = useGetCustomerBillListByMonthQuery({
     page,
     limit,
     month,
@@ -49,7 +49,7 @@ const CustomerBillList = () => {
         sl: (page - 1) * limit + index + 1,
         month: item.month,
         user_id: item.user_id,
-        customer: item.user_id.email,
+        customer: item.user_id.email || "",
         total_patients: item.total_patients,
         total_amount: item.total_amount,
         status: item.status,
@@ -72,6 +72,7 @@ const CustomerBillList = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
           const customerRecord = record as CustomerBillRow;
+            const disabled = !customerRecord?.key;
           return (
             <div key={rowIndex} className="flex gap-2">
               <BillHistory
@@ -80,13 +81,61 @@ const CustomerBillList = () => {
                 }
                 userId={customerRecord.user_id?._id}
               />
+
+                 {/* PRINT BUTTON */}
+            {disabled ? (
+              <button
+                disabled
+                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+              >
+                Print
+              </button>
+            ) : (
               <Link
+                to={`/admin/customer-print-bill/${customerRecord.key}`}
+                className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+              >
+                Print
+              </Link>
+            )}
+
+            {/* PAY BUTTON */}
+            {disabled ? (
+              <button
+                disabled
+                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+              >
+                Pay
+              </button>
+            ) : (
+              <Link
+                to={`/admin/customer-pay-bill/${customerRecord.key}`}
+                className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+              >
+                Pay
+              </Link>
+            )}
+
+
+           {/* ACCEPT BUTTON */}
+            {disabled ? (
+              <button
+                disabled
+                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+              >
+                Accept
+              </button>
+            ) : (
+             <Link
                 to={`/admin/customer-pay-bill/${customerRecord.key}`}
                 className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
               >
                 Accept
               </Link>
-            </div>
+            )} 
+
+ 
+            </div> 
           );
         },
       };

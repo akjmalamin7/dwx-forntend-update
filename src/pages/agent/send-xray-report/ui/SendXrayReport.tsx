@@ -8,7 +8,7 @@ import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 
-const SendReport = () => {
+const SendXrayReport = () => {
   const { status, isProfileLoading } = useGetProfile();
   const [createSendReport, { isLoading }] = useSendReportMutation();
   const [resetCount, setResetCount] = useState<number>(0);
@@ -58,4 +58,4 @@ const SendReport = () => {
   );
 };
 
-export default SendReport;
+export default SendXrayReport;

@@ -7,7 +7,21 @@ export const MENU_DATA: MenuType[] = [
     role: [RoleEnum.user],
     title: "Send Report",
     icon: <IoIosSend />,
-    path: "/agent/patient/add",
+    path: "",
+    children: [
+      {
+        id: "user-1-send-xray-report",
+        title: "Send Xray Report",
+        path: "/agent/patient/send-xray-report",
+        role: [RoleEnum.user],
+      },
+      {
+        id: "user-1-send-ecg-report",
+        title: "Send ECG Report",
+        path: "/agent/patient/send-ecg-report",
+        role: [RoleEnum.user],
+      },
+    ],
   },
   {
     id: "user-2",

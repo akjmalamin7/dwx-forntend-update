@@ -3,8 +3,12 @@ import { withSuspense } from "@/shared/ui";
 
 export const agentRoutes = [
   {
-    path: "/agent/patient/add",
-    element: withSuspense(<Pages.SendReport />),
+    path: "/agent/patient/send-xray-report",
+    element: withSuspense(<Pages.SendXrayReport />),
+  },
+  {
+    path: "/agent/patient/send-ecg-report",
+    element: withSuspense(<Pages.SendEcgReport />),
   },
   {
     path: "/agent/patient-edit/:id",

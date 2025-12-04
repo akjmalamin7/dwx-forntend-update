@@ -54,7 +54,9 @@ const PatientView = () => {
         date: patient.createdAt
           ? new Date(patient.createdAt).toLocaleDateString("en-GB")
           : "N/A",
-        history: patient.history || "N/A",
+         history: patient.history
+      ? `<h3 style="font-weight: bold; color: red;">${patient.history}</h3>`
+      : "N/A",
         sex: patient.gender || "N/A",
         xray_name: patient.xray_name || "N/A",
         reference_by: patient.ref_doctor || "N/A",

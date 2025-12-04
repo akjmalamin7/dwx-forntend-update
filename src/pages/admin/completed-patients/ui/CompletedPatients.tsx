@@ -41,6 +41,7 @@ const CompletedPatients = () => {
         patient_id: item.patient_id,
         age: item.age,
         rtype: item.rtype,
+        printstatus: item.printstatus,
 
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,

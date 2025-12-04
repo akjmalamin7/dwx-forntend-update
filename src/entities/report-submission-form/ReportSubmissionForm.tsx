@@ -154,8 +154,9 @@ const ReportSubmissionForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex gap-4 mb-4">
-        <PersonalFormatList onSelect={handlePersonalSelect} />
         <AdminFormatList onSelect={handleAdminSelect} />
+        <PersonalFormatList onSelect={handlePersonalSelect} />
+        
       </div>
 
       <Input type="hidden" {...register("patient_id")} />
@@ -163,7 +164,7 @@ const ReportSubmissionForm = ({
       <Editor
         value={commentsValue}
         onChange={handleEditorChange}
-        placeholder="Select a format above or type your comments here..."
+        placeholder=""
       />
 
       {selectedType && (

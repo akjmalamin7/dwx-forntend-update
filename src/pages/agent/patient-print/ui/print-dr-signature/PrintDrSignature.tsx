@@ -32,7 +32,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
             fontWeight="semiBold"
             className="mt-2 italic text-gray-600"
           >
-            N.B. This report has been electronically signed
+            N.B. This report is for medical diagnosis only, not for legal use
           </Text>
         ) : (
           ""

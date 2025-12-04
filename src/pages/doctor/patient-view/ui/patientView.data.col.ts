@@ -1,5 +1,6 @@
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";
-
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
   {
     key: "patient_id",
@@ -25,6 +26,7 @@ export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
     key: "history",
     title: "History",
     dataIndex: "history",
+        render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
   {
     key: "sex",

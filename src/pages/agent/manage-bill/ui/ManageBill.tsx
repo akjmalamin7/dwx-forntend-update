@@ -18,12 +18,7 @@ const ManageBill = () => {
         key: item._id,
         sl: index + 1,
         month: item.month,
-        total_patients: item.total_patients,
-        total_single: item.total_single,
-        total_double: item.total_double,
-        total_multiple: item.total_multiple,
-        total_ecg: item.total_ecg,
-        total_amount: item.total_amount ?? 0,
+       
         status: item.status,
         action: "",
       })) || [],

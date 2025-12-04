@@ -13,42 +13,7 @@ export const BILL_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "month",
     align: "start",
   },
-  {
-    key: "total_patients",
-    title: "Total Patients",
-    dataIndex: "total_patients",
-    align: "end",
-  },
-  {
-    key: "total_single",
-    title: "Single",
-    dataIndex: "total_single",
-    align: "end",
-  },
-  {
-    key: "total_double",
-    title: "Double",
-    dataIndex: "total_double",
-    align: "end",
-  },
-  {
-    key: "total_multiple",
-    title: "Multiple",
-    dataIndex: "total_multiple",
-    align: "end",
-  },
-  {
-    key: "total_ecg",
-    title: "ECG",
-    dataIndex: "total_ecg",
-    align: "end",
-  },
-  {
-    key: "total_amount",
-    title: "Total Bill",
-    dataIndex: "total_amount",
-    align: "end",
-  },
+   
   {
     key: "status",
     title: "Status",
@@ -60,5 +25,6 @@ export const BILL_DATA_COL: Columns<DataSource>[] = [
     title: "Action",
     dataIndex: "action",
     align: "center",
+    width: 250,
   },
 ];

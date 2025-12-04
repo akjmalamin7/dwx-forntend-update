@@ -61,6 +61,13 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     width: 70,
   },
   {
+    key: "printstatus",
+    title: "Status",
+    dataIndex: "printstatus",
+    align: "start",
+    width: 70,
+  },
+  {
     key: "action",
     title: "Action",
     dataIndex: "action",

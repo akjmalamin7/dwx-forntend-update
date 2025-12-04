@@ -14,7 +14,7 @@ const XrayDoctorList = () => {
     defaultPage: 1,
     defaultLimit: 10,
   });
-  const { data: doctorList, isLoading } = useGetAdminUserListQuery({
+  const { data: doctorList, isLoading, isError } = useGetAdminUserListQuery({
     page,
     limit,
     role: "xray_dr",
@@ -80,11 +80,60 @@ const XrayDoctorList = () => {
     return item;
   });
 
+
+  // Map data properly
+  // const DATA_TABLE = useMemo<DataSource[]>(() => {
+  //   if (!doctorList?.data) return [];
+
+  //   return doctorList.data.map((item, index) => ({
+  //     key: item._id,
+  //     sl: (page - 1) * limit + index + 1,
+  //     name: item.email,
+  //     mobile: item.mobile,
+  //     role: "Radiology",
+  //     signature: item.image,
+  //     address: item.address,
+  //     action: item._id,
+  //   }));
+  // }, [doctorList?.data, page, limit]);
+
+  // Add render functions ONLY here
+  // const COLUMN = XRAY_DOCTOR_LIST.map((col) => {
+  //   if (col.key === "signature") {
+  //     return {
+  //       ...col,
+  //       render: (_, record) => <UserSignature image={record.signature} />,
+  //     };
+  //   }
+
+  //   if (col.key === "action") {
+  //     return {
+  //       ...col,
+  //       render: (_, record) => <UserActions id={record.key} />,
+  //     };
+  //   }
+
+  //   return col;
+  // });
+
   usePageTitle("Radiology Doctor List", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
+  if (isError)
+    return (
+      <Panel size="lg" header="Radiology Doctor List">
+        <p className="text-red-500">Failed to load doctors.</p>
+      </Panel>
+    );
+
+  if (!isLoading && DATA_TABLE.length === 0)
+    return (
+      <Panel size="lg" header="Radiology Doctor List">
+        <p className="text-gray-500">No Doctors Found</p>
+      </Panel>
+    );
 
   return (
     <Panel header="Radiology Doctor List" size="lg">

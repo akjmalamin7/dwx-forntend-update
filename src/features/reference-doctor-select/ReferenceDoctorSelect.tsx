@@ -55,6 +55,7 @@ const ReferenceDoctorSelect = forwardRef<
       setInputValue(value);
     }
   }, [value, options]);
+
   const handleSelectChange = useCallback(
     (val: string) => {
       const option = options.find((opt) => opt.value === val);

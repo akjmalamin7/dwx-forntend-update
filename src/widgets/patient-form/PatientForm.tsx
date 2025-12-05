@@ -3,9 +3,9 @@ import {
   DoctorMultiSelector,
   ImageUpload,
   PatientHistorySelect,
-  ReferenceDoctorSelect,
   XRrayNameSelect,
 } from "@/features";
+import TestReferenceDoctoSelect from "@/features/reference-doctor-select/TestReferenceDoctoSelect";
 import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
 import {
   patientFormschema,
@@ -195,11 +195,26 @@ const PatientForm = ({
         />
 
         {/* Reference Doctor */}
-        <Controller
+        {/* <Controller
           control={control}
           name="ref_doctor"
           render={({ field }) => (
             <ReferenceDoctorSelect
+              label="Reference Doctor"
+              value={field.value}
+              onSelectedValue={(val) => field.onChange(val)}
+              error={{
+                status: !!errors.ref_doctor,
+                message: errors.ref_doctor?.message as string,
+              }}
+            />
+          )}
+        /> */}
+        <Controller
+          control={control}
+          name="ref_doctor"
+          render={({ field }) => (
+            <TestReferenceDoctoSelect
               label="Reference Doctor"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}

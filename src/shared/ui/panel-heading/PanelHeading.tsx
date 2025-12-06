@@ -17,7 +17,10 @@ const PanelHeading = ({ title, button, path }: IProps) => {
       </div>
       <div>
         {isString(button) ? (
-          <Link to={path || "/"} className="bg-green-500 rounded-md p-1 block">
+          <Link
+            to={path || "/"}
+            className="bg-green-500 rounded-md px-4 py-1 block"
+          >
             {button}
           </Link>
         ) : (

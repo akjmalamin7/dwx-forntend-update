@@ -13,8 +13,8 @@ export interface PatientFormValues {
   attachment: string[];
   rtype: string;
   study_for: string;
-  selected_drs_id: string[];
-  ignored_drs_id: string[];
+  doctor_id: string[];
+  ignore_dr: string[];
   patient_id: string;
   name: string;
   age: string;
@@ -32,8 +32,8 @@ export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
     rtype: yup.string().default(""),
     study_for: yup.string().default(""),
 
-    selected_drs_id: yup.array().of(yup.string()).default([]),
-    ignored_drs_id: yup.array().of(yup.string()).default([]),
+    doctor_id: yup.array().of(yup.string()).default([]),
+    ignore_dr: yup.array().of(yup.string()).default([]),
 
     patient_id: yup.string().required("Patient ID is required"),
     name: yup.string().required("Patient name is required"),

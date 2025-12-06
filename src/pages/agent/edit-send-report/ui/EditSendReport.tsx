@@ -55,8 +55,8 @@ const EditSendReport = () => {
         ? data.patient?.image_type
         : "single") as "multiple" | "double" | "single",
 
-      selected_drs_id: data.patient?.selected_drs_id || [],
-      ignored_drs_id: data.patient?.ignored_drs_id || [],
+      doctor_id: data.patient?.doctor_id || [],
+      ignore_dr: data.patient?.ignore_dr || [],
 
       attachment: imageUrls,
       rtype: data.patient?.rtype ?? "xray",

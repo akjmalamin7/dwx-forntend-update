@@ -36,8 +36,8 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   attachment: string[];
   rtype: string;
   study_for: string;
-  selected_drs_id: string[];
-  ignored_drs_id: string[];
+  doctor_id: string[];
+  ignore_dr: string[];
   patient_id: string;
   name: string;
   age: string;
@@ -103,8 +103,8 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     xray_name: patient.xray_name,
     ref_doctor: patient.ref_doctor,
     image_type: getImageType(patient.image_type),
-    selected_drs_id: patient.doctor_id || [],
-    ignored_drs_id: patient.ignore_dr || [],
+    doctor_id: patient.doctor_id || [],
+    ignore_dr: patient.ignore_dr || [],
     attachment: [],
     rtype: patient.rtype || "xray",
     study_for: patient.study_for || "xray_dr",

@@ -1,9 +1,9 @@
 import * as yup from "yup";
 export interface DOCTOR_SELECTED_TYPE {
-  selected_drs_id: string[];
-  ignored_drs_id: string[];
+  doctor_id: string[];
+  ignore_dr: string[];
 }
 export const DOCTOR_SELECTED_SCHEMA = yup.object({
-  selected_drs_id: yup.array().of(yup.string()),
-  ignored_drs_id: yup.array().of(yup.string()),
+  doctor_id: yup.array().of(yup.string()),
+  ignore_dr: yup.array().of(yup.string()),
 });

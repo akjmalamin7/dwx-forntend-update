@@ -49,8 +49,8 @@ const ClonePatient = () => {
         rtype: patient?.rtype || "xray",
         study_for: patient?.study_for || "xray_dr",
         status: patient?.status || "pending",
-        selected_drs_id: patient?.doctor_id || [],
-        ignored_drs_id: patient?.ignore_dr || [],
+        doctor_id: patient?.doctor_id || [],
+        ignore_dr: patient?.ignore_dr || [],
         customer_id: patient?.agent_id._id || "",
       };
       await createClonePatient(formValues).unwrap();
@@ -143,7 +143,7 @@ const ClonePatient = () => {
           {/* <div className="flex flex-col gap-1">
             <DoctorMultiSelector
               control={control}
-              name="selected_drs_id"
+              name="doctor_id"
               label="Selected Doctor"
               weight="font-regular"
             />
@@ -151,7 +151,7 @@ const ClonePatient = () => {
           <div className="flex flex-col gap-1">
             <DoctorMultiSelector
               control={control}
-              name="ignored_drs_id"
+              name="ignore_dr"
               label="Ignore Doctor"
               weight="font-regular"
             />

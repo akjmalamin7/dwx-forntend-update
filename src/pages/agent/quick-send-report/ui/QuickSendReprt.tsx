@@ -41,8 +41,8 @@ const QuickSendReprt = () => {
       attachment: [],
       rtype: "xray",
       study_for: "xray_dr",
-      selected_drs_id: [],
-      ignored_drs_id: [],
+      doctor_id: [],
+      ignore_dr: [],
       patient_id: "",
       name: "",
       age: "",
@@ -215,12 +215,12 @@ const QuickSendReprt = () => {
         <DoctorMultiSelector
           label="Selected Doctor"
           control={control}
-          name="selected_drs_id"
+          name="doctor_id"
         />
         <DoctorMultiSelector
           label="Ignored Doctor"
           control={control}
-          name="ignored_drs_id"
+          name="ignore_dr"
           useIgnored
         />
 

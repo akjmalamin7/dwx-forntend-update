@@ -46,8 +46,8 @@ const PatientForm = ({
       attachment: [],
       rtype: "",
       study_for: "",
-      selected_drs_id: [],
-      ignored_drs_id: [],
+      doctor_id: [],
+      ignore_dr: [],
       patient_id: "",
       name: "",
       age: "",
@@ -77,8 +77,8 @@ const PatientForm = ({
         xray_name: defaultValues.xray_name || "",
         ref_doctor: defaultValues.ref_doctor || "",
         image_type: defaultValues.image_type || "single",
-        selected_drs_id: defaultValues.selected_drs_id || [],
-        ignored_drs_id: defaultValues.ignored_drs_id || [],
+        doctor_id: defaultValues.doctor_id || [],
+        ignore_dr: defaultValues.ignore_dr || [],
         rtype: defaultValues.rtype || "xray",
         study_for: defaultValues.study_for || "xray_dr",
       });
@@ -98,8 +98,8 @@ const PatientForm = ({
         xray_name: "",
         ref_doctor: "",
         image_type: "single",
-        selected_drs_id: [],
-        ignored_drs_id: [],
+        doctor_id: [],
+        ignore_dr: [],
       });
     }
   }, [resetCount, reset, isEdit]);
@@ -227,14 +227,14 @@ const PatientForm = ({
 
         <CustomDoctorMultiSelector
           control={control}
-          name="selected_drs_id"
+          name="doctor_id"
           label="Selected Doctor"
           useIgnored={false}
         />
 
         <CustomDoctorMultiSelector
           control={control}
-          name="ignored_drs_id"
+          name="ignore_dr"
           useIgnored
           label="Ignored Doctor"
         />

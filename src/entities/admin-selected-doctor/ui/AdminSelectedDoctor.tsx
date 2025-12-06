@@ -43,16 +43,16 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
   } = useForm({
     resolver: yupResolver(DOCTOR_SELECTED_SCHEMA),
     defaultValues: {
-      selected_drs_id: [],
-      ignored_drs_id: [],
+      doctor_id: [],
+      ignore_dr: [],
     },
   });
 
   useEffect(() => {
     if (patient) {
       reset({
-        selected_drs_id: patient.doctor_id ?? [],
-        ignored_drs_id: patient.ignore_dr ?? [],
+        doctor_id: patient.doctor_id ?? [],
+        ignore_dr: patient.ignore_dr ?? [],
       });
     }
   }, [patient, reset]);
@@ -68,13 +68,13 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     }
   });
   const handleUncheckedSelectedDoctor = () => {
-    setValue("selected_drs_id", [], {
+    setValue("doctor_id", [], {
       shouldDirty: true,
       shouldValidate: true,
     });
   };
   const handleUncheckedIgnoredDoctor = () => {
-    setValue("ignored_drs_id", [], {
+    setValue("ignore_dr", [], {
       shouldDirty: true,
       shouldValidate: true,
     });
@@ -96,14 +96,14 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
           <div className="flex flex-col md:flex-row gap-6 mb-6">
             <div className="md:w-1/2 w-full">
               <Controller
-                name="selected_drs_id"
+                name="doctor_id"
                 control={control}
                 render={({ field }) => (
                   <DoctorList
                     title="Selected Doctor"
                     doctor={doctors}
                     isLoading={isDoctorLoading}
-                    email="selected_drs_id"
+                    email="doctor_id"
                     selected={(field.value ?? []).filter(Boolean) as string[]}
                     onChangeDoctor={field.onChange}
                     onUnchecked={handleUncheckedSelectedDoctor}
@@ -114,7 +114,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
 
             <div className="md:w-1/2 w-full">
               <Controller
-                name="ignored_drs_id"
+                name="ignore_dr"
                 control={control}
                 render={({ field }) => (
                   <>
@@ -122,7 +122,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
                       title="Ignored Doctor"
                       doctor={doctors}
                       isLoading={isDoctorLoading}
-                      email="ignored_drs_id"
+                      email="ignore_dr"
                       selected={(field.value ?? []).filter(Boolean) as string[]}
                       onChangeDoctor={field.onChange}
                       onUnchecked={handleUncheckedIgnoredDoctor}

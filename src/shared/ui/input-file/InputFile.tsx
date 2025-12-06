@@ -60,7 +60,7 @@ const InputFile = forwardRef<HTMLInputElement, InputProps>(
     }[size];
 
     const roundClasses = {
-      sm: "rounded-[8px]",
+      sm: "rounded-[4px]",
       md: "rounded-[10px]",
       lg: "rounded-[12px]",
     }[radius];

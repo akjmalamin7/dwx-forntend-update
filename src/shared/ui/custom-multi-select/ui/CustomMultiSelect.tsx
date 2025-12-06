@@ -1,5 +1,4 @@
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
-import { useEffect, useState, type FocusEvent } from "react";
 import { CustomSelect } from "../../custom-select";
 import MulitSelectList from "../../multi-select/MulitSelectList";
 import { Text } from "../../text";
@@ -14,10 +13,9 @@ interface CustomMultiSelectProps {
   error?: ErrorType;
   disabled?: boolean;
   loading?: boolean;
-  weight?: string;
   value?: string[]; // selected values
   onSelect?: (values: string[]) => void;
-  onFocus?: (event: FocusEvent<HTMLSelectElement>) => void;
+  // onFocus?: (event: FocusEvent<HTMLSelectElement>) => void;
 }
 const CustomMultiSelect = ({
   label,
@@ -25,31 +23,20 @@ const CustomMultiSelect = ({
   error,
   options = [],
   value = [],
-  weight,
   disabled,
   loading,
   onSelect,
-  onFocus,
-}: CustomMultiSelectProps) => {
-  const [selectedValues, setSelectedValues] = useState<string[]>(value);
-
-  useEffect(() => {
-    setSelectedValues(value);
-  }, [value]);
-
+}: // onFocus,
+CustomMultiSelectProps) => {
   const handleSelect = (val: string) => {
     if (!val) return;
-    const selected = val;
-    if (!selectedValues.includes(selected)) {
-      const newSelectedValues = [...selectedValues, selected];
-      setSelectedValues(newSelectedValues);
-      onSelect?.(newSelectedValues);
+    if (!value.includes(val)) {
+      onSelect?.([...value, val]);
     }
   };
+
   const handleRemove = (val: string) => {
-    const newValues = selectedValues.filter((item) => item !== val);
-    setSelectedValues(newValues);
-    onSelect?.(newValues);
+    onSelect?.(value.filter((item) => item !== val));
   };
   return (
     <div className="w-full">
@@ -61,16 +48,22 @@ const CustomMultiSelect = ({
         )}
       </div>
       <MulitSelectList
-        selectedValues={selectedValues}
+        selectedValues={value ?? []}
         options={options}
         onRemove={handleRemove}
       />
       <CustomSelect
+        disabled={disabled}
         options={options}
         isMultiSelect
         onSelectedValue={handleSelect}
         loading={loading}
       />
+      {error?.status && (
+        <Text size="sm" className="text-red-500 mt-1">
+          {error.message}
+        </Text>
+      )}
     </div>
   );
 };

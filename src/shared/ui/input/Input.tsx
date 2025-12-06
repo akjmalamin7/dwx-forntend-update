@@ -18,6 +18,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className = "",
       readonly = false,
       error,
+      disabled,
       onChange,
       onInput,
       onBlur,
@@ -37,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       lg: "h-[40px] xl:h-[50px] text-[14px]",
     }[size];
     const roundClasses = {
-      sm: "rounded-[8px]",
+      sm: "rounded-[4px]",
       md: "rounded-[10px]",
       lg: "rounded-[12px]",
     }[radius];
@@ -61,7 +62,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             type={type}
             placeholder={placeholder}
-            disabled={isLoading}
+            disabled={isLoading ?? disabled}
             readOnly={readonly}
             onChange={onChange}
             onInput={onInput}

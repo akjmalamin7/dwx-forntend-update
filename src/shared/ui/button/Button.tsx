@@ -12,7 +12,7 @@ const Button = ({
   className,
   onClick,
 }: ButtonProps) => {
-  const baseClass = `rounded-md font-medium transition-all justify-center ${
+  const baseClass = `rounded-[4px] font-medium transition-all justify-center ${
     disabled === true ? "cursor-alias" : "lg:cursor-pointer"
   }`;
   const disabledOrLoadingClass = "opacity-50 cursor-not-allowed hover:none";

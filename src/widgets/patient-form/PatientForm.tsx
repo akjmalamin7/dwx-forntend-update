@@ -63,6 +63,7 @@ const PatientForm = ({
   const {
     control,
     reset,
+    setValue,
     formState: { errors, isValid },
   } = methods;
   useEffect(() => {
@@ -230,6 +231,7 @@ const PatientForm = ({
           name="doctor_id"
           label="Selected Doctor"
           useIgnored={false}
+          setValue={setValue}
         />
 
         <CustomDoctorMultiSelector
@@ -237,6 +239,7 @@ const PatientForm = ({
           name="ignore_dr"
           useIgnored
           label="Ignored Doctor"
+          setValue={setValue}
         />
 
         {/* Submit */}

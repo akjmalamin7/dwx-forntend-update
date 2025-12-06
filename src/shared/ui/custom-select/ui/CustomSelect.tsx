@@ -19,6 +19,7 @@ interface Props {
   loading?: boolean;
   value?: string;
   isMultiSelect?: boolean;
+  disabled?: boolean;
   onSelectedValue?: (value: string) => void;
 }
 
@@ -26,6 +27,7 @@ const CustomSelect = ({
   loading,
   value,
   options = [],
+  disabled,
   isMultiSelect,
   onSelectedValue,
 }: Props) => {
@@ -133,6 +135,7 @@ const CustomSelect = ({
           onKeyDown={handleKeyDown}
           placeholder="Choose one"
           size="sm"
+          disabled={disabled}
         />
         <div className="absolute right-[5px] top-1/2 -translate-y-1/2 flex items-center justify-center">
           <SelectArrowIcon />

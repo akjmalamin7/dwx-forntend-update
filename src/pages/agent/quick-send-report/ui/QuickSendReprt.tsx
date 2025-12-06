@@ -1,10 +1,10 @@
 import { useSendReportMutation } from "@/entities/agent/send-report";
 import {
-  DoctorMultiSelector,
+  CustomDoctorMultiSelector,
   ImageUpload,
-  PatientHistorySelect,
-  ReferenceDoctorSelect,
-  XRrayNameSelect,
+  SelectCustomPatientHistory,
+  SelectCustomReferenceDoctor,
+  SelectCustomXrayName,
 } from "@/features";
 import { AgentFormError } from "@/features/agent/agent-form-error";
 import {
@@ -149,7 +149,7 @@ const QuickSendReprt = () => {
           control={control}
           name="history"
           render={({ field }) => (
-            <PatientHistorySelect
+            <SelectCustomPatientHistory
               label="Patient History"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
@@ -167,7 +167,7 @@ const QuickSendReprt = () => {
             control={control}
             name="xray_name"
             render={({ field }) => (
-              <XRrayNameSelect
+              <SelectCustomXrayName
                 label="X-ray Name"
                 value={field.value}
                 onSelectedValue={(val) => field.onChange(val)}
@@ -185,7 +185,7 @@ const QuickSendReprt = () => {
           control={control}
           name="ref_doctor"
           render={({ field }) => (
-            <ReferenceDoctorSelect
+            <SelectCustomReferenceDoctor
               label="Reference Doctor"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
@@ -212,16 +212,21 @@ const QuickSendReprt = () => {
         </div>
 
         {/* Doctor MultiSelectors */}
-        <DoctorMultiSelector
-          label="Selected Doctor"
+
+        <CustomDoctorMultiSelector
           control={control}
           name="doctor_id"
+          label="Selected Doctor"
+          useIgnored={false}
+          setValue={setValue}
         />
-        <DoctorMultiSelector
-          label="Ignored Doctor"
+
+        <CustomDoctorMultiSelector
           control={control}
           name="ignore_dr"
           useIgnored
+          label="Ignored Doctor"
+          setValue={setValue}
         />
 
         {/* Submit */}

@@ -14,12 +14,17 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       <div
         ref={ref}
         {...rest}
-        className="flex items-center bg-white border border-gray-500 text-blue-800 px-3 py-[2px] rounded-[5px]"
+        className="flex items-center group bg-gray-50 border border-gray-500 text-blue-800 px-3 py-[2px] rounded-[2px] "
       >
-        {text && <Text size="sm">{text}</Text>}
+        {text && (
+          <Text size="sm" className="uppercase">
+            {text}
+          </Text>
+        )}
         {variation === "on-close" && (
           <button
             type="button"
+            className="group-hover:bg-gray-300! transition-colors"
             onClick={onClose}
             style={{
               marginLeft: "0.5rem",

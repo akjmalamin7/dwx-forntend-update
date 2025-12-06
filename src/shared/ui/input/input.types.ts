@@ -4,7 +4,14 @@ export interface InputProps {
   label?: string;
   name?: string;
   value?: string;
-  type?: "text" | "email" | "password" | "number" | "file" | "hidden" | "checkbox";
+  type?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "file"
+    | "hidden"
+    | "checkbox";
   radius?: "sm" | "md" | "lg";
   color?: "dark" | "light";
   bgColor?: "dark" | "light" | "transparent";
@@ -13,6 +20,7 @@ export interface InputProps {
   isLoading?: boolean;
   className?: string;
   readonly?: boolean;
+  disabled?: boolean;
   error?: { status?: boolean; message?: string };
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;

@@ -1,3 +1,4 @@
+import { SelectArrowIcon } from "@/assets/icons";
 import { Input } from "@/shared/ui";
 import {
   useEffect,
@@ -117,15 +118,20 @@ const CustomSelect = ({
   }, []);
   return (
     <div className="relative">
-      <Input
-        ref={inputRef}
-        value={inputValue}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onKeyDown={handleKeyDown}
-        placeholder="Choose one"
-        size="sm"
-      />
+      <div className="relative">
+        <Input
+          ref={inputRef}
+          value={inputValue}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onKeyDown={handleKeyDown}
+          placeholder="Choose one"
+          size="sm"
+        />
+        <div className="absolute right-[5px] top-1/2 -translate-y-1/2 flex items-center justify-center">
+          <SelectArrowIcon />
+        </div>
+      </div>
       {visible && (
         <CustomSelectList
           default-select={selectedValue}

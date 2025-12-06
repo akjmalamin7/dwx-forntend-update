@@ -2,10 +2,10 @@
 import {
   DoctorMultiSelector,
   ImageUpload,
-  PatientHistorySelect,
-  XRrayNameSelect,
+  SelectCustomPatientHistory,
+  SelectCustomXrayName,
 } from "@/features";
-import TestReferenceDoctoSelect from "@/features/reference-doctor-select/TestReferenceDoctoSelect";
+import SelectCustomReferenceDoctor from "@/features/select-custom-reference-doctor/ui/SelectCustomReferenceDoctor";
 import { Button, ControlInput, ControlledSelect } from "@/shared/ui";
 import {
   patientFormschema,
@@ -165,7 +165,7 @@ const PatientForm = ({
           control={control}
           name="history"
           render={({ field }) => (
-            <PatientHistorySelect
+            <SelectCustomPatientHistory
               label="Patient History"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
@@ -182,7 +182,7 @@ const PatientForm = ({
           control={control}
           name="xray_name"
           render={({ field }) => (
-            <XRrayNameSelect
+            <SelectCustomXrayName
               label="X-ray Name"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
@@ -195,26 +195,11 @@ const PatientForm = ({
         />
 
         {/* Reference Doctor */}
-        {/* <Controller
-          control={control}
-          name="ref_doctor"
-          render={({ field }) => (
-            <ReferenceDoctorSelect
-              label="Reference Doctor"
-              value={field.value}
-              onSelectedValue={(val) => field.onChange(val)}
-              error={{
-                status: !!errors.ref_doctor,
-                message: errors.ref_doctor?.message as string,
-              }}
-            />
-          )}
-        /> */}
         <Controller
           control={control}
           name="ref_doctor"
           render={({ field }) => (
-            <TestReferenceDoctoSelect
+            <SelectCustomReferenceDoctor
               label="Reference Doctor"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}

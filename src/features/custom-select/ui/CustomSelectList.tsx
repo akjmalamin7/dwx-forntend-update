@@ -33,10 +33,11 @@ const CustomSelectList = forwardRef<HTMLDivElement, Props>(
     return (
       <div ref={ref} className="absolute left-0 w-full z-20">
         <Card className="bg-white shadow shadow-indigo-100 py-3">
-          <ul>
+          <ul className="max-h-[300px] overflow-y-auto">
             {options.map((option) => (
               <li
                 key={option.value}
+                value={option.value}
                 className="h-[32px] px-3 flex items-center hover:bg-[#f7f7f7] lg:cursor-pointer"
                 onClick={() => handleSelectOption(option)}
               >

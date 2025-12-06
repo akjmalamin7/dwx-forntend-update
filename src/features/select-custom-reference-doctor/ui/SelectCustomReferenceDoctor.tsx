@@ -1,3 +1,4 @@
+import { CustomSelect } from "@/features/custom-select";
 import { useGetReferenceListQuery } from "@/shared/redux/features/agent/reference-list/referenceListApi";
 import { Input, Text } from "@/shared/ui";
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
@@ -8,7 +9,6 @@ import {
   useState,
   type ChangeEvent,
 } from "react";
-import { CustomSelect } from "../custom-select";
 
 interface Props {
   label?: string;
@@ -17,7 +17,7 @@ interface Props {
   onSelectedValue?: (value: string) => void;
 }
 
-const TestReferenceDoctoSelect = ({
+const SelectCustomReferenceDoctor = ({
   label = "Test Reference Doctor",
   error,
   value = "",
@@ -108,4 +108,4 @@ const TestReferenceDoctoSelect = ({
   );
 };
 
-export default TestReferenceDoctoSelect;
+export default SelectCustomReferenceDoctor;

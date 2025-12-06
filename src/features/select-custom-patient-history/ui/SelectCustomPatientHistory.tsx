@@ -1,4 +1,5 @@
-import { useGetReferenceListQuery } from "@/shared/redux/features/agent/reference-list/referenceListApi";
+import { CustomSelect } from "@/features/custom-select";
+import { useGetPatientHistoryListQuery } from "@/shared/redux/features/agent/patient-history/patientHistoryApi";
 import { Input, Text } from "@/shared/ui";
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import {
@@ -8,7 +9,6 @@ import {
   useState,
   type ChangeEvent,
 } from "react";
-import { CustomSelect } from "../custom-select";
 
 interface Props {
   label?: string;
@@ -17,7 +17,7 @@ interface Props {
   onSelectedValue?: (value: string) => void;
 }
 
-const TestReferenceDoctoSelect = ({
+const SelectCustomPatientHistory = ({
   label = "Test Reference Doctor",
   error,
   value = "",
@@ -25,7 +25,7 @@ const TestReferenceDoctoSelect = ({
 }: Props) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectValue, setSelectValue] = useState<string>(value);
-  const { data: referenceOptions, isLoading } = useGetReferenceListQuery();
+  const { data: referenceOptions, isLoading } = useGetPatientHistoryListQuery();
 
   const options: OptionsType[] = useMemo(() => {
     if (!referenceOptions) return [];
@@ -108,4 +108,4 @@ const TestReferenceDoctoSelect = ({
   );
 };
 
-export default TestReferenceDoctoSelect;
+export default SelectCustomPatientHistory;

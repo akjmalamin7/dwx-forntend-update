@@ -14,7 +14,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       <div
         ref={ref}
         {...rest}
-        className="flex items-center bg-blue-100 text-blue-800 px-3 py-[2px] rounded-full"
+        className="flex items-center bg-white border border-gray-500 text-blue-800 px-3 py-[2px] rounded-[5px]"
       >
         {text && <Text size="sm">{text}</Text>}
         {variation === "on-close" && (

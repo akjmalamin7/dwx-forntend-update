@@ -1,6 +1,6 @@
 // features/patient-form/PatientForm.tsx
 import {
-  DoctorMultiSelector,
+  CustomDoctorMultiSelector,
   ImageUpload,
   SelectCustomPatientHistory,
   SelectCustomXrayName,
@@ -224,16 +224,19 @@ const PatientForm = ({
         />
 
         {/* Doctor MultiSelectors */}
-        <DoctorMultiSelector
-          label="Selected Doctor"
+
+        <CustomDoctorMultiSelector
           control={control}
           name="selected_drs_id"
+          label="Selected Doctor"
+          useIgnored={false}
         />
-        <DoctorMultiSelector
-          label="Ignored Doctor"
+
+        <CustomDoctorMultiSelector
           control={control}
           name="ignored_drs_id"
           useIgnored
+          label="Ignored Doctor"
         />
 
         {/* Submit */}

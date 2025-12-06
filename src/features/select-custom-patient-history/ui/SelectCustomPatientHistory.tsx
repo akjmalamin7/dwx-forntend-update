@@ -1,6 +1,5 @@
-import { CustomSelect } from "@/features/custom-select";
 import { useGetPatientHistoryListQuery } from "@/shared/redux/features/agent/patient-history/patientHistoryApi";
-import { Input, Text } from "@/shared/ui";
+import { CustomSelect, Input, Text } from "@/shared/ui";
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import {
   useCallback,

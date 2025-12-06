@@ -2,6 +2,8 @@ export { Button } from "./button";
 export { Checkbox } from "./checkbox";
 export { ControlInput } from "./control-input";
 export { ControlledSelect } from "./control-select";
+export { CustomMultiSelect } from "./custom-multi-select";
+export { CustomSelect } from "./custom-select";
 export { Input } from "./input";
 export { InputFile } from "./input-file";
 export { Loader } from "./loader";

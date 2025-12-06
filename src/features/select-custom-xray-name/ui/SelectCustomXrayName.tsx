@@ -1,6 +1,5 @@
-import { CustomSelect } from "@/features/custom-select";
 import { useGetXrayNameListQuery } from "@/shared/redux/features/agent/x-ray-name-list/xRayNameListApi";
-import { Input, Text } from "@/shared/ui";
+import { CustomSelect, Input, Text } from "@/shared/ui";
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import {
   useCallback,

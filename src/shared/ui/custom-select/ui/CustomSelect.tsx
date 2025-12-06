@@ -18,6 +18,7 @@ interface Props {
   options?: Opstions[];
   loading?: boolean;
   value?: string;
+  isMultiSelect?: boolean;
   onSelectedValue?: (value: string) => void;
 }
 
@@ -25,6 +26,7 @@ const CustomSelect = ({
   loading,
   value,
   options = [],
+  isMultiSelect,
   onSelectedValue,
 }: Props) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -67,7 +69,11 @@ const CustomSelect = ({
   // Selecting from list
   const handleSelect = (option: Opstions) => {
     setSelectedValue(option.value);
-    setInputValue(option.name);
+    if (isMultiSelect) {
+      setInputValue("");
+    } else {
+      setInputValue(option.name);
+    }
     setOptionsData(options);
     setVisible(true);
     onSelectedValue?.(option.value);

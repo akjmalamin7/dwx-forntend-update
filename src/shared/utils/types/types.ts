@@ -11,6 +11,7 @@ export type OptionsType = {
 
 export interface PatientFormValues {
   attachment: string[];
+  small_url: string[];
   rtype: string;
   study_for: string;
   doctor_id: string[];
@@ -28,6 +29,7 @@ export interface PatientFormValues {
 export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
   yup.object({
     attachment: yup.array().of(yup.string().url()).required().min(1),
+    small_url: yup.array().of(yup.string().url()).required().min(1),
 
     rtype: yup.string().default(""),
     study_for: yup.string().default(""),

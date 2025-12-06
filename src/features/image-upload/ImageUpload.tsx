@@ -11,22 +11,27 @@ interface ImageUploadProps<TFieldValues extends FieldValues> {
   label?: string;
   name: Path<TFieldValues>;
   control: Control<TFieldValues>;
+  setValue?: (name: Path<TFieldValues>, value: string[]) => void;
   isNote?: boolean;
-  directory?: "signature" | "upload";
+  directory?: "signature" | "upload2";
 }
-
+type UrlType = {
+  original: string;
+  small: string;
+};
 const ImageUpload = <TFieldValues extends FieldValues>({
   label = "Upload Images",
   name,
   control,
+  setValue,
   isNote = true,
-  directory = "upload",
+  directory = "upload2",
 }: ImageUploadProps<TFieldValues>) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string>("");
 
-  const uploadFile = async (file: File): Promise<string | null> => {
+  const uploadFile = async (file: File): Promise<UrlType | null> => {
     const formData = new FormData();
 
     // timestamp + file extension
@@ -44,21 +49,26 @@ const ImageUpload = <TFieldValues extends FieldValues>({
       });
 
       const data = await response.json();
+      if (!Array.isArray(data.data) || !data.data.length) return null;
+      return {
+        original: data.data[0].original,
+        small: data.data[0].small,
+      };
 
-      if (!data.data) return null;
+      // if (!data.data) return null;
 
-      let url: string;
-      if (Array.isArray(data.data)) {
-        url = data.data[0];
-      } else if (typeof data.data === "string") {
-        url = data.data;
-      } else {
-        console.error("Unexpected upload response:", data.data);
-        return null;
-      }
+      // let url: string;
+      // if (Array.isArray(data.data)) {
+      //   url = data.data[0];
+      // } else if (typeof data.data === "string") {
+      //   url = data.data;
+      // } else {
+      //   console.error("Unexpected upload response:", data.data);
+      //   return null;
+      // }
 
-      // clean up quotes if present
-      return url.replace(/^"|"$/g, "");
+      // // clean up quotes if present
+      // return url.replace(/^"|"$/g, "");
     } catch (err) {
       console.error("Upload failed:", err);
       setError("Failed to upload image. Please try again.");
@@ -77,18 +87,26 @@ const ImageUpload = <TFieldValues extends FieldValues>({
 
           setUploading(true);
           const filesArray = Array.from(files);
-          const uploadedUrls: string[] = [];
+          const attachmentUrls: string[] = [];
+          const smallUrls: string[] = [];
 
           // instant preview
           setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
 
           for (let i = 0; i < filesArray.length; i++) {
             const url = await uploadFile(filesArray[i]);
-            if (url) uploadedUrls.push(url);
+            if (url) {
+              attachmentUrls.push(url.original);
+              smallUrls.push(url.small);
+            }
+            // if (url) uploadedUrls.push(url);
           }
 
           // update form value
-          field.onChange(uploadedUrls);
+          // field.onChange(uploadedUrls);
+          field.onChange(attachmentUrls);
+          setValue?.("small_url" as Path<TFieldValues>, smallUrls ?? []);
+
           setUploading(false);
         };
 

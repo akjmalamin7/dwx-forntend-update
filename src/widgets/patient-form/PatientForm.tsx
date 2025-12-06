@@ -44,6 +44,7 @@ const PatientForm = ({
     resolver: yupResolver(patientFormschema),
     defaultValues: {
       attachment: [],
+      small_url: [],
       rtype: "",
       study_for: "",
       doctor_id: [],
@@ -70,6 +71,7 @@ const PatientForm = ({
     if (isEdit && defaultValues) {
       methods.reset({
         attachment: defaultValues.attachment || [],
+        small_url: defaultValues.small_url || [],
         patient_id: defaultValues.patient_id || "",
         name: defaultValues.name || "",
         age: defaultValues.age || "",
@@ -85,12 +87,13 @@ const PatientForm = ({
       });
     }
   }, [isEdit, defaultValues, methods]);
-
   // reset data only add mode
   useEffect(() => {
     if (resetCount > 0 && !isEdit) {
       reset({
         attachment: [],
+        small_url: [],
+
         patient_id: "",
         name: "",
         age: "",
@@ -121,7 +124,12 @@ const PatientForm = ({
         onSubmit={methods.handleSubmit(handleSubmit)}
       >
         {/* Upload Image */}
-        <ImageUpload key={resetCount} control={control} name="attachment" />
+        <ImageUpload
+          key={resetCount}
+          setValue={setValue}
+          control={control}
+          name="attachment"
+        />
 
         {/* Patient ID */}
         <ControlInput

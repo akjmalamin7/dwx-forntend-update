@@ -39,6 +39,7 @@ const QuickSendReprt = () => {
     resolver: yupResolver(patientFormschema),
     defaultValues: {
       attachment: [],
+      small_url: [],
       rtype: "xray",
       study_for: "xray_dr",
       doctor_id: [],
@@ -94,7 +95,12 @@ const QuickSendReprt = () => {
         onSubmit={onSubmit}
       >
         {/* Patient ID */}
-        <ImageUpload key={resetCount} control={control} name="attachment" />
+        <ImageUpload
+          key={resetCount}
+          setValue={setValue}
+          control={control}
+          name="attachment"
+        />
 
         {/* Patient ID */}
         <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />

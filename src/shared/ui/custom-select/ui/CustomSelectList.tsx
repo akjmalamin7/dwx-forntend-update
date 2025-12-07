@@ -31,7 +31,7 @@ const CustomSelectList = forwardRef<HTMLDivElement, Props>(
     }
 
     return (
-      <div ref={ref} className="absolute left-0 w-full z-20">
+      <div ref={ref} className="left-0 w-full z-20">
         <Card className="bg-white shadow shadow-indigo-100 py-3">
           <ul className="max-h-[300px] overflow-y-auto">
             {options.map((option) => (

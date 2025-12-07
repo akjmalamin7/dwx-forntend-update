@@ -7,21 +7,25 @@ import {
   type ChangeEvent,
   type KeyboardEvent,
 } from "react";
+import { createPortal } from "react-dom";
 import CustomSelectList from "./CustomSelectList";
 
-type Opstions = {
+type Option = {
   name: string;
   value: string;
 };
 
 interface Props {
-  options?: Opstions[];
+  options?: Option[];
   loading?: boolean;
   value?: string;
   isMultiSelect?: boolean;
   disabled?: boolean;
   onSelectedValue?: (value: string) => void;
 }
+
+const SPACING = 8;
+const VIEWPORT_PADDING = 8;
 
 const CustomSelect = ({
   loading,
@@ -31,23 +35,39 @@ const CustomSelect = ({
   isMultiSelect,
   onSelectedValue,
 }: Props) => {
-  const listRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [visible, setVisible] = useState(false);
-  const [optionsData, setOptionsData] = useState<Opstions[]>(options);
+  const [optionsData, setOptionsData] = useState<Option[]>(options);
   const [selectedValue, setSelectedValue] = useState<string>(value || "");
   const [inputValue, setInputValue] = useState<string>("");
   const [highlightIndex, setHighlightIndex] = useState<number>(-1);
 
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  }>({
+    top: -100,
+    left: -100,
+    width: 0,
+  });
+
+  // -------------------------
+  // Input Change
+  // -------------------------
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setInputValue(val);
 
     if (!val.trim()) {
       setOptionsData(options);
-      setSelectedValue("");
-      onSelectedValue?.("");
+      if (!isMultiSelect) {
+        setSelectedValue("");
+        onSelectedValue?.("");
+      }
       return;
     }
 
@@ -56,10 +76,12 @@ const CustomSelect = ({
     );
     setOptionsData(filtered);
 
-    const exactMatch = options.find((op) => op.name === val);
-    if (exactMatch) {
-      setSelectedValue(exactMatch.value);
-      onSelectedValue?.(exactMatch.value);
+    if (!isMultiSelect) {
+      const exactMatch = options.find((op) => op.name === val);
+      if (exactMatch) {
+        setSelectedValue(exactMatch.value);
+        onSelectedValue?.(exactMatch.value);
+      }
     }
   };
 
@@ -68,18 +90,20 @@ const CustomSelect = ({
     setVisible(true);
   };
 
-  // Selecting from list
-  const handleSelect = (option: Opstions) => {
+  // -------------------------
+  // Select Option
+  // -------------------------
+  const handleSelect = (option: Option) => {
     setSelectedValue(option.value);
-    if (isMultiSelect) {
-      setInputValue("");
-    } else {
-      setInputValue(option.name);
-    }
+    setInputValue(isMultiSelect ? "" : option.name);
     setOptionsData(options);
-    setVisible(true);
+    setVisible(false);
     onSelectedValue?.(option.value);
   };
+
+  // -------------------------
+  // Keyboard Navigation
+  // -------------------------
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!visible || optionsData.length === 0) return;
 
@@ -102,31 +126,83 @@ const CustomSelect = ({
       setVisible(false);
     }
   };
+
+  // -------------------------
+  // Set default value
+  // -------------------------
   useEffect(() => {
     if (!value) {
       setSelectedValue("");
       setInputValue("");
       return;
     }
-    const defaultOption = options.find((opt) => opt.value === value);
+    const def = options.find((opt) => opt.value === value);
     setSelectedValue(value);
-    setInputValue(defaultOption?.name || "");
+    setInputValue(def?.name || "");
   }, [value, options]);
 
+  // -------------------------
+  // Close on outside click
+  // -------------------------
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
       const target = e.target as Node;
-      const clickedInput = inputRef.current?.contains(target);
-      const clickedList = listRef.current?.contains(target);
-      if (clickedInput || clickedList) return;
+      if (inputRef.current?.contains(target)) return;
+      if (dropdownRef.current?.contains(target)) return;
+
       setVisible(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  // -------------------------
+  // Dropdown Position
+  // -------------------------
+  const calculateMenuPosition = () => {
+    if (!inputRef.current || !dropdownRef.current) return;
+
+    const inputRect = inputRef.current.getBoundingClientRect();
+    const menuRect = dropdownRef.current.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const spaceBelow = vh - inputRect.bottom;
+
+    const placeBelow = spaceBelow >= menuRect.height + SPACING;
+
+    const top = placeBelow
+      ? inputRect.bottom + SPACING + window.scrollY - 6
+      : inputRect.top - menuRect.height - SPACING + window.scrollY + 6;
+
+    const left = Math.min(
+      Math.max(inputRect.left + window.scrollX, VIEWPORT_PADDING),
+      vw - menuRect.width - VIEWPORT_PADDING
+    );
+
+    const width = inputRect.width; // ⭐ MATCH WIDTH
+
+    setMenuPosition({ top, left, width });
+  };
+
+  useEffect(() => {
+    if (!visible) return;
+
+    requestAnimationFrame(() => calculateMenuPosition());
+
+    window.addEventListener("resize", calculateMenuPosition);
+    window.addEventListener("scroll", calculateMenuPosition);
+
+    return () => {
+      window.removeEventListener("resize", calculateMenuPosition);
+      window.removeEventListener("scroll", calculateMenuPosition);
+    };
+  }, [visible]);
+
   return (
     <div className="relative">
-      <div className="relative">
+      <div className="relative" ref={wrapperRef}>
         <Input
           ref={inputRef}
           value={inputValue}
@@ -137,20 +213,33 @@ const CustomSelect = ({
           size="sm"
           disabled={disabled}
         />
-        <div className="absolute right-[5px] top-1/2 -translate-y-1/2 flex items-center justify-center">
+        <div className="absolute right-[5px] top-1/2 -translate-y-1/2 flex items-center">
           <SelectArrowIcon />
         </div>
       </div>
-      {visible && (
-        <CustomSelectList
-          default-select={selectedValue}
-          ref={listRef}
-          onVisible={setVisible}
-          options={optionsData}
-          onSelect={handleSelect}
-          loading={loading}
-        />
-      )}
+
+      {visible &&
+        createPortal(
+          <div data-select={selectedValue}
+            ref={dropdownRef}
+            style={{
+              position: "absolute",
+              top: menuPosition.top,
+              left: menuPosition.left,
+              minWidth: menuPosition.width,
+              zIndex: 9999,
+              pointerEvents: "auto",
+            }}>
+            <CustomSelectList
+
+              onVisible={setVisible}
+              options={optionsData}
+              onSelect={handleSelect}
+              loading={loading}
+            />
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

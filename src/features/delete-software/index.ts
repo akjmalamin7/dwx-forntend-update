@@ -1,0 +1,1 @@
+export { DeleteSoftware } from "./ui";

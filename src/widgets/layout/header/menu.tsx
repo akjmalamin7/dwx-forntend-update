@@ -352,7 +352,7 @@ export const MENU_DATA: MenuType[] = [
       {
         id: "all-software-2",
         title: "All Software",
-        path: "/admin/all-software",
+        path: "/admin/software-list",
         role: [RoleEnum.admin],
       },
     ],

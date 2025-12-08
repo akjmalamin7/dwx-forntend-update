@@ -77,7 +77,7 @@ const UserList = () => {
     return item;
   });
   return (
-    <Panel header="Archive patients" size="lg">
+    <Panel header="User List" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

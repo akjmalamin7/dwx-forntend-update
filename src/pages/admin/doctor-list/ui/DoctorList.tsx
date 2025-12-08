@@ -65,7 +65,7 @@ const DoctorList = () => {
   });
 
   return (
-    <Panel header="Deleted Report" size="lg">
+    <Panel header="Doctor List" size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

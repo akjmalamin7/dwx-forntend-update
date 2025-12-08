@@ -112,4 +112,6 @@ export const Pages = {
   AdminHistoryAdd: lazy(() => import("@/pages/admin/history-add")),
   AdminPaymentList: lazy(() => import("@/pages/admin/payment-list")),
   AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")),
+  AdminSoftwareAdd: lazy(() => import("@/pages/admin/software-add")),
+  AdminSoftwareList: lazy(() => import("@/pages/admin/software-list")),
 };

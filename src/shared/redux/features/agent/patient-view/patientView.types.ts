@@ -34,6 +34,7 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   createdAt: string;
   id: string;
   attachment: string[];
+  small_url: string[];
   rtype: string;
   study_for: string;
   doctor_id: string[];
@@ -47,12 +48,21 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   ref_doctor: string;
   image_type: "multiple" | "double" | "single";
 }
-
+export interface PATIENT_IMAGE_ITEM_MODEL {
+  _id: string;
+  patient_id: string;
+  original_url: string;
+  small_url: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
 // Image/Attachment Types
 export interface PATIENT_IMAGE_MODEL {
   _id: string;
   patient_id: string;
-  attachment: string[][];
+  attachment: PATIENT_IMAGE_ITEM_MODEL[];
   __v: number;
   createdAt: string;
   updatedAt: string;
@@ -64,7 +74,7 @@ export interface PATIENT_VIEW_RESPONSE {
   success: boolean;
   data: {
     patient: PATIENT_VIEW_MODEL;
-    attachments: PATIENT_IMAGE_MODEL[];
+    attachments: PATIENT_IMAGE_ITEM_MODEL[];
   };
 }
 // Transform function for patient view response
@@ -72,16 +82,18 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   response: PATIENT_VIEW_RESPONSE
 ): {
   patient: PATIENT_VIEW_TRANSFORM_MODEL;
-  attachments: PATIENT_IMAGE_MODEL[];
+  attachments: PATIENT_IMAGE_ITEM_MODEL[];
 } => {
   if (!response.success) {
     throw new Error(response.message);
   }
 
   const { patient, attachments } = response.data;
+
   const getGender = (gender: string): "male" | "female" => {
     return gender === "male" || gender === "female" ? gender : "male";
   };
+
   const getImageType = (
     imageType: string
   ): "multiple" | "double" | "single" => {
@@ -106,6 +118,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     doctor_id: patient.doctor_id || [],
     ignore_dr: patient.ignore_dr || [],
     attachment: [],
+    small_url: [],
     rtype: patient.rtype || "xray",
     study_for: patient.study_for || "xray_dr",
   };

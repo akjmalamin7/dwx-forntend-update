@@ -19,7 +19,7 @@ const PatientView = () => {
 
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments;
-
+  console.log(patient_view);
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 

@@ -13,12 +13,12 @@ export const useAdminPatientView = () => {
   });
   const patient = adminPateintView?.data.patient;
   const attachments = adminPateintView?.data.attachments;
-  const flattenedAttachments: string[] =
-    attachments?.[0]?.attachment?.flat() || [];
+  // const flattenedAttachments: string[] =
+  //   attachments?.[0]?.attachment?.flat() || [];
   return {
     patient,
     attachments,
-    flattenedAttachments,
+    // flattenedAttachments,
     adminPateintView,
     isAdminViewPatientLoading,
     adminPatientViewError,

@@ -17,7 +17,7 @@ const Panel = ({ children, header, size = "md" }: PanelProps) => {
     >
       <div className="bg-blue-600 text-white px-4 py-2 rounded-t-md print:hidden">
         <Text element="h2" className="text-md text-yellow-50 font-semibold">
-          {header ? header : "All Completed Report"}
+          {header ? header : "Pannel header"}
         </Text>
       </div>
       <div className="p-4 bg-white">{children}</div>

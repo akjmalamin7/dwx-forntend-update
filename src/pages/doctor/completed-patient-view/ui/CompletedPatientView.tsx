@@ -100,10 +100,6 @@ const CompletedPatientView = () => {
     return <div>No patient data found</div>;
   }
 
-
-
-
-
   return (
     <Panel
       header={

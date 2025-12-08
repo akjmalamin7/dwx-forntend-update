@@ -1,7 +1,7 @@
+import type { PATIENT_IMAGE_ITEM_MODEL } from "../../agent/patient-view/patientView.types";
 import { apiSlice } from "../../api/apiSlice";
 import {
   TRANSFORM_PATIENT_VIEW_RESPONSE,
-  type PATIENT_IMAGE_MODEL,
   type PATIENT_VIEW_RESPONSE,
   type PATIENT_VIEW_TRANSFORM_MODEL,
 } from "./patientView.types";
@@ -11,7 +11,7 @@ export const PatientViewApi = apiSlice.injectEndpoints({
     getDoctorPatientView: builder.query<
       {
         patient: PATIENT_VIEW_TRANSFORM_MODEL | null;
-        attachments: PATIENT_IMAGE_MODEL[];
+        attachments: PATIENT_IMAGE_ITEM_MODEL[];
       },
       string
     >({

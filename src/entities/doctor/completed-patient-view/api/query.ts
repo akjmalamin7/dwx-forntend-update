@@ -2,7 +2,7 @@ import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 import {
   TRANSFORM_PATIENT_VIEW_RESPONSE,
   type PATIENT_COMMENT_MODEL,
-  type PATIENT_IMAGE_MODEL,
+  type PATIENT_IMAGE_ITEM_MODEL,
   type PATIENT_VIEW_RESPONSE,
   type PATIENT_VIEW_TRANSFORM_MODEL,
 } from "../model/schema";
@@ -13,7 +13,7 @@ export const CompletedPatientViewApi = apiSlice.injectEndpoints({
       {
         patient: PATIENT_VIEW_TRANSFORM_MODEL | null;
         comments: PATIENT_COMMENT_MODEL[] | null;
-        attachments: PATIENT_IMAGE_MODEL[];
+        attachments: PATIENT_IMAGE_ITEM_MODEL[];
       },
       string
     >({

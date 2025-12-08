@@ -50,10 +50,20 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
 }
 
 // Image/Attachment Types
+export interface PATIENT_IMAGE_ITEM_MODEL {
+  _id: string;
+  patient_id: string;
+  original_url: string;
+  small_url: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
 export interface PATIENT_IMAGE_MODEL {
   _id: string;
   patient_id: string;
-  attachment: string[][];
+  attachment: PATIENT_IMAGE_ITEM_MODEL[];
   __v: number;
   createdAt: string;
   updatedAt: string;
@@ -65,7 +75,7 @@ export interface PATIENT_VIEW_RESPONSE {
   success: boolean;
   data: {
     patient: PATIENT_VIEW_MODEL;
-    attachments: PATIENT_IMAGE_MODEL[];
+    attachments: PATIENT_IMAGE_ITEM_MODEL[];
   };
 }
 // Transform function for patient view response
@@ -73,7 +83,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   response: PATIENT_VIEW_RESPONSE
 ): {
   patient: PATIENT_VIEW_TRANSFORM_MODEL;
-  attachments: PATIENT_IMAGE_MODEL[];
+  attachments: PATIENT_IMAGE_ITEM_MODEL[];
 } => {
   if (!response.success) {
     throw new Error(response.message);

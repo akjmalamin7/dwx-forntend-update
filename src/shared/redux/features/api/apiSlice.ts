@@ -36,6 +36,7 @@ export const apiSlice = createApi({
     "XraytypeList",
     "HistoryList",
     "PaymentList",
+    "SoftwareList",
     "Payment",
   ],
   endpoints: () => ({}),

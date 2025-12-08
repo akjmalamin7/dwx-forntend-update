@@ -182,4 +182,12 @@ export const adminRoutes = [
     path: "/admin/payment-add",
     element: withSuspense(<Pages.AdminPaymentAdd />),
   },
+  {
+    path: "/admin/software-add",
+    element: withSuspense(<Pages.AdminSoftwareAdd />),
+  },
+  {
+    path: "/admin/software-list",
+    element: withSuspense(<Pages.AdminSoftwareList />),
+  },
 ];

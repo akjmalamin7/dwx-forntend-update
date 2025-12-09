@@ -10,19 +10,26 @@ import {
   PanelHeading,
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AdminUpdatePatientForm = () => {
   const navigate = useNavigate();
   const { patient_id } = useParams<{ patient_id: string }>();
-  const { patient, flattenedAttachments } = useAdminPatientView();
+  const { patient, attachments } = useAdminPatientView();
 
   // update api
   const [resetCount, setResetCount] = useState<number>(0);
   const [adminUpdatePatient, { isLoading: isPatientUpdating }] =
     useAdminUpdatePatientMutation();
+
+  const original_urls = useMemo(() => {
+    return attachments?.map((att) => att.original_url) ?? [];
+  }, [attachments]);
+  const small_urls = useMemo(() => {
+    return attachments?.map((att) => att.small_url) ?? [];
+  }, [attachments]);
 
   const {
     control,
@@ -31,7 +38,8 @@ const AdminUpdatePatientForm = () => {
   } = useForm({
     resolver: yupResolver(ADMIN_UPDATE_PATIENT_SCHEMA),
     values: {
-      attachment: flattenedAttachments,
+      attachment: original_urls || [],
+      small_url: small_urls || [],
       history: patient?.history || "",
       xray_name: patient?.xray_name || "",
       name: patient?.name || "",
@@ -44,6 +52,7 @@ const AdminUpdatePatientForm = () => {
     try {
       const submitData = {
         attachment: values.attachment,
+        small_url: values.attachment,
         history: values.history,
         xray_name: values.xray_name,
         name: values.name,
@@ -62,7 +71,6 @@ const AdminUpdatePatientForm = () => {
       setResetCount((prev) => prev + 1);
 
       navigate("/admin/patient");
-
     } catch (error) {
       console.error(error);
     }

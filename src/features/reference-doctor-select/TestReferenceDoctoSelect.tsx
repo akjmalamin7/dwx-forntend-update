@@ -1,5 +1,5 @@
 import { useGetReferenceListQuery } from "@/shared/redux/features/agent/reference-list/referenceListApi";
-import { Input, Text } from "@/shared/ui";
+import { CustomSelect, Input, Text } from "@/shared/ui";
 import type { ErrorType, OptionsType } from "@/shared/utils/types/types";
 import {
   useCallback,
@@ -8,7 +8,6 @@ import {
   useState,
   type ChangeEvent,
 } from "react";
-import { CustomSelect } from "../custom-select";
 
 interface Props {
   label?: string;

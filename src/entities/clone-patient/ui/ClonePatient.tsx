@@ -10,19 +10,29 @@ import {
   PanelHeading,
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const ClonePatient = () => {
   const navigate = useNavigate();
-  const { patient, flattenedAttachments } = useAdminPatientView();
+  const { patient, attachments } = useAdminPatientView();
   const [createClonePatient, { isLoading: isCloneCreating }] =
     useCreateClonePatientMutation();
+
+  const original_urls = useMemo(() => {
+    return attachments?.map((att) => att.original_url) ?? [];
+  }, [attachments]);
+
+  const small_urls = useMemo(() => {
+    return attachments?.map((att) => att.small_url) ?? [];
+  }, [attachments]);
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(CLONE_PATIENT_SCHEMA),
     values: {
-      attachment: flattenedAttachments,
+      attachment: original_urls || [],
+      small_url: small_urls || [],
       patient_id: patient?.patient_id || "",
       name: patient?.name || "",
       age: patient?.age || "",

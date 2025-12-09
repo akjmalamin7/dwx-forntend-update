@@ -24,7 +24,10 @@ const AddNewImageForm = () => {
   const hasImages = Array.isArray(attachments) && attachments.length > 0;
   const handleOnSubmit = handleSubmit(async (values) => {
     try {
-      await addNewImage(values).unwrap();
+      await addNewImage({
+        _id: values._id,
+        attachment: values.attachment,
+      }).unwrap();
       navigate("/admin/patient");
       reset();
       setResetCount((prev) => prev + 1);

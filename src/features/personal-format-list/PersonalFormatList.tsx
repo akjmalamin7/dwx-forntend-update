@@ -1,6 +1,6 @@
 import { useGetPersonalFormLstQuery } from "@/shared/redux/features/doctor/personal-format-list/personalFormatListApi";
-import { Text } from "@/shared/ui";
-import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { CustomSelect, Text } from "@/shared/ui";
+import { useEffect, useMemo, useState } from "react";
 interface IProps {
   onSelect?: (value: string) => void;
   value?: string;
@@ -11,11 +11,19 @@ const PersonalFormatList = ({ value, onSelect }: IProps) => {
 
   const [selectedValue, setSelectedValue] = useState<string>("");
   const formats = useMemo(() => data?.data ?? [], [data]);
-
-  const handleSelectValue = (event: ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    setSelectedValue(value);
-    onSelect?.(value);
+  const options = useMemo(() => {
+    return (
+      formats
+        .filter((f) => f !== null && f !== undefined)
+        .map((f) => ({
+          name: f.title,
+          value: f.details ?? "",
+        })) ?? []
+    );
+  }, [formats]);
+  const handleSelectValue = (val: string) => {
+    setSelectedValue(val);
+    onSelect?.(val);
   };
   useEffect(() => {
     if (!value) {
@@ -35,19 +43,11 @@ const PersonalFormatList = ({ value, onSelect }: IProps) => {
         Personal Format
       </Text>
 
-      <select
-        className="border border-gray-500  w-full px-[15px] appearance-none outline-none h-[30px] xl:h-[38px] text-[14px] rounded-[8px]"
+      <CustomSelect
         value={selectedValue}
-        onChange={handleSelectValue}
-      >
-        <option value="">Select Personal Format</option>
-        {formats &&
-          formats.map((personaFormat) => (
-            <option key={personaFormat._id} value={personaFormat.details}>
-              {personaFormat.title}
-            </option>
-          ))}
-      </select>
+        options={options ?? []}
+        onSelectedValue={handleSelectValue}
+      />
     </div>
   );
 };

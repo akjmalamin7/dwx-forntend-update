@@ -1,6 +1,6 @@
 import { useGetAdminFormLstQuery } from "@/shared/redux/features/doctor/admin-format-list/adminFormatListApi";
-import { Text } from "@/shared/ui";
-import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { CustomSelect, Text } from "@/shared/ui";
+import { useEffect, useMemo, useState } from "react";
 interface IProps {
   value?: string;
   onSelect?: (value: string) => void;
@@ -9,11 +9,23 @@ interface IProps {
 const AdminFormatList = ({ value, onSelect }: IProps) => {
   const { data } = useGetAdminFormLstQuery();
   const [selectedValue, setSelectedValue] = useState<string>("");
+
   const formats = useMemo(() => data?.data ?? [], [data]);
-  const handleSelectValue = (event: ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    setSelectedValue(value);
-    onSelect?.(value);
+
+  const options = useMemo(() => {
+    return (
+      formats
+        .filter((f) => f !== null && f !== undefined)
+        .map((f) => ({
+          name: f.title,
+          value: f.details ?? "",
+        })) ?? []
+    );
+  }, [formats]);
+
+  const handleSelectValue = (val: string) => {
+    setSelectedValue(val);
+    onSelect?.(val);
   };
   useEffect(() => {
     if (!value) {
@@ -30,22 +42,13 @@ const AdminFormatList = ({ value, onSelect }: IProps) => {
         size="md"
         className="block mb-2 text-gray-900 dark:text-white"
       >
-        Admiin Format
+        Admin Format
       </Text>
-
-      <select
-        className="border border-gray-500  w-full px-[15px] appearance-none outline-none h-[30px] xl:h-[38px] text-[14px] rounded-[8px]"
+      <CustomSelect
         value={selectedValue}
-        onChange={handleSelectValue}
-      >
-        <option value="">Select Admin Format</option>
-        {formats &&
-          formats.map((personaFormat) => (
-            <option key={personaFormat._id} value={personaFormat.details}>
-              {personaFormat.title}
-            </option>
-          ))}
-      </select>
+        options={options ?? []}
+        onSelectedValue={handleSelectValue}
+      />
     </div>
   );
 };

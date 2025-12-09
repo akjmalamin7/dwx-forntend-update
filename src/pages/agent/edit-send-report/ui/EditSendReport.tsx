@@ -3,7 +3,7 @@ import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
-import { Loader, Panel, PanelHeading } from "@/shared/ui";
+import { Loader, Message, Panel, PanelHeading } from "@/shared/ui";
 import type { PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
 import { useState } from "react";
@@ -30,13 +30,9 @@ const EditSendReport = () => {
     if (!data) {
       return {};
     }
-
-    // Extract image URLs from attachments
-    const imageUrls = data.attachments.flatMap((item) =>
-      item.attachment
-        .flat()
-        .filter((url) => typeof url === "string" && url.startsWith("http"))
-    );
+    const original_urls =
+      data.attachments?.map((item) => item.original_url) || [];
+    const small_urls = data.attachments?.map((item) => item.small_url) || [];
 
     return {
       patient_id: data.patient?.patient_id ?? "",
@@ -57,8 +53,8 @@ const EditSendReport = () => {
 
       doctor_id: data.patient?.doctor_id || [],
       ignore_dr: data.patient?.ignore_dr || [],
-
-      attachment: imageUrls,
+      attachment: original_urls,
+      small_url: small_urls,
       rtype: data.patient?.rtype ?? "xray",
       study_for: data.patient?.study_for ?? "xray_dr",
     };
@@ -92,37 +88,21 @@ const EditSendReport = () => {
 
   if (isViewLoading) {
     return (
-      <Panel
-        header={
-          <PanelHeading
-            title="Edit X-ray Report"
-            button="Patient List"
-            path="agent/patient/completed"
-          />
-        }
-      >
-        <div className="flex justify-center items-center py-8">
-          Loading patient data...
-        </div>
-      </Panel>
+      <Message
+        type="error"
+        title="Edit X-ray Report"
+        message="Loading patient data..."
+      />
     );
   }
 
   if (isError) {
     return (
-      <Panel
-        header={
-          <PanelHeading
-            title="Edit X-ray Report"
-            button="Patient List"
-            path="agent/patient/completed"
-          />
-        }
-      >
-        <div className="flex justify-center items-center py-8 text-red-500">
-          Error loading patient data. Please try again.
-        </div>
-      </Panel>
+      <Message
+        type="error"
+        title="Edit X-ray Report"
+        message="Error loading patient data. Please try again."
+      />
     );
   }
 

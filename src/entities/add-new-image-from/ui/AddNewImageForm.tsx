@@ -12,21 +12,24 @@ const AddNewImageForm = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
   const [resetCount, setResetCount] = useState<number>(0);
   const [addNewImage, { isLoading: isUploading }] = useAddNewImageMutation();
-  const { control, handleSubmit, watch, reset } = useForm({
+  const { control, handleSubmit, watch, reset, setValue } = useForm({
     resolver: yupResolver(ADD_NEW_IMAGE_SCHEMA),
     defaultValues: {
       _id: patient_id ?? "",
       attachment: [],
+      small_url: [],
     },
     mode: "onChange",
   });
   const attachments = watch("attachment");
+  console.log(watch());
   const hasImages = Array.isArray(attachments) && attachments.length > 0;
   const handleOnSubmit = handleSubmit(async (values) => {
     try {
       await addNewImage({
         _id: values._id,
         attachment: values.attachment,
+        small_url: values.small_url,
       }).unwrap();
       navigate("/admin/patient");
       reset();
@@ -49,6 +52,7 @@ const AddNewImageForm = () => {
             name="attachment"
             key={resetCount}
             isNote={false}
+            setValue={setValue}
           />
           <Button
             type="submit"

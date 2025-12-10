@@ -104,7 +104,8 @@ const ImageUpload = <TFieldValues extends FieldValues>({
 
           // update form value
           // field.onChange(uploadedUrls);
-          field.onChange(smallUrls);
+          // field.onChange(smallUrls);
+          field.onChange(attachmentUrls);
           setValue?.("small_url" as Path<TFieldValues>, smallUrls ?? []);
 
           setUploading(false);

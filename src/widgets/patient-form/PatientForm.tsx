@@ -109,7 +109,7 @@ const PatientForm = ({
   }, [resetCount, reset, isEdit]);
 
   // load profile data
-
+  console.log(methods.watch());
   const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     try {
       await onSubmit(data);

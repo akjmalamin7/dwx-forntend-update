@@ -22,8 +22,8 @@ const SelectCustomPatientHistory = ({
   value = "",
   onSelectedValue,
 }: Props) => {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [selectValue, setSelectValue] = useState<string>(value);
+  const [inputValue, setInputValue] = useState<string>(value);
+  const [selectValue, setSelectValue] = useState<string>();
   const { data: referenceOptions, isLoading } = useGetPatientHistoryListQuery();
 
   const options: OptionsType[] = useMemo(() => {
@@ -35,9 +35,11 @@ const SelectCustomPatientHistory = ({
   }, [referenceOptions]);
 
   useEffect(() => {
-    const defaultOption = options.find((opt) => opt.value === value);
-    setSelectValue(value);
-    setInputValue(defaultOption?.name || "");
+    setInputValue(value);
+    const defaultOption = options.find(
+      (opt) => opt.name.toLowerCase() === value.toLowerCase()
+    );
+    setSelectValue(defaultOption?.value);
   }, [value, options]);
 
   const handleSelectChange = useCallback(
@@ -47,9 +49,9 @@ const SelectCustomPatientHistory = ({
       if (option && option.value) {
         setSelectValue(val);
         setInputValue(option.name);
-        onSelectedValue?.(option.value); // replace option.name to option.value
+        onSelectedValue?.(option.name); // replace option.name to option.value
       } else {
-        setSelectValue("");
+        setSelectValue(undefined);
         setInputValue("");
         onSelectedValue?.("");
       }
@@ -61,17 +63,12 @@ const SelectCustomPatientHistory = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       const val = event.target.value;
       setInputValue(val);
+      onSelectedValue?.(val);
 
       const match = options.find(
         (opt) => opt.name.toLowerCase() === val.toLowerCase()
       );
-      if (match) {
-        setSelectValue(match.value);
-        onSelectedValue?.(match.value); // replace match.name to match.value
-      } else {
-        setSelectValue("");
-        onSelectedValue?.("");
-      }
+      setSelectValue(match?.value);
     },
     [options, onSelectedValue]
   );

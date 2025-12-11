@@ -114,4 +114,5 @@ export const Pages = {
   AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")),
   AdminSoftwareAdd: lazy(() => import("@/pages/admin/software-add")),
   AdminSoftwareList: lazy(() => import("@/pages/admin/software-list")),
+  SoftwareList: lazy(() => import("@/pages/agent/software-list")),
 };

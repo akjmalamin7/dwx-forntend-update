@@ -34,4 +34,8 @@ export const doctorRoutes = [
     path: "/doctor/format/:id",
     element: withSuspense(<Pages.DoctorFormatUpdate />),
   },
+  {
+    path: "/doctor/software-list",
+    element: withSuspense(<Pages.SoftwareList />),
+  },
 ];

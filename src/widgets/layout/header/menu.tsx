@@ -108,27 +108,15 @@ export const MENU_DATA: MenuType[] = [
     icon: <IoIosSend />,
     path: "/agent/checked-user-list",
   },
-  {
-    id: "user-11",
-    role: [RoleEnum.user],
-    title: "Software",
+   {
+    id: "user-10",
+    role: [RoleEnum.user ],
+    title: "Software Download",
     icon: <IoIosSend />,
-    path: "",
-    children: [
-      {
-        id: "software-list-1",
-        title: "Software list",
-        path: "/agent/software",
-        role: [RoleEnum.user],
-      },
-      {
-        id: "software-list-2",
-        title: "Add software",
-        path: "/agent/software/add",
-        role: [RoleEnum.user],
-      },
-    ],
+    path: "/agent/software-list",
   },
+
+ 
   {
     id: "doctor-1",
     role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
@@ -156,6 +144,14 @@ export const MENU_DATA: MenuType[] = [
     title: "Formats",
     icon: <IoIosSend />,
     path: "/doctor/format",
+  },
+
+    {
+    id: "doctor-5",
+    role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
+    title: "Software Download",
+    icon: <IoIosSend />,
+    path: "/doctor/software-list",
   },
 
   {
@@ -356,5 +352,12 @@ export const MENU_DATA: MenuType[] = [
         role: [RoleEnum.admin],
       },
     ],
+  },
+  {
+    id: "admin-6",
+    role: [RoleEnum.admin],
+    title: "Software",
+    icon: <IoIosSend />,
+    path: "/admin/software-list",
   },
 ];

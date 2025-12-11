@@ -7,8 +7,7 @@ import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { SOFTWARE_DATA_COL } from "./software.data.col";
 import { useGetSoftwareQuery } from "@/entities/software-list/api/query";
-import { Link } from "react-router-dom";
-import { DeleteSoftware } from "@/features/delete-software";
+import { Link } from "react-router-dom"; 
 
 const SoftwareList = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -17,8 +16,7 @@ const SoftwareList = () => {
   });
   const {
     data: softwareList,
-    isLoading,
-    refetch,
+    isLoading, 
   } = useGetSoftwareQuery({ page, limit, search });
   const totalPages = softwareList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -49,11 +47,10 @@ const SoftwareList = () => {
                           to={`${record?.url}`}
                           download={true}
                           target="_new"
-                          className="bg-green-500 text-white !px-2 !py-1 !h-auto rounded text-sm" 
+                           className="bg-green-500 text-white !px-2 !py-1 !h-auto rounded text-sm" 
                         >
                           Download
-                        </Link>
-            <DeleteSoftware id={record?.key} onDeleteSuccess={refetch} />
+                        </Link> 
           </div>
         ),
       };
@@ -72,8 +69,8 @@ const SoftwareList = () => {
       header={
         <PanelHeading
           title="Software List"
-          button="Software Add"
-          path="/admin/software-add"
+          button=" "
+          path=" "
         />
       }
       size="md"

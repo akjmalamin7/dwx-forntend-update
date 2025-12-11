@@ -88,16 +88,16 @@ const ImageUpload = <TFieldValues extends FieldValues>({
           setUploading(true);
           const filesArray = Array.from(files);
           const attachmentUrls: string[] = [];
-          const smallUrls: string[] = [];
+          const smallUrls: string[] = []; 
 
           // instant preview
-          setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
+       //   setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
 
           for (let i = 0; i < filesArray.length; i++) {
             const url = await uploadFile(filesArray[i]);
             if (url) {
               attachmentUrls.push(url.original);
-              smallUrls.push(url.small);
+              smallUrls.push(url.small); 
             }
             // if (url) uploadedUrls.push(url);
           }
@@ -107,6 +107,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
           // field.onChange(smallUrls);
           field.onChange(attachmentUrls);
           setValue?.("small_url" as Path<TFieldValues>, smallUrls ?? []);
+          setPreviewUrls(smallUrls);
 
           setUploading(false);
         };
@@ -154,7 +155,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
 
               {!uploading && previewUrls?.length > 0 && (
                 <div className="flex gap-2 flex-wrap mt-2">
-                  {field.value.map((url: string, idx: number) => (
+                  {previewUrls.map((url: string, idx: number) => (
                     <img
                       key={idx}
                       src={url}

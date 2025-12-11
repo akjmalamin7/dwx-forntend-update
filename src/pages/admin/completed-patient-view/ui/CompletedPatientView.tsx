@@ -13,6 +13,8 @@ import "viewerjs/dist/viewer.css";
 import { ADMIN_COMPLETED_REPORT_UDPAT_SCHEMA } from "../model/schema";
 import { PatientInformation } from "./patient-iformation";
 import { AddNewImageForm, AdminUpdatePatientForm, ClonePatient } from "@/entities";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 
 const CompletedPatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -36,6 +38,7 @@ const CompletedPatientView = () => {
       .map((r, index) => ({
         label: `Revision ${index + 1}`,
         name: r.doctor_id.name,
+        comments: r.comments,
       }));
   }, [data?.data?.revisions]);
 
@@ -130,7 +133,9 @@ const CompletedPatientView = () => {
                 <Text element="h5" fontWeight="semiBold">
                   {r.label}
                 </Text>
-                <Text size="md">{r.name}</Text>
+                <Text size="lg" fontWeight="bold">{r.name}</Text>
+                
+                <Text size="md"> {parse(DOMPurify.sanitize(String(r.comments) || ""))}</Text>
               </div>
             ))}
           </div>

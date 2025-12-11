@@ -5,7 +5,7 @@ export const PersonalFormatListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPersonalFormLst: builder.query<PERSONAL_FORMAT_LIST_RESPONSE, void>({
       query: () => ({
-        url: "/doctor/format",
+        url: "/doctor/format/?page=1&limit=500",
         method: "GET",
       }),
     }),

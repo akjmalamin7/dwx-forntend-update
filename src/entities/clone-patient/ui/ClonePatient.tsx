@@ -48,6 +48,7 @@ const ClonePatient = () => {
     try {
       const formValues = {
         attachment: values.attachment,
+        small_url: values.attachment,
         patient_id: values.patient_id,
         name: values.name,
         age: values.age,

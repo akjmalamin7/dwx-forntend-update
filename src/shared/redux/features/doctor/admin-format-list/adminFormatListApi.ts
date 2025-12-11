@@ -5,7 +5,7 @@ export const AdminFormatListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdminFormLst: builder.query<ADMIN_FORMAT_LIST_RESPONSE, void>({
       query: () => ({
-        url: "/doctor/format/adminformat",
+        url: "/doctor/format/adminformat/?page=1&limit=500",
         method: "GET",
       }),
     }),

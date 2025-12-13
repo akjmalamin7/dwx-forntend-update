@@ -2,11 +2,12 @@ import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -29,8 +30,24 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { messages, clearMessages } = useWebSocket<{ type: string }>(
+    wsUrl,
+    5000
+  );
   const { user } = useAuth();
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      messages.forEach((msg) => {
+        if (msg.type === "new_xray_report") {
+          refetch();
+        }
+      });
+
+      clearMessages();
+    }
+  }, [messages, refetch, clearMessages]);
 
   const DATA_TABLE = useMemo(
     () =>

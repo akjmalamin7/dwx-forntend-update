@@ -17,7 +17,7 @@ const PendingPatientsList = () => {
   const { data: patientList, isLoading } = useGetDoctorPendingPatientListQuery({
     page,
     limit,
-    search
+    search,
   });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -25,6 +25,8 @@ const PendingPatientsList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { sendMessage } = useWebSocket(wsUrl, 5000);
   const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>

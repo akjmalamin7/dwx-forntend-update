@@ -1,16 +1,38 @@
 import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search, Text } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const Patients = () => {
-  const { data: patientList, isLoading } = useGetPendingPatientListQuery();
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetPendingPatientListQuery();
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { messages, clearMessages } = useWebSocket<{ type: string }>(
+    wsUrl,
+    5000
+  );
   const { user } = useAuth();
+  useEffect(() => {
+    if (messages.length > 0) {
+      messages.forEach((msg) => {
+        if (msg.type === "new_xray_report") {
+          refetch();
+        }
+      });
+
+      clearMessages();
+    }
+  }, [messages, refetch, clearMessages]);
+
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
@@ -23,8 +45,9 @@ const Patients = () => {
         patient_id: item.patient_id,
         patient_sex: item.gender,
         xray_name: item.xray_name,
-        type: item.rtype, 
-        selected_dr: Array.isArray(item.doctor_id) && item.doctor_id.length > 0
+        type: item.rtype,
+        selected_dr:
+          Array.isArray(item.doctor_id) && item.doctor_id.length > 0
             ? item.doctor_id.map((d) => d.email).join(", ")
             : "All",
         ignore_dr:
@@ -56,15 +79,12 @@ const Patients = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex items-center gap-[6px]">
-         
-
             <Link
               to={`/agent/patient-edit/${record?.key}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               Edit
             </Link>
- 
           </div>
         ),
       };
@@ -78,19 +98,18 @@ const Patients = () => {
     restoreOnUnmount: true,
   });
 
-
   return (
     <Panel header="Pending Report" size="lg">
       <div className="w-1/3">
-      {user?.role === "user" ? (
-        <Search
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search by Name, ID or Xray..."
-        />
-      ) : (
-        <Text color="danger">Role not matched</Text>
-      )}
+        {user?.role === "user" ? (
+          <Search
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Name, ID or Xray..."
+          />
+        ) : (
+          <Text color="danger">Role not matched</Text>
+        )}
       </div>
 
       <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />

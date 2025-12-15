@@ -48,28 +48,40 @@ const PatientPending = () => {
   const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
   const { user } = useAuth();
 
+  // cache update logic in websocket effect
   useEffect(() => {
     if (!messages.length) return;
 
-    messages.forEach((msg) => {
-      if (msg.type === "new_xray_report") {
-        dispatch(
+    const updatePromises = messages.map((msg) => {
+      if (msg.type === 'new_xray_report') {
+        return dispatch(
           PendingPatientListApi.util.updateQueryData(
             ENDPOINTS.PENDING_PATIENT_LIST,
-            { page: 1, limit, search: "" },
-            (draft: ADMIN_TRANSFORM_PENDING_PATIENT_MODEL) => {
-              const exists = draft.data.find((d) => d._id === msg.payload._id);
+            { page: 1, limit, search: '' },
+            (draft) => {
+              // Check for duplicate
+              const exists = draft.data.find(d => d._id === msg.payload._id);
               if (!exists) {
+                // Insert at beginning and maintain limit
                 draft.data.unshift(msg.payload);
-                if (draft.data.length > limit) draft.data.pop();
+                if (draft.data.length > limit) {
+                  draft.data.pop();
+                }
+                // Update pagination metadata if needed
+                draft.pagination.totalPages = Math.ceil(
+                  (draft.data.length + 1) / limit
+                );
               }
             }
           )
         );
       }
+      return Promise.resolve();
     });
 
-    clearMessages();
+    Promise.all(updatePromises).then(() => {
+      clearMessages();
+    });
   }, [messages, limit, dispatch, clearMessages]);
 
   const DATA_TABLE = useMemo(

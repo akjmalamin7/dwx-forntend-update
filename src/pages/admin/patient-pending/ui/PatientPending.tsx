@@ -3,38 +3,25 @@ import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
-import type { ADMIN_TRANSFORM_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
-import { PendingPatientListApi, useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
+import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-type WSMessage = {
-  type: "new_xray_report";
-  payload: ADMIN_TRANSFORM_PENDING_PATIENT_MODEL["data"][number];
-};
-
-const ENDPOINTS = {
-  PENDING_PATIENT_LIST: "getPendingPatientList" as const,
-};
-
 const PatientPending = () => {
-  const dispatch: AppDispatch = useDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
   });
 
-  const { data: patientList, isLoading, refetch } = useGetPendingPatientListQuery({
-    page,
-    limit,
-    search,
-  });
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetPendingPatientListQuery({ page, limit, search });
 
   const totalPages = patientList?.pagination.totalPages || 1;
 
@@ -43,46 +30,24 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const { messages, clearMessages } = useWebSocket<{ type: string }>(
+    wsUrl,
+    5000
+  );
   const { user } = useAuth();
 
-  // cache update logic in websocket effect
   useEffect(() => {
-    if (!messages.length) return;
+    if (messages.length > 0) {
+      messages.forEach((msg) => {
+        if (msg.type === "new_xray_report") {
+          refetch();
+        }
+      });
 
-    const updatePromises = messages.map((msg) => {
-      if (msg.type === 'new_xray_report') {
-        return dispatch(
-          PendingPatientListApi.util.updateQueryData(
-            ENDPOINTS.PENDING_PATIENT_LIST,
-            { page: 1, limit, search: '' },
-            (draft) => {
-              // Check for duplicate
-              const exists = draft.data.find(d => d._id === msg.payload._id);
-              if (!exists) {
-                // Insert at beginning and maintain limit
-                draft.data.unshift(msg.payload);
-                if (draft.data.length > limit) {
-                  draft.data.pop();
-                }
-                // Update pagination metadata if needed
-                draft.pagination.totalPages = Math.ceil(
-                  (draft.data.length + 1) / limit
-                );
-              }
-            }
-          )
-        );
-      }
-      return Promise.resolve();
-    });
-
-    Promise.all(updatePromises).then(() => {
       clearMessages();
-    });
-  }, [messages, limit, dispatch, clearMessages]);
+    }
+  }, [messages, refetch, clearMessages]);
 
   const DATA_TABLE = useMemo(
     () =>
@@ -120,17 +85,17 @@ const PatientPending = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex gap-2">
+          <div key={rowIndex} className="flex">
             <TypingBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/select-doctor/${record?.key}`}
-              className="bg-blue-500 text-white px-2 py-1 text-sm rounded"
+              className="bg-blue-500 text-white px-2 py-2 text-sm"
             >
               S.D
             </Link>
             <Link
               to={`/admin/patient-view/${record?.key}`}
-              className="bg-yellow-500 text-white px-2 py-1 text-sm rounded"
+              className="bg-yellow-500 text-white px-2 py-2 text-sm"
             >
               View
             </Link>

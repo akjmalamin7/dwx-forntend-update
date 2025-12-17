@@ -1,5 +1,7 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
+import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
 import { usePageTitle } from "@/shared/hooks";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
@@ -7,7 +9,7 @@ import {
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
@@ -28,6 +30,25 @@ const PatientView = () => {
   const [backToOtherView] = useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
+  console.log(patient);
+
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
+  useEffect(() => {
+    if (!patient?._id) return;
+
+    sendMessage({
+      type: "view_online_doctor",
+      payload: {
+        patient_id: patient._id,
+        doctor: {
+          _id: patient?.doctor_id[0]?._id ?? "",
+          email: patient?.doctor_id[0]?.email ?? "",
+          id: patient?.doctor_id[0]?.id ?? "",
+        },
+      },
+    });
+  }, [patient]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;

@@ -52,29 +52,33 @@ const PatientPending = () => {
 
   useEffect(() => {
     if (!messages.length) return;
-
     messages.forEach((msg) => {
-      if (msg.type !== "new_xray_report") return;
-      const rawPatient = extractPatientPayload(msg.payload);
-      if (!rawPatient) {
-        console.warn("Invalid WS payload:", msg);
-        return;
-      }
+      if (msg.type === "new_xray_report") {
+        const rawPatient = extractPatientPayload(msg.payload);
+        if (!rawPatient) {
+          console.warn("Invalid WS payload:", msg);
+          return;
+        }
 
-      const newData = transformWsPatient(rawPatient);
-      dispatch(
-        PendingPatientListApi.util.updateQueryData(
-          "getPendingPatientList",
-          { page, limit, search },
-          (draft) => {
-            const exists = draft.data.some((p) => p._id === newData._id);
-            if (!exists) {
-              draft.data.unshift(newData);
+        const newData = transformWsPatient(rawPatient);
+        dispatch(
+          PendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              const exists = draft.data.some((p) => p._id === newData._id);
+              if (!exists) {
+                draft.data.unshift(newData);
+              }
             }
-          }
-        )
-      );
+          )
+        );
+      }
+      if (msg.type === "view_online_doctor") {
+        console.log(msg.payload);
+      }
     });
+
     clearMessages();
   }, [
     messages,

@@ -25,8 +25,7 @@ const PendingPatientsList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { sendMessage } = useWebSocket(wsUrl, 5000);
+
   const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>
@@ -43,8 +42,8 @@ const PendingPatientsList = () => {
         }),
         agent_name:
           user?.id &&
-            Array.isArray(item.doctor_id) &&
-            item.doctor_id.includes(user.id)
+          Array.isArray(item.doctor_id) &&
+          item.doctor_id.includes(user.id)
             ? item.agent_id?.email || ""
             : "",
 

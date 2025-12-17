@@ -17,6 +17,14 @@ export type DeletePatientPayload = {
   success?: boolean;
   patientId: string;
 };
+export type ViewOnlineDoctorPayload = {
+  patient_id: string;
+  doctor: {
+    _id: string;
+    email: string;
+    id?: string;
+  };
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -32,5 +40,5 @@ export type WSMessage =
     }
   | {
       type: "view_online_doctor";
-      payload: DeletePatientPayload;
+      payload: ViewOnlineDoctorPayload;
     };

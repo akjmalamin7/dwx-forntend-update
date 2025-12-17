@@ -1,8 +1,13 @@
+type DoctorID = {
+  _id: string;
+  email: string;
+  id: string;
+};
 export interface PATIENT_VIEW_MODEL {
   _id: string;
   agent_id: string;
-  doctor_id: string[];
-  ignore_dr: string[];
+  doctor_id: DoctorID[];
+  ignore_dr: DoctorID[];
   patient_id: string;
   name: string;
   age: string;
@@ -33,6 +38,8 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   _id: string;
   name: string;
   patient_id: string;
+  doctor_id: DoctorID[];
+  ignore_dr: DoctorID[];
   age: string;
   createdAt: string;
   history: string;
@@ -105,6 +112,8 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     _id: patient._id,
     name: patient.name,
     patient_id: patient.patient_id,
+    doctor_id: patient.doctor_id,
+    ignore_dr: patient.ignore_dr,
     age: patient.age,
     createdAt: patient.createdAt,
     history: patient.history,

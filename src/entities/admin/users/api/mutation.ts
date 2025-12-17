@@ -1,14 +1,9 @@
-import { apiSlice } from "../../api/apiSlice";
-import {
-  transformUserListResponse,
-  type AdminUserResponse,
-  type USER_MODEL,
-  type UserListApiResponse,
-} from "./user.types";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
+
 
 export const AddUserApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addUser: builder.mutation({
+    addAdminUser: builder.mutation({
       query: (data) => ({
         url: "/admin/users",
         method: "POST",
@@ -16,26 +11,7 @@ export const AddUserApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
     }),
-
-    getDeletedDoctorList: builder.query<USER_MODEL[], void>({
-      query: () => ({
-        url: "/admin/users/deleted?role=xray_dr&role=ecg_dr",
-        method: "GET",
-      }),
-      transformResponse: (response: UserListApiResponse) => {
-        return transformUserListResponse(response.data);
-      },
-      providesTags: ["User"],
-    }),
-
-    getUser: builder.query<AdminUserResponse, string>({
-      query: (id) => ({
-        url: `/admin/users/${id}`,
-        method: "GET",
-      }),
-      providesTags: (_result, _error, id) => [{ type: "User", id }],
-    }),
-    updateUser: builder.mutation({
+    adminUpdateUser: builder.mutation({
       query: ({ id, data }) => ({
         url: `/admin/users/${id}`,
         method: "PUT",
@@ -62,10 +38,8 @@ export const AddUserApi = apiSlice.injectEndpoints({
   }),
 });
 export const {
-  useAddUserMutation,
-  useUpdateUserMutation,
-  useGetDeletedDoctorListQuery,
-  useGetUserQuery,
+  useAddAdminUserMutation,
+  useAdminUpdateUserMutation,
   useDeleteAdminUserMutation,
   useChangePasswordMutation,
 } = AddUserApi;

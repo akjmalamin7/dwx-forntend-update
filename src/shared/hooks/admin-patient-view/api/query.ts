@@ -1,5 +1,5 @@
-import { apiSlice } from "../../api/apiSlice";
-import { type PATIENT_VIEW_RESPONSE } from "./patientView.types";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
+import type { PATIENT_VIEW_RESPONSE } from "../model/schema";
 
 export const AdminPatientViewApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

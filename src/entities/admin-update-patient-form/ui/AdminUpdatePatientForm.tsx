@@ -1,7 +1,5 @@
 import { ImageUpload } from "@/features";
 import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
-import { ADMIN_UPDATE_PATIENT_SCHEMA } from "@/shared/redux/features/admin/admin-update-pateint/adminUpdatePateint.type";
-import { useAdminUpdatePatientMutation } from "@/shared/redux/features/admin/admin-update-pateint/adminUpdatePateintApi";
 import {
   Button,
   ControlInput,
@@ -13,6 +11,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAdminUpdatePatientMutation } from "../api/mutation";
+import { ADMIN_UPDATE_PATIENT_SCHEMA } from "../model/schema";
 
 const AdminUpdatePatientForm = () => {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "@/shared/redux/features/api/apiSlice";
 
 export const AdminUpdatePatientApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

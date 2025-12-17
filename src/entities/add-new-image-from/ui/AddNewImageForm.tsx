@@ -1,11 +1,11 @@
 import { ImageUpload } from "@/features";
-import { ADD_NEW_IMAGE_SCHEMA } from "@/shared/redux/features/admin/add-new-image/addNewImage.type";
-import { useAddNewImageMutation } from "@/shared/redux/features/admin/add-new-image/addNewImageApi";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAddNewImageMutation } from "../api/mutation";
+import { ADD_NEW_IMAGE_SCHEMA } from "../model/schema";
 
 const AddNewImageForm = () => {
   const navigate = useNavigate();

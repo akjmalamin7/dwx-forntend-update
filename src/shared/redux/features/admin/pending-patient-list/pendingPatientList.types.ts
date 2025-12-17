@@ -5,6 +5,7 @@ interface AGENT_DOCTOR {
 }
 
 export interface ADMIN_PENDING_PATIENT_MODEL {
+  key?: string;
   _id: string;
   agent_id: AGENT_DOCTOR;
   doctor_id: AGENT_DOCTOR[];

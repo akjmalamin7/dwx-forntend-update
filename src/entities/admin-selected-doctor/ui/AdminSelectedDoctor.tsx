@@ -1,5 +1,5 @@
+import { useGetAdminPatientViewQuery } from "@/shared/hooks/admin-patient-view";
 import { useAllDoctorListQuery } from "@/shared/redux/features/admin/all-doctor-list/allDcotorListApi.ts";
-import { useGetAdminPatientViewQuery } from "@/shared/redux/features/admin/patient-view/patientViewApi";
 import { DOCTOR_SELECTED_SCHEMA } from "@/shared/redux/features/admin/selected-doctor/selectedDoctor.type";
 import { useSelectdDoctorMutation } from "@/shared/redux/features/admin/selected-doctor/selectedDoctorApi";
 import { Button, Panel, PanelHeading } from "@/shared/ui";

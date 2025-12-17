@@ -1,4 +1,4 @@
-import { useDeleteAdminUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi";
+import { useDeleteAdminUserMutation } from "@/entities/admin/users/api/mutation";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
 interface IProps {

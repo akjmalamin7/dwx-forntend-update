@@ -1,9 +1,7 @@
+import { useAdminUpdateUserMutation } from "@/entities/admin/users/api/mutation";
+import { useGetAdminUserQuery } from "@/entities/admin/users/api/query";
+import { ADD_ADMIN_USER_SCHEMA } from "@/entities/admin/users/model/schema";
 import { usePageTitle } from "@/shared/hooks";
-import {
-  useGetUserQuery,
-  useUpdateUserMutation,
-} from "@/shared/redux/features/admin/add-user/addUserApi";
-import { ADD_ADMIN_USER_SCHEMA } from "@/shared/redux/features/admin/add-user/user.types";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { DoctorForm } from "@/widgets";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,10 +12,10 @@ import { useNavigate, useParams } from "react-router-dom";
 const EditUser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: user } = useGetUserQuery(id!, {
+  const { data: user } = useGetAdminUserQuery(id!, {
     skip: !id,
   });
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
+  const [updateUser, { isLoading: isUpdating }] = useAdminUpdateUserMutation();
   const [resetCount, setResetCount] = useState<number>(0);
   const userData = user?.data[0];
   const form = useForm({

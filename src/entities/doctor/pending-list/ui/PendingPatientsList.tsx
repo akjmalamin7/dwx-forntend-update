@@ -43,8 +43,8 @@ const PendingPatientsList = () => {
         }),
         agent_name:
           user?.id &&
-          Array.isArray(item.doctor_id) &&
-          item.doctor_id.includes(user.id)
+            Array.isArray(item.doctor_id) &&
+            item.doctor_id.includes(user.id)
             ? item.agent_id?.email || ""
             : "",
 

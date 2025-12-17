@@ -1,6 +1,6 @@
+import { useAddAdminUserMutation } from "@/entities/admin/users/api/mutation";
+import { ADD_ADMIN_USER_SCHEMA } from "@/entities/admin/users/model/schema";
 import { usePageTitle } from "@/shared/hooks";
-import { useAddUserMutation } from "@/shared/redux/features/admin/add-user/addUserApi";
-import { ADD_ADMIN_USER_SCHEMA } from "@/shared/redux/features/admin/add-user/user.types";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 
 import { DoctorForm } from "@/widgets";
@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 const AddUser = () => {
-  const [createUser, { isLoading }] = useAddUserMutation();
+  const [createUser, { isLoading }] = useAddAdminUserMutation();
   const [resetCount, setResetCount] = useState<number>(0);
 
   const form = useForm({
@@ -44,11 +44,11 @@ const AddUser = () => {
     }
   });
 
-    usePageTitle("Add New user", {
-          prefix: "DWX - ",
-          defaultTitle: "DWX",
-          restoreOnUnmount: true,
-        });
+  usePageTitle("Add New user", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
   return (
     <Panel

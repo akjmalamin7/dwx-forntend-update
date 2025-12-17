@@ -1,7 +1,7 @@
 import { UserActions, UserSignature } from "@/entities/admin/users";
 import { useGetAdminUserListQuery } from "@/entities/admin/users/api/query";
 import { usePageTitle } from "@/shared/hooks";
-import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { Message, Panel } from "@/shared/ui";
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";

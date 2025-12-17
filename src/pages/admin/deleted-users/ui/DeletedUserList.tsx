@@ -1,6 +1,6 @@
 import { useGetAdminDeletedUserListQuery } from "@/entities/admin/users/api/query";
 import { usePageTitle } from "@/shared/hooks";
-import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";

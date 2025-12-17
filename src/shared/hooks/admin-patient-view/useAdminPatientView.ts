@@ -1,5 +1,5 @@
-import { useGetAdminPatientViewQuery } from "@/shared/redux/features/admin/patient-view/patientViewApi";
 import { useParams } from "react-router-dom";
+import { useGetAdminPatientViewQuery } from "./api/query";
 
 export const useAdminPatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();

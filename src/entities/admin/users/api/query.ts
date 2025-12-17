@@ -3,6 +3,7 @@ import {
   ADMIN_USER_LIST_TRANSFORM_RESPONSE,
   type ADMIN_USER_LIST_API_RESPONSE,
   type ADMIN_USER_LIST_TRANSFORM_MODEL,
+  type AdminUserResponse,
 } from "../model/schema";
 
 export const AddUserApi = apiSlice.injectEndpoints({
@@ -27,6 +28,13 @@ export const AddUserApi = apiSlice.injectEndpoints({
       transformResponse: (response: ADMIN_USER_LIST_API_RESPONSE) =>
         ADMIN_USER_LIST_TRANSFORM_RESPONSE(response),
       providesTags: ["User"],
+    }),
+    getAdminUser: builder.query<AdminUserResponse, string>({
+      query: (id) => ({
+        url: `/admin/users/${id}`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, id) => [{ type: "User", id }],
     }),
 
     /* deleted user list */
@@ -76,6 +84,7 @@ export const AddUserApi = apiSlice.injectEndpoints({
 });
 export const {
   useGetAdminUserListQuery,
+  useGetAdminUserQuery,
   useGetAdminDeletedUserListQuery,
   useGetAdminDoctorDeletedListQuery,
 } = AddUserApi;

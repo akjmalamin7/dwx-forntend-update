@@ -11,7 +11,7 @@ import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import type { WSMessage } from "../model/schema";
@@ -21,6 +21,9 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 // ============================================================
 
 const PatientPending = () => {
+  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<Record<string, any>>(
+    {}
+  );
   const { extractPatientPayload, transformWsPatient } = useTransformPatient();
   const dispatch: AppDispatch = useDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -75,7 +78,32 @@ const PatientPending = () => {
         );
       }
       if (msg.type === "view_online_doctor") {
+        const { patient_id: wsPatientId, doctor } = msg.payload;
+        setOnlineDoctorsMap((prev) => ({
+          ...prev,
+          [wsPatientId]: doctor,
+        }));
         console.log(msg.payload);
+
+        // const { patient_id: wsPatientId, doctor } = msg.payload;
+        // dispatch(
+        //   PendingPatientListApi.util.updateQueryData(
+        //     "getPendingPatientList",
+        //     { page, limit, search },
+        //     (draft) => {
+        //       const patientIndex = draft.data.findIndex(
+        //         (d) => d._id === wsPatientId
+        //       );
+        //       if (patientIndex !== -1) {
+        //         draft.data[patientIndex].online_dr = {
+        //           email: doctor.email,
+        //           _id: doctor._id,
+        //           id: doctor.id ?? "",
+        //         };
+        //       }
+        //     }
+        //   )
+        // );
       }
     });
 
@@ -93,33 +121,38 @@ const PatientPending = () => {
 
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.data?.map((item, index) => ({
-        key: item._id,
-        sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
-        agent_name: item.agent_id?.email,
-        patient_name: item.name,
-        patient_id: item.patient_id,
-        gender: item.gender,
-        age: item.age,
-        rtype: item.rtype,
-        selected_dr:
-          user?.id && Array.isArray(item.doctor_id) && item.doctor_id.length > 0
-            ? item.doctor_id.map((d) => d.email).join(", ")
-            : "All",
-        ignored_dr:
-          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-            ? item.ignore_dr.map((d) => d.email).join(", ")
-            : "",
-        online_dr: item.online_dr?.email,
-        xray_name: item.xray_name,
-        action: "",
-      })) || [],
-    [patientList?.data, user?.id, limit, page]
+      patientList?.data?.map((item, index) => {
+        const liveDoctor = onlineDoctorsMap[item._id];
+        return {
+          key: item._id,
+          sl: (page - 1) * limit + index + 1,
+          start_time: new Date(item.createdAt).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+          agent_name: item.agent_id?.email,
+          patient_name: item.name,
+          patient_id: item.patient_id,
+          gender: item.gender,
+          age: item.age,
+          rtype: item.rtype,
+          selected_dr:
+            user?.id &&
+            Array.isArray(item.doctor_id) &&
+            item.doctor_id.length > 0
+              ? item.doctor_id.map((d) => d.email).join(", ")
+              : "All",
+          ignored_dr:
+            Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
+              ? item.ignore_dr.map((d) => d.email).join(", ")
+              : "",
+          online_dr: liveDoctor ? liveDoctor.email : item.online_dr?.email,
+          xray_name: item.xray_name,
+          action: "",
+        };
+      }) || [],
+    [patientList?.data, user?.id, limit, page, onlineDoctorsMap]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

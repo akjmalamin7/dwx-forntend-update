@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type WSStatus = "connecting" | "open" | "closed";
 
@@ -146,7 +146,7 @@ export const useWebSocket = <T = unknown>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
-  const sendMessage = (msg: unknown) => {
+  const sendMessage = useCallback((msg: unknown) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       try {
         wsRef.current.send(JSON.stringify(msg));
@@ -156,11 +156,11 @@ export const useWebSocket = <T = unknown>(
     } else {
       console.warn("WS not open. Message not sent:", msg);
     }
-  };
+  }, []);
 
-  const clearMessages = () => {
+  const clearMessages = useCallback(() => {
     setMessages([]);
-  };
+  }, []);
 
   const disconnect = () => {
     if (reconnectTimeout.current) {

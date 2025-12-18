@@ -30,25 +30,29 @@ const PatientView = () => {
   const [backToOtherView] = useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
-  console.log(patient);
 
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
+
+  const patientId = patient?._id;
+  const doctorId = patient?.doctor_id?.[0]?._id;
+  const doctorEmail = patient?.doctor_id?.[0]?.email;
+
   useEffect(() => {
-    if (!patient?._id) return;
+    if (!patientId || !doctorId) return;
 
     sendMessage({
       type: "view_online_doctor",
       payload: {
-        patient_id: patient._id,
+        patient_id: patientId,
         doctor: {
-          _id: patient?.doctor_id[0]?._id ?? "",
-          email: patient?.doctor_id[0]?.email ?? "",
-          id: patient?.doctor_id[0]?.id ?? "",
+          _id: doctorId,
+          email: doctorEmail ?? "",
+          id: patient?.doctor_id?.[0]?.id ?? "",
         },
       },
     });
-  }, [patient]);
+  }, [patientId, doctorId, doctorEmail, sendMessage]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;

@@ -41,4 +41,8 @@ export type WSMessage =
   | {
       type: "view_online_doctor";
       payload: ViewOnlineDoctorPayload;
+    }
+  | {
+      type: "stop_view_online_doctor";
+      payload: ViewOnlineDoctorPayload;
     };

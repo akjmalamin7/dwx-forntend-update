@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
+import type { XRayDoctorPayload } from "@/entities/admin/users/model/schema";
 import { AdminDoctorMultiSelect, Editor, ImageUpload } from "@/features";
-import type { XRayDoctorPayload } from "@/shared/redux/features/admin/add-user/user.types";
 import { ControlInput, ControlledSelect, Text } from "@/shared/ui";
 import { RoleEnum } from "@/shared/utils/types/types";
 import { StatusEnum } from "@/shared/utils/types/userTypes";

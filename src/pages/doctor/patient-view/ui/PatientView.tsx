@@ -32,14 +32,14 @@ const PatientView = () => {
   const attachments = patient_view?.attachments ?? [];
 
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const { sendMessage, isOpen } = useWebSocket<WSMessage>(wsUrl, 5000);
 
   const patientId = patient?._id;
   const doctorId = patient?.doctor_id?.[0]?._id;
   const doctorEmail = patient?.doctor_id?.[0]?.email;
 
   useEffect(() => {
-    if (!patientId || !doctorId) return;
+    if (!patientId || !doctorId || !isOpen) return;
 
     sendMessage({
       type: "view_online_doctor",
@@ -52,15 +52,46 @@ const PatientView = () => {
         },
       },
     });
-  }, [patientId, doctorId, doctorEmail, sendMessage]);
+    sendMessage({
+      type: "stop_viewing_patient",
+      payload: {
+        patient_id: patientId,
+        doctor: {
+          _id: doctorId,
+          email: doctorEmail ?? "",
+          id: patient?.doctor_id?.[0]?.id ?? "",
+        },
+      },
+    });
+
+    return () => {
+      sendMessage({
+        type: "stop_viewing_patient",
+        payload: {
+          patient_id: patientId,
+          doctor_id: doctorId,
+        },
+      });
+    };
+  }, [
+    patientId,
+    doctorId,
+    doctorEmail,
+    sendMessage,
+    isOpen,
+    patient?.doctor_id,
+  ]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
+    sendMessage({
+      type: "back_view_patient",
+      payload: { patient_id: patient_id },
+    });
     try {
       await backToOtherView({
         _id: patient_id,
       }).unwrap();
-
       navigate("/doctor/patient");
     } catch (error) {
       console.error("Delete failed:", error);

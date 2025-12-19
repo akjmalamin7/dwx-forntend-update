@@ -25,6 +25,12 @@ export type ViewOnlineDoctorPayload = {
     id?: string;
   };
 };
+export type BackOnlineDoctorPayload = {
+  patient_id: string;
+};
+export type DeletePatientFromAdminPayload = {
+  patient_id: string;
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -43,6 +49,14 @@ export type WSMessage =
       payload: ViewOnlineDoctorPayload;
     }
   | {
-      type: "stop_view_online_doctor";
+      type: "stop_viewing_patient";
       payload: ViewOnlineDoctorPayload;
+    }
+  | {
+      type: "back_view_patient";
+      payload: BackOnlineDoctorPayload;
+    }
+  | {
+      type: "delete_patient_from_admin";
+      payload: DeletePatientFromAdminPayload;
     };

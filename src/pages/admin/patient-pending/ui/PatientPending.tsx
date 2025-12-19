@@ -19,11 +19,15 @@ import { useTransformPatient } from "../model/useTransformPatient";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 // ============================================================
-
+interface OnlineDoctor {
+  _id: string;
+  email: string;
+  id?: string;
+}
 const PatientPending = () => {
-  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<Record<string, any>>(
-    {}
-  );
+  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
+    Record<string, OnlineDoctor>
+  >({});
   const { extractPatientPayload, transformWsPatient } = useTransformPatient();
   const dispatch: AppDispatch = useDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -50,11 +54,12 @@ const PatientPending = () => {
   });
 
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const { messages, sendMessage, clearMessages, isOpen } =
+    useWebSocket<WSMessage>(wsUrl, 5000);
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!messages.length) return;
+    if (!messages.length || !isOpen) return;
     messages.forEach((msg) => {
       if (msg.type === "new_xray_report") {
         const rawPatient = extractPatientPayload(msg.payload);
@@ -84,26 +89,41 @@ const PatientPending = () => {
           [wsPatientId]: doctor,
         }));
         console.log(msg.payload);
+      }
+      if (msg.type === "back_view_patient") {
+        const wsPatientId = msg.payload?.patient_id;
+        setOnlineDoctorsMap((prev) => {
+          const updatedMap = { ...prev };
+          delete updatedMap[wsPatientId];
+          return updatedMap;
+        });
 
-        // const { patient_id: wsPatientId, doctor } = msg.payload;
-        // dispatch(
-        //   PendingPatientListApi.util.updateQueryData(
-        //     "getPendingPatientList",
-        //     { page, limit, search },
-        //     (draft) => {
-        //       const patientIndex = draft.data.findIndex(
-        //         (d) => d._id === wsPatientId
-        //       );
-        //       if (patientIndex !== -1) {
-        //         draft.data[patientIndex].online_dr = {
-        //           email: doctor.email,
-        //           _id: doctor._id,
-        //           id: doctor.id ?? "",
-        //         };
-        //       }
-        //     }
-        //   )
-        // );
+        dispatch(
+          PendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              const patient = draft.data.find((p) => p._id === wsPatientId);
+              console.log(patient, "= Patient", wsPatientId);
+              if (patient) {
+                patient.online_dr = { _id: "", email: "", id: "" };
+              }
+            }
+          )
+        );
+      }
+      if (msg.type === "delete_patient_from_admin") {
+        const deletedId = msg.payload.patient_id;
+
+        dispatch(
+          PendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              draft.data = draft.data.filter((p) => p._id !== deletedId);
+            }
+          )
+        );
       }
     });
 
@@ -117,6 +137,7 @@ const PatientPending = () => {
     clearMessages,
     extractPatientPayload,
     transformWsPatient,
+    isOpen,
   ]);
 
   const DATA_TABLE = useMemo(
@@ -147,7 +168,9 @@ const PatientPending = () => {
             Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
               ? item.ignore_dr.map((d) => d.email).join(", ")
               : "",
-          online_dr: liveDoctor ? liveDoctor.email : item.online_dr?.email,
+          online_dr: liveDoctor
+            ? liveDoctor.email
+            : item.online_dr?.email || "",
           xray_name: item.xray_name,
           action: "",
         };
@@ -161,7 +184,11 @@ const PatientPending = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex">
-            <TypingBack path={record?.key} onDeleteSuccess={refetch} />
+            <TypingBack
+              path={record?.key}
+              sendMessage={sendMessage}
+              onDeleteSuccess={refetch}
+            />
             <Link
               to={`/admin/select-doctor/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-2 text-sm"
@@ -174,7 +201,11 @@ const PatientPending = () => {
             >
               View
             </Link>
-            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+            <DeleteAdminPatient
+              id={record?.key}
+              sendMessage={sendMessage}
+              onDeleteSuccess={refetch}
+            />
           </div>
         ),
       };

@@ -1,11 +1,13 @@
+import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
 import { useDeleteAdminPatientMutation } from "@/shared/redux/features/admin/delete-admin-patient/deleteAdminPatient";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
 interface IProps {
   id?: string;
   onDeleteSuccess?: () => void;
+  sendMessage?: (msg: WSMessage) => void;
 }
-const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
+const DeleteAdminPatient = ({ id, onDeleteSuccess, sendMessage }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteAdminPatient, { isLoading }] = useDeleteAdminPatientMutation();
   const handleDelete = async () => {
@@ -14,9 +16,14 @@ const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
     try {
       await deleteAdminPatient(id).unwrap();
       setIsModalOpen(false);
+
       if (onDeleteSuccess) {
         onDeleteSuccess();
       }
+      sendMessage?.({
+        type: "delete_patient_from_admin",
+        payload: { patient_id: id },
+      });
     } catch (error) {
       console.error("Delete failed:", error);
       console.log("Full error object:", JSON.stringify(error, null, 2));

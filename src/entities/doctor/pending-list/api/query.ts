@@ -5,7 +5,7 @@ import {
   type DOCTOR_PENDING_PATIENT_TRANSFORM_MODEL,
 } from "../model/schema";
 
-const PendingPatientListApi = apiSlice.injectEndpoints({
+export const PendingDoctorPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorPendingPatientList: builder.query<
       DOCTOR_PENDING_PATIENT_TRANSFORM_MODEL,
@@ -24,10 +24,21 @@ const PendingPatientListApi = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: "DoctorPatientList" as const,
+                id: _id,
+              })),
+              "DoctorPatientList",
+            ]
+          : ["DoctorPatientList"],
       transformResponse: (response: DOCTOR_PENDING_PATIENT_API_RESPONSE) => {
         return DOCTOR_PENDING_PATIENT_TRANSFORM_RESPONSE(response);
       },
     }),
   }),
 });
-export const { useGetDoctorPendingPatientListQuery } = PendingPatientListApi;
+export const { useGetDoctorPendingPatientListQuery } =
+  PendingDoctorPatientListApi;

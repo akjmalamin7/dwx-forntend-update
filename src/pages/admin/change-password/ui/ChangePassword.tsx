@@ -1,6 +1,6 @@
 import { useChangePasswordMutation } from "@/entities/admin/users/api/mutation";
+import { CHANGE_PASSWORD_SCHEMA } from "@/entities/admin/users/model/schema";
 import { usePageTitle } from "@/shared/hooks";
-import { CHANGE_PASSWORD_SCHEMA } from "@/shared/redux/features/admin/add-user/user.types";
 import { Button, ControlInput, Panel, PanelHeading } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";

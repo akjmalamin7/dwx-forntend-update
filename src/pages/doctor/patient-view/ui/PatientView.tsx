@@ -1,7 +1,7 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
 import { usePageTitle } from "@/shared/hooks";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
@@ -98,6 +98,17 @@ const PatientView = () => {
       console.log("Full error object:", JSON.stringify(error, null, 2));
     }
   };
+
+  const handleSubmitPatient = () => {
+    if (!patient_id) return;
+    sendMessage({
+      type: "submit_patient",
+      payload: {
+        patient_id: patient_id,
+        patient: patient,
+      },
+    });
+  };
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 
@@ -160,7 +171,10 @@ const PatientView = () => {
       )}
       {/* Image Viewer Section */}
       <XrayImages attachments={attachments} />
-      <ReportSubmissionForm patient_id={patient_id} />
+      <ReportSubmissionForm
+        handleSubmitPatient={handleSubmitPatient}
+        patient_id={patient_id}
+      />
     </Panel>
   );
 };

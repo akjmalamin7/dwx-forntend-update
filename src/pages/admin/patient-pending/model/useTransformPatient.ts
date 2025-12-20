@@ -1,4 +1,4 @@
-import type { NewXrayReportPayload } from "./schema";
+import type { NewXrayReportPayload } from "@/shared/hooks/use-web-socket/model/schema";
 
 export const useTransformPatient = () => {
   const transformWsPatient = (payload: NewXrayReportPayload) => {

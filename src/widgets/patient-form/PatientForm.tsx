@@ -65,6 +65,7 @@ const PatientForm = ({
     control,
     reset,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = methods;
   useEffect(() => {
@@ -89,6 +90,8 @@ const PatientForm = ({
   }, [isEdit, defaultValues, methods]);
   // reset data only add mode
   useEffect(() => {
+    const currentDoctorId = getValues("doctor_id");
+    const currentIgnoreDr = getValues("ignore_dr");
     if (resetCount > 0 && !isEdit) {
       reset({
         attachment: [],
@@ -102,11 +105,11 @@ const PatientForm = ({
         xray_name: "",
         ref_doctor: "",
         image_type: "single",
-        doctor_id: [],
-        ignore_dr: [],
+        doctor_id: currentDoctorId,
+        ignore_dr: currentIgnoreDr,
       });
     }
-  }, [resetCount, reset, isEdit]);
+  }, [resetCount, reset, isEdit, getValues]);
 
   // load profile data
   const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {

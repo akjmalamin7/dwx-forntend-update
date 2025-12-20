@@ -2,7 +2,7 @@ import { useSendReportMutation } from "@/entities/agent/send-report";
 import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Loader, Panel, PanelHeading } from "@/shared/ui";
 import { type PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";

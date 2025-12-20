@@ -1,23 +1,18 @@
-import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import {
-  PendingDoctorPatientListApi,
-  useGetDoctorPendingPatientListQuery,
-} from "../api/query";
+import { useGetDoctorPendingPatientListQuery } from "../api/query";
+import { useDoctorPendingPatientsSocketHandler } from "../model/useDoctorPendingPatientListSocketHandlers";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PendingPatientsList = () => {
-  const dispatch: AppDispatch = useDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -40,38 +35,14 @@ const PendingPatientsList = () => {
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages } = useWebSocket<WSMessage>(wsUrl, 5000);
 
-  useEffect(() => {
-    if (!messages.length) return;
-    const lastMessage = messages[messages.length - 1];
+  useDoctorPendingPatientsSocketHandler({
+    messages,
+    page,
+    limit,
+    search,
+    refetch,
+  });
 
-    if (lastMessage.type === "stop_viewing_patient") {
-      const targetPatientId = lastMessage.payload.patient_id;
-      dispatch(
-        PendingDoctorPatientListApi.util.updateQueryData(
-          "getDoctorPendingPatientList",
-          { page, limit, search },
-          (draft) => {
-            if (draft.data) {
-              const index = draft.data.findIndex(
-                (p) => p._id === targetPatientId
-              );
-              if (index !== -1) {
-                draft.data.splice(index, 1);
-              }
-            }
-          }
-        )
-      );
-    }
-    if (
-      lastMessage.type === "back_view_patient" ||
-      lastMessage.type === "new_xray_report" ||
-      lastMessage.type === "delete_patient_from_admin"
-    ) {
-      refetch();
-    }
-    console.log(lastMessage);
-  }, [messages, dispatch, limit, search, page, refetch]);
   const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>

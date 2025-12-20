@@ -2,20 +2,15 @@ import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
-import {
-  PendingPatientListApi,
-  useGetPendingPatientListQuery,
-} from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
+import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import type { WSMessage } from "../model/schema";
-import { useTransformPatient } from "../model/useTransformPatient";
+import { useAdminPendingPatientsSocketHanlder } from "../model/useAdminPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 // ============================================================
@@ -28,8 +23,7 @@ const PatientPending = () => {
   const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
     Record<string, OnlineDoctor>
   >({});
-  const { extractPatientPayload, transformWsPatient } = useTransformPatient();
-  const dispatch: AppDispatch = useDispatch();
+
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -52,93 +46,20 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const { user } = useAuth();
 
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages, sendMessage, clearMessages, isOpen } =
     useWebSocket<WSMessage>(wsUrl, 5000);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (!messages.length || !isOpen) return;
-    messages.forEach((msg) => {
-      if (msg.type === "new_xray_report") {
-        const rawPatient = extractPatientPayload(msg.payload);
-        if (!rawPatient) {
-          console.warn("Invalid WS payload:", msg);
-          return;
-        }
-
-        const newData = transformWsPatient(rawPatient);
-        dispatch(
-          PendingPatientListApi.util.updateQueryData(
-            "getPendingPatientList",
-            { page, limit, search },
-            (draft) => {
-              const exists = draft.data.some((p) => p._id === newData._id);
-              if (!exists) {
-                draft.data.unshift(newData);
-              }
-            }
-          )
-        );
-      }
-      if (msg.type === "view_online_doctor") {
-        const { patient_id: wsPatientId, doctor } = msg.payload;
-        setOnlineDoctorsMap((prev) => ({
-          ...prev,
-          [wsPatientId]: doctor,
-        }));
-        console.log(msg.payload);
-      }
-      if (msg.type === "back_view_patient") {
-        const wsPatientId = msg.payload?.patient_id;
-        setOnlineDoctorsMap((prev) => {
-          const updatedMap = { ...prev };
-          delete updatedMap[wsPatientId];
-          return updatedMap;
-        });
-
-        dispatch(
-          PendingPatientListApi.util.updateQueryData(
-            "getPendingPatientList",
-            { page, limit, search },
-            (draft) => {
-              const patient = draft.data.find((p) => p._id === wsPatientId);
-              console.log(patient, "= Patient", wsPatientId);
-              if (patient) {
-                patient.online_dr = { _id: "", email: "", id: "" };
-              }
-            }
-          )
-        );
-      }
-      if (msg.type === "delete_patient_from_admin") {
-        const deletedId = msg.payload.patient_id;
-
-        dispatch(
-          PendingPatientListApi.util.updateQueryData(
-            "getPendingPatientList",
-            { page, limit, search },
-            (draft) => {
-              draft.data = draft.data.filter((p) => p._id !== deletedId);
-            }
-          )
-        );
-      }
-    });
-
-    clearMessages();
-  }, [
+  useAdminPendingPatientsSocketHanlder({
     messages,
-    dispatch,
-    limit,
-    page,
-    search,
     clearMessages,
-    extractPatientPayload,
-    transformWsPatient,
     isOpen,
-  ]);
+    page,
+    limit,
+    search,
+    setOnlineDoctorsMap,
+  });
 
   const DATA_TABLE = useMemo(
     () =>

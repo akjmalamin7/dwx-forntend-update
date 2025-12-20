@@ -1,6 +1,6 @@
 import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/useWebSocket";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search, Text } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";

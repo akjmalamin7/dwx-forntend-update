@@ -17,6 +17,7 @@ interface IProps {
   patient_id: string;
   commentsAndPassault?: GetCommentsAndPassaultType;
   isUpdate?: boolean;
+  handleSubmitPatient?: () => void;
 }
 
 interface FormData {
@@ -37,6 +38,7 @@ const ReportSubmissionForm = ({
   patient_id,
   commentsAndPassault,
   isUpdate = false,
+  handleSubmitPatient,
 }: IProps) => {
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
@@ -139,6 +141,7 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
+        handleSubmitPatient?.();
         navigate("/doctor/patient");
 
         resetForm();
@@ -156,7 +159,6 @@ const ReportSubmissionForm = ({
       <div className="flex gap-4 mb-4">
         <AdminFormatList onSelect={handleAdminSelect} />
         <PersonalFormatList onSelect={handlePersonalSelect} />
-        
       </div>
 
       <Input type="hidden" {...register("patient_id")} />

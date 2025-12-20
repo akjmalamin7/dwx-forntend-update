@@ -5,7 +5,7 @@ import {
   type ADMIN_TRANSFORM_PENDING_PATIENT_MODEL,
 } from "./pendingPatientList.types";
 
-export const PendingPatientListApi = apiSlice.injectEndpoints({
+export const AdminPendingPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPendingPatientList: builder.query<
       ADMIN_TRANSFORM_PENDING_PATIENT_MODEL,
@@ -34,4 +34,4 @@ export const PendingPatientListApi = apiSlice.injectEndpoints({
     }),
   }),
 });
-export const { useGetPendingPatientListQuery } = PendingPatientListApi;
+export const { useGetPendingPatientListQuery } = AdminPendingPatientListApi;

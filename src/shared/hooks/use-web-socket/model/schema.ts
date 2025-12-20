@@ -31,6 +31,10 @@ export type BackOnlineDoctorPayload = {
 export type DeletePatientFromAdminPayload = {
   patient_id: string;
 };
+export type SubmitPatientPayload = {
+  patient_id: string;
+  patient: Partial<ADMIN_PENDING_PATIENT_MODEL>;
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -59,4 +63,8 @@ export type WSMessage =
   | {
       type: "delete_patient_from_admin";
       payload: DeletePatientFromAdminPayload;
+    }
+  | {
+      type: "submit_patient";
+      payload: SubmitPatientPayload;
     };

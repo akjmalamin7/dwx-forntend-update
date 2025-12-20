@@ -50,6 +50,7 @@ const PendingPatientsList = () => {
   // });
   useEffect(() => {
     if (!messages.length) return;
+
     const lastMessage = messages[messages.length - 1];
 
     if (lastMessage.type === "stop_viewing_patient") {
@@ -85,9 +86,11 @@ const PendingPatientsList = () => {
         )
       );
     }
+
     if (
       lastMessage.type === "back_view_patient" ||
       lastMessage.type === "new_xray_report" ||
+      lastMessage.type === "select_doctor_and_update" ||
       lastMessage.type === "delete_patient_from_admin"
     ) {
       refetch();

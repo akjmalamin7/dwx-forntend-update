@@ -35,6 +35,11 @@ export type SubmitPatientPayload = {
   patient_id: string;
   patient: Partial<ADMIN_PENDING_PATIENT_MODEL>;
 };
+export type SelectDoctorAndUPdate = {
+  message: string;
+  success: boolean;
+  patient: ADMIN_PENDING_PATIENT_MODEL;
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -67,4 +72,8 @@ export type WSMessage =
   | {
       type: "submit_patient";
       payload: SubmitPatientPayload;
+    }
+  | {
+      type: "select_doctor_and_update";
+      payload: SelectDoctorAndUPdate;
     };

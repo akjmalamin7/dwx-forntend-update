@@ -1,7 +1,5 @@
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import type {
-  BackOnlineDoctorPayload,
-  DeletePatientFromAdminPayload,
   NewXrayReportPayload,
   WSMessage,
 } from "@/shared/hooks/use-web-socket/model/schema";
@@ -27,7 +25,6 @@ interface UseSocketHandlersProps {
     React.SetStateAction<Record<string, OnlineDoctor>>
   >;
 }
-
 export const useAdminPendingPatientsSocketHanlder = ({
   messages,
   page,
@@ -39,20 +36,18 @@ export const useAdminPendingPatientsSocketHanlder = ({
 }: UseSocketHandlersProps) => {
   const dispatch: AppDispatch = useAppDispatch();
   const { extractPatientPayload, transformWsPatient } = useTransformPatient();
-  // update cache on admin pending patient when add a new report from agent
-  const addPatientAndCacheUpdate = useCallback(
+
+  const addPatientToCache = useCallback(
     (payload: NewXrayReportPayload) => {
       const rawPatient = extractPatientPayload(payload);
       const newPatient = rawPatient ? transformWsPatient(rawPatient) : null;
-
       if (newPatient) {
         dispatch(
           AdminPendingPatientListApi.util.updateQueryData(
             "getPendingPatientList",
             { page, limit, search },
             (draft) => {
-              const exists = draft.data.some((p) => p._id === newPatient._id);
-              if (!exists) {
+              if (!draft.data.some((p) => p._id === newPatient._id)) {
                 draft.data.unshift(newPatient);
               }
             }
@@ -60,19 +55,16 @@ export const useAdminPendingPatientsSocketHanlder = ({
         );
       }
     },
-    [dispatch, extractPatientPayload, transformWsPatient, page, limit, search]
+    [dispatch, page, limit, search, extractPatientPayload, transformWsPatient]
   );
-  // remove online_dr on admin pending patient after viewing back from doctor
-  const updateOnlineDoctorAfterBack = useCallback(
-    (payload: BackOnlineDoctorPayload) => {
-      const wsPatientId = payload.patient_id;
 
+  const removeDoctorStatus = useCallback(
+    (wsPatientId: string) => {
       setOnlineDoctorsMap((prev) => {
         const updateMap = { ...prev };
         delete updateMap[wsPatientId];
         return updateMap;
       });
-
       dispatch(
         AdminPendingPatientListApi.util.updateQueryData(
           "getPendingPatientList",
@@ -86,12 +78,11 @@ export const useAdminPendingPatientsSocketHanlder = ({
         )
       );
     },
-    [dispatch, setOnlineDoctorsMap, page, limit, search]
+    [dispatch, page, limit, search, setOnlineDoctorsMap]
   );
-  // delte patient from admin
-  const deletePatientFromAdmin = useCallback(
-    (payload: DeletePatientFromAdminPayload) => {
-      const patientId = payload.patient_id;
+
+  const deletePatient = useCallback(
+    (patientId: string) => {
       dispatch(
         AdminPendingPatientListApi.util.updateQueryData(
           "getPendingPatientList",
@@ -106,36 +97,45 @@ export const useAdminPendingPatientsSocketHanlder = ({
   );
 
   useEffect(() => {
-    if (!messages.length || !isOpen) return;
-
+    if (!isOpen || messages.length === 0) return;
     messages.forEach((msg) => {
+      console.log("Processing Admin WS Message:", msg.type, msg.payload);
+
       switch (msg.type) {
         case "new_xray_report":
-          addPatientAndCacheUpdate(msg.payload);
+          addPatientToCache(msg.payload);
           break;
+
         case "view_online_doctor": {
-          const { patient_id: wsPatientId, doctor } = msg.payload;
-          setOnlineDoctorsMap((prev) => ({ ...prev, [wsPatientId]: doctor }));
+          const { patient_id, doctor } = msg.payload;
+          setOnlineDoctorsMap((prev) => ({ ...prev, [patient_id]: doctor }));
           break;
         }
+
         case "back_view_patient":
-          updateOnlineDoctorAfterBack(msg.payload);
+        case "stop_viewing_patient": {
+          const pId = msg.payload?.patient_id;
+          if (pId) removeDoctorStatus(pId);
           break;
+        }
+
         case "delete_patient_from_admin":
-        case "submit_patient":
-          deletePatientFromAdmin(msg.payload as DeletePatientFromAdminPayload);
+        case "submit_patient": {
+          const pId = msg.payload?.patient_id;
+          if (pId) deletePatient(pId);
           break;
+        }
       }
     });
 
-    clearMessages?.();
+    clearMessages();
   }, [
     messages,
     isOpen,
     clearMessages,
-    addPatientAndCacheUpdate,
-    updateOnlineDoctorAfterBack,
-    deletePatientFromAdmin,
+    addPatientToCache,
+    removeDoctorStatus,
+    deletePatient,
     setOnlineDoctorsMap,
   ]);
 };

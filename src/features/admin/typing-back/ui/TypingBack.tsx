@@ -1,4 +1,4 @@
-import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useTypingBackMutation } from "@/shared/redux/features/admin/typing-back/typingBackApi";
 import { Button } from "@/shared/ui";
 interface TProps {

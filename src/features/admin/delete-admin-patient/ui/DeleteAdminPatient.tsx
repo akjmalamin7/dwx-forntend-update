@@ -1,4 +1,4 @@
-import type { WSMessage } from "@/pages/admin/patient-pending/model/schema";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useDeleteAdminPatientMutation } from "@/shared/redux/features/admin/delete-admin-patient/deleteAdminPatient";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";

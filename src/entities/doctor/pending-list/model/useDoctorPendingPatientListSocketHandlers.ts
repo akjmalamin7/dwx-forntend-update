@@ -1,4 +1,5 @@
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { AdminPendingPatientListApi } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -20,11 +21,27 @@ export const useDoctorPendingPatientsSocketHandler = ({
 }: UseDoctorPendingPatientsSocketHandlerProps) => {
   const dispatch: AppDispatch = useDispatch();
   // remove data
-  const removePatientFromCache = useCallback(
+  const removeDoctorPatientFromCache = useCallback(
     (patientId: string) => {
       dispatch(
         PendingDoctorPatientListApi.util.updateQueryData(
           "getDoctorPendingPatientList",
+          { limit, page, search },
+          (draft) => {
+            if (draft.data) {
+              draft.data = draft.data.filter((p) => p._id !== patientId);
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search]
+  );
+  const removeAdminPatientFromCache = useCallback(
+    (patientId: string) => {
+      dispatch(
+        AdminPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
           { limit, page, search },
           (draft) => {
             if (draft.data) {
@@ -41,11 +58,14 @@ export const useDoctorPendingPatientsSocketHandler = ({
     const lastMessage = messages[messages.length - 1];
     // action distrubution according message type
     switch (lastMessage.type) {
-      case "stop_viewing_patient":
-      case "submit_patient":
-      case "view_online_doctor": {
+      case "stop_viewing_patient": {
         const targetId = lastMessage.payload?.patient_id;
-        if (targetId) removePatientFromCache(targetId);
+        if (targetId) removeDoctorPatientFromCache(targetId);
+        break;
+      }
+      case "submit_patient": {
+        const targetId = lastMessage.payload?.patient_id;
+        if (targetId) removeAdminPatientFromCache(targetId);
         break;
       }
       case "back_view_patient":
@@ -66,6 +86,7 @@ export const useDoctorPendingPatientsSocketHandler = ({
     limit,
     search,
     refetch,
-    removePatientFromCache,
+    removeDoctorPatientFromCache,
+    removeAdminPatientFromCache,
   ]);
 };

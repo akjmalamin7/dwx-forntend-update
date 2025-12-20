@@ -3,16 +3,22 @@ import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/u
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
+import { AdminPendingPatientListApi } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
+import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGetDoctorPendingPatientListQuery } from "../api/query";
-import { useDoctorPendingPatientsSocketHandler } from "../model/useDoctorPendingPatientListSocketHandlers";
+import {
+  PendingDoctorPatientListApi,
+  useGetDoctorPendingPatientListQuery,
+} from "../api/query";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PendingPatientsList = () => {
+  const dispatch: AppDispatch = useDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -35,13 +41,59 @@ const PendingPatientsList = () => {
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages } = useWebSocket<WSMessage>(wsUrl, 5000);
 
-  useDoctorPendingPatientsSocketHandler({
-    messages,
-    page,
-    limit,
-    search,
-    refetch,
-  });
+  // useDoctorPendingPatientsSocketHandler({
+  //   messages,
+  //   page,
+  //   limit,
+  //   search,
+  //   refetch,
+  // });
+  useEffect(() => {
+    if (!messages.length) return;
+    const lastMessage = messages[messages.length - 1];
+
+    if (lastMessage.type === "stop_viewing_patient") {
+      const targetPatientId = lastMessage.payload.patient_id;
+      dispatch(
+        PendingDoctorPatientListApi.util.updateQueryData(
+          "getDoctorPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            if (draft.data) {
+              const index = draft.data.findIndex(
+                (p) => p._id === targetPatientId
+              );
+              if (index !== -1) {
+                draft.data.splice(index, 1);
+              }
+            }
+          }
+        )
+      );
+    }
+    if (lastMessage.type === "submit_patient") {
+      const targetPatientId = lastMessage.payload.patient_id;
+      dispatch(
+        AdminPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            if (draft.data) {
+              draft.data = draft.data.filter((p) => p._id !== targetPatientId);
+            }
+          }
+        )
+      );
+    }
+    if (
+      lastMessage.type === "back_view_patient" ||
+      lastMessage.type === "new_xray_report" ||
+      lastMessage.type === "delete_patient_from_admin"
+    ) {
+      refetch();
+    }
+    console.log(lastMessage);
+  }, [messages, dispatch, limit, search, page, refetch]);
 
   const { user } = useAuth();
   const DATA_TABLE = useMemo(

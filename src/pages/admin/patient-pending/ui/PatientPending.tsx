@@ -123,6 +123,19 @@ const PatientPending = () => {
           )
         );
       }
+      if (msg.type === "submit_patient") {
+        const deletedId = msg.payload.patient_id;
+
+        dispatch(
+          AdminPendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              draft.data = draft.data.filter((p) => p._id !== deletedId);
+            }
+          )
+        );
+      }
     });
 
     clearMessages();

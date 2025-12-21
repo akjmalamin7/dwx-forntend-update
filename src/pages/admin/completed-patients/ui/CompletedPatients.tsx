@@ -1,11 +1,13 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -26,6 +28,21 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+
+  useEffect(() => {
+    if (!messages.length) return;
+
+    messages.forEach((msg) => {
+      if (msg.type === "submit_patient") {
+        refetch();
+      }
+    });
+
+    clearMessages();
+  }, [messages, clearMessages, refetch]);
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({
@@ -41,7 +58,7 @@ const CompletedPatients = () => {
         patient_id: item.patient_id,
         age: item.age,
         rtype: item.rtype,
-        printstatus: item.printstatus,
+        status: item.status,
 
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,

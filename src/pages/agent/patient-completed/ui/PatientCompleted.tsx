@@ -1,11 +1,13 @@
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetAgentCompletedPatientListQuery } from "@/shared/redux/features/agent/completed-patient-list/completedPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -15,15 +17,30 @@ const PatientCompleted = () => {
     defaultLimit: 10,
   });
 
-  const { data: patientList, isLoading } = useGetAgentCompletedPatientListQuery(
-    { page, limit, search }
-  );
+  const {
+    data: patientList,
+    isLoading,
+    refetch,
+  } = useGetAgentCompletedPatientListQuery({ page, limit, search });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,
     initialPage: page,
     onPageChange: setPage,
   });
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  useEffect(() => {
+    if (!messages.length) return;
+
+    messages.forEach((msg) => {
+      if (msg.type === "submit_patient") {
+        refetch();
+      }
+    });
+
+    clearMessages();
+  }, [messages, clearMessages, refetch]);
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>

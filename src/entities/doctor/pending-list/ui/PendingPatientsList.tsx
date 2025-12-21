@@ -38,6 +38,7 @@ const PendingPatientsList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const { user } = useAuth();
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages } = useWebSocket<WSMessage>(wsUrl, 5000);
 
@@ -52,6 +53,21 @@ const PendingPatientsList = () => {
     if (!messages.length) return;
 
     const lastMessage = messages[messages.length - 1];
+    const currentDoctorId = user?.id;
+    if (lastMessage.type === "view_online_doctor") {
+      const { doctor, patient_id } = lastMessage.payload;
+      if (doctor._id !== currentDoctorId) {
+        dispatch(
+          PendingDoctorPatientListApi.util.updateQueryData(
+            "getDoctorPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              draft.data = draft.data.filter((p) => p._id !== patient_id);
+            }
+          )
+        );
+      }
+    }
 
     if (lastMessage.type === "stop_viewing_patient") {
       const targetPatientId = lastMessage.payload.patient_id;
@@ -96,9 +112,8 @@ const PendingPatientsList = () => {
       refetch();
     }
     console.log(lastMessage);
-  }, [messages, dispatch, limit, search, page, refetch]);
+  }, [messages, dispatch, limit, search, page, refetch, user]);
 
-  const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data.map((item, index) => ({

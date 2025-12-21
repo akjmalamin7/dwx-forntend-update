@@ -1,5 +1,5 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { usePageTitle } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
@@ -30,37 +30,32 @@ const PatientView = () => {
   const [backToOtherView] = useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
+  const { user } = useAuth();
 
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { sendMessage, isOpen } = useWebSocket<WSMessage>(wsUrl, 5000);
 
   const patientId = patient?._id;
-  const doctorId = patient?.doctor_id?.[0]?._id;
-  const doctorEmail = patient?.doctor_id?.[0]?.email;
-
+  // console.log(user);
   useEffect(() => {
-    if (!patientId || !doctorId || !isOpen) return;
-
+    if (!patientId || !isOpen || !user) return;
+    const currentDoctor = {
+      _id: user.id || user.id,
+      email: user.email,
+      id: user.id || "",
+    };
     sendMessage({
       type: "view_online_doctor",
       payload: {
         patient_id: patientId,
-        doctor: {
-          _id: doctorId,
-          email: doctorEmail ?? "",
-          id: patient?.doctor_id?.[0]?.id ?? "",
-        },
+        doctor: currentDoctor,
       },
     });
     sendMessage({
       type: "stop_viewing_patient",
       payload: {
         patient_id: patientId,
-        doctor: {
-          _id: doctorId,
-          email: doctorEmail ?? "",
-          id: patient?.doctor_id?.[0]?.id ?? "",
-        },
+        doctor: currentDoctor,
       },
     });
 
@@ -69,18 +64,11 @@ const PatientView = () => {
         type: "stop_viewing_patient",
         payload: {
           patient_id: patientId,
-          doctor_id: doctorId,
+          doctor: currentDoctor,
         },
       });
     };
-  }, [
-    patientId,
-    doctorId,
-    doctorEmail,
-    sendMessage,
-    isOpen,
-    patient?.doctor_id,
-  ]);
+  }, [patientId, sendMessage, isOpen, user]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
@@ -172,6 +160,7 @@ const PatientView = () => {
       {/* Image Viewer Section */}
       <XrayImages attachments={attachments} />
       <ReportSubmissionForm
+        patient={patient || undefined}
         handleSubmitPatient={handleSubmitPatient}
         patient_id={patient_id}
       />

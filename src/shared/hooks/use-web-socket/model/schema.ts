@@ -1,4 +1,5 @@
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
+import type { PATIENT_VIEW_MODEL } from "../../admin-patient-view/model/schema";
 
 export type NewXrayReportPayload = {
   message: string;
@@ -22,7 +23,7 @@ export type ViewOnlineDoctorPayload = {
   doctor: {
     _id: string;
     email: string;
-    id?: string;
+    id: string;
   };
 };
 export type BackOnlineDoctorPayload = {
@@ -33,12 +34,18 @@ export type DeletePatientFromAdminPayload = {
 };
 export type SubmitPatientPayload = {
   patient_id: string;
-  patient: Partial<ADMIN_PENDING_PATIENT_MODEL>;
+  // patient: Partial<ADMIN_PENDING_PATIENT_MODEL>;
+  patient: PATIENT_VIEW_MODEL;
 };
 export type SelectDoctorAndUPdate = {
   message: string;
   success: boolean;
   patient: ADMIN_PENDING_PATIENT_MODEL;
+};
+export type CompletedDoctorReport = {
+  message: string;
+  success: boolean;
+  patient: PATIENT_VIEW_MODEL;
 };
 export type WSMessage =
   | {

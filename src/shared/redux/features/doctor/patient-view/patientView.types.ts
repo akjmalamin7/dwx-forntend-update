@@ -99,7 +99,8 @@ export interface PATIENT_VIEW_RESPONSE {
 export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   response: PATIENT_VIEW_RESPONSE
 ): {
-  patient: PATIENT_VIEW_TRANSFORM_MODEL;
+  // patient: PATIENT_VIEW_TRANSFORM_MODEL;
+  patient: PATIENT_VIEW_MODEL;
   attachments: PATIENT_IMAGE_ITEM_MODEL[];
 } => {
   if (!response.success) {
@@ -108,7 +109,8 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
 
   const { patient, attachments } = response.data;
 
-  const transformedPatient: PATIENT_VIEW_TRANSFORM_MODEL = {
+  // const transformedPatient: PATIENT_VIEW_TRANSFORM_MODEL = {
+  const transformedPatient: PATIENT_VIEW_MODEL = {
     _id: patient._id,
     name: patient.name,
     patient_id: patient.patient_id,
@@ -121,6 +123,22 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     gender: patient.gender,
     xray_name: patient.xray_name,
     ref_doctor: patient.ref_doctor,
+    agent_id: patient.agent_id,
+    completed_dr: patient.completed_dr,
+    completed_time: patient.completed_time,
+    image_type: patient.image_type,
+    is_checked: patient.is_checked,
+    logged: patient.logged,
+    month_year: patient.month_year,
+    online_dr: patient.online_dr,
+    printstatus: patient.printstatus,
+    rtype: patient.rtype,
+    soft_delete: patient.soft_delete,
+    status: patient.status,
+    study_for: patient.study_for,
+    updatedAt: patient.updatedAt,
+    viewed: patient.viewed,
+    __v: patient.__v,
   };
 
   return {

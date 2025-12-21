@@ -82,12 +82,30 @@ const PatientPending = () => {
           )
         );
       }
+
       if (msg.type === "view_online_doctor") {
         const { patient_id: wsPatientId, doctor } = msg.payload;
+        console.log(msg.payload);
         setOnlineDoctorsMap((prev) => ({
           ...prev,
           [wsPatientId]: doctor,
         }));
+        dispatch(
+          AdminPendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              const patient = draft.data.find((p) => p._id === wsPatientId);
+              if (patient) {
+                patient.online_dr = {
+                  _id: doctor._id,
+                  email: doctor.email,
+                  id: doctor.id ?? "",
+                };
+              }
+            }
+          )
+        );
       }
       if (msg.type === "back_view_patient") {
         const wsPatientId = msg.payload?.patient_id;

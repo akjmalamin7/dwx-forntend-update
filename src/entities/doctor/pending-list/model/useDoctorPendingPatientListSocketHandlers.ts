@@ -1,3 +1,4 @@
+import { useAuth } from "@/shared/hooks";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { AdminPendingPatientListApi } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import type { AppDispatch } from "@/shared/redux/stores/stores";
@@ -19,8 +20,9 @@ export const useDoctorPendingPatientsSocketHandler = ({
   search,
   refetch,
 }: UseDoctorPendingPatientsSocketHandlerProps) => {
+  const { user } = useAuth();
   const dispatch: AppDispatch = useDispatch();
-  // remove data
+
   const removeDoctorPatientFromCache = useCallback(
     (patientId: string) => {
       dispatch(
@@ -37,7 +39,27 @@ export const useDoctorPendingPatientsSocketHandler = ({
     },
     [dispatch, limit, page, search]
   );
-  const removeAdminPatientFromCache = useCallback(
+
+  const removeDoctorPatientAfterStopView = useCallback(
+    (patientId: string) => {
+      dispatch(
+        PendingDoctorPatientListApi.util.updateQueryData(
+          "getDoctorPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            if (draft.data) {
+              const index = draft.data.findIndex((p) => p._id === patientId);
+              if (index !== -1) {
+                draft.data.splice(index, 1);
+              }
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search]
+  );
+  const removeAdminPatientFromCacheAfterSubmit = useCallback(
     (patientId: string) => {
       dispatch(
         AdminPendingPatientListApi.util.updateQueryData(
@@ -53,31 +75,37 @@ export const useDoctorPendingPatientsSocketHandler = ({
     },
     [dispatch, limit, page, search]
   );
+
   useEffect(() => {
     if (!messages.length) return;
     const lastMessage = messages[messages.length - 1];
-    // action distrubution according message type
-    switch (lastMessage.type) {
-      case "stop_viewing_patient": {
-        const targetId = lastMessage.payload?.patient_id;
-        if (targetId) removeDoctorPatientFromCache(targetId);
-        break;
+    const currentDoctorId = user?.id;
+
+    if (lastMessage.type === "view_online_doctor") {
+      const { doctor, patient_id } = lastMessage.payload;
+      if (doctor._id !== currentDoctorId) {
+        removeDoctorPatientFromCache(patient_id);
       }
-      case "submit_patient": {
-        const targetId = lastMessage.payload?.patient_id;
-        if (targetId) removeAdminPatientFromCache(targetId);
-        break;
-      }
-      case "back_view_patient":
-      case "new_xray_report":
-      case "delete_patient_from_admin": {
-        refetch();
-        break;
-      }
-      default: {
-        console.log("Unhandled WS message type:", lastMessage.type);
-        break;
-      }
+    }
+    if (lastMessage.type === "stop_viewing_patient") {
+      const targetPatientId = lastMessage.payload.patient_id;
+      removeDoctorPatientAfterStopView(targetPatientId);
+    }
+    if (lastMessage.type === "submit_patient") {
+      const targetPatientId = lastMessage.payload.patient_id;
+      removeAdminPatientFromCacheAfterSubmit(targetPatientId);
+    }
+    if (lastMessage.type === "completed_back") {
+      refetch();
+    }
+
+    if (
+      lastMessage.type === "back_view_patient" ||
+      lastMessage.type === "new_xray_report" ||
+      lastMessage.type === "select_doctor_and_update" ||
+      lastMessage.type === "delete_patient_from_admin"
+    ) {
+      refetch();
     }
   }, [
     messages,
@@ -87,6 +115,8 @@ export const useDoctorPendingPatientsSocketHandler = ({
     search,
     refetch,
     removeDoctorPatientFromCache,
-    removeAdminPatientFromCache,
+    removeDoctorPatientAfterStopView,
+    removeAdminPatientFromCacheAfterSubmit,
+    user,
   ]);
 };

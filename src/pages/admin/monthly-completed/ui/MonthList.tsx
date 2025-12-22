@@ -1,4 +1,4 @@
-import { useAuth, usePageTitle } from "@/shared/hooks";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
 import { useGetMonthlyCompletedQuery } from "@/shared/redux/features/admin/monthly-completed/monthlyCompletedApi";
 import { Pagination, Panel, Search } from "@/shared/ui";
@@ -10,7 +10,7 @@ import { MONTH_DATA_COL } from "./monthList.data.col";
 
 const MonthList = () => {
   const { data: monthList, isLoading } = useGetMonthlyCompletedQuery();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const DATA_TABLE = useMemo(
     () =>
       monthList?.map((item, index) => ({
@@ -19,7 +19,7 @@ const MonthList = () => {
         count: item.count,
         action: "",
       })) || [],
-    [monthList, user?.id]
+    [monthList]
   );
 
   const {

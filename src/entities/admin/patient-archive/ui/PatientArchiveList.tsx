@@ -1,16 +1,24 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
+import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
+import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetAdminArchivePatientListQuery } from "../api/query";
+import {
+  ArchivePatientListApi,
+  useGetAdminArchivePatientListQuery,
+} from "../api/query";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientArchiveList = () => {
   const { month } = useParams<{ month: string }>();
+  const dispatch: AppDispatch = useAppDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -26,6 +34,9 @@ const PatientArchiveList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 500);
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({
@@ -42,7 +53,7 @@ const PatientArchiveList = () => {
         age: item.age,
         rtype: item.rtype,
 
-        completed_dr: item.completed_dr?.email,
+        completed_dr: item.completed_dr[0]?.email,
         xray_name: item.xray_name,
         action: "",
       })) || [],
@@ -62,7 +73,24 @@ const PatientArchiveList = () => {
               View
             </Link>
 
-            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
+            <CompletedBack
+              path={record?.key}
+              onDeleteSuccess={() => {
+                dispatch(
+                  ArchivePatientListApi.util.updateQueryData(
+                    "getAdminArchivePatientList",
+                    { page, limit, month, search },
+                    (draft) => {
+                      draft.data = draft.data.filter(
+                        (p) => p._id !== record?.key
+                      );
+                    }
+                  )
+                );
+              }}
+              patient={patientList?.data.find((p) => p._id === record?.key)}
+              sendMessage={sendMessage}
+            />
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>
         ),

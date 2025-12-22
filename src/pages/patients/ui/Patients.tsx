@@ -1,5 +1,6 @@
 import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Pagination, Panel, Search, Text } from "@/shared/ui";
@@ -7,6 +8,7 @@ import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useAgentPendingPateintsSocketHandler } from "../model/useAgentPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const Patients = () => {
@@ -16,11 +18,12 @@ const Patients = () => {
     refetch,
   } = useGetPendingPatientListQuery();
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<{ type: string }>(
+  const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
     wsUrl,
     5000
   );
   const { user } = useAuth();
+  useAgentPendingPateintsSocketHandler({ messages, clearMessages, isOpen });
   useEffect(() => {
     if (messages.length > 0) {
       messages.forEach((msg) => {

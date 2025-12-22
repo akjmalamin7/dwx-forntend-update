@@ -1,6 +1,9 @@
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import type {
+  AdmincompletedBack,
+  BackOnlineDoctorPayload,
   NewXrayReportPayload,
+  ViewOnlineDoctorPayload,
   WSMessage,
 } from "@/shared/hooks/use-web-socket/model/schema";
 import { AdminPendingPatientListApi } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
@@ -35,8 +38,36 @@ export const useAdminPendingPatientsSocketHanlder = ({
   setOnlineDoctorsMap,
 }: UseSocketHandlersProps) => {
   const dispatch: AppDispatch = useAppDispatch();
-  const { extractPatientPayload, transformWsPatient } = useTransformPatient();
+  const {
+    extractPatientPayload,
+    transformWsPatient,
+    addPatientGetFromArchive,
+  } = useTransformPatient();
 
+  const addArchivePatientAndUpdateCache = useCallback(
+    (payload: AdmincompletedBack) => {
+      const newPatient = addPatientGetFromArchive(payload);
+      if (newPatient) {
+        dispatch(
+          AdminPendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              const exist = draft.data.some((p) => p._id === newPatient._id);
+              if (!exist) {
+                const patientForPendingList = {
+                  ...newPatient,
+                  online_dr: { _id: "", email: "", id: "" },
+                };
+                draft.data.unshift(patientForPendingList);
+              }
+            }
+          )
+        );
+      }
+    },
+    [dispatch, page, limit, search, addPatientGetFromArchive]
+  );
   const addPatientToCache = useCallback(
     (payload: NewXrayReportPayload) => {
       const rawPatient = extractPatientPayload(payload);
@@ -47,7 +78,8 @@ export const useAdminPendingPatientsSocketHanlder = ({
             "getPendingPatientList",
             { page, limit, search },
             (draft) => {
-              if (!draft.data.some((p) => p._id === newPatient._id)) {
+              const exists = draft.data.some((p) => p._id === newPatient._id);
+              if (!exists) {
                 draft.data.unshift(newPatient);
               }
             }
@@ -57,14 +89,38 @@ export const useAdminPendingPatientsSocketHanlder = ({
     },
     [dispatch, page, limit, search, extractPatientPayload, transformWsPatient]
   );
-
-  const removeDoctorStatus = useCallback(
-    (wsPatientId: string) => {
+  const updateAdminPendingPatientCacheWhenDoctorOnlne = useCallback(
+    (payload: ViewOnlineDoctorPayload) => {
+      const { patient_id: wsPatientId, doctor } = payload;
+      setOnlineDoctorsMap((prev) => ({ ...prev, [wsPatientId]: doctor }));
+      dispatch(
+        AdminPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            const patient = draft.data.find((p) => p._id === wsPatientId);
+            if (patient) {
+              patient.online_dr = {
+                _id: doctor._id,
+                email: doctor.email,
+                id: doctor.id ?? "",
+              };
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search, setOnlineDoctorsMap]
+  );
+  const removeOnlineDoctorAfterClickOnBackViewPatient = useCallback(
+    (payload: BackOnlineDoctorPayload) => {
+      const wsPatientId = payload.patient_id;
       setOnlineDoctorsMap((prev) => {
-        const updateMap = { ...prev };
-        delete updateMap[wsPatientId];
-        return updateMap;
+        const updatedMap = { ...prev };
+        delete updatedMap[wsPatientId];
+        return updatedMap;
       });
+
       dispatch(
         AdminPendingPatientListApi.util.updateQueryData(
           "getPendingPatientList",
@@ -78,17 +134,17 @@ export const useAdminPendingPatientsSocketHanlder = ({
         )
       );
     },
-    [dispatch, page, limit, search, setOnlineDoctorsMap]
+    [dispatch, limit, page, search, setOnlineDoctorsMap]
   );
 
-  const deletePatient = useCallback(
-    (patientId: string) => {
+  const deletePatientFromAdmin = useCallback(
+    (patient_id: string) => {
       dispatch(
         AdminPendingPatientListApi.util.updateQueryData(
           "getPendingPatientList",
           { page, limit, search },
           (draft) => {
-            draft.data = draft.data.filter((p) => p._id !== patientId);
+            draft.data = draft.data.filter((p) => p._id !== patient_id);
           }
         )
       );
@@ -101,30 +157,23 @@ export const useAdminPendingPatientsSocketHanlder = ({
     messages.forEach((msg) => {
       console.log("Processing Admin WS Message:", msg.type, msg.payload);
 
-      switch (msg.type) {
-        case "new_xray_report":
-          addPatientToCache(msg.payload);
-          break;
-
-        case "view_online_doctor": {
-          const { patient_id, doctor } = msg.payload;
-          setOnlineDoctorsMap((prev) => ({ ...prev, [patient_id]: doctor }));
-          break;
-        }
-
-        case "back_view_patient":
-        case "stop_viewing_patient": {
-          const pId = msg.payload?.patient_id;
-          if (pId) removeDoctorStatus(pId);
-          break;
-        }
-
-        case "delete_patient_from_admin":
-        case "submit_patient": {
-          const pId = msg.payload?.patient_id;
-          if (pId) deletePatient(pId);
-          break;
-        }
+      if (msg.type === "new_xray_report") {
+        addPatientToCache(msg.payload);
+      }
+      if (msg.type === "view_online_doctor") {
+        updateAdminPendingPatientCacheWhenDoctorOnlne(msg.payload);
+      }
+      if (msg.type === "back_view_patient") {
+        removeOnlineDoctorAfterClickOnBackViewPatient(msg.payload);
+      }
+      if (msg.type === "delete_patient_from_admin") {
+        deletePatientFromAdmin(msg.payload.patient_id);
+      }
+      if (msg.type === "submit_patient") {
+        deletePatientFromAdmin(msg.payload.patient_id);
+      }
+      if (msg.type === "completed_back") {
+        addArchivePatientAndUpdateCache(msg.payload);
       }
     });
 
@@ -134,8 +183,10 @@ export const useAdminPendingPatientsSocketHanlder = ({
     isOpen,
     clearMessages,
     addPatientToCache,
-    removeDoctorStatus,
-    deletePatient,
     setOnlineDoctorsMap,
+    addArchivePatientAndUpdateCache,
+    updateAdminPendingPatientCacheWhenDoctorOnlne,
+    removeOnlineDoctorAfterClickOnBackViewPatient,
+    deletePatientFromAdmin,
   ]);
 };

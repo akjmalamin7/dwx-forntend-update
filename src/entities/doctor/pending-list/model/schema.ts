@@ -8,6 +8,7 @@ interface DOCTOR_PENDING_PATIENT_MODEL {
   _id: string;
   agent_id: DOCTOR_PENDING_PATIENT;
   doctor_id: string[];
+  online_dr: DOCTOR_PENDING_PATIENT;
   completed_dr: DOCTOR_PENDING_PATIENT[];
   ignore_dr: string[];
   patient_id: string;

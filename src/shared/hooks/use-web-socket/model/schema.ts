@@ -1,3 +1,4 @@
+import type { ADMIN_ARCHIVE_DOCTOR_MODEL } from "@/entities/admin/patient-archive/model/schema";
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
 import type { PATIENT_VIEW_MODEL } from "../../admin-patient-view/model/schema";
 
@@ -47,6 +48,10 @@ export type CompletedDoctorReport = {
   success: boolean;
   patient: PATIENT_VIEW_MODEL;
 };
+
+export type AdmincompletedBack = {
+  patient: ADMIN_ARCHIVE_DOCTOR_MODEL;
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -83,4 +88,8 @@ export type WSMessage =
   | {
       type: "select_doctor_and_update";
       payload: SelectDoctorAndUPdate;
+    }
+  | {
+      type: "completed_back";
+      payload: AdmincompletedBack;
     };

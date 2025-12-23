@@ -44,7 +44,7 @@ const DataTable = ({
     setPage?.(1);
   };
   return (
-    <div className="p-4 bg-white">
+    <div className="bg-white">
       <div className="mb-3 flex justify-between items-center gap-4">
         <div className="w-1/2 lg:w-1/3">
           <ServerSideSearch

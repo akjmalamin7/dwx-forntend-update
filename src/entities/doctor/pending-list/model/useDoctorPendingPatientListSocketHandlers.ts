@@ -98,7 +98,9 @@ export const useDoctorPendingPatientsSocketHandler = ({
     if (lastMessage.type === "completed_back") {
       refetch();
     }
-
+    if (lastMessage.type === "admin_mr_delete_back") {
+      refetch();
+    }
     if (
       lastMessage.type === "back_view_patient" ||
       lastMessage.type === "new_xray_report" ||

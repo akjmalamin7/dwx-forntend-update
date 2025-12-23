@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import type {
   AdmincompletedBack,
+  AdminMrDeleteBack,
   BackOnlineDoctorPayload,
   NewXrayReportPayload,
   ViewOnlineDoctorPayload,
@@ -42,7 +43,29 @@ export const useAdminPendingPatientsSocketHanlder = ({
     extractPatientPayload,
     transformWsPatient,
     addPatientGetFromArchive,
+    transformDeleteBackValue,
   } = useTransformPatient();
+
+  const cacheUpdateAfterAdminDeleteBack = useCallback(
+    (payload: AdminMrDeleteBack) => {
+      const newPatient = transformDeleteBackValue(payload);
+      if (newPatient && newPatient.status === "pending") {
+        dispatch(
+          AdminPendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            { page, limit, search },
+            (draft) => {
+              const exist = draft.data.some((p) => p._id === newPatient._id);
+              if (!exist) {
+                draft.data.unshift(newPatient);
+              }
+            }
+          )
+        );
+      }
+    },
+    [dispatch, page, limit, search, transformDeleteBackValue]
+  );
 
   const addArchivePatientAndUpdateCache = useCallback(
     (payload: AdmincompletedBack) => {
@@ -175,6 +198,9 @@ export const useAdminPendingPatientsSocketHanlder = ({
       if (msg.type === "completed_back") {
         addArchivePatientAndUpdateCache(msg.payload);
       }
+      if (msg.type === "admin_mr_delete_back") {
+        cacheUpdateAfterAdminDeleteBack(msg.payload);
+      }
     });
 
     clearMessages();
@@ -188,5 +214,6 @@ export const useAdminPendingPatientsSocketHanlder = ({
     updateAdminPendingPatientCacheWhenDoctorOnlne,
     removeOnlineDoctorAfterClickOnBackViewPatient,
     deletePatientFromAdmin,
+    cacheUpdateAfterAdminDeleteBack,
   ]);
 };

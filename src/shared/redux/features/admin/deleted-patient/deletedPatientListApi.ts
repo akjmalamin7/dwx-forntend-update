@@ -5,7 +5,7 @@ import {
   type ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL,
 } from "./deletedPatientList.types";
 
-export const DeletedPatientListApi = apiSlice.injectEndpoints({
+export const AdminDeletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDeletedPatientList: builder.query<
       ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL,
@@ -36,4 +36,4 @@ export const DeletedPatientListApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetDeletedPatientListQuery } = DeletedPatientListApi;
+export const { useGetDeletedPatientListQuery } = AdminDeletedPatientListApi;

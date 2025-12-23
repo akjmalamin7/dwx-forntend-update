@@ -5,7 +5,7 @@ import {
   type AGENT_COMPLETED_PATIENT_TRANSFORM_MODEL,
 } from "./completedPatientList.types";
 
-const CompletedPatientListApi = apiSlice.injectEndpoints({
+export const AgentCompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAgentCompletedPatientList: builder.query<
       AGENT_COMPLETED_PATIENT_TRANSFORM_MODEL,
@@ -30,4 +30,5 @@ const CompletedPatientListApi = apiSlice.injectEndpoints({
     }),
   }),
 });
-export const { useGetAgentCompletedPatientListQuery } = CompletedPatientListApi;
+export const { useGetAgentCompletedPatientListQuery } =
+  AgentCompletedPatientListApi;

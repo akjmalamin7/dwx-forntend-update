@@ -9,6 +9,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useAdminCompletedPatientSocketHandler } from "../model/useAdminCompletedPatientSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
@@ -29,8 +30,18 @@ const CompletedPatients = () => {
     onPageChange: setPage,
   });
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
-
+  const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
+    wsUrl,
+    5000
+  );
+  useAdminCompletedPatientSocketHandler({
+    page,
+    limit,
+    search,
+    messages,
+    isOpen,
+    clearMessages,
+  });
   useEffect(() => {
     if (!messages.length) return;
 

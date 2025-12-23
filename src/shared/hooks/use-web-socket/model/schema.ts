@@ -1,4 +1,5 @@
 import type { ADMIN_ARCHIVE_DOCTOR_MODEL } from "@/entities/admin/patient-archive/model/schema";
+import type { ADMIN_DELETED_PATIENT_MODEL } from "@/shared/redux/features/admin/deleted-patient/deletedPatientList.types";
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
 import type { PATIENT_VIEW_MODEL } from "../../admin-patient-view/model/schema";
 
@@ -52,6 +53,9 @@ export type CompletedDoctorReport = {
 export type AdmincompletedBack = {
   patient: ADMIN_ARCHIVE_DOCTOR_MODEL;
 };
+export type AdminMrDeleteBack = {
+  patient: ADMIN_DELETED_PATIENT_MODEL;
+};
 export type WSMessage =
   | {
       type: "new_xray_report";
@@ -92,4 +96,8 @@ export type WSMessage =
   | {
       type: "completed_back";
       payload: AdmincompletedBack;
+    }
+  | {
+      type: "admin_mr_delete_back";
+      payload: AdminMrDeleteBack;
     };

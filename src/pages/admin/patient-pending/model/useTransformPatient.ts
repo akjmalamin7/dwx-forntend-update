@@ -1,7 +1,9 @@
 import type {
   AdmincompletedBack,
+  AdminMrDeleteBack,
   NewXrayReportPayload,
 } from "@/shared/hooks/use-web-socket/model/schema";
+import { useCallback } from "react";
 
 export const useTransformPatient = () => {
   const transformWsPatient = (payload: NewXrayReportPayload) => {
@@ -28,10 +30,25 @@ export const useTransformPatient = () => {
       ...payload.patient,
     };
   };
+  const transformDeleteBackValue = useCallback((payload: AdminMrDeleteBack) => {
+    if (!payload || !payload.patient) {
+      throw new Error("Invalid WS patient payload");
+    }
+    return {
+      ...payload.patient,
+      key: payload.patient._id,
+      completed_time: payload.patient.completed_time ?? "",
+      completed_dr: payload.patient.completed_dr
+        ? [payload.patient.completed_dr]
+        : [],
+      online_dr: { _id: "", email: "", id: "" },
+    };
+  }, []);
 
   return {
     transformWsPatient,
     extractPatientPayload,
     addPatientGetFromArchive,
+    transformDeleteBackValue,
   };
 };

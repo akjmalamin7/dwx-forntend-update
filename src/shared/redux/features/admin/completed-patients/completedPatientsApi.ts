@@ -6,7 +6,7 @@ import {
   type ADMIN_COMPLETED_PATIENTS_TRANSFORM_MODEL,
 } from "./completedPatients.types";
 
-export const CompletedPatientListApi = apiSlice.injectEndpoints({
+export const AdminCompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdminCompletedPatientList: builder.query<
       ADMIN_COMPLETED_PATIENTS_TRANSFORM_MODEL,
@@ -55,4 +55,4 @@ export const {
   useGetAdminCompletedPatientListQuery,
   useGetAdminCompletedPatientQuery,
   useUpdateAdminCompletedPatientMutation,
-} = CompletedPatientListApi;
+} = AdminCompletedPatientListApi;

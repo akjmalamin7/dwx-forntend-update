@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import type {
   AdmincompletedBack,
+  AdminMrDeleteBack,
   WSMessage,
 } from "@/shared/hooks/use-web-socket/model/schema";
 import { AgentPendingPatientListApi } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
@@ -30,6 +31,40 @@ export const useAgentPendingPateintsSocketHandler = ({
       };
     },
     []
+  );
+  const transformDeleteBackValue = useCallback((payload: AdminMrDeleteBack) => {
+    if (!payload || !payload.patient) {
+      throw new Error("Invalid WS patient payload");
+    }
+    return {
+      ...payload.patient,
+      key: payload.patient._id,
+      completed_time: payload.patient.completed_time ?? "",
+      completed_dr: payload.patient.completed_dr
+        ? [payload.patient.completed_dr]
+        : [],
+      online_dr: { _id: "", email: "", id: "" },
+    };
+  }, []);
+  const cacheUpdateAfterAdminDeleteBack = useCallback(
+    (payload: AdminMrDeleteBack) => {
+      const newPatient = transformDeleteBackValue(payload);
+      if (newPatient && newPatient.status === "pending") {
+        dispatch(
+          AgentPendingPatientListApi.util.updateQueryData(
+            "getPendingPatientList",
+            undefined,
+            (draft) => {
+              const exist = draft.some((p) => p._id === newPatient._id);
+              if (!exist) {
+                draft.unshift(newPatient);
+              }
+            }
+          )
+        );
+      }
+    },
+    [dispatch, transformDeleteBackValue]
   );
   const addArchivePatientAndUpdateCache = useCallback(
     (payload: AdmincompletedBack) => {
@@ -64,6 +99,15 @@ export const useAgentPendingPateintsSocketHandler = ({
       if (msg.type === "completed_back") {
         addArchivePatientAndUpdateCache(msg.payload);
       }
+      if (msg.type === "admin_mr_delete_back") {
+        cacheUpdateAfterAdminDeleteBack(msg.payload);
+      }
     });
-  }, [isOpen, messages, dispatch, addArchivePatientAndUpdateCache]);
+  }, [
+    isOpen,
+    messages,
+    dispatch,
+    addArchivePatientAndUpdateCache,
+    cacheUpdateAfterAdminDeleteBack,
+  ]);
 };

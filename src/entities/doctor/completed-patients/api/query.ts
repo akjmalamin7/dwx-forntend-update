@@ -5,7 +5,7 @@ import {
   type DOCTOR_COMPLETED_PATIENT_TRANSFORM_MODEL,
 } from "../model/schema";
 
-const CompletedPatientListApi = apiSlice.injectEndpoints({
+export const DoctorCompletedPatientListApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDoctorCompletedPatientList: builder.query<
       DOCTOR_COMPLETED_PATIENT_TRANSFORM_MODEL,
@@ -31,4 +31,4 @@ const CompletedPatientListApi = apiSlice.injectEndpoints({
   }),
 });
 export const { useGetDoctorCompletedPatientListQuery } =
-  CompletedPatientListApi;
+  DoctorCompletedPatientListApi;

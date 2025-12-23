@@ -30,7 +30,6 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     width: 30,
   },
 
-
   {
     key: "patient_id",
     title: "P.ID",

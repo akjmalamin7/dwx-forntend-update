@@ -20,11 +20,11 @@ const PermanentPatientDeleteBack = ({ path, onDeleteSuccess }: TProps) => {
   return (
     <Button
       onClick={handleTypingBack}
-      className="bg-green-500 text-white !px-2 !py-2 text-sm !h-auto !rounded-[0px]"
+      className="bg-red-500 text-white !px-2 !py-2 text-sm !h-auto !rounded-[0px]"
       loading={isLoading}
       disabled={isLoading}
     >
-      &lt;D.Back
+      &lt;P.Back
     </Button>
   );
 };

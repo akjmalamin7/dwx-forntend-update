@@ -1,15 +1,28 @@
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import type {
+  AdminMrDeleteBack,
+  WSMessage,
+} from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
+import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useGetDoctorCompletedPatientListQuery } from "../api/query";
+import {
+  DoctorCompletedPatientListApi,
+  useGetDoctorCompletedPatientListQuery,
+} from "../api/query";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-
+interface DoctorBasicInfo {
+  _id: string;
+  id?: string;
+  email?: string;
+  [key: string]: unknown;
+}
 const CompletedPatients = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
@@ -26,8 +39,68 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const dispatch: AppDispatch = useAppDispatch();
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const isDoctorObj = (val: unknown): val is DoctorBasicInfo => {
+    return typeof val === "object" && val !== null && "_id" in val;
+  };
+
+  const transformDeleteBackValue = useCallback((payload: AdminMrDeleteBack) => {
+    if (!payload || !payload.patient) {
+      throw new Error("Invalid WS patient payload");
+    }
+
+    const p = payload.patient;
+
+    return {
+      ...p,
+      key: p._id,
+
+      agent_id: isDoctorObj(p.agent_id) ? p.agent_id._id : String(p.agent_id),
+
+      completed_dr: isDoctorObj(p.completed_dr)
+        ? [
+            {
+              _id: p.completed_dr._id,
+              id: p.completed_dr.id || p.completed_dr._id,
+              email: p.completed_dr.email || "",
+            },
+          ]
+        : [],
+
+      ignore_dr: Array.isArray(p.ignore_dr)
+        ? p.ignore_dr.map((dr) => (isDoctorObj(dr) ? dr._id : String(dr)))
+        : [],
+
+      doctor_id: Array.isArray(p.doctor_id)
+        ? p.doctor_id.map((dr) => (isDoctorObj(dr) ? dr._id : String(dr)))
+        : [],
+
+      completed_time: p.completed_time ?? "",
+      online_dr: { _id: "", email: "", id: "" },
+    };
+  }, []);
+  const cacheUpdateAfterAdminDeleteBack = useCallback(
+    (payload: AdminMrDeleteBack) => {
+      const newPatient = transformDeleteBackValue(payload);
+      if (newPatient && newPatient.status === "completed") {
+        dispatch(
+          DoctorCompletedPatientListApi.util.updateQueryData(
+            "getDoctorCompletedPatientList",
+            { page, limit, search },
+            (draft) => {
+              const exist = draft.data.some((p) => p._id === newPatient._id);
+              if (!exist) {
+                draft.data.unshift(newPatient);
+              }
+            }
+          )
+        );
+      }
+    },
+    [dispatch, transformDeleteBackValue, page, limit, search]
+  );
   useEffect(() => {
     if (!messages.length) return;
 
@@ -35,10 +108,13 @@ const CompletedPatients = () => {
       if (msg.type === "submit_patient") {
         refetch();
       }
+      if (msg.type === "admin_mr_delete_back") {
+        cacheUpdateAfterAdminDeleteBack(msg.payload);
+      }
     });
 
     clearMessages();
-  }, [messages, clearMessages, refetch]);
+  }, [messages, clearMessages, refetch, cacheUpdateAfterAdminDeleteBack]);
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>

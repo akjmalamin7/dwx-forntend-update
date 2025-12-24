@@ -19,6 +19,7 @@ type UrlType = {
   original: string;
   small: string;
 };
+type UploadUrlType = UrlType | string;
 const ImageUpload = <TFieldValues extends FieldValues>({
   label = "Upload Images",
   name,
@@ -31,7 +32,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string>("");
 
-  const uploadFile = async (file: File): Promise<UrlType | null> => {
+  const uploadFile = async (file: File): Promise<UploadUrlType | null> => {
     const formData = new FormData();
 
     // timestamp + file extension
@@ -49,7 +50,13 @@ const ImageUpload = <TFieldValues extends FieldValues>({
       });
 
       const data = await response.json();
+
       if (!Array.isArray(data.data) || !data.data.length) return null;
+
+      if (directory === "signature") {
+        const sigUrl = Array.isArray(data.data) ? data.data[0] : data.data;
+        return typeof sigUrl === "string" ? sigUrl.replace(/^"|"$/g, "") : null;
+      }
       return {
         original: data.data[0].original,
         small: data.data[0].small,
@@ -88,16 +95,22 @@ const ImageUpload = <TFieldValues extends FieldValues>({
           setUploading(true);
           const filesArray = Array.from(files);
           const attachmentUrls: string[] = [];
-          const smallUrls: string[] = []; 
-
+          const smallUrls: string[] = [];
+          // console.log(filesArray[0]);
           // instant preview
-       //   setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
+          //   setPreviewUrls(filesArray.map((file) => URL.createObjectURL(file)));
 
           for (let i = 0; i < filesArray.length; i++) {
             const url = await uploadFile(filesArray[i]);
+            console.log(url);
             if (url) {
-              attachmentUrls.push(url.original);
-              smallUrls.push(url.small); 
+              if (typeof url === "string") {
+                attachmentUrls.push(url);
+                smallUrls.push(url);
+              } else {
+                attachmentUrls.push(url.original);
+                smallUrls.push(url.small);
+              }
             }
             // if (url) uploadedUrls.push(url);
           }

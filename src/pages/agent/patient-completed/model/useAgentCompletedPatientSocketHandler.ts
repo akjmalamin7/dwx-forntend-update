@@ -14,7 +14,9 @@ interface UseSocketHandlersProps {
   limit?: number;
   search?: string;
   clearMessages?: () => void;
+  refetch?: () => void;
 }
+
 export const useAgentCompletedPatientSocketHandler = ({
   messages,
   isOpen,
@@ -22,6 +24,7 @@ export const useAgentCompletedPatientSocketHandler = ({
   page,
   limit,
   search,
+  refetch,
 }: UseSocketHandlersProps) => {
   const dispatch: AppDispatch = useAppDispatch();
 
@@ -94,6 +97,12 @@ export const useAgentCompletedPatientSocketHandler = ({
       if (msg.type === "admin_mr_delete_back") {
         cacheUpdateAfterAdminDeleteBack(msg.payload);
       }
+      if (msg.type === "update_print_status") {
+        refetch?.();
+      }
+      if (msg.type === "submit_patient") {
+        refetch?.();
+      }
     });
     clearMessages?.();
   }, [
@@ -102,5 +111,9 @@ export const useAgentCompletedPatientSocketHandler = ({
     dispatch,
     clearMessages,
     cacheUpdateAfterAdminDeleteBack,
+    refetch,
+    limit,
+    page,
+    search,
   ]);
 };

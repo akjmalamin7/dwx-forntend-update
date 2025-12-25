@@ -1,5 +1,11 @@
 import { usePageTitle } from "@/shared/hooks";
-import { useGetPatientPrintQuery } from "@/shared/redux/features/agent/patient-print/patientPrint";
+
+import {
+  useGetAgentPatientPrintQuery,
+  useUpdateAgentPatientPrintStatusMutation,
+} from "@/entities/agent/agent-print-patient";
+import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Button, Panel, PanelHeading, Text } from "@/shared/ui";
 import { useParams } from "react-router-dom";
 import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
@@ -12,17 +18,29 @@ const PatientPrint = () => {
     data: print_view,
     isLoading,
     isError,
-  } = useGetPatientPrintQuery(id!, {
+  } = useGetAgentPatientPrintQuery(id!, {
     skip: !id,
   });
+  const [updateAgentPatientPrintStatus, { isLoading: isUpdatePrinting }] =
+    useUpdateAgentPatientPrintStatusMutation();
   const printPatient = print_view?.data;
   const comments = print_view?.data?.doctorcomments;
   const signature = print_view?.data?.completed_dr;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const handlePrint = async () => {
+    if (!id) return;
+    try {
+      const result = await updateAgentPatientPrintStatus(id).unwrap();
+      sendMessage({ type: "update_print_status", payload: result });
 
-  const handlePrint = () => {
-    window.print();
+      window.print();
+    } catch (error) {
+      console.error("Print status update failed:", error);
+      alert("Status update failed, but you can still try to print manually.");
+    }
   };
 
   usePageTitle("Print Report", {
@@ -87,7 +105,12 @@ const PatientPrint = () => {
           <PanelHeading
             title="Print Patient Report"
             button={
-              <Button className="bg-green-500" onClick={handlePrint}>
+              <Button
+                className="bg-green-500"
+                loading={isUpdatePrinting}
+                disabled={isUpdatePrinting}
+                onClick={handlePrint}
+              >
                 Print Report
               </Button>
             }

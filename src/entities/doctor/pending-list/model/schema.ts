@@ -4,7 +4,7 @@ interface DOCTOR_PENDING_PATIENT {
   id: string;
 }
 
-interface DOCTOR_PENDING_PATIENT_MODEL {
+export interface DOCTOR_PENDING_PATIENT_MODEL {
   _id: string;
   agent_id: DOCTOR_PENDING_PATIENT;
   doctor_id: string[];

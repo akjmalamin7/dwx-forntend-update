@@ -3,8 +3,7 @@ interface ADMIN_AGENT_DOCTOR {
   email: string;
   id: string;
 }
-
-interface ADMIN_COMPLETED_PATIENTS_MODEL {
+export interface ADMIN_COMPLETED_PATIENTS_MODEL {
   _id: string;
   agent_id: ADMIN_AGENT_DOCTOR;
   doctor_id: ADMIN_AGENT_DOCTOR[];

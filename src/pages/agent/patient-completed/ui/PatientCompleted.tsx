@@ -7,7 +7,7 @@ import { useGetAgentCompletedPatientListQuery } from "@/shared/redux/features/ag
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useAgentCompletedPatientSocketHandler } from "../model/useAgentCompletedPatientSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
@@ -41,18 +41,9 @@ const PatientCompleted = () => {
     page,
     limit,
     isOpen,
+    refetch,
   });
-  useEffect(() => {
-    if (!messages.length) return;
 
-    messages.forEach((msg) => {
-      if (msg.type === "submit_patient") {
-        refetch();
-      }
-    });
-
-    clearMessages();
-  }, [messages, clearMessages, refetch]);
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>

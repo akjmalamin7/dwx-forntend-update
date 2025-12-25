@@ -1,4 +1,6 @@
 import type { ADMIN_ARCHIVE_DOCTOR_MODEL } from "@/entities/admin/patient-archive/model/schema";
+import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema";
+import type { ADMIN_COMPLETED_PATIENTS_MODEL } from "@/shared/redux/features/admin/completed-patients/completedPatients.types";
 import type { ADMIN_DELETED_PATIENT_MODEL } from "@/shared/redux/features/admin/deleted-patient/deletedPatientList.types";
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
 import type { PATIENT_VIEW_MODEL } from "../../admin-patient-view/model/schema";
@@ -56,10 +58,16 @@ export type CompletedDoctorReport = {
 };
 
 export type AdmincompletedBack = {
-  patient: ADMIN_ARCHIVE_DOCTOR_MODEL;
+  patient:
+    | ADMIN_ARCHIVE_DOCTOR_MODEL
+    | ADMIN_COMPLETED_PATIENTS_MODEL
+    | Record<string, unknown>;
 };
 export type AdminMrDeleteBack = {
   patient: ADMIN_DELETED_PATIENT_MODEL;
+};
+export type AgentUpdatePrintSatatus = {
+  patient: PRINT_PATIENT;
 };
 export type WSMessage =
   | {
@@ -109,4 +117,8 @@ export type WSMessage =
   | {
       type: "admin_mr_delete_back";
       payload: AdminMrDeleteBack;
+    }
+  | {
+      type: "update_print_status";
+      payload: AgentUpdatePrintSatatus;
     };

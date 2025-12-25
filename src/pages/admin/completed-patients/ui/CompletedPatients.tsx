@@ -1,9 +1,14 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
-import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
+import {
+  AdminCompletedPatientListApi,
+  useGetAdminCompletedPatientListQuery,
+} from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
+import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -13,6 +18,7 @@ import { useAdminCompletedPatientSocketHandler } from "../model/useAdminComplete
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
+  const dispatch: AppDispatch = useAppDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -30,10 +36,8 @@ const CompletedPatients = () => {
     onPageChange: setPage,
   });
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
-    wsUrl,
-    5000
-  );
+  const { messages, sendMessage, clearMessages, isOpen } =
+    useWebSocket<WSMessage>(wsUrl, 5000);
   useAdminCompletedPatientSocketHandler({
     page,
     limit,
@@ -91,7 +95,24 @@ const CompletedPatients = () => {
               View
             </Link>
 
-            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
+            <CompletedBack
+              sendMessage={sendMessage}
+              path={record?.key}
+              patient={patientList?.data.find((p) => p._id === record?.key)}
+              onDeleteSuccess={() => {
+                dispatch(
+                  AdminCompletedPatientListApi.util.updateQueryData(
+                    "getAdminCompletedPatientList",
+                    { page, limit, search },
+                    (draft) => {
+                      draft.data = draft.data.filter(
+                        (p) => p._id !== record?.key
+                      );
+                    }
+                  )
+                );
+              }}
+            />
 
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>

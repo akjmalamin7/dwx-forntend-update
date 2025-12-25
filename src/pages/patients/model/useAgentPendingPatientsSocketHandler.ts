@@ -2,13 +2,19 @@ import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import type {
   AdmincompletedBack,
   AdminMrDeleteBack,
+  BackOnlineDoctorPayload,
   NewXrayReportPayload,
+  ViewOnlineDoctorPayload,
   WSMessage,
 } from "@/shared/hooks/use-web-socket/model/schema";
 import { AgentPendingPatientListApi } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { useCallback, useEffect } from "react";
-
+interface OnlineDoctor {
+  _id: string;
+  email: string;
+  id?: string;
+}
 interface UseSocketHandlersProps {
   messages: WSMessage[];
   isOpen: boolean;
@@ -17,6 +23,9 @@ interface UseSocketHandlersProps {
   search?: string;
   clearMessages: () => void;
   refetch?: () => void;
+  setOnlineDoctorsMap: React.Dispatch<
+    React.SetStateAction<Record<string, OnlineDoctor>>
+  >;
 }
 export const useAgentPendingPateintsSocketHandler = ({
   messages,
@@ -26,6 +35,7 @@ export const useAgentPendingPateintsSocketHandler = ({
   search,
   isOpen,
   clearMessages,
+  setOnlineDoctorsMap,
 }: UseSocketHandlersProps) => {
   const dispatch: AppDispatch = useAppDispatch();
 
@@ -138,7 +148,53 @@ export const useAgentPendingPateintsSocketHandler = ({
     },
     [dispatch, page, limit, search, extractPatientPayload, transformWsPatient]
   );
+  const updateAdminPendingPatientCacheWhenDoctorOnlne = useCallback(
+    (payload: ViewOnlineDoctorPayload) => {
+      const { patient_id: wsPatientId, doctor } = payload;
+      setOnlineDoctorsMap((prev) => ({ ...prev, [wsPatientId]: doctor }));
+      dispatch(
+        AgentPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            const patient = draft.data.find((p) => p._id === wsPatientId);
+            if (patient) {
+              patient.online_dr = {
+                _id: doctor._id,
+                email: doctor.email,
+                id: doctor.id ?? "",
+              };
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search, setOnlineDoctorsMap]
+  );
+  const removeOnlineDoctorAfterClickOnBackViewPatient = useCallback(
+    (payload: BackOnlineDoctorPayload) => {
+      const wsPatientId = payload.patient_id;
+      setOnlineDoctorsMap((prev) => {
+        const updatedMap = { ...prev };
+        delete updatedMap[wsPatientId];
+        return updatedMap;
+      });
 
+      dispatch(
+        AgentPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            const patient = draft.data.find((p) => p._id === wsPatientId);
+            if (patient) {
+              patient.online_dr = { _id: "", email: "", id: "" };
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search, setOnlineDoctorsMap]
+  );
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
     messages.forEach((msg) => {
@@ -151,6 +207,12 @@ export const useAgentPendingPateintsSocketHandler = ({
       }
       if (msg.type === "admin_mr_delete_back") {
         cacheUpdateAfterAdminDeleteBack(msg.payload);
+      }
+      if (msg.type === "view_online_doctor") {
+        updateAdminPendingPatientCacheWhenDoctorOnlne(msg.payload);
+      }
+      if (msg.type === "back_view_patient") {
+        removeOnlineDoctorAfterClickOnBackViewPatient(msg.payload);
       }
       // if (msg.type === "new_xray_report") {
       //   refetch?.();
@@ -166,5 +228,6 @@ export const useAgentPendingPateintsSocketHandler = ({
     addPatientToCache,
     refetch,
     clearMessages,
+    updateAdminPendingPatientCacheWhenDoctorOnlne,
   ]);
 };

@@ -63,7 +63,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     if (!patient_id) return;
     try {
       const result = await selectdDoctor({ id: patient_id, data });
-      sendMessage({ type: "select_doctor_and_update", payload: result });
+      sendMessage({ type: "select_doctor_and_update", payload: result.data });
       navigate("/admin/patient");
     } catch (err) {
       console.error(err);

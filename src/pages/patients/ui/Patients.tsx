@@ -7,12 +7,19 @@ import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pen
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAgentPendingPateintsSocketHandler } from "../model/useAgentPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-
+interface OnlineDoctor {
+  _id: string;
+  email: string;
+  id?: string;
+}
 const Patients = () => {
+  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
+    Record<string, OnlineDoctor>
+  >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -37,6 +44,7 @@ const Patients = () => {
     search,
     isOpen,
     refetch,
+    setOnlineDoctorsMap,
   });
 
   // Prepare data
@@ -47,28 +55,33 @@ const Patients = () => {
   });
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.data?.map((item, index) => ({
-        key: item._id,
-        sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.createdAt).toLocaleString(),
-        patient_age: item.age,
-        patient_name: item.name,
-        patient_id: item.patient_id,
-        patient_sex: item.gender,
-        xray_name: item.xray_name,
-        type: item.rtype,
-        selected_dr:
-          Array.isArray(item.doctor_id) && item.doctor_id.length > 0
-            ? item.doctor_id.map((d) => d.email).join(", ")
-            : "All",
-        ignore_dr:
-          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-            ? item.ignore_dr.map((d) => d.email).join(", ")
-            : "",
-        online_dr: item.online_dr?.email || "",
-        action: "",
-      })) || [],
-    [patientList?.data, limit, page]
+      patientList?.data?.map((item, index) => {
+        const liveDoctor = onlineDoctorsMap[item._id];
+        return {
+          key: item._id,
+          sl: (page - 1) * limit + index + 1,
+          start_time: new Date(item.createdAt).toLocaleString(),
+          patient_age: item.age,
+          patient_name: item.name,
+          patient_id: item.patient_id,
+          patient_sex: item.gender,
+          xray_name: item.xray_name,
+          type: item.rtype,
+          selected_dr:
+            Array.isArray(item.doctor_id) && item.doctor_id.length > 0
+              ? item.doctor_id.map((d) => d.email).join(", ")
+              : "All",
+          ignore_dr:
+            Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
+              ? item.ignore_dr.map((d) => d.email).join(", ")
+              : "",
+          online_dr: liveDoctor
+            ? liveDoctor.email
+            : item.online_dr?.email || "",
+          action: "",
+        };
+      }) || [],
+    [patientList?.data, limit, page, onlineDoctorsMap]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

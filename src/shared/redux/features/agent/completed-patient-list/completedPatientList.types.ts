@@ -4,10 +4,11 @@ interface AGENT_COMPLETED_DOCTOR {
   id: string;
 }
 
-interface AGENT_COMPLETED_PATIENT_MODEL {
+export interface AGENT_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: string;
   completed_dr: AGENT_COMPLETED_DOCTOR;
+  doctor_id: string[];
   ignore_dr: string[];
   patient_id: string;
   name: string;

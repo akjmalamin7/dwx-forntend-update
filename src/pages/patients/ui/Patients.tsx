@@ -1,47 +1,55 @@
-import { useAuth, usePageTitle } from "@/shared/hooks";
-import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { usePageTitle } from "@/shared/hooks";
+import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
+import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
-import { Pagination, Panel, Search, Text } from "@/shared/ui";
-import { Table } from "@/shared/ui/table";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo } from "react";
+import { DataTable } from "@/widgets";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useAgentPendingPateintsSocketHandler } from "../model/useAgentPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const Patients = () => {
+  const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
+
   const {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetPendingPatientListQuery();
+  } = useGetPendingPatientListQuery({ page, limit, search });
+  const totalPages = patientList?.pagination.totalPages || 1;
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
     wsUrl,
     5000
   );
-  const { user } = useAuth();
-  useAgentPendingPateintsSocketHandler({ messages, clearMessages, isOpen });
-  useEffect(() => {
-    if (messages.length > 0) {
-      messages.forEach((msg) => {
-        if (msg.type === "new_xray_report") {
-          refetch();
-        }
-      });
-
-      clearMessages();
-    }
-  }, [messages, refetch, clearMessages]);
+  useAgentPendingPateintsSocketHandler({
+    messages,
+    clearMessages,
+    page,
+    limit,
+    search,
+    isOpen,
+    refetch,
+  });
 
   // Prepare data
+  useServerSidePagination({
+    totalPages,
+    initialPage: page,
+    onPageChange: setPage,
+  });
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.map((item, index) => ({
+      patientList?.data?.map((item, index) => ({
         key: item._id,
-        sl: index + 1,
+        sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.createdAt).toLocaleString(),
         patient_age: item.age,
         patient_name: item.name,
@@ -60,21 +68,8 @@ const Patients = () => {
         online_dr: item.online_dr?.email || "",
         action: "",
       })) || [],
-    [patientList]
+    [patientList?.data, limit, page]
   );
-
-  const {
-    searchQuery,
-    setSearchQuery,
-    currentPage,
-    setCurrentPage,
-    paginatedData,
-    totalPages,
-  } = useSearchPagination({
-    data: DATA_TABLE,
-    searchFields: ["patient_name", "patient_id", "xray_name"],
-    rowsPerPage: 20,
-  });
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
@@ -103,27 +98,20 @@ const Patients = () => {
 
   return (
     <Panel header="Pending Report" size="lg">
-      <div className="w-1/3">
-        {user?.role === "user" ? (
-          <Search
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search by Name, ID or Xray..."
-          />
-        ) : (
-          <Text color="danger">Role not matched</Text>
-        )}
-      </div>
-
-      <Table loading={isLoading} columns={COLUMN} dataSource={paginatedData} />
-
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
+      <DataTable
+        isLoading={isLoading}
+        column={COLUMN}
+        dataSource={DATA_TABLE}
+        search={search}
+        page={page}
+        totalPages={totalPages}
+        hasNext={patientList?.pagination.hasNext}
+        hasPrev={patientList?.pagination.hasPrev}
+        setPage={setPage}
+        setLimit={setLimit}
+        limit={limit}
+        setSearch={setSearch}
+      />
     </Panel>
   );
 };

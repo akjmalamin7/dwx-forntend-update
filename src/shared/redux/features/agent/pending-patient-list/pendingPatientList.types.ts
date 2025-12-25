@@ -53,44 +53,36 @@ export interface PENDING_PATIENT_TRANSFORM_MODEL {
   is_checked: boolean | null;
 }
 
-export interface PendingPatientApiResponse {
+export interface AGENT_PATIENT_PENDING_API_RESPONSE_MODEL {
   message: string;
   success: boolean;
-  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
   data: AGENT_PENDING_PATIENT_MODEL[];
 }
+export interface AGENT_TRANSFORM_PENDING_PATIENT_MODEL {
+  data: AGENT_PENDING_PATIENT_MODEL[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
 
-export const transformPendingPatientResponse = (
-  data: AGENT_PENDING_PATIENT_MODEL[]
-): AGENT_PENDING_PATIENT_MODEL[] => {
-  return data.map((item) => ({
-    _id: item._id,
-    id: item.id,
-    completed_dr: item.completed_dr || [],
-    doctor_id: item.doctor_id || [],
-    ignore_dr: item.ignore_dr || [],
-    online_dr: item.online_dr,
-    createdAt: item.createdAt,
-    patient_id: item.patient_id,
-    name: item.name,
-    gender: item.gender,
-    age: item.age,
-    xray_name: item.xray_name,
-    rtype: item.rtype,
-    printstatus: item.printstatus,
-    viewed: item.viewed,
-    is_checked: item.is_checked,
-    agent_id: item.agent_id,
-    completed_time: item.completed_time,
-    history: item.history,
-    image_type: item.image_type,
-    logged: item.logged,
-    month_year: item.month_year,
-    ref_doctor: item.ref_doctor,
-    study_for: item.study_for,
-    soft_delete: item.soft_delete,
-    status: item.status,
-    updatedAt: item.updatedAt,
-    __v: item.__v,
-  }));
+export const AGENT_TRANSFORM_PENDING_PATIENT_RESPONSE = (
+  response: AGENT_PATIENT_PENDING_API_RESPONSE_MODEL
+): AGENT_TRANSFORM_PENDING_PATIENT_MODEL => {
+  return {
+    data: response.data,
+    pagination: {
+      currentPage: response.page,
+      totalPages: response.totalPages,
+      limit: response.limit,
+      hasNext: response.page < response.totalPages,
+      hasPrev: response.page > 1,
+    },
+  };
 };

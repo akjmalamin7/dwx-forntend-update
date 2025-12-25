@@ -13,6 +13,7 @@ import {
 } from "@/features/read-text-file";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
+import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   Button,
   ControlInput,
@@ -54,6 +55,8 @@ const QuickSendReprt = () => {
       image_type: "single",
     },
   });
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { sendMessage } = useWebSocket(wsUrl, 5000);
   const handleParsed = (data: ParsedPatientData) => {
     setValue("patient_id", data.patient_id);
     setValue("name", data.name);
@@ -66,7 +69,8 @@ const QuickSendReprt = () => {
   };
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createSendReport(data).unwrap();
+      const result = await createSendReport(data).unwrap();
+      sendMessage({ type: "new_xray_report", payload: result });
       setResetCount((prev) => prev + 1);
       reset();
     } catch (err: unknown) {

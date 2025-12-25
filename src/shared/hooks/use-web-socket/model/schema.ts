@@ -8,6 +8,11 @@ export type NewXrayReportPayload = {
   success: boolean;
   savedPatient: ADMIN_PENDING_PATIENT_MODEL;
 };
+export type NewEcgReportPayload = {
+  message: string;
+  success: boolean;
+  savedPatient: ADMIN_PENDING_PATIENT_MODEL;
+};
 
 export type UpdatePatientPayload = {
   message?: string;
@@ -60,6 +65,10 @@ export type WSMessage =
   | {
       type: "new_xray_report";
       payload: NewXrayReportPayload;
+    }
+  | {
+      type: "new_ecg_report";
+      payload: NewEcgReportPayload;
     }
   | {
       type: "update_patient";

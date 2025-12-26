@@ -1,4 +1,4 @@
-import type { PRINT_DOCTOR_COMMENT } from "@/shared/redux/features/agent/patient-print/patientPrint.type";
+import type { PRINT_DOCTOR_COMMENT } from "@/entities/agent/agent-print-patient/model/schema";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
 interface IProps {

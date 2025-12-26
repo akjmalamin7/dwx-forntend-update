@@ -1,4 +1,4 @@
-import type { PRINT_COMPLETED_DOCTOR } from "@/shared/redux/features/agent/patient-print/patientPrint.type";
+import type { PRINT_COMPLETED_DOCTOR } from "@/entities/agent/agent-print-patient/model/schema";
 import { Text } from "@/shared/ui";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";

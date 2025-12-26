@@ -7,6 +7,7 @@ import type {
   ViewOnlineDoctorPayload,
   WSMessage,
 } from "@/shared/hooks/use-web-socket/model/schema";
+import type { AGENT_PENDING_PATIENT_MODEL } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientList.types";
 import { AgentPendingPatientListApi } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { useCallback, useEffect } from "react";
@@ -94,14 +95,16 @@ export const useAgentPendingPateintsSocketHandler = ({
             "getPendingPatientList",
             { page, limit, search },
             (draft) => {
-              const exist = draft.data.some((p) => p._id === newPatient._id);
+              const exist = draft.data.some((p) => p._id === newPatient.key);
               if (!exist) {
                 const patientForPendingList = {
                   ...newPatient,
 
                   online_dr: { _id: "", email: "", id: "" },
                 };
-                draft.data.unshift(patientForPendingList);
+                draft.data.unshift(
+                  patientForPendingList as AGENT_PENDING_PATIENT_MODEL
+                );
               }
             }
           )
@@ -229,5 +232,6 @@ export const useAgentPendingPateintsSocketHandler = ({
     refetch,
     clearMessages,
     updateAdminPendingPatientCacheWhenDoctorOnlne,
+    removeOnlineDoctorAfterClickOnBackViewPatient,
   ]);
 };

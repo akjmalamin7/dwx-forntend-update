@@ -1,4 +1,4 @@
-import type { PRINT_PATIENT } from "@/shared/redux/features/agent/patient-print/patientPrint.type";
+import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema";
 import { Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/date-format/dateTime";
 

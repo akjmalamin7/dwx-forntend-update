@@ -2,6 +2,7 @@ import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useAgentPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useAgentPendingSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
@@ -9,7 +10,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAgentPendingPateintsSocketHandler } from "../model/useAgentPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 interface OnlineDoctor {
   _id: string;
@@ -27,23 +27,28 @@ const Patients = () => {
 
   const {
     data: patientList,
-    isLoading,
     refetch,
-  } = useGetPendingPatientListQuery({ page, limit, search });
+    isLoading,
+  } = useGetPendingPatientListQuery({
+    page,
+    limit,
+    search,
+  });
   const totalPages = patientList?.pagination.totalPages || 1;
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
     wsUrl,
     5000
   );
-  useAgentPendingPateintsSocketHandler({
+
+  useAgentPendingSocketHandler({
     messages,
     clearMessages,
     page,
     limit,
     search,
-    isOpen,
     refetch,
+    isOpen,
     setOnlineDoctorsMap,
   });
 

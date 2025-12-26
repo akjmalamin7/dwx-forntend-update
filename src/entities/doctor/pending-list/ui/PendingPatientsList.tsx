@@ -2,6 +2,7 @@ import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useDoctorPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useDoctorPendingSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -9,7 +10,6 @@ import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useGetDoctorPendingPatientListQuery } from "../api/query";
-import { useDoctorPendingPatientsSocketHandler } from "../model/useDoctorPendingPatientListSocketHandlers";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PendingPatientsList = () => {
@@ -34,14 +34,15 @@ const PendingPatientsList = () => {
   });
   const { user } = useAuth();
   const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
 
-  useDoctorPendingPatientsSocketHandler({
+  useDoctorPendingSocketHandler({
     messages,
     page,
     limit,
     search,
     refetch,
+    clearMessages,
   });
 
   const DATA_TABLE = useMemo(

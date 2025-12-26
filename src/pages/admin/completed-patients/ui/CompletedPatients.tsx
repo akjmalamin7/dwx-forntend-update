@@ -3,6 +3,7 @@ import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/u
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useAdminCompletedSocketHandler } from "@/shared/hooks/use-web-socket/model/useAdminCompletedSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   AdminCompletedPatientListApi,
@@ -12,9 +13,8 @@ import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useAdminCompletedPatientSocketHandler } from "../model/useAdminCompletedPatientSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
@@ -38,25 +38,15 @@ const CompletedPatients = () => {
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { messages, sendMessage, clearMessages, isOpen } =
     useWebSocket<WSMessage>(wsUrl, 5000);
-  useAdminCompletedPatientSocketHandler({
+  useAdminCompletedSocketHandler({
     page,
     limit,
     search,
     messages,
     isOpen,
     clearMessages,
+    refetch,
   });
-  useEffect(() => {
-    if (!messages.length) return;
-
-    messages.forEach((msg) => {
-      if (msg.type === "submit_patient") {
-        refetch();
-      }
-    });
-
-    clearMessages();
-  }, [messages, clearMessages, refetch]);
 
   const DATA_TABLE = useMemo(
     () =>

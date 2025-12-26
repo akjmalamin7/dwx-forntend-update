@@ -3,6 +3,7 @@ import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useAdminPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useAdminPendingSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
@@ -10,7 +11,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAdminPendingPatientsSocketHanlder } from "../model/useAdminPendingPatientsSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 interface OnlineDoctor {
   _id: string;
@@ -49,7 +49,7 @@ const PatientPending = () => {
     useWebSocket<WSMessage>(wsUrl, 5000);
   const { user } = useAuth();
 
-  useAdminPendingPatientsSocketHanlder({
+  useAdminPendingSocketHandler({
     messages,
     clearMessages,
     isOpen,

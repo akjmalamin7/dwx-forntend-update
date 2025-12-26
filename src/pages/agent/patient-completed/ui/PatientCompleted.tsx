@@ -2,6 +2,7 @@ import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
+import { useAgentCompletedSocketHandler } from "@/shared/hooks/use-web-socket/model/useAgentCompletedSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useGetAgentCompletedPatientListQuery } from "@/shared/redux/features/agent/completed-patient-list/completedPatientListApi";
 import { Panel } from "@/shared/ui";
@@ -9,7 +10,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useAgentCompletedPatientSocketHandler } from "../model/useAgentCompletedPatientSocketHandler";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientCompleted = () => {
@@ -34,7 +34,7 @@ const PatientCompleted = () => {
     wsUrl,
     5000
   );
-  useAgentCompletedPatientSocketHandler({
+  useAgentCompletedSocketHandler({
     messages,
     clearMessages,
     search,

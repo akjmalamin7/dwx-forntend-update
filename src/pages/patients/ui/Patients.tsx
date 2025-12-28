@@ -1,14 +1,21 @@
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
+import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useAgentPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useAgentPendingSocketHandler";
+import type {
+  ViewOnlineDoctorPayload,
+  WSMessage,
+} from "@/shared/hooks/use-web-socket/model/schema";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
-import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
+import {
+  AgentPendingPatientListApi,
+  useGetPendingPatientListQuery,
+} from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
+import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 interface OnlineDoctor {
@@ -27,7 +34,7 @@ const Patients = () => {
 
   const {
     data: patientList,
-    refetch,
+    // refetch,
     isLoading,
   } = useGetPendingPatientListQuery({
     page,
@@ -36,22 +43,55 @@ const Patients = () => {
   });
   const totalPages = patientList?.pagination.totalPages || 1;
   const wsUrl = import.meta.env.VITE_WS_URL;
+  const dispatch: AppDispatch = useAppDispatch();
   const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
     wsUrl,
     5000
   );
 
-  useAgentPendingSocketHandler({
-    messages,
-    clearMessages,
-    page,
-    limit,
-    search,
-    refetch,
-    isOpen,
-    setOnlineDoctorsMap,
-  });
-
+  // useAgentPendingSocketHandler({
+  //   messages,
+  //   clearMessages,
+  //   page,
+  //   limit,
+  //   search,
+  //   refetch,
+  //   isOpen,
+  //   setOnlineDoctorsMap,
+  // });
+  const updateAgentPendingAfterViewingPatient = useCallback(
+    (payload: ViewOnlineDoctorPayload) => {
+      const { patient_id: wsPatientId, doctor } = payload;
+      setOnlineDoctorsMap?.((prev) => ({ ...prev, [wsPatientId]: doctor }));
+      dispatch(
+        AgentPendingPatientListApi.util.updateQueryData(
+          "getPendingPatientList",
+          { page, limit, search },
+          (draft) => {
+            const patient = draft.data.find((p) => p._id === wsPatientId);
+            if (patient) {
+              patient.online_dr = {
+                _id: doctor._id,
+                email: doctor.email,
+                id: doctor.id ?? "",
+              };
+            }
+          }
+        )
+      );
+    },
+    [dispatch, limit, page, search, setOnlineDoctorsMap]
+  );
+  useEffect(() => {
+    if (!isOpen || messages.length === 0) return;
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
+      if (msg.type === "view_online_doctor") {
+        updateAgentPendingAfterViewingPatient(msg.payload);
+      }
+    });
+  }, [updateAgentPendingAfterViewingPatient, messages, isOpen, clearMessages]);
   // Prepare data
   useServerSidePagination({
     totalPages,

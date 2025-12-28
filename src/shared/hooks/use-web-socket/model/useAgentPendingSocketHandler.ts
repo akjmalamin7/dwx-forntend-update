@@ -215,11 +215,8 @@ export const useAgentPendingSocketHandler = ({
 
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
-    const messageToProcces = [...messages];
-    clearMessages();
-    messageToProcces.forEach((msg) => {
+    messages.forEach((msg) => {
       if (msg.type === "new_ecg_report" || msg.type === "new_xray_report") {
-        console.log(msg.payload);
         updateAgentPendingAfterAddXrayOrEcg(msg.payload);
       }
       if (msg.type === "completed_back") {
@@ -238,6 +235,7 @@ export const useAgentPendingSocketHandler = ({
         refetch();
       }
     });
+    clearMessages();
   }, [
     updateAgentPendingAfterAddXrayOrEcg,
     updateAgentPendingAfterCompleteBack,

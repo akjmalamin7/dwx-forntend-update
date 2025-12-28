@@ -52,7 +52,7 @@ export const useAdminCompletedSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -63,7 +63,9 @@ export const useAdminCompletedSocketHandler = ({
   );
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "admin_mr_delete_back") {
         udpateAdminCompletedAfterDeleteBack(msg.payload);
       }
@@ -71,7 +73,6 @@ export const useAdminCompletedSocketHandler = ({
         updateAdminCompletedAfterSubmit();
       }
     });
-    clearMessages();
   }, [
     isOpen,
     messages,

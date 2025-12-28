@@ -100,7 +100,7 @@ export const useAdminPendingSocketHandler = ({
             (draft) => {
               const exists = draft.data.some((p) => p._id === newPatient._id);
               if (!exists) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -228,7 +228,7 @@ export const useAdminPendingSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -239,7 +239,9 @@ export const useAdminPendingSocketHandler = ({
   );
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "new_xray_report") {
         updateAdminPendingAfterAddXrayOrEcg(msg.payload);
       }
@@ -262,7 +264,6 @@ export const useAdminPendingSocketHandler = ({
         updateAdminPendingAfterDeleteBack(msg.payload);
       }
     });
-    clearMessages();
   }, [
     isOpen,
     messages,

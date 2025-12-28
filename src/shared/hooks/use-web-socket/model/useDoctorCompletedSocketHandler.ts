@@ -79,7 +79,7 @@ export const useDoctorCompletedSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -93,7 +93,9 @@ export const useDoctorCompletedSocketHandler = ({
   }, [refetch]);
   useEffect(() => {
     if (!messages.length) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "submit_patient") {
         updateDoctorCompletedAfterSubmit();
       }
@@ -101,8 +103,6 @@ export const useDoctorCompletedSocketHandler = ({
         updateDoctorCompletedAfterDeleteBack(msg.payload);
       }
     });
-
-    clearMessages();
   }, [
     messages,
     clearMessages,

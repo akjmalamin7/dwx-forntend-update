@@ -95,7 +95,7 @@ export const useAgentPendingSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -121,7 +121,7 @@ export const useAgentPendingSocketHandler = ({
 
                   online_dr: { _id: "", email: "", id: "" },
                 };
-                draft.data.push(
+                draft.data.unshift(
                   patientForPendingList as AGENT_PENDING_PATIENT_MODEL
                 );
               }
@@ -147,7 +147,7 @@ export const useAgentPendingSocketHandler = ({
             (draft) => {
               const exists = draft.data.some((p) => p._id === newPatient._id);
               if (!exists) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -215,8 +215,11 @@ export const useAgentPendingSocketHandler = ({
 
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "new_ecg_report" || msg.type === "new_xray_report") {
+        console.log(msg.payload);
         updateAgentPendingAfterAddXrayOrEcg(msg.payload);
       }
       if (msg.type === "completed_back") {
@@ -235,7 +238,6 @@ export const useAgentPendingSocketHandler = ({
         refetch();
       }
     });
-    clearMessages();
   }, [
     updateAgentPendingAfterAddXrayOrEcg,
     updateAgentPendingAfterCompleteBack,

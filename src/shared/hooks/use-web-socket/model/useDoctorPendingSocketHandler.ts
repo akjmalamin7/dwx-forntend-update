@@ -141,7 +141,7 @@ export const useDoctorPendingSocketHandler = ({
 
                 console.log("Patient updated in doctor's pending list");
               } else {
-                draft.data.push(transformPatient);
+                draft.data.unshift(transformPatient);
                 console.log("Patient added to doctor's pending list");
               }
             } else {
@@ -156,8 +156,10 @@ export const useDoctorPendingSocketHandler = ({
   );
   useEffect(() => {
     if (!messages.length) return;
+    const messageToProcces = [...messages];
+    clearMessages();
     const currentDoctorId = user?.id;
-    messages.forEach((msg) => {
+    messageToProcces.forEach((msg) => {
       if (msg.type === "view_online_doctor") {
         const { doctor, patient_id } = msg.payload;
         if (doctor._id !== currentDoctorId) {
@@ -182,6 +184,7 @@ export const useDoctorPendingSocketHandler = ({
         updateDoctorPendingAfterBackView();
       }
       if (msg.type === "new_xray_report") {
+        console.log(msg.payload);
         updateDoctorPendingAfterAddXrayOrEcg();
       }
       if (msg.type === "delete_patient_from_admin") {
@@ -191,7 +194,6 @@ export const useDoctorPendingSocketHandler = ({
         updateDoctorPendingListAfterSelectDoctor(msg.payload);
       }
     });
-    clearMessages();
   }, [
     messages,
     clearMessages,

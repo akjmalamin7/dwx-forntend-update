@@ -81,7 +81,7 @@ export const useAgentCompletedSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.push(newPatient);
+                draft.data.unshift(newPatient);
               }
             }
           )
@@ -99,7 +99,9 @@ export const useAgentCompletedSocketHandler = ({
 
   useEffect(() => {
     if (!isOpen || messages.length === 0) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "admin_mr_delete_back") {
         updateAgentCompletedAfterDeleteBack(msg.payload);
       }
@@ -110,8 +112,6 @@ export const useAgentCompletedSocketHandler = ({
         updateAgentCompletedAfterSubmit();
       }
     });
-
-    clearMessages();
   }, [
     messages,
     clearMessages,

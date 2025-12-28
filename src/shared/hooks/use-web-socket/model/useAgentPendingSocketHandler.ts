@@ -234,6 +234,9 @@ export const useAgentPendingSocketHandler = ({
       if (msg.type === "select_doctor_and_update") {
         refetch();
       }
+      if (msg.type === "delete_patient_from_admin") {
+        refetch();
+      }
     });
     clearMessages();
   }, [

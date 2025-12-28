@@ -109,6 +109,9 @@ export const useAgentCompletedSocketHandler = ({
       if (msg.type === "submit_patient") {
         updateAgentCompletedAfterSubmit();
       }
+      if (msg.type === "delete_patient_from_admin") {
+        refetch?.();
+      }
     });
 
     clearMessages();
@@ -119,5 +122,6 @@ export const useAgentCompletedSocketHandler = ({
     updateAgentCompletedAfterDeleteBack,
     updateAgentCompletedAfterPrintStatus,
     updateAgentCompletedAfterSubmit,
+    refetch,
   ]);
 };

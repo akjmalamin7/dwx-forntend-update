@@ -100,6 +100,9 @@ export const useDoctorCompletedSocketHandler = ({
       if (msg.type === "admin_mr_delete_back") {
         updateDoctorCompletedAfterDeleteBack(msg.payload);
       }
+      if (msg.type === "delete_patient_from_admin") {
+        refetch?.();
+      }
     });
 
     clearMessages();
@@ -108,5 +111,6 @@ export const useDoctorCompletedSocketHandler = ({
     clearMessages,
     updateDoctorCompletedAfterSubmit,
     updateDoctorCompletedAfterDeleteBack,
+    refetch,
   ]);
 };

@@ -70,6 +70,9 @@ export const useAdminCompletedSocketHandler = ({
       if (msg.type === "submit_patient") {
         updateAdminCompletedAfterSubmit();
       }
+      if (msg.type === "delete_patient_from_admin") {
+        refetch?.();
+      }
     });
     clearMessages();
   }, [
@@ -78,5 +81,6 @@ export const useAdminCompletedSocketHandler = ({
     clearMessages,
     udpateAdminCompletedAfterDeleteBack,
     updateAdminCompletedAfterSubmit,
+    refetch,
   ]);
 };

@@ -100,7 +100,7 @@ export const useAdminPendingSocketHandler = ({
             (draft) => {
               const exists = draft.data.some((p) => p._id === newPatient._id);
               if (!exists) {
-                draft.data.unshift(newPatient);
+                draft.data.push(newPatient);
               }
             }
           )
@@ -228,7 +228,7 @@ export const useAdminPendingSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.unshift(newPatient);
+                draft.data.push(newPatient);
               }
             }
           )

@@ -72,6 +72,7 @@ const PatientView = () => {
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
+    console.log(patient_id);
     sendMessage({
       type: "back_view_patient",
       payload: { patient_id: patient_id },

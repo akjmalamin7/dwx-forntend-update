@@ -95,7 +95,7 @@ export const useAgentPendingSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.unshift(newPatient);
+                draft.data.push(newPatient);
               }
             }
           )
@@ -121,7 +121,7 @@ export const useAgentPendingSocketHandler = ({
 
                   online_dr: { _id: "", email: "", id: "" },
                 };
-                draft.data.unshift(
+                draft.data.push(
                   patientForPendingList as AGENT_PENDING_PATIENT_MODEL
                 );
               }
@@ -147,7 +147,7 @@ export const useAgentPendingSocketHandler = ({
             (draft) => {
               const exists = draft.data.some((p) => p._id === newPatient._id);
               if (!exists) {
-                draft.data.unshift(newPatient);
+                draft.data.push(newPatient);
               }
             }
           )

@@ -81,7 +81,7 @@ export const useAgentCompletedSocketHandler = ({
             (draft) => {
               const exist = draft.data.some((p) => p._id === newPatient._id);
               if (!exist) {
-                draft.data.unshift(newPatient);
+                draft.data.push(newPatient);
               }
             }
           )

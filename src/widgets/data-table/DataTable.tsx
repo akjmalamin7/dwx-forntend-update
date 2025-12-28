@@ -1,7 +1,7 @@
 import { Select, ServerSidePagination, ServerSideSearch } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 interface ColumnType<T> {
   key: Extract<keyof T, string>;
   title: string;
@@ -43,6 +43,11 @@ const DataTable = ({
     setLimit?.(Number(value));
     setPage?.(1);
   };
+  useEffect(() => {
+    if (!isLoading && dataSource.length === 0 && page > 1) {
+      setPage(page - 1);
+    }
+  }, [isLoading, dataSource.length, page, setPage]);
   return (
     <div className="bg-white">
       <div className="mb-3 flex justify-between items-center gap-4">

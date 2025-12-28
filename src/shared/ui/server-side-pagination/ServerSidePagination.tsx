@@ -30,7 +30,9 @@ const ServerSidePagination = ({
     }
     return pages;
   };
+
   const pageNumbers = getPageNumbers();
+
   return (
     <div className="flex justify-between items-center mt-4 px-4">
       <button

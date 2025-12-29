@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 
+import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
+import { useEffect } from "react";
 const App = () => {
   const authChecked = useAuthCheck();
   usePageTitle("DWX", {
@@ -11,6 +13,13 @@ const App = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "socket/connect" });
+  }, [dispatch]);
+
 
   if (!authChecked) return <Loader type="full_width" />;
   return (

@@ -1,22 +1,19 @@
 import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
-import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import type {
-  ViewOnlineDoctorPayload,
-  WSMessage,
+  WSMessage
 } from "@/shared/hooks/use-web-socket/model/schema";
+import { useAdminPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useAdminPendingSocketHandler";
 import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
-  AdminPendingPatientListApi,
-  useGetPendingPatientListQuery,
+  useGetPendingPatientListQuery
 } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 interface OnlineDoctor {
@@ -56,49 +53,49 @@ const PatientPending = () => {
     useWebSocket<WSMessage>(wsUrl, 5000);
   const { user } = useAuth();
 
-  // useAdminPendingSocketHandler({
-  //   messages,
-  //   clearMessages,
-  //   isOpen,
-  //   limit,
-  //   page,
-  //   search,
-  //   setOnlineDoctorsMap,
-  // });
-  const dispatch: AppDispatch = useAppDispatch();
-  const updateAdminPendingAfterViewingPatient = useCallback(
-    (payload: ViewOnlineDoctorPayload) => {
-      const { patient_id: wsPatientId, doctor } = payload;
-      setOnlineDoctorsMap?.((prev) => ({ ...prev, [wsPatientId]: doctor }));
-      dispatch(
-        AdminPendingPatientListApi.util.updateQueryData(
-          "getPendingPatientList",
-          { page, limit, search },
-          (draft) => {
-            const patient = draft.data.find((p) => p._id === wsPatientId);
-            if (patient) {
-              patient.online_dr = {
-                _id: doctor._id,
-                email: doctor.email,
-                id: doctor.id ?? "",
-              };
-            }
-          }
-        )
-      );
-    },
-    [dispatch, limit, page, search, setOnlineDoctorsMap]
-  );
-  useEffect(() => {
-    if (!isOpen || messages.length === 0) return;
-    const messageToProcces = [...messages];
-    clearMessages();
-    messageToProcces.forEach((msg) => {
-      if (msg.type === "view_online_doctor") {
-        updateAdminPendingAfterViewingPatient(msg.payload);
-      }
-    });
-  }, [updateAdminPendingAfterViewingPatient, messages, isOpen, clearMessages]);
+  useAdminPendingSocketHandler({
+    messages,
+    clearMessages,
+    isOpen,
+    limit,
+    page,
+    search,
+    setOnlineDoctorsMap,
+  });
+  // const dispatch: AppDispatch = useAppDispatch();
+  // const updateAdminPendingAfterViewingPatient = useCallback(
+  //   (payload: ViewOnlineDoctorPayload) => {
+  //     const { patient_id: wsPatientId, doctor } = payload;
+  //     setOnlineDoctorsMap?.((prev) => ({ ...prev, [wsPatientId]: doctor }));
+  //     dispatch(
+  //       AdminPendingPatientListApi.util.updateQueryData(
+  //         "getPendingPatientList",
+  //         { page, limit, search },
+  //         (draft) => {
+  //           const patient = draft.data.find((p) => p._id === wsPatientId);
+  //           if (patient) {
+  //             patient.online_dr = {
+  //               _id: doctor._id,
+  //               email: doctor.email,
+  //               id: doctor.id ?? "",
+  //             };
+  //           }
+  //         }
+  //       )
+  //     );
+  //   },
+  //   [dispatch, limit, page, search, setOnlineDoctorsMap]
+  // );
+  // useEffect(() => {
+  //   if (!isOpen || messages.length === 0) return;
+  //   const messageToProcces = [...messages];
+  //   clearMessages();
+  //   messageToProcces.forEach((msg) => {
+  //     if (msg.type === "view_online_doctor") {
+  //       updateAdminPendingAfterViewingPatient(msg.payload);
+  //     }
+  //   });
+  // }, [updateAdminPendingAfterViewingPatient, messages, isOpen, clearMessages]);
 
   const DATA_TABLE = useMemo(
     () =>
@@ -120,8 +117,8 @@ const PatientPending = () => {
           rtype: item.rtype,
           selected_dr:
             user?.id &&
-            Array.isArray(item.doctor_id) &&
-            item.doctor_id.length > 0
+              Array.isArray(item.doctor_id) &&
+              item.doctor_id.length > 0
               ? item.doctor_id.map((d) => d.email).join(", ")
               : "All",
           ignored_dr:

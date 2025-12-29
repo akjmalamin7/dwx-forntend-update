@@ -27,7 +27,8 @@ const PatientView = () => {
     isLoading: patientLoading,
     error,
   } = useGetDoctorPatientViewQuery(patient_id!);
-  const [backToOtherView] = useBackToOtherApiMutation();
+  const [backToOtherView, { isLoading: isLoadingBack }] =
+    useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
   const { user } = useAuth();
@@ -51,13 +52,13 @@ const PatientView = () => {
         doctor: currentDoctor,
       },
     });
-    sendMessage({
-      type: "stop_viewing_patient",
-      payload: {
-        patient_id: patientId,
-        doctor: currentDoctor,
-      },
-    });
+    // sendMessage({
+    //   type: "stop_viewing_patient",
+    //   payload: {
+    //     patient_id: patientId,
+    //     doctor: currentDoctor,
+    //   },
+    // });
 
     return () => {
       sendMessage({
@@ -72,6 +73,7 @@ const PatientView = () => {
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
+    console.log(patient_id);
     sendMessage({
       type: "back_view_patient",
       payload: { patient_id: patient_id },
@@ -137,6 +139,7 @@ const PatientView = () => {
           title="Patient View"
           button={
             <Button
+              loading={isLoadingBack}
               className="!bg-green-500 !h-auto"
               onClick={handleBackToOtherList}
             >

@@ -93,7 +93,9 @@ export const useDoctorCompletedSocketHandler = ({
   }, [refetch]);
   useEffect(() => {
     if (!messages.length) return;
-    messages.forEach((msg) => {
+    const messageToProcces = [...messages];
+    clearMessages();
+    messageToProcces.forEach((msg) => {
       if (msg.type === "submit_patient") {
         updateDoctorCompletedAfterSubmit();
       }
@@ -104,8 +106,6 @@ export const useDoctorCompletedSocketHandler = ({
         refetch?.();
       }
     });
-
-    clearMessages();
   }, [
     messages,
     clearMessages,

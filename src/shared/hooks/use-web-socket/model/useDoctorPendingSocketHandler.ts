@@ -156,41 +156,44 @@ export const useDoctorPendingSocketHandler = ({
   );
   useEffect(() => {
     if (!messages.length) return;
-    const lastMessage = messages[messages.length - 1];
-    const currentDoctorId = user?.id;
-    if (lastMessage.type === "view_online_doctor") {
-      const { doctor, patient_id } = lastMessage.payload;
-      if (doctor._id !== currentDoctorId) {
-        removePatientFromOtherDoctors(patient_id);
-      }
-    }
-    if (lastMessage.type === "stop_viewing_patient") {
-      const targetPatientId = lastMessage.payload.patient_id;
-      removeDoctorPatientAfterStopView(targetPatientId);
-    }
-    if (lastMessage.type === "submit_patient") {
-      const targetPatientId = lastMessage.payload.patient_id;
-      removePatientAfterSubmit(targetPatientId);
-    }
-    if (lastMessage.type === "completed_back") {
-      updaetDoctorPeningAfterCompleteBack();
-    }
-    if (lastMessage.type === "admin_mr_delete_back") {
-      updaetDoctorPeningAfterDeleteBack();
-    }
-    if (lastMessage.type === "back_view_patient") {
-      updateDoctorPendingAfterBackView();
-    }
-    if (lastMessage.type === "new_xray_report") {
-      updateDoctorPendingAfterAddXrayOrEcg();
-    }
-    if (lastMessage.type === "delete_patient_from_admin") {
-      updateDoctorPendingAfterDeletePatientFromAdmin();
-    }
-    if (lastMessage.type === "select_doctor_and_update") {
-      updateDoctorPendingListAfterSelectDoctor(lastMessage.payload);
-    }
+    const messageToProcces = [...messages];
     clearMessages();
+    const currentDoctorId = user?.id;
+    messageToProcces.forEach((msg) => {
+      if (msg.type === "view_online_doctor") {
+        const { doctor, patient_id } = msg.payload;
+        if (doctor._id !== currentDoctorId) {
+          removePatientFromOtherDoctors(patient_id);
+        }
+      }
+      if (msg.type === "stop_viewing_patient") {
+        const targetPatientId = msg.payload.patient_id;
+        removeDoctorPatientAfterStopView(targetPatientId);
+      }
+      if (msg.type === "submit_patient") {
+        const targetPatientId = msg.payload.patient_id;
+        removePatientAfterSubmit(targetPatientId);
+      }
+      if (msg.type === "completed_back") {
+        updaetDoctorPeningAfterCompleteBack();
+      }
+      if (msg.type === "admin_mr_delete_back") {
+        updaetDoctorPeningAfterDeleteBack();
+      }
+      if (msg.type === "back_view_patient") {
+        updateDoctorPendingAfterBackView();
+      }
+      if (msg.type === "new_xray_report") {
+        console.log(msg.payload);
+        updateDoctorPendingAfterAddXrayOrEcg();
+      }
+      if (msg.type === "delete_patient_from_admin") {
+        updateDoctorPendingAfterDeletePatientFromAdmin();
+      }
+      if (msg.type === "select_doctor_and_update") {
+        updateDoctorPendingListAfterSelectDoctor(msg.payload);
+      }
+    });
   }, [
     messages,
     clearMessages,

@@ -2,7 +2,6 @@ import { useSendReportMutation } from "@/entities/agent/send-report";
 import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Loader, Panel, PanelHeading } from "@/shared/ui";
 import { type PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
@@ -13,8 +12,8 @@ const SendEcgReport = () => {
   const { status, isProfileLoading } = useGetProfile();
   const [createSendReport, { isLoading }] = useSendReportMutation();
   const [resetCount, setResetCount] = useState<number>(0);
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket(wsUrl, 5000);
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { sendMessage } = useWebSocket(wsUrl, 5000);
   const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     const finalData = {
       ...data,
@@ -23,8 +22,8 @@ const SendEcgReport = () => {
     };
 
     try {
-      const result = await createSendReport(finalData).unwrap();
-      sendMessage({ type: "new_xray_report", payload: result });
+      await createSendReport(finalData).unwrap();
+      // sendMessage({ type: "new_xray_report", payload: result });
       // Reset through resetCount prop
       setResetCount((prev) => prev + 1);
     } catch (err: unknown) {

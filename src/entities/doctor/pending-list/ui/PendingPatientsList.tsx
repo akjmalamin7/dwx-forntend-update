@@ -1,9 +1,6 @@
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useDoctorPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useDoctorPendingSocketHandler";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -20,7 +17,7 @@ const PendingPatientsList = () => {
   const {
     data: patientList,
     isLoading,
-    refetch,
+    // refetch,
   } = useGetDoctorPendingPatientListQuery({
     page,
     limit,
@@ -33,17 +30,17 @@ const PendingPatientsList = () => {
     onPageChange: setPage,
   });
   const { user } = useAuth();
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
 
-  useDoctorPendingSocketHandler({
-    messages,
-    page,
-    limit,
-    search,
-    refetch,
-    clearMessages,
-  });
+  // useDoctorPendingSocketHandler({
+  //   messages,
+  //   page,
+  //   limit,
+  //   search,
+  //   refetch,
+  //   clearMessages,
+  // });
 
   const DATA_TABLE = useMemo(
     () =>
@@ -60,8 +57,8 @@ const PendingPatientsList = () => {
         }),
         agent_name:
           user?.id &&
-          Array.isArray(item.doctor_id) &&
-          item.doctor_id.includes(user.id)
+            Array.isArray(item.doctor_id) &&
+            item.doctor_id.includes(user.id)
             ? item.agent_id?.email || ""
             : "",
 

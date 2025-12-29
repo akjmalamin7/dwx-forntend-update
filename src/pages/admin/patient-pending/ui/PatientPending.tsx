@@ -2,29 +2,24 @@ import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type {
-  WSMessage
-} from "@/shared/hooks/use-web-socket/model/schema";
-import { useAdminPendingSocketHandler } from "@/shared/hooks/use-web-socket/model/useAdminPendingSocketHandler";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   useGetPendingPatientListQuery
 } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-interface OnlineDoctor {
-  _id: string;
-  email: string;
-  id?: string;
-}
+// interface OnlineDoctor {
+//   _id: string;
+//   email: string;
+//   id?: string;
+// }
 const PatientPending = () => {
-  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
-    Record<string, OnlineDoctor>
-  >({});
+  // const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
+  //   Record<string, OnlineDoctor>
+  // >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -47,21 +42,21 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, sendMessage, clearMessages, isOpen } =
-    useWebSocket<WSMessage>(wsUrl, 5000);
   const { user } = useAuth();
 
-  useAdminPendingSocketHandler({
-    messages,
-    clearMessages,
-    isOpen,
-    limit,
-    page,
-    search,
-    setOnlineDoctorsMap,
-  });
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { messages, sendMessage, clearMessages, isOpen } =
+  //   useWebSocket<WSMessage>(wsUrl, 5000);
+
+  // useAdminPendingSocketHandler({
+  //   messages,
+  //   clearMessages,
+  //   isOpen,
+  //   limit,
+  //   page,
+  //   search,
+  //   setOnlineDoctorsMap,
+  // });
   // const dispatch: AppDispatch = useAppDispatch();
   // const updateAdminPendingAfterViewingPatient = useCallback(
   //   (payload: ViewOnlineDoctorPayload) => {
@@ -100,7 +95,7 @@ const PatientPending = () => {
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => {
-        const liveDoctor = onlineDoctorsMap[item._id];
+        // const liveDoctor = onlineDoctorsMap[item._id];
         return {
           key: item._id,
           sl: (page - 1) * limit + index + 1,
@@ -125,14 +120,15 @@ const PatientPending = () => {
             Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
               ? item.ignore_dr.map((d) => d.email).join(", ")
               : "",
-          online_dr: liveDoctor
-            ? liveDoctor.email
-            : item.online_dr?.email || "",
+          online_dr: item.online_dr?.email || "",
+          // online_dr: liveDoctor
+          //   ? liveDoctor.email
+          //   : item.online_dr?.email || "",
           xray_name: item.xray_name,
           action: "",
         };
       }) || [],
-    [patientList?.data, user?.id, limit, page, onlineDoctorsMap]
+    [patientList?.data, user?.id, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -143,7 +139,7 @@ const PatientPending = () => {
           <div key={rowIndex} className="flex">
             <TypingBack
               path={record?.key}
-              sendMessage={sendMessage}
+              // sendMessage={sendMessage}
               onDeleteSuccess={refetch}
             />
             <Link
@@ -160,7 +156,7 @@ const PatientPending = () => {
             </Link>
             <DeleteAdminPatient
               id={record?.key}
-              sendMessage={sendMessage}
+              // sendMessage={sendMessage}
               onDeleteSuccess={refetch}
             />
           </div>

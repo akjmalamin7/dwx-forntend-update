@@ -1,8 +1,5 @@
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useDoctorCompletedSocketHandler } from "@/shared/hooks/use-web-socket/model/useDoctorCompletedSocketHandler";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -19,7 +16,7 @@ const CompletedPatients = () => {
   const {
     data: patientList,
     isLoading,
-    refetch,
+    // refetch,
   } = useGetDoctorCompletedPatientListQuery({ page, limit, search });
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -27,16 +24,16 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
-  useDoctorCompletedSocketHandler({
-    page,
-    limit,
-    search,
-    messages,
-    clearMessages,
-    refetch,
-  });
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
+  // useDoctorCompletedSocketHandler({
+  //   page,
+  //   limit,
+  //   search,
+  //   messages,
+  //   clearMessages,
+  //   refetch,
+  // });
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>

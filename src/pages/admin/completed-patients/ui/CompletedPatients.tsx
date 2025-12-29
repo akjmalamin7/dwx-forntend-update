@@ -2,9 +2,6 @@ import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useAdminCompletedSocketHandler } from "@/shared/hooks/use-web-socket/model/useAdminCompletedSocketHandler";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   AdminCompletedPatientListApi,
   useGetAdminCompletedPatientListQuery,
@@ -35,18 +32,18 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { messages, sendMessage, clearMessages, isOpen } =
-    useWebSocket<WSMessage>(wsUrl, 5000);
-  useAdminCompletedSocketHandler({
-    page,
-    limit,
-    search,
-    messages,
-    isOpen,
-    clearMessages,
-    refetch,
-  });
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { messages, sendMessage, clearMessages, isOpen } =
+  //   useWebSocket<WSMessage>(wsUrl, 5000);
+  // useAdminCompletedSocketHandler({
+  //   page,
+  //   limit,
+  //   search,
+  //   messages,
+  //   isOpen,
+  //   clearMessages,
+  //   refetch,
+  // });
 
   const DATA_TABLE = useMemo(
     () =>
@@ -86,7 +83,7 @@ const CompletedPatients = () => {
             </Link>
 
             <CompletedBack
-              sendMessage={sendMessage}
+              // sendMessage={sendMessage}
               path={record?.key}
               patient={patientList?.data.find((p) => p._id === record?.key)}
               onDeleteSuccess={() => {

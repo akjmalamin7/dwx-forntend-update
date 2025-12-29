@@ -2,8 +2,6 @@ import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
@@ -34,8 +32,8 @@ const PatientArchiveList = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 500);
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 500);
 
   const DATA_TABLE = useMemo(
     () =>
@@ -89,7 +87,7 @@ const PatientArchiveList = () => {
                 );
               }}
               patient={patientList?.data.find((p) => p._id === record?.key)}
-              sendMessage={sendMessage}
+            // sendMessage={sendMessage}
             />
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>

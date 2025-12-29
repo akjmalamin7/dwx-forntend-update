@@ -1,32 +1,24 @@
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
-import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type {
-  ViewOnlineDoctorPayload,
-  WSMessage,
-} from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
-  AgentPendingPatientListApi,
-  useGetPendingPatientListQuery,
+  useGetPendingPatientListQuery
 } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-interface OnlineDoctor {
-  _id: string;
-  email: string;
-  id?: string;
-}
+// interface OnlineDoctor {
+//   _id: string;
+//   email: string;
+//   id?: string;
+// }
 const Patients = () => {
-  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
-    Record<string, OnlineDoctor>
-  >({});
+  // const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
+  //   Record<string, OnlineDoctor>
+  // >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -42,12 +34,12 @@ const Patients = () => {
     search,
   });
   const totalPages = patientList?.pagination.totalPages || 1;
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const dispatch: AppDispatch = useAppDispatch();
-  const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
-    wsUrl,
-    5000
-  );
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const dispatch: AppDispatch = useAppDispatch();
+  // const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
+  //   wsUrl,
+  //   5000
+  // );
 
   // useAgentPendingSocketHandler({
   //   messages,
@@ -59,39 +51,7 @@ const Patients = () => {
   //   isOpen,
   //   setOnlineDoctorsMap,
   // });
-  const updateAgentPendingAfterViewingPatient = useCallback(
-    (payload: ViewOnlineDoctorPayload) => {
-      const { patient_id: wsPatientId, doctor } = payload;
-      setOnlineDoctorsMap?.((prev) => ({ ...prev, [wsPatientId]: doctor }));
-      dispatch(
-        AgentPendingPatientListApi.util.updateQueryData(
-          "getPendingPatientList",
-          { page, limit, search },
-          (draft) => {
-            const patient = draft.data.find((p) => p._id === wsPatientId);
-            if (patient) {
-              patient.online_dr = {
-                _id: doctor._id,
-                email: doctor.email,
-                id: doctor.id ?? "",
-              };
-            }
-          }
-        )
-      );
-    },
-    [dispatch, limit, page, search, setOnlineDoctorsMap]
-  );
-  useEffect(() => {
-    if (!isOpen || messages.length === 0) return;
-    const messageToProcces = [...messages];
-    clearMessages();
-    messageToProcces.forEach((msg) => {
-      if (msg.type === "view_online_doctor") {
-        updateAgentPendingAfterViewingPatient(msg.payload);
-      }
-    });
-  }, [updateAgentPendingAfterViewingPatient, messages, isOpen, clearMessages]);
+
   // Prepare data
   useServerSidePagination({
     totalPages,
@@ -102,7 +62,7 @@ const Patients = () => {
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => {
-        const liveDoctor = onlineDoctorsMap[item._id];
+        // const liveDoctor = onlineDoctorsMap[item._id];
         return {
           key: item._id,
           sl: (page - 1) * limit + index + 1,
@@ -121,13 +81,14 @@ const Patients = () => {
             Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
               ? item.ignore_dr.map((d) => d.email).join(", ")
               : "",
-          online_dr: liveDoctor
-            ? liveDoctor.email
-            : item.online_dr?.email || "",
+          online_dr: item.online_dr?.email || "",
+          // online_dr: liveDoctor
+          //   ? liveDoctor.email
+          //   : item.online_dr?.email || "",
           action: "",
         };
       }) || [],
-    [patientList?.data, limit, page, onlineDoctorsMap]
+    [patientList?.data, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

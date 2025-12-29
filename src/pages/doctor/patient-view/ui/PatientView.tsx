@@ -1,7 +1,5 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { useAuth, usePageTitle } from "@/shared/hooks";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
+import { usePageTitle } from "@/shared/hooks";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
@@ -9,7 +7,7 @@ import {
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
@@ -31,53 +29,53 @@ const PatientView = () => {
     useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage, isOpen } = useWebSocket<WSMessage>(wsUrl, 5000);
+  // const wsUrl = import.meta.env.VITE_WS_URL;
+  // const { sendMessage, isOpen } = useWebSocket<WSMessage>(wsUrl, 5000);
 
-  const patientId = patient?._id;
+  // const patientId = patient?._id;
   // console.log(user);
-  useEffect(() => {
-    if (!patientId || !isOpen || !user) return;
-    const currentDoctor = {
-      _id: user.id || user.id,
-      email: user.email,
-      id: user.id || "",
-    };
-    sendMessage({
-      type: "view_online_doctor",
-      payload: {
-        patient_id: patientId,
-        doctor: currentDoctor,
-      },
-    });
-    // sendMessage({
-    //   type: "stop_viewing_patient",
-    //   payload: {
-    //     patient_id: patientId,
-    //     doctor: currentDoctor,
-    //   },
-    // });
+  // useEffect(() => {
+  //   if (!patientId || !isOpen || !user) return;
+  //   const currentDoctor = {
+  //     _id: user.id || user.id,
+  //     email: user.email,
+  //     id: user.id || "",
+  //   };
+  //   sendMessage({
+  //     type: "view_online_doctor",
+  //     payload: {
+  //       patient_id: patientId,
+  //       doctor: currentDoctor,
+  //     },
+  //   });
+  //   // sendMessage({
+  //   //   type: "stop_viewing_patient",
+  //   //   payload: {
+  //   //     patient_id: patientId,
+  //   //     doctor: currentDoctor,
+  //   //   },
+  //   // });
 
-    return () => {
-      sendMessage({
-        type: "stop_viewing_patient",
-        payload: {
-          patient_id: patientId,
-          doctor: currentDoctor,
-        },
-      });
-    };
-  }, [patientId, sendMessage, isOpen, user]);
+  //   return () => {
+  //     sendMessage({
+  //       type: "stop_viewing_patient",
+  //       payload: {
+  //         patient_id: patientId,
+  //         doctor: currentDoctor,
+  //       },
+  //     });
+  //   };
+  // }, [patientId, sendMessage, isOpen, user]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
     console.log(patient_id);
-    sendMessage({
-      type: "back_view_patient",
-      payload: { patient_id: patient_id },
-    });
+    // sendMessage({
+    //   type: "back_view_patient",
+    //   payload: { patient_id: patient_id },
+    // });
     try {
       await backToOtherView({
         _id: patient_id,
@@ -91,13 +89,13 @@ const PatientView = () => {
 
   const handleSubmitPatient = () => {
     if (!patient_id) return;
-    sendMessage({
-      type: "submit_patient",
-      payload: {
-        patient_id: patient_id,
-        patient: patient,
-      },
-    });
+    // sendMessage({
+    //   type: "submit_patient",
+    //   payload: {
+    //     patient_id: patient_id,
+    //     patient: patient,
+    //   },
+    // });
   };
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];

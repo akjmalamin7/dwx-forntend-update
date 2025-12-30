@@ -1,11 +1,8 @@
 import { AdminFormatList, Editor, PersonalFormatList } from "@/features";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import {
   useSavePatientMutation,
   useUpdatePatientMutation,
 } from "@/shared/redux/features/doctor/patient-save/patientSaveApi";
-import type { PATIENT_VIEW_TRANSFORM_MODEL } from "@/shared/redux/features/doctor/patient-view/patientView.types";
 import { Button, Input, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,10 +15,8 @@ interface GetCommentsAndPassaultType {
 
 interface IProps {
   patient_id: string;
-  patient?: PATIENT_VIEW_TRANSFORM_MODEL | null;
   commentsAndPassault?: GetCommentsAndPassaultType;
   isUpdate?: boolean;
-  handleSubmitPatient?: () => void;
 }
 
 interface FormData {
@@ -41,9 +36,7 @@ interface ApiError {
 const ReportSubmissionForm = ({
   patient_id,
   commentsAndPassault,
-  patient,
   isUpdate = false,
-  handleSubmitPatient,
 }: IProps) => {
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
@@ -85,8 +78,7 @@ const ReportSubmissionForm = ({
   const isFormValid = useMemo(() => {
     return commentsValue && commentsValue.trim().length > 0;
   }, [commentsValue]);
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
+
   const handleAdminSelect = (value: string) => {
     if (value) {
       setValue("comments", value, { shouldValidate: true });
@@ -147,13 +139,7 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
-        sendMessage({
-          type: "submit_patient",
-          payload: { patient_id: patient?.patient_id, patient: patient },
-        });
-        handleSubmitPatient?.();
         navigate("/doctor/patient");
-
         resetForm();
       } else {
         console.warn(" Update failed:", response?.message);

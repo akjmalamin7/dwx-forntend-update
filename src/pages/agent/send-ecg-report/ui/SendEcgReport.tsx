@@ -12,8 +12,6 @@ const SendEcgReport = () => {
   const { status, isProfileLoading } = useGetProfile();
   const [createSendReport, { isLoading }] = useSendReportMutation();
   const [resetCount, setResetCount] = useState<number>(0);
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { sendMessage } = useWebSocket(wsUrl, 5000);
   const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     const finalData = {
       ...data,
@@ -23,8 +21,6 @@ const SendEcgReport = () => {
 
     try {
       await createSendReport(finalData).unwrap();
-      // sendMessage({ type: "new_xray_report", payload: result });
-      // Reset through resetCount prop
       setResetCount((prev) => prev + 1);
     } catch (err: unknown) {
       console.error("Error creating patient:", err);

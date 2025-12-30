@@ -1,5 +1,4 @@
 import { useGetAdminPatientViewQuery } from "@/shared/hooks/admin-patient-view";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { useAllDoctorListQuery } from "@/shared/redux/features/admin/all-doctor-list/allDcotorListApi.ts";
 import { DOCTOR_SELECTED_SCHEMA } from "@/shared/redux/features/admin/selected-doctor/selectedDoctor.type";
 import { useSelectdDoctorMutation } from "@/shared/redux/features/admin/selected-doctor/selectedDoctorApi";
@@ -17,8 +16,6 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
   const refArr = useRef([]);
   const { patient_id } = useParams<{ patient_id: string }>();
   const [selectdDoctor, { isLoading: isUpdating }] = useSelectdDoctorMutation();
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket(wsUrl, 5000);
   const { data: allDoctor, isLoading: isDoctorLoading } =
     useAllDoctorListQuery();
   const {
@@ -62,8 +59,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
   const onSubmit = handleSubmit(async (data) => {
     if (!patient_id) return;
     try {
-      const result = await selectdDoctor({ id: patient_id, data });
-      sendMessage({ type: "select_doctor_and_update", payload: result.data });
+      await selectdDoctor({ id: patient_id, data });
       navigate("/admin/patient");
     } catch (err) {
       console.error(err);

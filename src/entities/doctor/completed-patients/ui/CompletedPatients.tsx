@@ -24,17 +24,7 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
-  // useDoctorCompletedSocketHandler({
-  //   page,
-  //   limit,
-  //   search,
-  //   messages,
-  //   clearMessages,
-  //   refetch,
-  // });
-  // Prepare data
+
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({

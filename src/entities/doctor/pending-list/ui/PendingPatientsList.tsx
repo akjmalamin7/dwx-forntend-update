@@ -30,18 +30,6 @@ const PendingPatientsList = () => {
     onPageChange: setPage,
   });
   const { user } = useAuth();
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { messages, clearMessages } = useWebSocket<WSMessage>(wsUrl, 5000);
-
-  // useDoctorPendingSocketHandler({
-  //   messages,
-  //   page,
-  //   limit,
-  //   search,
-  //   refetch,
-  //   clearMessages,
-  // });
-
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data.map((item, index) => ({
@@ -57,8 +45,8 @@ const PendingPatientsList = () => {
         }),
         agent_name:
           user?.id &&
-            Array.isArray(item.doctor_id) &&
-            item.doctor_id.includes(user.id)
+          Array.isArray(item.doctor_id) &&
+          item.doctor_id.includes(user.id)
             ? item.agent_id?.email || ""
             : "",
 

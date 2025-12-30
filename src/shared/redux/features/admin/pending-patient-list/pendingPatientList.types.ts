@@ -11,7 +11,7 @@ export interface ADMIN_PENDING_PATIENT_MODEL {
   doctor_id: AGENT_DOCTOR[];
   completed_dr: AGENT_DOCTOR[];
   ignore_dr: AGENT_DOCTOR[];
-  online_dr: AGENT_DOCTOR;
+  online_dr?: AGENT_DOCTOR | null;
   patient_id: string;
   name: string;
   age: string;

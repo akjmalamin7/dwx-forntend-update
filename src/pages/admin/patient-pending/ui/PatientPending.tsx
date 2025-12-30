@@ -2,24 +2,22 @@ import { DeleteAdminPatient, TypingBack } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import {
-  useGetPendingPatientListQuery
-} from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
+import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdminPendingSocket";
+import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-// interface OnlineDoctor {
-//   _id: string;
-//   email: string;
-//   id?: string;
-// }
+
+interface Doctor {
+  _id: string;
+  email: string;
+  id?: string;
+}
+
 const PatientPending = () => {
-  // const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
-  //   Record<string, OnlineDoctor>
-  // >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -42,94 +40,61 @@ const PatientPending = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+
+  const wsUrl = import.meta.env.VITE_WS_URL;
+
+  const { mergedPatients, onlineDoctorsMap, resetRealtime } =
+    useAdminPendingPatientSocket({
+      wsUrl,
+      page,
+      apiPatients: patientList?.data,
+      refetch,
+    });
+
   const { user } = useAuth();
 
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { messages, sendMessage, clearMessages, isOpen } =
-  //   useWebSocket<WSMessage>(wsUrl, 5000);
+  useEffect(() => {
+    resetRealtime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search]);
 
-  // useAdminPendingSocketHandler({
-  //   messages,
-  //   clearMessages,
-  //   isOpen,
-  //   limit,
-  //   page,
-  //   search,
-  //   setOnlineDoctorsMap,
-  // });
-  // const dispatch: AppDispatch = useAppDispatch();
-  // const updateAdminPendingAfterViewingPatient = useCallback(
-  //   (payload: ViewOnlineDoctorPayload) => {
-  //     const { patient_id: wsPatientId, doctor } = payload;
-  //     setOnlineDoctorsMap?.((prev) => ({ ...prev, [wsPatientId]: doctor }));
-  //     dispatch(
-  //       AdminPendingPatientListApi.util.updateQueryData(
-  //         "getPendingPatientList",
-  //         { page, limit, search },
-  //         (draft) => {
-  //           const patient = draft.data.find((p) => p._id === wsPatientId);
-  //           if (patient) {
-  //             patient.online_dr = {
-  //               _id: doctor._id,
-  //               email: doctor.email,
-  //               id: doctor.id ?? "",
-  //             };
-  //           }
-  //         }
-  //       )
-  //     );
-  //   },
-  //   [dispatch, limit, page, search, setOnlineDoctorsMap]
-  // );
-  // useEffect(() => {
-  //   if (!isOpen || messages.length === 0) return;
-  //   const messageToProcces = [...messages];
-  //   clearMessages();
-  //   messageToProcces.forEach((msg) => {
-  //     if (msg.type === "view_online_doctor") {
-  //       updateAdminPendingAfterViewingPatient(msg.payload);
-  //     }
-  //   });
-  // }, [updateAdminPendingAfterViewingPatient, messages, isOpen, clearMessages]);
+  const DATA_TABLE = useMemo(() => {
+    return mergedPatients.map((item, index) => {
+      const liveDoctor = onlineDoctorsMap[item._id];
+      const doctorEmail = liveDoctor?.email || item.online_dr?.email || "";
 
-  const DATA_TABLE = useMemo(
-    () =>
-      patientList?.data?.map((item, index) => {
-        // const liveDoctor = onlineDoctorsMap[item._id];
-        return {
-          key: item._id,
-          sl: (page - 1) * limit + index + 1,
-          start_time: new Date(item.createdAt).toLocaleString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
-          agent_name: item.agent_id?.email,
-          patient_name: item.name,
-          patient_id: item.patient_id,
-          gender: item.gender,
-          age: item.age,
-          rtype: item.rtype,
-          selected_dr:
-            user?.id &&
-              Array.isArray(item.doctor_id) &&
-              item.doctor_id.length > 0
-              ? item.doctor_id.map((d) => d.email).join(", ")
-              : "All",
-          ignored_dr:
-            Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-              ? item.ignore_dr.map((d) => d.email).join(", ")
-              : "",
-          online_dr: item.online_dr?.email || "",
-          // online_dr: liveDoctor
-          //   ? liveDoctor.email
-          //   : item.online_dr?.email || "",
-          xray_name: item.xray_name,
-          action: "",
-        };
-      }) || [],
-    [patientList?.data, user?.id, limit, page]
-  );
+      return {
+        key: item._id,
+        sl: (page - 1) * limit + index + 1,
+        start_time: new Date(item.createdAt).toLocaleString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+        agent_name: item.agent_id?.email || "N/A",
+        patient_name: item.name || "Unknown",
+        patient_id: item.patient_id || "N/A",
+        gender: item.gender || "N/A",
+        age: item.age || "N/A",
+        rtype: item.rtype || "N/A",
+        selected_dr:
+          user?.id && Array.isArray(item.doctor_id) && item.doctor_id.length > 0
+            ? item.doctor_id
+                .map((d: Doctor) => d?.email || "Unknown")
+                .join(", ")
+            : "All",
+        ignored_dr:
+          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
+            ? item.ignore_dr
+                .map((d: Doctor) => d?.email || "Unknown")
+                .join(", ")
+            : "",
+        online_dr: doctorEmail,
+        xray_name: item.xray_name || "N/A",
+        action: "",
+      };
+    });
+  }, [mergedPatients, onlineDoctorsMap, page, limit, user?.id]);
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
@@ -137,11 +102,7 @@ const PatientPending = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex">
-            <TypingBack
-              path={record?.key}
-              // sendMessage={sendMessage}
-              onDeleteSuccess={refetch}
-            />
+            <TypingBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/select-doctor/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-2 text-sm"
@@ -154,11 +115,7 @@ const PatientPending = () => {
             >
               View
             </Link>
-            <DeleteAdminPatient
-              id={record?.key}
-              // sendMessage={sendMessage}
-              onDeleteSuccess={refetch}
-            />
+            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>
         ),
       };

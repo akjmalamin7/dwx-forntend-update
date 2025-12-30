@@ -27,20 +27,6 @@ const PatientCompleted = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { messages, clearMessages, isOpen } = useWebSocket<WSMessage>(
-  //   wsUrl,
-  //   5000
-  // );
-  // useAgentCompletedSocketHandler({
-  //   messages,
-  //   clearMessages,
-  //   search,
-  //   page,
-  //   limit,
-  //   isOpen,
-  //   refetch,
-  // });
 
   // Prepare data
   const DATA_TABLE = useMemo(

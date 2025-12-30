@@ -1,12 +1,7 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
-import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import {
-  AdminCompletedPatientListApi,
-  useGetAdminCompletedPatientListQuery,
-} from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
+import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -15,7 +10,6 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CompletedPatients = () => {
-  const dispatch: AppDispatch = useAppDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -32,18 +26,6 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { messages, sendMessage, clearMessages, isOpen } =
-  //   useWebSocket<WSMessage>(wsUrl, 5000);
-  // useAdminCompletedSocketHandler({
-  //   page,
-  //   limit,
-  //   search,
-  //   messages,
-  //   isOpen,
-  //   clearMessages,
-  //   refetch,
-  // });
 
   const DATA_TABLE = useMemo(
     () =>
@@ -86,19 +68,7 @@ const CompletedPatients = () => {
               // sendMessage={sendMessage}
               path={record?.key}
               patient={patientList?.data.find((p) => p._id === record?.key)}
-              onDeleteSuccess={() => {
-                dispatch(
-                  AdminCompletedPatientListApi.util.updateQueryData(
-                    "getAdminCompletedPatientList",
-                    { page, limit, search },
-                    (draft) => {
-                      draft.data = draft.data.filter(
-                        (p) => p._id !== record?.key
-                      );
-                    }
-                  )
-                );
-              }}
+              // onDeleteSuccess={}
             />
 
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />

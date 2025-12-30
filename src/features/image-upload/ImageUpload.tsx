@@ -102,7 +102,6 @@ const ImageUpload = <TFieldValues extends FieldValues>({
 
           for (let i = 0; i < filesArray.length; i++) {
             const url = await uploadFile(filesArray[i]);
-            console.log(url);
             if (url) {
               if (typeof url === "string") {
                 attachmentUrls.push(url);

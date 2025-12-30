@@ -29,53 +29,10 @@ const PatientView = () => {
     useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
-  // const { user } = useAuth();
-
-  // const wsUrl = import.meta.env.VITE_WS_URL;
-  // const { sendMessage, isOpen } = useWebSocket<WSMessage>(wsUrl, 5000);
-
-  // const patientId = patient?._id;
-  // console.log(user);
-  // useEffect(() => {
-  //   if (!patientId || !isOpen || !user) return;
-  //   const currentDoctor = {
-  //     _id: user.id || user.id,
-  //     email: user.email,
-  //     id: user.id || "",
-  //   };
-  //   sendMessage({
-  //     type: "view_online_doctor",
-  //     payload: {
-  //       patient_id: patientId,
-  //       doctor: currentDoctor,
-  //     },
-  //   });
-  //   // sendMessage({
-  //   //   type: "stop_viewing_patient",
-  //   //   payload: {
-  //   //     patient_id: patientId,
-  //   //     doctor: currentDoctor,
-  //   //   },
-  //   // });
-
-  //   return () => {
-  //     sendMessage({
-  //       type: "stop_viewing_patient",
-  //       payload: {
-  //         patient_id: patientId,
-  //         doctor: currentDoctor,
-  //       },
-  //     });
-  //   };
-  // }, [patientId, sendMessage, isOpen, user]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
-    console.log(patient_id);
-    // sendMessage({
-    //   type: "back_view_patient",
-    //   payload: { patient_id: patient_id },
-    // });
+
     try {
       await backToOtherView({
         _id: patient_id,
@@ -87,16 +44,6 @@ const PatientView = () => {
     }
   };
 
-  const handleSubmitPatient = () => {
-    if (!patient_id) return;
-    // sendMessage({
-    //   type: "submit_patient",
-    //   payload: {
-    //     patient_id: patient_id,
-    //     patient: patient,
-    //   },
-    // });
-  };
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 
@@ -160,11 +107,7 @@ const PatientView = () => {
       )}
       {/* Image Viewer Section */}
       <XrayImages attachments={attachments} />
-      <ReportSubmissionForm
-        patient={patient || undefined}
-        handleSubmitPatient={handleSubmitPatient}
-        patient_id={patient_id}
-      />
+      <ReportSubmissionForm patient_id={patient_id} />
     </Panel>
   );
 };

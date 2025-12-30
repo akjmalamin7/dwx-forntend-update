@@ -33,7 +33,7 @@ export const useAdminPendingPatientSocket = ({
   const lastProcessedRef = useRef<WSMessage | null>(null);
 
   // ===============================
-  // WebSocket handler
+  // handle socket
   // ===============================
   useEffect(() => {
     if (!lastMessage || !lastMessage.payload) return;

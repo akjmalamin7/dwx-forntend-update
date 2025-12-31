@@ -2,15 +2,8 @@ import { PatientDeleteBack } from "@/features";
 import { PermanentDeleteAdminPatient } from "@/features/admin/permanent-delete-admin-patient";
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
-import { useAppDispatch } from "@/shared/hooks/use-dispatch/useAppDispatch";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
-import {
-  AdminDeletedPatientListApi,
-  useGetDeletedPatientListQuery,
-} from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
-import type { AppDispatch } from "@/shared/redux/stores/stores";
+import { useGetDeletedPatientListQuery } from "@/shared/redux/features/admin/deleted-patient/deletedPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
@@ -19,7 +12,6 @@ import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const PatientDeleted = () => {
-  const dispatch: AppDispatch = useAppDispatch();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -38,9 +30,6 @@ const PatientDeleted = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 500);
 
   const DATA_TABLE = useMemo(
     () =>
@@ -78,24 +67,7 @@ const PatientDeleted = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex">
-            <PatientDeleteBack
-              patient={patientList?.data.find((p) => p._id === record?.key)}
-              path={record?.key}
-              sendMessage={sendMessage}
-              onDeleteSuccess={() => {
-                dispatch(
-                  AdminDeletedPatientListApi.util.updateQueryData(
-                    "getDeletedPatientList",
-                    { page, limit, search },
-                    (draft) => {
-                      draft.data = draft.data.filter(
-                        (p) => p._id !== record?.key
-                      );
-                    }
-                  )
-                );
-              }}
-            />
+            <PatientDeleteBack path={record?.key} onDeleteSuccess={refetch} />
             <PermanentDeleteAdminPatient
               path={record?.key}
               onDeleteSuccess={refetch}

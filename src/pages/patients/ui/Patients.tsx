@@ -1,22 +1,16 @@
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { useAgentPendingSocket } from "@/shared/hooks/use-socket/useAgentPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-interface OnlineDoctor {
-  _id: string;
-  email: string;
-  id?: string;
-}
+
 const Patients = () => {
-  const [onlineDoctorsMap, setOnlineDoctorsMap] = useState<
-    Record<string, OnlineDoctor>
-  >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 10,
@@ -39,9 +33,19 @@ const Patients = () => {
     onPageChange: setPage,
   });
   // <svg id="4944fe" viewBox="0 0 19 19" stroke="currentColor" fill="none"><path stroke-linecap="round" stroke-width="1.875" d="M9.5 2.938v2.625m0 7.875v2.624M2.938 9.5h2.625m7.875 0h2.624M4.86 4.86l1.856 1.856m5.569 5.568 1.856 1.856m-9.28 0 1.855-1.856m5.569-5.568L14.14 4.86"></path></svg>
+  const { mergedPatientData, onlineDoctorsMap, resetRealtime } =
+    useAgentPendingSocket({
+      wsUrl: import.meta.env.VITE_WS_URL,
+      page,
+      apiPatients: patientList?.data,
+    });
+  useEffect(() => {
+    resetRealtime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search]);
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.data?.map((item, index) => {
+      mergedPatientData?.map((item, index) => {
         const liveDoctor = onlineDoctorsMap[item._id];
         return {
           key: item._id,
@@ -68,7 +72,7 @@ const Patients = () => {
           action: "",
         };
       }) || [],
-    [patientList?.data, limit, page, onlineDoctorsMap]
+    [mergedPatientData, limit, page, onlineDoctorsMap]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

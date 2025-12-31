@@ -1,11 +1,12 @@
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { useAgentCompedPatientSocket } from "@/shared/hooks/use-socket/useAgentCompletedSocket";
 import { useGetAgentCompletedPatientListQuery } from "@/shared/redux/features/agent/completed-patient-list/completedPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -27,11 +28,20 @@ const PatientCompleted = () => {
     initialPage: page,
     onPageChange: setPage,
   });
-
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { mergedPatientData, resetRealtime } = useAgentCompedPatientSocket({
+    wsUrl,
+    page,
+    apiPatients: patientList?.data,
+  });
+  useEffect(() => {
+    resetRealtime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search]);
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.data?.map((item, index) => ({
+      mergedPatientData?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.createdAt).toLocaleString([], {
@@ -57,7 +67,7 @@ const PatientCompleted = () => {
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
-    [patientList?.data, limit, page]
+    [mergedPatientData, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {

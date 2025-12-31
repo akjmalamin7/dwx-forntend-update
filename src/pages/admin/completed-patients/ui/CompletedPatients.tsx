@@ -1,11 +1,12 @@
 import { CompletedBack, DeleteAdminPatient } from "@/features";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
+import { useAdminCompletedSocket } from "@/shared/hooks/use-socket/useAdminCompletedSocket";
 import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -26,10 +27,20 @@ const CompletedPatients = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { mergedPatientData, resetRealTime } = useAdminCompletedSocket({
+    wsUrl,
+    page,
+    apiPatients: patientList?.data,
+  });
+  useEffect(() => {
+    resetRealTime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search]);
 
   const DATA_TABLE = useMemo(
     () =>
-      patientList?.data?.map((item, index) => ({
+      mergedPatientData?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
         start_time: new Date(item.completed_time).toLocaleString([], {
@@ -48,7 +59,7 @@ const CompletedPatients = () => {
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [patientList?.data, limit, page]
+    [mergedPatientData, limit, page]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -64,12 +75,7 @@ const CompletedPatients = () => {
               View
             </Link>
 
-            <CompletedBack
-              // sendMessage={sendMessage}
-              path={record?.key}
-              patient={patientList?.data.find((p) => p._id === record?.key)}
-              // onDeleteSuccess={}
-            />
+            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
 
             <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
           </div>

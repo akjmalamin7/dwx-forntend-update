@@ -4,8 +4,6 @@ import {
   useGetAgentPatientPrintQuery,
   useUpdateAgentPatientPrintStatusMutation,
 } from "@/entities/agent/agent-print-patient";
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
-import { useWebSocket } from "@/shared/hooks/use-web-socket/model/useWebSocket";
 import { Button, Panel, PanelHeading, Text } from "@/shared/ui";
 import { useParams } from "react-router-dom";
 import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
@@ -30,13 +28,10 @@ const PatientPrint = () => {
   const xrayName = print_view?.data?.xray_name;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 5000);
   const handlePrint = async () => {
     if (!id) return;
     try {
-      const result = await updateAgentPatientPrintStatus(id).unwrap();
-      sendMessage({ type: "update_print_status", payload: result });
+      await updateAgentPatientPrintStatus(id).unwrap();
 
       window.print();
     } catch (error) {

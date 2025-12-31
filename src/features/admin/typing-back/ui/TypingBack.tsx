@@ -1,18 +1,12 @@
-import type { WSMessage } from "@/shared/hooks/use-web-socket/model/schema";
 import { useTypingBackMutation } from "@/shared/redux/features/admin/typing-back/typingBackApi";
 import { Button } from "@/shared/ui";
 interface TProps {
   path?: string;
   onDeleteSuccess?: () => void;
-  sendMessage?: (msg: WSMessage) => void;
 }
-const TypingBack = ({ path, onDeleteSuccess, sendMessage }: TProps) => {
+const TypingBack = ({ path, onDeleteSuccess }: TProps) => {
   const [typingBack, { isLoading }] = useTypingBackMutation();
   const handleTypingBack = async () => {
-    sendMessage?.({
-      type: "back_view_patient",
-      payload: { patient_id: path as string },
-    });
     try {
       await typingBack({ _id: path }).unwrap();
       if (onDeleteSuccess) {

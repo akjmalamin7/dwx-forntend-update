@@ -26,6 +26,8 @@ const PatientPrint = () => {
   const printPatient = print_view?.data;
   const comments = print_view?.data?.doctorcomments;
   const signature = print_view?.data?.completed_dr;
+  const rtype = print_view?.data?.rtype;
+  const xrayName = print_view?.data?.xray_name;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
   const wsUrl = import.meta.env.VITE_WS_URL;
@@ -129,7 +131,7 @@ const PatientPrint = () => {
           fontWeight="bold"
           className="mb-4 font-bold uppercase"
         >
-          X-Ray Report of Chest P/A View
+         {rtype} Report of {xrayName}
         </Text>
 
         <PrintPatientComment comments={comments || []} />

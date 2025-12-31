@@ -11,7 +11,7 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 const AllCompletedPatientList = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const { data: patientList, isLoading } =
     useGetDoctorAllCompletedPatientListQuery({ page, limit, search });

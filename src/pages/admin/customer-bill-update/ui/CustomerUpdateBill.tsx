@@ -14,7 +14,7 @@ const CustomerUpdateBill = () => {
   const { page, limit, search, setPage, setSearch, setLimit, userId, month } =
     usePageQuery({
       defaultPage: 1,
-      defaultLimit: 10,
+      defaultLimit: 100,
     });
   const { data: doctorList, isLoading } = useGetAdminDoctorBillingListQuery({
     userId,

@@ -13,7 +13,7 @@ import { REFERENCE_DOCTOR_DATA_COL } from "./format.data.col";
 const AllFormates = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const {
     data: allFormates,

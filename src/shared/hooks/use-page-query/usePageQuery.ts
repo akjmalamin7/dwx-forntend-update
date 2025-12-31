@@ -14,7 +14,7 @@ import { useState } from "react";
 
 export function usePageQuery({
   defaultPage = 1,
-  defaultLimit = 10,
+  defaultLimit = 100,
   defaultSearch = "",
   doctorId,
   userId,

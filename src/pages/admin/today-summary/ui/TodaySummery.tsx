@@ -13,7 +13,7 @@ const TodaySummery = () => {
   const [date, setDate] = useState(formDate(new Date()));
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const { data: summeryList, isLoading } = useGetAdminTodaySummaryQuery({
     page,

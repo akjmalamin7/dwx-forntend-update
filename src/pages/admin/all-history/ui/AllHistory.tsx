@@ -12,7 +12,7 @@ import { HISTORY_DATA_COL } from "./history.data.col";
 const AllHistory = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const {
     data: historyList,

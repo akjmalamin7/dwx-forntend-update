@@ -66,8 +66,8 @@ const EditSendReport = () => {
   const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
     const finalData = {
       ...data,
-      rtype: "xray",
-      study_for: "xray_dr",
+      /*rtype: "xray",
+      study_for: "xray_dr",*/
     };
     try {
       await updateSendReport({ id, data: finalData }).unwrap();
@@ -136,7 +136,7 @@ const EditSendReport = () => {
     <Panel
       header={
         <PanelHeading
-          title="Add X-ray Report"
+          title="=Edit  Report"
           button="Patient List"
           path="agent/patient/completed"
         />

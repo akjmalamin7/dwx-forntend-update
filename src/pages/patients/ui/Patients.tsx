@@ -19,7 +19,7 @@ const Patients = () => {
   >({});
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const {
     data: patientList,
@@ -82,6 +82,12 @@ const Patients = () => {
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
             >
               Edit
+            </Link>
+             <Link
+              to={`/agent/patient-view/${record?.key}`}
+              className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
+            >
+              View
             </Link>
           </div>
         ),

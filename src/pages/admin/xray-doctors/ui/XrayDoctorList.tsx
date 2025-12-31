@@ -12,7 +12,7 @@ import { XRAY_DOCTOR_LIST } from "./userList.data.col";
 const XrayDoctorList = () => {
   const { page, limit, setPage } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const {
     data: doctorList,

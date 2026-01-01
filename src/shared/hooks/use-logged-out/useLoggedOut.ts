@@ -1,4 +1,4 @@
-import { useLogoutMutation } from "@/shared/redux/features/auth/authApi";
+import { useLogoutMutation } from "@/features/app-drawer/api/mutation";
 import { userLoggedOut } from "@/shared/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

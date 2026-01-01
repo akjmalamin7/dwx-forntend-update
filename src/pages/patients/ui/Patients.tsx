@@ -39,6 +39,7 @@ const Patients = () => {
       page,
       apiPatients: patientList?.data,
     });
+    
   useEffect(() => {
     resetRealtime();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -116,7 +116,7 @@ export const useAgentCompedPatientSocket = ({
       case "update_print_status":
       case "update_patient": {
         // Only map if payload is completed patient
-        if ("completed_dr" in payload) {
+        if ("agent_id" in payload) {
           const mapped = mapAdminToAgentCompleted(
             payload as ADMIN_COMPLETED_PATIENTS_MODEL
           );

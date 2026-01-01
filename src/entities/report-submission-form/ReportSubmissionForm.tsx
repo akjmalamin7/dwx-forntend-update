@@ -36,7 +36,7 @@ interface ApiError {
 const ReportSubmissionForm = ({
   patient_id,
   commentsAndPassault,
-  isUpdate = false,
+  isUpdate = false
 }: IProps) => {
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""

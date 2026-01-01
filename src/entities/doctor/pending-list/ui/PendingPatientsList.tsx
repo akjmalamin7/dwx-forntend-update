@@ -8,9 +8,10 @@ import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useGetDoctorPendingPatientListQuery } from "../api/query";
-import { PATIENT_DATA_COL } from "./patient.data.col";
+import { PATIENT_DATA_COL } from "./patient.data.col"; 
 
 const PendingPatientsList = () => {
+
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
     defaultLimit: 100,
@@ -38,6 +39,26 @@ const PendingPatientsList = () => {
     apiPatients: patientList?.data,
     refetch,
   });
+
+
+  
+
+ 
+ const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    refetch();
+  }, AUTO_REFRESH_INTERVAL);
+
+  return () => clearInterval(interval);
+}, [refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+
   useEffect(() => {
     resetRealtime();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -134,10 +134,26 @@ export const useDoctorPendingSocket = ({
     const { type, payload } = lastMessage;
 
     switch (type) {
-      case "new_xray_report":
+       
       case "back_view_patient":
-        if (page === 1) {
-          const mappedPayload = mapAdminToDoctorPatient(payload);
+      case 'completed_back':
+      case 'admin_mr_delete_back':
+      case "new_xray_report": {
+        if (page === 1) { 
+          const mappedPayload = mapAdminToDoctorPatient(payload as ADMIN_PENDING_PATIENT_MODEL);
+
+          // Check permissions
+          if (!isPatientForMe(mappedPayload)) {
+            console.log(`[DOCTOR] Patient not for me, skipping`);
+            break;
+          }
+           
+          setDeletedPatientIds(prev => {
+            const updated = new Set(prev);
+            updated.delete(mappedPayload._id);
+            return updated;
+          });
+          
           setRealtimePatients((prev) => {
             const exists = prev.some((p) => p._id === mappedPayload._id);
             if (exists) {
@@ -149,6 +165,26 @@ export const useDoctorPendingSocket = ({
           });
         }
         break;
+      }
+
+    
+       case "view_online_doctor": { 
+        const doctorPayload = mapAdminToDoctorPatient(payload);
+        
+        if (isPatientForMe(doctorPayload)) { 
+          setDeletedPatientIds(prev => new Set(prev).add(payload._id));
+           
+          setRealtimePatients(prev => 
+            prev.filter(p => p._id !== payload._id)
+          ); 
+          
+          console.log(`[DOCTOR] Patient ${payload._id.slice(-6)} being viewed, removed from list`);
+        }
+        
+        break;
+      }
+
+
 
       case "select_doctor_and_update": {
         const doctorPayload = mapAgentToDoctorPatient(payload);

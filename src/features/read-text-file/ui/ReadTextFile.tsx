@@ -26,9 +26,12 @@ const ReadTextFile = ({ onParsed, setIndex }: ReadTextFileProps) => {
 
       const lines = text.split("\n").map((l) => l.trim());
 
-      const getAgeString = (str: string) => {
-        const match = str.match(/\d+\s*[A-Za-z]+/);
-        return match ? match[0] : null;
+       const getAgeString = (str: string | undefined): string => {
+        if (!str) return ""; 
+        const match = str.match(/\d+\s*(?:YRS?\.?|YEARS?)/i);
+        return match ? match[0].replace(/\.$/, '') : "";
+        //const match = str.match(/\d+\s*[A-Za-z]+/);
+        //return match ? match[0] : null;
       };
 
       let getAge: string = "";
@@ -38,7 +41,7 @@ const ReadTextFile = ({ onParsed, setIndex }: ReadTextFileProps) => {
           const line = lines.find((l) =>
             l.toLowerCase().startsWith(key.toLowerCase())
           );
-          if (!getAge) {
+          if (!getAge && key === "Age" && line) {
             getAge = getAgeString(line as string) || "";
           }
           if (line) return line.split(":")[1]?.trim() || "";

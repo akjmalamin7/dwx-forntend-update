@@ -1,5 +1,5 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { usePageTitle } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
@@ -7,28 +7,42 @@ import {
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import { useSocket } from "@/shared/hooks/use-socket/useSocket";
+import type { WSMessage } from "@/shared/hooks/use-socket/schema";
 
 const PatientView = () => {
   usePageTitle("Patient View", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
-  });
+  }); 
   const { patient_id } = useParams<{ patient_id: string }>();
   const navigate = useNavigate();
   const {
     data: patient_view,
     isLoading: patientLoading,
     error,
-  } = useGetDoctorPatientViewQuery(patient_id!);
+  } = useGetDoctorPatientViewQuery(patient_id!, { 
+    refetchOnMountOrArgChange: true, 
+    skip: !patient_id,
+  });
   const [backToOtherView, { isLoading: isLoadingBack }] =
     useBackToOtherApiMutation();
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments ?? [];
+  const patientId = patient?._id;
+  const wsUrl = import.meta.env.VITE_WS_URL;
+  const { user } = useAuth();
+ const { isOpen } = useSocket<WSMessage>(wsUrl, 5000);
+
+  useEffect(() => {
+    if (!patientId || !isOpen || !user) return; 
+     
+  }, [patientId, isOpen, user?.id]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
@@ -43,6 +57,7 @@ const PatientView = () => {
       console.log("Full error object:", JSON.stringify(error, null, 2));
     }
   };
+ 
 
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
@@ -66,16 +81,19 @@ const PatientView = () => {
     ];
   }, [patient]);
 
-  if (!patient_id) {
-    return <div>Patient ID not found</div>;
+ if (!patient_id) {
+        navigate("/doctor/patient");
+        return null;
   }
 
   if (error) {
-    return <div>Error loading patient data</div>;
+        navigate("/doctor/patient");
+        return null;
   }
 
   if (!patient && !patientLoading) {
-    return <div>No patient data found</div>;
+        navigate("/doctor/patient");
+        return null;
   }
   return (
     <Panel

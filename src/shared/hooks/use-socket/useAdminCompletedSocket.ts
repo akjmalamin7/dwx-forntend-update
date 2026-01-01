@@ -125,10 +125,11 @@ export const useAdminCompletedSocket = ({
         );
         break;
       }
+      case 'update_print_status':
       case "update_patient": {
         if (payload.status !== "completed") break;
 
-        const completed = toCompleted(payload);
+        const completed = toCompleted(payload as ADMIN_PENDING_PATIENT_MODEL);
 
         setRealtimePatients((prev) => {
           const exists = prev.some((p) => p._id === completed._id);

@@ -8,6 +8,7 @@ export const PatientSaveApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["DoctorPatientList"],
     }),
     updatePatient: builder.mutation({
       query: (data) => ({
@@ -15,6 +16,7 @@ export const PatientSaveApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["DoctorPatientList"],
     }),
   }),
 });

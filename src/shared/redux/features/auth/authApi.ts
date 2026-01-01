@@ -43,13 +43,7 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    logout: builder.mutation<{ success: boolean }, void>({
-      query: () => ({
-        url: "/logout",
-        method: "POST",
-      }),
-    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation } = authApi;

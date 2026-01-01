@@ -122,7 +122,7 @@ export const useAgentPendingSocket = ({
                 p._id === payload._id ? { ...p, ...payload } : p
               );
             }
-            return [payload, ...prev];
+            return [...prev, payload];
           });
         }
         break;
@@ -217,7 +217,7 @@ export const useAgentPendingSocket = ({
               p._id === payload._id ? { ...p, ...payload } : p
             );
           }
-          if (page === 1) return [payload, ...prev];
+          if (page === 1) return [...prev, payload];
           return prev;
         });
         break;

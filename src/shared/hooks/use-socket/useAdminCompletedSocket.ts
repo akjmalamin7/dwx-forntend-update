@@ -67,7 +67,7 @@ export const useAdminCompletedSocket = ({
           setRealtimePatients((prev) =>
             prev.some((p) => p._id === payload._id)
               ? prev.map((p) => (p._id === payload._id ? payload : p))
-              : [payload, ...prev]
+              : [...prev, payload]
           );
         }
         break;
@@ -82,7 +82,6 @@ export const useAdminCompletedSocket = ({
                 ? {
                     ...p,
                     printstatus: payload.printstatus,
-                    lastUpdated: Date.now(),
                   }
                 : p
             );
@@ -99,7 +98,6 @@ export const useAdminCompletedSocket = ({
               ...prev,
               {
                 ...completed,
-                lastUpdated: Date.now(),
               },
             ];
           }
@@ -125,7 +123,6 @@ export const useAdminCompletedSocket = ({
         );
         break;
       }
-      case 'update_print_status':
       case "update_patient": {
         if (payload.status !== "completed") break;
 
@@ -143,7 +140,7 @@ export const useAdminCompletedSocket = ({
           }
 
           if (page === 1) {
-            return [{ ...completed, lastUpdated: Date.now() }, ...prev];
+            return [...prev, { ...completed }];
           }
 
           return prev;

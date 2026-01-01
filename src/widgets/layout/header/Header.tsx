@@ -21,6 +21,7 @@ const Header = () => {
       child.role.includes(user.role as RoleEnum)
     ),
   }));
+
   const headerClasses = `
   bg-green-500 text-white flex-col lg:flex-row lg:flex lg:flex-wrap lg:justify-center
   fixed lg:relative w-[300px] lg:w-full h-screen lg:h-auto top-0 z-40

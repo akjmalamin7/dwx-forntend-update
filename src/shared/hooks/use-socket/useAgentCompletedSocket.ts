@@ -97,7 +97,7 @@ export const useAgentCompedPatientSocket = ({
                 p._id === payload._id ? mapAdminToAgentCompleted(payload) : p
               );
             }
-            return [mapAdminToAgentCompleted(payload), ...prev];
+            return [...prev, mapAdminToAgentCompleted(payload)];
           });
         }
         break;
@@ -137,7 +137,7 @@ export const useAgentCompedPatientSocket = ({
               );
             } else {
               if (page === 1) {
-                return [mapped, ...prev];
+                return [...prev, mapped];
               }
               return prev;
             }

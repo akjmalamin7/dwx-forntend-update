@@ -220,7 +220,8 @@ const CustomSelect = ({
 
       {visible &&
         createPortal(
-          <div data-select={selectedValue}
+          <div
+            data-select={selectedValue}
             ref={dropdownRef}
             style={{
               position: "absolute",
@@ -229,9 +230,9 @@ const CustomSelect = ({
               minWidth: menuPosition.width,
               zIndex: 9999,
               pointerEvents: "auto",
-            }}>
+            }}
+          >
             <CustomSelectList
-
               onVisible={setVisible}
               options={optionsData}
               onSelect={handleSelect}

@@ -1,9 +1,9 @@
 import LOGO from "@/assets/images/logo.png";
+import { AppDrawer } from "@/features/app-drawer";
 import { useAuth } from "@/shared/hooks";
-import useLoggedOut from "@/shared/hooks/use-logged-out/useLoggedOut";
 import { toggleMobileMenu } from "@/shared/redux/features/mobile-menu/mobileMenuSlice";
 import type { RootState } from "@/shared/redux/stores/stores";
-import { Button, Text } from "@/shared/ui";
+import { Text } from "@/shared/ui";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ const TopHeader = () => {
   const handleMobileMenu = () => {
     dispatch(toggleMobileMenu({ isToggle: !isToggle }));
   };
-  const { handleLoggedOut } = useLoggedOut();
+
   const { user } = useAuth();
   const userName = userFromReduxStore ?? user?.name ?? "";
   return (
@@ -40,17 +40,11 @@ const TopHeader = () => {
 
       {/* User Info + Hamburger */}
       <div className="flex items-center space-x-4 text-sm">
-        <div className="flex  gap-3">
-          <Text element="span" className="text-white">
+        <div className="flex items-center gap-3">
+          <Text element="span" className="text-white text-right! ">
             {userName}
           </Text>
-          <Button
-            variant="text"
-            className="text-white! text-semibold"
-            onClick={handleLoggedOut}
-          >
-            Logout
-          </Button>
+          <AppDrawer />
         </div>
 
         {/* Hamburger Button */}

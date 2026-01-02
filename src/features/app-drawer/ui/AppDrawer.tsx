@@ -3,9 +3,10 @@ import type { RootState } from "@/shared/redux/stores/stores";
 import { Button, Text } from "@/shared/ui";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
 import { useSelector } from "react-redux";
 import useLoggedOut from "../model/useLoggedOut";
-
+import UserIcons from "./user-icons/UserIcons";
 const AppDrawer = () => {
   const { handleLoggedOut } = useLoggedOut();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -74,6 +75,7 @@ const AppDrawer = () => {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
   return (
     <div className="w-[30px] h-[30px] relative">
       <div
@@ -82,8 +84,10 @@ const AppDrawer = () => {
           setVisible((prev) => !prev);
           requestAnimationFrame(() => calculateMenuPosition());
         }}
-        className="w-[30px] h-[30px] border border-white rounded-full lg:cursor-pointer"
-      ></div>
+        className="w-[30px] h-[30px] flex items-center justify-center border border-white rounded-full lg:cursor-pointer"
+      >
+        <UserIcons />
+      </div>
 
       {visible &&
         createPortal(
@@ -102,12 +106,10 @@ const AppDrawer = () => {
             <div>
               <div className="p-3">
                 <div className="flex gap-2 items-center bg-[#f7f7f7] rounded-[5px]">
-                  <div className="w-[30px] h-[30px] border border-gray-300 rounded-sm overflow-hidden">
-                    <img
-                      src=""
-                      alt="User Avatar"
-                      className="w-16 h-16 rounded-full mx-auto "
-                    />
+                  <div className="w-[40px] h-[30px] border border-blue-600 rounded-sm overflow-hidden flex items-center justify-center bg-blue-600">
+                    <Text size="md" fontWeight="bold" color="white">
+                      {userName.split(" ").map((s) => s.charAt(0))}
+                    </Text>
                   </div>
                   <div>
                     <Text size="md" fontWeight="bold" className="capitalize">

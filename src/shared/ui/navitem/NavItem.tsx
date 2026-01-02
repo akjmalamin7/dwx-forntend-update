@@ -60,7 +60,7 @@ const BASE_NAV_CLASSES = {
   container:
     "flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors border-b border-b-[#f7f7f770] lg:border-b-transparent!",
   dropdown:
-    "lg:absolute top-full right-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50",
+    "lg:absolute top-full left-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50",
   dropdownItem:
     "flex items-center gap-2 px-4 py-3 hover:bg-green-700 transition-colors border-b border-green-500 last:border-b-0",
 } as const;
@@ -191,7 +191,7 @@ const NavItem: React.FC<NavItemProps> = ({
 
   const renderDropdownNav = () => {
     const buttonClasses = [
-      "flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium",
+      "w-full flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 text-sm font-medium",
       isParentActive ? "bg-green-700 text-white font-semibold" : "",
     ].join(" ");
 

@@ -11,13 +11,11 @@ export interface TRANSECTION_SUMMARY_MODEL {
   status: string;
 }
 
-
-
-export interface TRANSECTION_TRANSFORM_MODEL { 
+export interface TRANSECTION_TRANSFORM_MODEL {
   _id: string;
   id: string;
   user_id: string;
-  month: string; 
+  month: string;
   createdAt: string;
   honorarium: string;
   honorarium_to: string;
@@ -34,8 +32,8 @@ export interface TRANSECTION_TRANSFORM_MODEL {
   total_single: string;
   trans_id: string;
   updatedAt: string;
-} 
- 
+}
+
 export interface TransectionListApiResponse {
   message: string;
   success: boolean;
@@ -43,7 +41,6 @@ export interface TransectionListApiResponse {
   bills: TRANSECTION_SUMMARY_MODEL[];
 }
 
-  
 export const transformTransectionListResponse = (
   data: TRANSECTION_SUMMARY_MODEL[]
 ): TRANSECTION_SUMMARY_MODEL[] => {

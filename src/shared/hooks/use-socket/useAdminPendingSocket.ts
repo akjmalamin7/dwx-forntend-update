@@ -144,7 +144,7 @@ export const useAdminPendingPatientSocket = ({
     if (page === 1) {
       const apiIds = new Set(apiPatients.map((p) => p._id));
       const newOnes = realtimePatients.filter((p) => !apiIds.has(p._id));
-      return [...newOnes, ...merged];
+      return [...merged, ...newOnes];
     }
     return merged;
   }, [apiPatients, realtimePatients, page]);

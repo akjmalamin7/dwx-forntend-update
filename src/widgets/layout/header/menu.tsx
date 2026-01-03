@@ -243,6 +243,12 @@ export const MENU_DATA: MenuType[] = [
         path: "/admin/customer-transection-history",
         role: [RoleEnum.admin],
       },
+      {
+        id: "transection-history-4",
+        title: "Bill Entry",
+        path: "/admin/bill-add",
+        role: [RoleEnum.admin],
+      },
     ],
   },
 

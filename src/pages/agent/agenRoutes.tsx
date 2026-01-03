@@ -98,5 +98,5 @@ export const agentRoutes = [
     {
     path: "/agent/software-list",
     element: withSuspense(<Pages.SoftwareList />),
-  },
+  } 
 ];

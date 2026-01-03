@@ -190,4 +190,8 @@ export const adminRoutes = [
     path: "/admin/software-list",
     element: withSuspense(<Pages.AdminSoftwareList />),
   },
+  {
+    path: "/admin/bill-add",
+    element: withSuspense(<Pages.BillAdd />),
+  },
 ];

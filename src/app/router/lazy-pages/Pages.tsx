@@ -27,7 +27,7 @@ export const Pages = {
   AgentReferenceList: lazy(() => import("@/pages/agent/reference-list")),
   AgentManageBill: lazy(() => import("@/pages/agent/manage-bill")),
   AgentPayBill: lazy(() => import("@/pages/agent/pay-bill")),
-  AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")),
+  AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")), 
   AgentTransectionHistory: lazy(
     () => import("@/pages/agent/transection-history")
   ),
@@ -114,5 +114,6 @@ export const Pages = {
   AdminPaymentAdd: lazy(() => import("@/pages/admin/payment-add")),
   AdminSoftwareAdd: lazy(() => import("@/pages/admin/software-add")),
   AdminSoftwareList: lazy(() => import("@/pages/admin/software-list")),
+  BillAdd: lazy(() => import("@/pages/admin/bill-entry")),
   SoftwareList: lazy(() => import("@/pages/agent/software-list")),
 };

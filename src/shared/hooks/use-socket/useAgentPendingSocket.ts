@@ -264,7 +264,7 @@ export const useAgentPendingSocket = ({
     if (page === 1) {
       const apiIds = new Set(filteredApiData.map((p) => p._id));
       const newPatients = realtimePatients.filter((p) => !apiIds.has(p._id));
-      if (newPatients.length) return [...newPatients, ...merged];
+      if (newPatients.length) return [...merged, ...newPatients];
     }
 
     return merged;

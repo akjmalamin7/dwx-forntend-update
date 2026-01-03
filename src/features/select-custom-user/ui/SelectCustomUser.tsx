@@ -54,11 +54,10 @@ const SelectCustomUser = <TFieldValues extends FieldValues>({
             options={allOptions}
             value={field.value ? [field.value] : []}
             loading={isLoading}
-            onSelect={(vals: string[]) =>
-              field.onChange(
-                vals[0] || ("" as PathValue<TFieldValues, typeof name>)
-              )
-            }
+            onSelect={(vals: string[]) => {
+              const lastVal = vals[vals.length - 1] || "";
+              field.onChange(lastVal as PathValue<TFieldValues, typeof name>);
+            }}
             error={{
               status: !!fieldState.error,
               message: fieldState.error?.message as string,

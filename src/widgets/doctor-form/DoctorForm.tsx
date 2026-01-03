@@ -15,15 +15,13 @@ interface UserFormProps {
 }
 
 const UserForm = ({ resetCount = 0, isEdit }: UserFormProps) => {
-  const { control, reset, watch } = useFormContext<XRayDoctorPayload>();
+  const { control, reset } = useFormContext<XRayDoctorPayload>();
   // const form = useFormContext<XRayDoctorPayload>();
   useEffect(() => {
     if (resetCount > 0) {
       reset();
     }
   }, [resetCount, reset]);
-  const image = watch("image");
-  console.log(image);
   return (
     <div className="grid grid-cols-12 gap-y-4 items-center">
       {/* Image Upload */}

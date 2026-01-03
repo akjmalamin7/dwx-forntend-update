@@ -21,7 +21,7 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
         month?: string;
       }
     >({
-      query: ({ page = 1, limit = 10, userId, search = "", month }) => {
+      query: ({ page = 1, limit = 10, userId, search = "", month = "" }) => {
         const params = new URLSearchParams();
         if (search) {
           params.append("search", search.toString());
@@ -45,7 +45,7 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
         return ADMIN_CUSTOMER_BILL_DOCTOR_TRANSFORM_RESPONSE(response);
       },
     }),
-   getCustomerBillListByMonth: builder.query<
+    getCustomerBillListByMonth: builder.query<
       ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL,
       { page?: number; limit?: number; search?: string; month?: string }
     >({

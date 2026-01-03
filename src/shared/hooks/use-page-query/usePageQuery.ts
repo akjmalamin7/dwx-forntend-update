@@ -43,13 +43,16 @@ export function usePageQuery({
       page: String(page),
       limit: String(limit),
     };
-    if (doctorId) params.doctorId = doctorId;
-    if (userId) params.userId = userId;
-    if (month) params.month = month;
+    // if (doctorId) params.doctorId = doctorId;
+    // if (userId) params.userId = userId;
+    // if (month) params.month = month;
+    if (urlDoctorId) params.doctorId = urlDoctorId;
+    if (urlUserId) params.userId = urlUserId;
+    if (urlMonth) params.month = urlMonth;
 
     setSearchParams(params, { replace: true });
-  }, [page, limit, search, doctorId, userId, month, setSearchParams]);
-
+  }, [page, limit, search, urlDoctorId, urlUserId, urlMonth, setSearchParams]);
+  // [page, limit, search, doctorId, userId, month, setSearchParams]
   return {
     page,
     limit,

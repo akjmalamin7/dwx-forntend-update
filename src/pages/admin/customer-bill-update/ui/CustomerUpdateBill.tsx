@@ -7,14 +7,19 @@ import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const CustomerUpdateBill = () => {
+  const [searchParams] = useSearchParams();
+  const userIds = searchParams.get("userId") || "";
+  const months = searchParams.get("month") || "";
   const { page, limit, search, setPage, setSearch, setLimit, userId, month } =
     usePageQuery({
       defaultPage: 1,
       defaultLimit: 100,
+      userId: userIds,
+      month: months,
     });
   const { data: doctorList, isLoading } = useGetAdminDoctorBillingListQuery({
     userId,

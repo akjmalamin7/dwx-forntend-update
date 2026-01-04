@@ -51,7 +51,7 @@ const CustomSelect = ({
     width: number;
   }>({
     top: -100,
-    left: -100,
+    left: 10,
     width: 0,
   });
 

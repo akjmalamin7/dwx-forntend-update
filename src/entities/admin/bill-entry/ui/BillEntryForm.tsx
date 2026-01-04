@@ -14,7 +14,7 @@ const BillEntryForm = () => {
         control={control}
         size="sm"
         label="Month"
-        placeholder="Month"
+        placeholder="2025-01"
         name="month"
       />
 

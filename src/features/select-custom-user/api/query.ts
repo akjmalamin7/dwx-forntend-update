@@ -11,7 +11,7 @@ export const GetCustomersList = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCustomersList: builder.query<CUSTOMER_MODEL[], void>({
       query: () => ({
-        url: "admin/users/all?role=user",
+        url: "admin/users/all?role=user&page=1&limit=1000",
         method: "GET",
       }),
       transformResponse: (response: CustomersResponse) => response.data,

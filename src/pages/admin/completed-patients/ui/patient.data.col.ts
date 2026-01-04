@@ -8,6 +8,13 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "center",
     width: 50,
   },
+    {
+    key: "action",
+    title: "Action",
+    dataIndex: "action",
+    align: "end",
+    width: 100,
+  },
   {
     title: "DC",
     dataIndex: "agent_name",
@@ -67,11 +74,5 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 70,
   },
-  {
-    key: "action",
-    title: "Action",
-    dataIndex: "action",
-    align: "end",
-    width: 100,
-  },
+
 ];

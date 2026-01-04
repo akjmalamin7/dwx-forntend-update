@@ -149,6 +149,19 @@ export const useDoctorPendingSocket = ({
             break;
           }
 
+
+          // NEW: Check study_for field for xray_dr and ecg_dr role filtering
+         
+            const studyFor = (payload as ADMIN_PENDING_PATIENT_MODEL).study_for; // Cast to ADMIN_PENDING_PATIENT_MODEL
+            const userRole = user?.role;
+          
+            // Only show patient if study_for matches user's role
+            if (studyFor && userRole && studyFor !== userRole) { 
+              break;
+            }
+          
+          // END NEW
+          
           setDeletedPatientIds((prev) => {
             const updated = new Set(prev);
             updated.delete(mappedPayload._id);
@@ -190,6 +203,32 @@ export const useDoctorPendingSocket = ({
 
       case "select_doctor_and_update": {
         const doctorPayload = mapAgentToDoctorPatient(payload);
+
+        //NEW: Check study_for field for xray_dr and ecg_dr role filtering
+        const studyFor = (payload as ADMIN_PENDING_PATIENT_MODEL).study_for;
+        const userRole = user?.role;
+
+        // If study_for doesn't match user's role, remove patient if exists
+        if (studyFor && userRole && studyFor !== userRole) {
+          const isInRealtime = realtimePatients.some(
+            (p) => p._id === doctorPayload._id
+          );
+          const isInApi = apiPatients?.some((p) => p._id === doctorPayload._id);
+
+          // Remove from realtime if exists
+          if (isInRealtime) {
+            setRealtimePatients((prev) =>
+              prev.filter((p) => p._id !== doctorPayload._id)
+            );
+          }
+          // Refetch API if exists there
+          if (isInApi && refetch) {
+            refetch();
+          }
+          break; // Don't process further
+        }
+        // END NEW
+        
 
         const shouldShow = isPatientForMe(doctorPayload);
         const isInRealtime = realtimePatients.some(

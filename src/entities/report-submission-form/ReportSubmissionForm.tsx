@@ -152,7 +152,7 @@ const ReportSubmissionForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
         <AdminFormatList onSelect={handleAdminSelect} />
         <PersonalFormatList onSelect={handlePersonalSelect} />
       </div>

@@ -20,7 +20,7 @@ export interface ADMIN_PENDING_PATIENT_MODEL {
   ref_doctor: string;
   image_type: string;
   image_url?: string;
-  xray_name: string;
+  xray_name: string; 
   rtype: string;
   status: string;
   soft_delete: string;

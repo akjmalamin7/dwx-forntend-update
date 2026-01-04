@@ -33,7 +33,7 @@ const SelectCustomUser = <TFieldValues extends FieldValues>({
     () =>
       doctorOptions?.map((doc) => ({
         value: doc.id,
-        name: doc.name,
+        name: doc.email,
       })) ?? [],
     [doctorOptions]
   );

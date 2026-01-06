@@ -49,13 +49,13 @@ const ManageCustomerBillByMonth = () => {
               to={`/admin/customer-bill-list/${record?.month}`}
               className="bg-green-500 text-white px-4 py-2 m-2 text-sm rounded"
             >
-              View Bill
+              View Bill List
             </Link>
              <Link
               to={`/admin/customer-bill-request/${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
             >
-              View
+              View Request List
             </Link>
             
           </div>

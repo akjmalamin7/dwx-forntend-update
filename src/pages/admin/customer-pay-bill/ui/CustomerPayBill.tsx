@@ -7,6 +7,7 @@ import { ADD_CUSTOMER_BILL_PAY_SCHEMA } from "@/shared/redux/features/admin/mana
 import {
   Button,
   ControlInput,
+  ControlledSelect,
   Loader,
   Panel,
   PanelHeading,
@@ -33,15 +34,19 @@ const CustomerPayBill = () => {
     month: transformBill?.month || "N/A",
     total_amount: roundedGrandTotal,
     to: transformBill?.user_id?.email || "N/A",
+    status: transformBill?.status || "Pending",
   };
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
     resolver: yupResolver(ADD_CUSTOMER_BILL_PAY_SCHEMA),
     values: {
+      honorarium: transformBill?.honorarium || "",
+      honorarium_to: transformBill?.honorarium_to || "",
       received_number: transformBill?.received_number || "",
       total_bill: Number(roundedGrandTotal),
       month: transformBill?.month ?? "",
       trans_id: transformBill?.trans_id || "",
+      status: transformBill?.status || "",
     },
   });
 
@@ -112,14 +117,18 @@ const CustomerPayBill = () => {
                 type="number"
               />
 
-              {/* Transaction ID */}
-              <ControlInput
-                control={control}
-                size="sm"
-                label="Transaction ID"
-                placeholder="Transaction ID"
-                name="trans_id"
-              />
+             
+
+              <ControlledSelect
+                  label="Status"
+                  control={control}
+                  name="status"
+                  options={[
+                    { name: "Paid", value: "Paid" },
+                    { name: "Pending", value: "Pending" },
+                    { name: "Waiting", value: "Waiting" },
+                  ]}
+                />
               {/* honorarium   */}
               {/* <ControlInput
                 control={control}
@@ -128,6 +137,23 @@ const CustomerPayBill = () => {
                 placeholder="honorarium"
                 name="honorarium_to"
               /> */}
+
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Honorarium Amount"
+                placeholder="Honorarium Amount"
+                name="honorarium"
+              />
+               <ControlInput
+                control={control}
+                size="sm"
+                label="Person to Honorarium"
+                placeholder="Person to Honorarium"
+                name="honorarium_to"
+              />
+
+
               {/* Transaction ID */}
               <ControlInput
                 control={control}

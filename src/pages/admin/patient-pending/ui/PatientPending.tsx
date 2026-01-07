@@ -4,7 +4,7 @@ import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdminPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import { Panel, Text } from "@/shared/ui";
+import { CardView, Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
@@ -122,69 +122,20 @@ const PatientPending = () => {
     }
     return item;
   });
-  const CardView = () => {
+  const MobileView = () => {
     return (
       <>
         {DATA_TABLE.map((cd) => (
-          <div
-            key={cd.key}
-            className="border border-[#ebebeb] rounded-xl p-4 flex flex-col gap-2"
-          >
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Xray name:
-              </Text>
-              <Text size="xl">{cd.xray_name}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Age:
-              </Text>
-              <Text size="xl">{cd.age}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Agent name:
-              </Text>
-              <Text size="xl">{cd.agent_name}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Gender:
-              </Text>
-              <Text size="xl">{cd.gender}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Ignore doctor:
-              </Text>
-              <Text size="xl">{cd.ignored_dr}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Online Doctor:
-              </Text>
-              <Text size="xl">{cd.online_dr}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Patient Id:
-              </Text>
-              <Text size="xl">{cd.patient_id}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                R Type:
-              </Text>
-              <Text size="xl">{cd.rtype}</Text>
-            </div>
-            <div className="flex gap-3">
-              <Text size="xl" fontWeight="semiBold">
-                Start time:
-              </Text>
-              <Text size="xl">{cd.start_time}</Text>
-            </div>
-            <div className="flex gap-3">
+          <CardView key={cd.key}>
+            <CardView.Item label="Xray name:" value={cd.xray_name} />
+            <CardView.Item label="Age:" value={cd.age} />
+            <CardView.Item label="Agent name:" value={cd.agent_name} />
+            <CardView.Item label="Gender:" value={cd.gender} />
+            <CardView.Item label="Ignore doctor:" value={cd.ignored_dr} />
+            <CardView.Item label="Online Doctor:" value={cd.online_dr} />
+            <CardView.Item label="Patient Id:" value={cd.patient_id} />
+            <CardView.Item label="Start time:" value={cd.start_time} />
+            <CardView.Item>
               <div key={cd.key} className="flex">
                 <TypingBack path={cd?.key} onDeleteSuccess={refetch} />
                 <Link
@@ -201,8 +152,8 @@ const PatientPending = () => {
                 </Link>
                 <DeleteAdminPatient id={cd?.key} onDeleteSuccess={refetch} />
               </div>
-            </div>
-          </div>
+            </CardView.Item>
+          </CardView>
         ))}
       </>
     );
@@ -222,7 +173,7 @@ const PatientPending = () => {
         setLimit={setLimit}
         limit={limit}
         setSearch={setSearch}
-        cardView={<CardView />}
+        cardView={<MobileView />}
       />
     </Panel>
   );

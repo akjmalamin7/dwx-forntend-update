@@ -1,4 +1,5 @@
 export { Button } from "./button";
+export { CardView } from "./card-view";
 export { Checkbox } from "./checkbox";
 export { ControlInput } from "./control-input";
 export { ControlledSelect } from "./control-select";

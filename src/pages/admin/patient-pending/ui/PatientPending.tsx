@@ -4,7 +4,7 @@ import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdminPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import { Panel } from "@/shared/ui";
+import { Panel, Text } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
@@ -122,7 +122,91 @@ const PatientPending = () => {
     }
     return item;
   });
-
+  const CardView = () => {
+    return (
+      <>
+        {DATA_TABLE.map((cd) => (
+          <div
+            key={cd.key}
+            className="border border-[#ebebeb] rounded-xl p-4 flex flex-col gap-2"
+          >
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Xray name:
+              </Text>
+              <Text size="xl">{cd.xray_name}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Age:
+              </Text>
+              <Text size="xl">{cd.age}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Agent name:
+              </Text>
+              <Text size="xl">{cd.agent_name}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Gender:
+              </Text>
+              <Text size="xl">{cd.gender}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Ignore doctor:
+              </Text>
+              <Text size="xl">{cd.ignored_dr}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Online Doctor:
+              </Text>
+              <Text size="xl">{cd.online_dr}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Patient Id:
+              </Text>
+              <Text size="xl">{cd.patient_id}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                R Type:
+              </Text>
+              <Text size="xl">{cd.rtype}</Text>
+            </div>
+            <div className="flex gap-3">
+              <Text size="xl" fontWeight="semiBold">
+                Start time:
+              </Text>
+              <Text size="xl">{cd.start_time}</Text>
+            </div>
+            <div className="flex gap-3">
+              <div key={cd.key} className="flex">
+                <TypingBack path={cd?.key} onDeleteSuccess={refetch} />
+                <Link
+                  to={`/admin/select-doctor/${cd?.key}`}
+                  className="bg-blue-500 text-white px-2 py-2 text-sm"
+                >
+                  S.D
+                </Link>
+                <Link
+                  to={`/admin/patient-view/${cd?.key}`}
+                  className="bg-yellow-500 text-white px-2 py-2 text-sm"
+                >
+                  View
+                </Link>
+                <DeleteAdminPatient id={cd?.key} onDeleteSuccess={refetch} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  };
   return (
     <Panel header="Pending Patients" size="lg">
       <DataTable
@@ -138,6 +222,7 @@ const PatientPending = () => {
         setLimit={setLimit}
         limit={limit}
         setSearch={setSearch}
+        cardView={<CardView />}
       />
     </Panel>
   );

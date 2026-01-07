@@ -22,6 +22,7 @@ interface DataTableProps {
   setPage: (page: number) => void;
   setLimit?: (page: number) => void;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
+  cardView?: React.ReactNode;
 }
 
 const DataTable = ({
@@ -38,6 +39,7 @@ const DataTable = ({
   setSearch,
   setPage,
   size,
+  cardView,
 }: DataTableProps) => {
   const handleLimit = (value: string) => {
     setLimit?.(Number(value));
@@ -79,12 +81,20 @@ const DataTable = ({
           />
         </div>
       </div>
-      <Table
-        size={size}
-        loading={isLoading}
-        columns={column}
-        dataSource={dataSource}
-      />
+
+      <div className={`${cardView ? "hidden md:block" : "block"}`}>
+        <Table
+          size={size}
+          loading={isLoading}
+          columns={column}
+          dataSource={dataSource}
+        />
+      </div>
+      {/* CardView: mobile visible, md+ hidden */}
+      {cardView && (
+        <div className="flex flex-col gap-4 md:hidden">{cardView}</div>
+      )}
+
       <ServerSidePagination
         currentPage={page}
         totalPages={totalPages}

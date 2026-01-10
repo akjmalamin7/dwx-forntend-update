@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig(() => ({
-  plugins: [react(), tailwindcss(),],
+  plugins: [react(), tailwindcss()],
   define: {
     global: "window",
   },
@@ -16,6 +16,7 @@ export default defineConfig(() => ({
     },
   },
   server: {
+    host: true,
     proxy: {
       "/api": {
         target: "https://api.dwxapp.store",

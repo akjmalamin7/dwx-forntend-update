@@ -6,8 +6,8 @@ import type { DataSource, TableProps } from "./table.model";
 
 const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
   const {
-    scroll = true,
-    size,
+    // scroll = false,
+    // size = "lg",
     className,
     border = "bordered",
     hover = false,
@@ -19,13 +19,13 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     onRow,
     ...rest
   } = props;
-  const tableSizes = {
-    xs: "!min-w-[500px]",
-    sm: "!min-w-[700px]",
-    md: "!min-w-[862px]",
-    lg: "!min-w-[1024px]",
-    xl: "!min-w-[1246px]",
-  }[size || "md"];
+  // const tableSizes = {
+  //   xs: "!min-w-[500px]",
+  //   sm: "!min-w-[700px]",
+  //   md: "!min-w-[862px]",
+  //   lg: "!min-w-[1024px]",
+  //   xl: "!min-w-[1246px]",
+  // }[size || "md"];
 
   const borderClasses = {
     "border-less": "border-0",
@@ -38,8 +38,8 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
   }[bg || "transparent"];
 
   const tableHeaderClasses = classNames("align-bottom bg-gray-100");
-  const tableClasses = classNames(className, {
-    "overflow-x-auto touch-pan-x": scroll,
+  const tableClasses = classNames("min-w-[1024px]", className, {
+    // "overflow-x-auto touch-pan-x": scroll,
   });
   const handleRow = (
     event: React.MouseEvent<HTMLTableRowElement>,
@@ -58,7 +58,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
       <table
         className={classNames(
           "w-full border-collapse",
-          tableSizes,
+          // tableSizes,
           borderClasses
         )}
       >

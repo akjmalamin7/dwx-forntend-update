@@ -4,7 +4,7 @@ import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdminPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
-import { CardView, Panel } from "@/shared/ui";
+import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
@@ -122,45 +122,11 @@ const PatientPending = () => {
     }
     return item;
   });
-  const MobileView = () => {
-    return (
-      <>
-        {DATA_TABLE.map((cd) => (
-          <CardView key={cd.key}>
-            <CardView.Item label="Xray name:" value={cd.xray_name} />
-            <CardView.Item label="Age:" value={cd.age} />
-            <CardView.Item label="Agent name:" value={cd.agent_name} />
-            <CardView.Item label="Gender:" value={cd.gender} />
-            <CardView.Item label="Ignore doctor:" value={cd.ignored_dr} />
-            <CardView.Item label="Online Doctor:" value={cd.online_dr} />
-            <CardView.Item label="Patient Id:" value={cd.patient_id} />
-            <CardView.Item label="Start time:" value={cd.start_time} />
-            <CardView.Item>
-              <div key={cd.key} className="flex">
-                <TypingBack path={cd?.key} onDeleteSuccess={refetch} />
-                <Link
-                  to={`/admin/select-doctor/${cd?.key}`}
-                  className="bg-blue-500 text-white px-2 py-2 text-sm"
-                >
-                  S.D
-                </Link>
-                <Link
-                  to={`/admin/patient-view/${cd?.key}`}
-                  className="bg-yellow-500 text-white px-2 py-2 text-sm"
-                >
-                  View
-                </Link>
-                <DeleteAdminPatient id={cd?.key} onDeleteSuccess={refetch} />
-              </div>
-            </CardView.Item>
-          </CardView>
-        ))}
-      </>
-    );
-  };
+
   return (
     <Panel header="Pending Patients" size="lg">
       <DataTable
+        size="xs"
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
@@ -173,7 +139,6 @@ const PatientPending = () => {
         setLimit={setLimit}
         limit={limit}
         setSearch={setSearch}
-        cardView={<MobileView />}
       />
     </Panel>
   );

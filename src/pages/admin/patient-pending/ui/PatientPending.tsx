@@ -6,16 +6,17 @@ import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdmin
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { formatEmails } from "@/shared/utils/dr-email-format/drEmailFormat";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
-interface Doctor {
-  _id: string;
-  email: string;
-  id?: string;
-}
+// interface Doctor {
+//   _id: string;
+//   email: string;
+//   id?: string;
+// }
 
 const PatientPending = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -77,18 +78,10 @@ const PatientPending = () => {
         gender: item.gender || "N/A",
         age: item.age || "N/A",
         rtype: item.rtype || "N/A",
-        selected_dr:
-          user?.id && Array.isArray(item.doctor_id) && item.doctor_id.length > 0
-            ? item.doctor_id
-                .map((d: Doctor) => d?.email || "Unknown")
-                .join(", ")
-            : "All",
-        ignored_dr:
-          Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-            ? item.ignore_dr
-                .map((d: Doctor) => d?.email || "Unknown")
-                .join(", ")
-            : "",
+
+        selected_dr: user?.id ? formatEmails(item.doctor_id) || "All" : "All",
+        ignored_dr: formatEmails(item.ignore_dr) || "N/A",
+
         online_dr: doctorEmail,
         xray_name: item.xray_name || "N/A",
         action: "",

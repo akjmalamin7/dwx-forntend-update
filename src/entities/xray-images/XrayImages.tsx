@@ -29,11 +29,18 @@ const XrayImages = forwardRef<HTMLDivElement, IProps>(
       return images;
     }, [attachments]);
 
+    // const handleClick = (index: number) => {
+    //   setActiveIndex(index);
+    //   setVisible(true);
+    // };
+    const isDesktop = typeof window !== "undefined" && window.innerWidth > 1024;
+
     const handleClick = (index: number) => {
+      if (!isDesktop) return;
+
       setActiveIndex(index);
       setVisible(true);
     };
-
     let smallImages: React.ReactNode;
     if (small_urls && small_urls.length > 0) {
       smallImages = small_urls.map((img, index) => (
@@ -61,17 +68,19 @@ const XrayImages = forwardRef<HTMLDivElement, IProps>(
           {smallImages}
         </div>
 
-        <Viewer
-          visible={visible}
-          onClose={() => setVisible(false)}
-          images={original_urls}
-          activeIndex={activeIndex}
-          drag={true}
-          zoomable={true}
-          rotatable={true}
-          scalable={true}
-          noImgDetails={true}
-        />
+        <div className="hidden min-[1024px]:block">
+          <Viewer
+            visible={visible}
+            onClose={() => setVisible(false)}
+            images={original_urls}
+            activeIndex={activeIndex}
+            drag={true}
+            zoomable={true}
+            rotatable={true}
+            scalable={true}
+            noImgDetails={true}
+          />
+        </div>
       </div>
     );
   }

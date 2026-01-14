@@ -1,5 +1,7 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
 import { useAuth, usePageTitle } from "@/shared/hooks";
+import type { WSMessage } from "@/shared/hooks/use-socket/schema";
+import { useSocket } from "@/shared/hooks/use-socket/useSocket";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
@@ -11,23 +13,21 @@ import { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
-import { useSocket } from "@/shared/hooks/use-socket/useSocket";
-import type { WSMessage } from "@/shared/hooks/use-socket/schema";
 
 const PatientView = () => {
   usePageTitle("Patient View", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
-  }); 
+  });
   const { patient_id } = useParams<{ patient_id: string }>();
   const navigate = useNavigate();
   const {
     data: patient_view,
     isLoading: patientLoading,
     error,
-  } = useGetDoctorPatientViewQuery(patient_id!, { 
-    refetchOnMountOrArgChange: true, 
+  } = useGetDoctorPatientViewQuery(patient_id!, {
+    refetchOnMountOrArgChange: true,
     skip: !patient_id,
   });
   const [backToOtherView, { isLoading: isLoadingBack }] =
@@ -37,12 +37,11 @@ const PatientView = () => {
   const patientId = patient?._id;
   const wsUrl = import.meta.env.VITE_WS_URL;
   const { user } = useAuth();
- const { isOpen } = useSocket<WSMessage>(wsUrl, 5000);
+  const { isOpen } = useSocket<WSMessage>(wsUrl, 5000);
 
   useEffect(() => {
-    if (!patientId || !isOpen || !user) return; 
-     
-  }, [patientId, isOpen, user?.id]);
+    if (!patientId || !isOpen || !user) return;
+  }, [patientId, isOpen, user]);
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
@@ -57,7 +56,6 @@ const PatientView = () => {
       console.log("Full error object:", JSON.stringify(error, null, 2));
     }
   };
- 
 
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
@@ -81,19 +79,19 @@ const PatientView = () => {
     ];
   }, [patient]);
 
- if (!patient_id) {
-        navigate("/doctor/patient");
-        return null;
+  if (!patient_id) {
+    navigate("/doctor/patient");
+    return null;
   }
 
   if (error) {
-        navigate("/doctor/patient");
-        return null;
+    navigate("/doctor/patient");
+    return null;
   }
 
   if (!patient && !patientLoading) {
-        navigate("/doctor/patient");
-        return null;
+    navigate("/doctor/patient");
+    return null;
   }
   return (
     <Panel
@@ -116,6 +114,7 @@ const PatientView = () => {
       {patient && (
         <div className="p-4">
           <Table
+            size="xl"
             columns={PATIENT_VIEW_DAT_COL}
             dataSource={DATA_TABLE}
             loading={patientLoading}

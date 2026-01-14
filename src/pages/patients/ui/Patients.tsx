@@ -1,14 +1,20 @@
-import { usePageTitle } from "@/shared/hooks";
+import { useAuth, usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAgentPendingSocket } from "@/shared/hooks/use-socket/useAgentPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
+import { formatEmails } from "@/shared/utils/dr-email-format/drEmailFormat";
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+// interface Doctor {
+//   _id: string;
+//   email: string;
+//   id?: string;
+// }
 
 const Patients = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -25,7 +31,7 @@ const Patients = () => {
     search,
   });
   const totalPages = patientList?.pagination.totalPages || 1;
-
+  const { user } = useAuth();
   // Prepare data
   useServerSidePagination({
     totalPages,
@@ -39,7 +45,7 @@ const Patients = () => {
       page,
       apiPatients: patientList?.data,
     });
-    
+
   useEffect(() => {
     resetRealtime();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,14 +64,16 @@ const Patients = () => {
           patient_sex: item.gender,
           xray_name: item.xray_name,
           type: item.rtype,
-          selected_dr:
-            Array.isArray(item.doctor_id) && item.doctor_id.length > 0
-              ? item.doctor_id.map((d) => d.email).join(", ")
-              : "All",
-          ignore_dr:
-            Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
-              ? item.ignore_dr.map((d) => d.email).join(", ")
-              : "",
+          // selected_dr:
+          //   Array.isArray(item.doctor_id) && item.doctor_id.length > 0
+          //     ? item.doctor_id.map((d) => d.email).join(", ")
+          //     : "All",
+          selected_dr: user?.id ? formatEmails(item.doctor_id) || "All" : "All",
+          ignore_dr: formatEmails(item.ignore_dr) || "N/A",
+          // ignore_dr:
+          //   Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
+          //     ? item.ignore_dr.map((d) => d.email).join(", ")
+          //     : "",
           // online_dr: item.online_dr?.email || "",
           online_dr: liveDoctor
             ? liveDoctor.email
@@ -73,7 +81,7 @@ const Patients = () => {
           action: "",
         };
       }) || [],
-    [mergedPatientData, limit, page, onlineDoctorsMap]
+    [mergedPatientData, limit, page, onlineDoctorsMap, user]
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -88,7 +96,7 @@ const Patients = () => {
             >
               Edit
             </Link>
-             <Link
+            <Link
               to={`/agent/patient-view/${record?.key}`}
               className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
             >

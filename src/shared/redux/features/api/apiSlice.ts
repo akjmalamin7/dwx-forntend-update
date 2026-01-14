@@ -7,7 +7,18 @@ export const apiSlice = createApi({
     baseUrl: "https://api.dwxapp.store/api",
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
-      const access_token = state.auth.access_token;
+      let access_token = state.auth.access_token;
+      if (!access_token) {
+        const localAuth = localStorage.getItem("auth");
+        if (localAuth) {
+          try {
+            const parsed = JSON.parse(localAuth);
+            access_token = parsed?.access_token;
+          } catch (e) {
+            console.error("Auth parsing error", e);
+          }
+        }
+      }
       if (access_token) {
         headers.set("authorization", `Bearer ${access_token}`);
       }

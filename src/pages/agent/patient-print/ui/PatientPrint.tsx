@@ -4,7 +4,8 @@ import {
   useGetAgentPatientPrintQuery,
   useUpdateAgentPatientPrintStatusMutation,
 } from "@/entities/agent/agent-print-patient";
-import { Button, Panel, PanelHeading, Text } from "@/shared/ui";
+import { Button, Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
 import { PrintPatientComment } from "./print-patient-comment/PrintPatientComment";
@@ -12,6 +13,7 @@ import PrintPatientInfo from "./print-patient-info/PrintPatientInfo";
 import PrintPreparedBy from "./print-prepared-by/PrintPreparedBy";
 const PatientPrint = () => {
   const { id } = useParams<{ id: string }>();
+  const [paddingTop, setPaddingTop] = useState("2");
   const {
     data: print_view,
     isLoading,
@@ -21,6 +23,7 @@ const PatientPrint = () => {
   });
   const [updateAgentPatientPrintStatus, { isLoading: isUpdatePrinting }] =
     useUpdateAgentPatientPrintStatusMutation();
+
   const printPatient = print_view?.data;
   const comments = print_view?.data?.doctorcomments;
   const signature = print_view?.data?.completed_dr;
@@ -91,7 +94,7 @@ const PatientPrint = () => {
         {`
           @media print {
             @page {
-              margin-top: 2in;
+              margin-top: ${paddingTop}in;
             }
           }
         `}
@@ -115,6 +118,18 @@ const PatientPrint = () => {
         }
         size="lg"
       >
+        <div className="mb-5 print:hidden">
+          <div className="w-[200px]">
+            <Input
+              label="Gap"
+              size="sm"
+              value={paddingTop}
+              onChange={(e) => setPaddingTop(e.target.value)}
+              placeholder="Gap for header area"
+            />
+          </div>
+          <div></div>
+        </div>
         {/* Table */}
         <PrintPatientInfo printPatient={printPatient} />
 
@@ -126,7 +141,7 @@ const PatientPrint = () => {
           fontWeight="bold"
           className="mb-4 font-bold uppercase"
         >
-         {rtype} Report of {xrayName}
+          {rtype} Report of {xrayName}
         </Text>
 
         <PrintPatientComment comments={comments || []} />

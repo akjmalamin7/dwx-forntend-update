@@ -28,11 +28,14 @@ const PatientPending = () => {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetPendingPatientListQuery({
-    page,
-    limit,
-    search,
-  });
+  } = useGetPendingPatientListQuery(
+    {
+      page,
+      limit,
+      search,
+    },
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+  );
 
   const totalPages = patientList?.pagination.totalPages || 1;
 
@@ -119,7 +122,7 @@ const PatientPending = () => {
   return (
     <Panel header="Pending Patients" size="lg">
       <DataTable
-        size="xs"
+        // size="xs"
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}

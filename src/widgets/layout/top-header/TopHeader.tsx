@@ -12,6 +12,7 @@ const TopHeader = () => {
   const handleMobileMenu = () => {
     dispatch(toggleMobileMenu({ isToggle: !isToggle }));
   };
+
   return (
     <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
       {/* Logo */}

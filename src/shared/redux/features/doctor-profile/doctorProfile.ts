@@ -1,12 +1,11 @@
-import { apiSlice } from "../api/apiSlice"; // আপনার মেইন এপিআই স্লাইস পাথ
+import { apiSlice } from "../api/apiSlice";
 import type { DoctorProfileResponse } from "./doctor.profile.data";
 
-export const profileApi = apiSlice.injectEndpoints({
+export const DoctorProfileApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // গেট প্রোফাইল কুয়েরি
-    getDoctorProfile: builder.query<DoctorProfileResponse, string>({
-      query: (id) => ({
-        url: `/agent/profile/${id}`,
+    getDoctorProfile: builder.query<DoctorProfileResponse, void>({
+      query: () => ({
+        url: `/doctor/profile`,
         method: "GET",
       }),
       providesTags: ["User"],
@@ -14,4 +13,4 @@ export const profileApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetDoctorProfileQuery } = profileApi;
+export const { useGetDoctorProfileQuery } = DoctorProfileApi;

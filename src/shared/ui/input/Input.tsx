@@ -12,6 +12,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       size = "lg",
       radius = "sm",
       color = "dark",
+      min,
+      max,
       bgColor = "transparent",
       placeholder = "",
       isLoading = false,
@@ -68,6 +70,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             onInput={onInput}
             onBlur={onBlur}
             onFocus={onFocus}
+            min={min}
+            max={max}
             onKeyDown={onKeyDown}
             ref={ref}
             className={finalInputClasses}

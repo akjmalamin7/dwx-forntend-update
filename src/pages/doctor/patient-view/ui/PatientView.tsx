@@ -1,27 +1,41 @@
 import { ReportSubmissionForm, XrayImages } from "@/entities";
-import { useAuth, usePageTitle } from "@/shared/hooks";
-import type { WSMessage } from "@/shared/hooks/use-socket/schema";
-import { useSocket } from "@/shared/hooks/use-socket/useSocket";
+import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
+import { usePageTitle } from "@/shared/hooks";
 import {
   useBackToOtherApiMutation,
   useGetDoctorPatientViewQuery,
 } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
-import type { DataSource } from "@/shared/ui/table/table.model";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 
 const PatientView = () => {
-  usePageTitle("Patient View", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
+  usePageTitle("Patient View");
+
   const { patient_id } = useParams<{ patient_id: string }>();
   const navigate = useNavigate();
+
+  const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleSceneChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) {
+        setVisible(false);
+      }
+    };
+
+    handleSceneChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleSceneChange);
+
+    return () => mediaQuery.removeEventListener("change", handleSceneChange);
+  }, []);
+
   const {
     data: patient_view,
     isLoading: patientLoading,
@@ -30,69 +44,33 @@ const PatientView = () => {
     refetchOnMountOrArgChange: true,
     skip: !patient_id,
   });
+
   const [backToOtherView, { isLoading: isLoadingBack }] =
     useBackToOtherApiMutation();
-  const patient = patient_view?.patient;
-  const attachments = patient_view?.attachments ?? [];
-  const patientId = patient?._id;
-  const wsUrl = import.meta.env.VITE_WS_URL;
-  const { user } = useAuth();
-  const { isOpen } = useSocket<WSMessage>(wsUrl, 5000);
 
-  useEffect(() => {
-    if (!patientId || !isOpen || !user) return;
-  }, [patientId, isOpen, user]);
+  const attachments = patient_view?.attachments;
+  const patient = patient_view?.patient;
+
+  const original_urls = useMemo(
+    () => attachments?.map((att) => ({ src: att.original_url })),
+    [attachments]
+  );
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
-
     try {
-      await backToOtherView({
-        _id: patient_id,
-      }).unwrap();
+      await backToOtherView({ _id: patient_id }).unwrap();
       navigate("/doctor/patient");
-    } catch (error) {
-      console.error("Delete failed:", error);
-      console.log("Full error object:", JSON.stringify(error, null, 2));
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const DATA_TABLE: DataSource[] = useMemo(() => {
-    if (!patient) return [];
-
-    return [
-      {
-        key: patient._id || `patient-${Date.now()}`,
-        patient_id: patient.patient_id || "N/A",
-        patient_name: patient.name || "N/A",
-        age: patient.age || "N/A",
-        date: patient.createdAt
-          ? new Date(patient.createdAt).toLocaleDateString("en-GB")
-          : "N/A",
-        history: patient.history
-          ? `<h3 style="font-weight: bold; color: red;">${patient.history}</h3>`
-          : "N/A",
-        sex: patient.gender || "N/A",
-        xray_name: patient.xray_name || "N/A",
-        reference_by: patient.ref_doctor || "N/A",
-      },
-    ];
-  }, [patient]);
-
-  if (!patient_id) {
+  if (!patient_id || error) {
     navigate("/doctor/patient");
     return null;
   }
 
-  if (error) {
-    navigate("/doctor/patient");
-    return null;
-  }
-
-  if (!patient && !patientLoading) {
-    navigate("/doctor/patient");
-    return null;
-  }
   return (
     <Panel
       header={
@@ -111,20 +89,53 @@ const PatientView = () => {
       }
       size="lg"
     >
-      {patient && (
-        <div className="p-4">
+      <div className="p-4">
+        {patient && (
           <Table
             size="xl"
             columns={PATIENT_VIEW_DAT_COL}
-            dataSource={DATA_TABLE}
+            dataSource={[{ ...patient, key: patient._id }]}
             loading={patientLoading}
             border="bordered"
           />
+        )}
+
+        <div className="hidden lg:block mt-6">
+          <XrayImages attachments={attachments} />
+          <ReportSubmissionForm patient_id={patient_id} />
         </div>
-      )}
-      {/* Image Viewer Section */}
-      <XrayImages attachments={attachments} />
-      <ReportSubmissionForm patient_id={patient_id} />
+
+        <div className="lg:hidden mt-6">
+          <h4 className="font-bold mb-3 text-gray-700">X-Ray Images</h4>
+          <div className="flex gap-3 flex-wrap">
+            {attachments?.map((img, i) => (
+              <div
+                key={i}
+                className="w-24 h-24 border rounded-md overflow-hidden cursor-pointer active:scale-95 transition-all shadow-sm"
+                onClick={() => {
+                  setActiveIndex(i);
+                  setVisible(true);
+                }}
+              >
+                <img
+                  src={img.small_url}
+                  className="w-full h-full object-cover"
+                  alt="Thumbnail"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <XrayMobileImages
+          isOpen={visible}
+          onClose={() => setVisible(false)}
+          images={original_urls ?? []}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          patient_id={patient_id}
+        />
+      </div>
     </Panel>
   );
 };

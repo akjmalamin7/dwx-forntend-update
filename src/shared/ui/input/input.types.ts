@@ -11,12 +11,15 @@ export interface InputProps {
     | "number"
     | "file"
     | "hidden"
+    | "range"
     | "checkbox";
   radius?: "sm" | "md" | "lg";
   color?: "dark" | "light";
   bgColor?: "dark" | "light" | "transparent";
   placeholder?: string;
   size?: "sm" | "md" | "lg";
+  min?: string | number;
+  max?: string | number;
   isLoading?: boolean;
   className?: string;
   readonly?: boolean;

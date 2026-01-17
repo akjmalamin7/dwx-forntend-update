@@ -1,4 +1,5 @@
 import { PendingPatientsList } from "@/entities/doctor";
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useDoctorProfile } from "@/shared/hooks/use-get-profile/useDoctorProfile";
 import { Loader } from "@/shared/ui";
@@ -14,12 +15,11 @@ const PatientPending = () => {
 
   if (isProfileLoading) return <Loader />;
 
-  console.log("Status check:", status);
-
   if (status === "inactive") {
-    return <div>Your account is inactive.</div>;
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
   }
-
   return <PendingPatientsList />;
 };
 

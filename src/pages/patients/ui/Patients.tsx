@@ -25,11 +25,14 @@ const Patients = () => {
     data: patientList,
     // refetch,
     isLoading,
-  } = useGetPendingPatientListQuery({
-    page,
-    limit,
-    search,
-  });
+  } = useGetPendingPatientListQuery(
+    {
+      page,
+      limit,
+      search,
+    },
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+  );
   const totalPages = patientList?.pagination.totalPages || 1;
   const { user } = useAuth();
   // Prepare data

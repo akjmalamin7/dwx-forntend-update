@@ -19,11 +19,14 @@ const PendingPatientsList = () => {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetDoctorPendingPatientListQuery({
-    page,
-    limit,
-    search,
-  });
+  } = useGetDoctorPendingPatientListQuery(
+    {
+      page,
+      limit,
+      search,
+    },
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+  );
   const totalPages = patientList?.pagination.totalPages || 1;
   useServerSidePagination({
     totalPages,

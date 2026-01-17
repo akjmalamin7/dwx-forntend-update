@@ -1,13 +1,7 @@
 import { useGetDoctorProfileQuery } from "@/shared/redux/features/doctor-profile/doctorProfile";
-import { skipToken } from "@reduxjs/toolkit/query";
-import { useAuth } from "../use-auth/useAuth";
 
 export const useDoctorProfile = () => {
-  const { user } = useAuth();
-
-  const { data, isLoading, error } = useGetDoctorProfileQuery(
-    user?.id ?? skipToken
-  );
+  const { data, isLoading, error } = useGetDoctorProfileQuery();
 
   return {
     profileData: data?.data,

@@ -58,11 +58,11 @@ const FONT_WEIGHT_CLASSES = {
 
 const BASE_NAV_CLASSES = {
   container:
-    "flex flex-row lg:flex-col items-center gap-1 px-4 py-3 hover:bg-green-600 transition-colors border-b border-b-[#f7f7f770] lg:border-b-transparent!",
+    "flex flex-row lg:flex-col items-center gap-1 px-4 py-4 lg:py-3 hover:bg-green-600 transition-colors border-b border-b-[#f7f7f770] lg:border-b-transparent!",
   dropdown:
     "lg:absolute top-full left-0 bg-green-600 min-w-48 rounded-b shadow-lg z-50",
   dropdownItem:
-    "flex items-center gap-2 px-4 py-3 hover:bg-green-700 transition-colors border-b border-green-500 last:border-b-0",
+    "flex items-center gap-2 px-4 py-4 lg:py-3 hover:bg-green-700 transition-colors border-b border-green-500 last:border-b-0",
 } as const;
 
 // ============================================================================
@@ -165,7 +165,7 @@ const NavItem: React.FC<NavItemProps> = ({
       }}
     >
       {icon && <span className="text-lg">{icon}</span>}
-      <span>{title}</span>
+      <span className="text-2xl lg:text-sm">{title}</span>
     </NavLink>
   );
 
@@ -184,7 +184,7 @@ const NavItem: React.FC<NavItemProps> = ({
         }}
       >
         {child.icon && <span className="text-sm">{child.icon}</span>}
-        <span className="text-sm">{child.title}</span>
+        <span className="text-2xl lg:text-sm">{child.title}</span>
       </NavLink>
     );
   };
@@ -208,7 +208,7 @@ const NavItem: React.FC<NavItemProps> = ({
           aria-haspopup="true"
         >
           {icon && <span className="text-lg">{icon}</span>}
-          {title}
+          {title && <span className="text-2xl lg:text-sm">{title}</span>}
         </button>
 
         {isDropdownOpen && (

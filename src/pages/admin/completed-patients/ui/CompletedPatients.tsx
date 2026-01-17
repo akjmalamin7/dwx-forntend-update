@@ -19,7 +19,10 @@ const CompletedPatients = () => {
     data: patientList,
     isLoading,
     refetch,
-  } = useGetAdminCompletedPatientListQuery({ page, limit, search });
+  } = useGetAdminCompletedPatientListQuery(
+    { page, limit, search },
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+  );
   const totalPages = patientList?.pagination.totalPages || 1;
 
   useServerSidePagination({

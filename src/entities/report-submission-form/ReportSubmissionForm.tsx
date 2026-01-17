@@ -36,7 +36,7 @@ interface ApiError {
 const ReportSubmissionForm = ({
   patient_id,
   commentsAndPassault,
-  isUpdate = false
+  isUpdate = false,
 }: IProps) => {
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
     ""
@@ -151,58 +151,60 @@ const ReportSubmissionForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <AdminFormatList onSelect={handleAdminSelect} />
-        <PersonalFormatList onSelect={handlePersonalSelect} />
-      </div>
+    <div onClick={(e) => e.stopPropagation()}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <AdminFormatList onSelect={handleAdminSelect} />
+          <PersonalFormatList onSelect={handlePersonalSelect} />
+        </div>
 
-      <Input type="hidden" {...register("patient_id")} />
+        <Input type="hidden" {...register("patient_id")} />
 
-      <Editor
-        value={commentsValue}
-        onChange={handleEditorChange}
-        placeholder=""
-      />
-
-      {selectedType && (
-        <Text size="sm" className="mt-2 text-gray-600">
-          {selectedType === "admin" ? "Admin Format" : "Personal Format"}
-        </Text>
-      )}
-
-      <label className="mt-4 flex items-start gap-2 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={isMedicalDiagnosis}
-          onChange={handleMedicalDiagnosisChange}
-          className="w-[20px] h-[20px] mt-1"
+        <Editor
+          value={commentsValue}
+          onChange={handleEditorChange}
+          placeholder=""
         />
-        <Text size="lg">
-          This report is for medical diagnosis only, not for legal use
-        </Text>
-      </label>
 
-      <Input type="hidden" {...register("passault")} />
+        {selectedType && (
+          <Text size="sm" className="mt-2 text-gray-600">
+            {selectedType === "admin" ? "Admin Format" : "Personal Format"}
+          </Text>
+        )}
 
-      <div className="mt-4">
-        <Button
-          type="submit"
-          color="dark"
-          size="size-2"
-          loading={isLoading}
-          disabled={!isFormValid || isLoading}
-        >
-          {isLoading
-            ? isUpdate
-              ? "Updating..."
-              : "Submitting..."
-            : isUpdate
-            ? "Update"
-            : "Submit"}
-        </Button>
-      </div>
-    </form>
+        <label className="mt-4 flex items-start gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={isMedicalDiagnosis}
+            onChange={handleMedicalDiagnosisChange}
+            className="w-[20px] h-[20px] mt-1"
+          />
+          <Text size="lg">
+            This report is for medical diagnosis only, not for legal use
+          </Text>
+        </label>
+
+        <Input type="hidden" {...register("passault")} />
+
+        <div className="mt-4">
+          <Button
+            type="submit"
+            color="dark"
+            size="size-2"
+            loading={isLoading}
+            disabled={!isFormValid || isLoading}
+          >
+            {isLoading
+              ? isUpdate
+                ? "Updating..."
+                : "Submitting..."
+              : isUpdate
+              ? "Update"
+              : "Submit"}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
 

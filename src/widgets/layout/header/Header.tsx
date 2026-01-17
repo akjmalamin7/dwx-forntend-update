@@ -24,7 +24,7 @@ const Header = () => {
 
   const headerClasses = `
   bg-green-500 text-white flex-col lg:flex-row lg:flex lg:flex-wrap lg:justify-center
-  fixed lg:relative w-[300px] lg:w-full h-screen lg:h-auto top-0 z-40
+  fixed lg:relative w-[400px] lg:w-full h-full lg:h-auto top-0 z-40
   transition-all duration-300 ease-in-out
   ${isToggle ? "left-0" : "-left-[100%]"}
   lg:left-0      /* Always visible on large screens */
@@ -51,7 +51,7 @@ const Header = () => {
       {isToggle &&
         createPortal(
           <div
-            className={`fixed w-full h-screen top-0 left-0 z-20 bg-black/60
+            className={`fixed w-full h-full top-0 left-0 z-20 bg-black/60
         transition-opacity duration-300
         ${isToggle ? "opacity-100 lg:opacity-0 lg:hidden" : "opacity-0"}
       `}

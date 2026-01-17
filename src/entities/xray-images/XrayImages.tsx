@@ -29,18 +29,18 @@ const XrayImages = forwardRef<HTMLDivElement, IProps>(
       return images;
     }, [attachments]);
 
-    // const handleClick = (index: number) => {
-    //   setActiveIndex(index);
-    //   setVisible(true);
-    // };
-    const isDesktop = typeof window !== "undefined" && window.innerWidth > 1024;
-
     const handleClick = (index: number) => {
-      if (!isDesktop) return;
-
       setActiveIndex(index);
       setVisible(true);
     };
+    // const isDesktop = typeof window !== "undefined" && window.innerWidth > 1024;
+
+    // const handleClick = (index: number) => {
+    //   if (!isDesktop) return;
+
+    //   setActiveIndex(index);
+    //   setVisible(true);
+    // };
     let smallImages: React.ReactNode;
     if (small_urls && small_urls.length > 0) {
       smallImages = small_urls.map((img, index) => (

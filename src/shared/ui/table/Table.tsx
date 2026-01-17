@@ -38,7 +38,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
   }[bg || "transparent"];
 
   const tableHeaderClasses = classNames("align-bottom bg-gray-100");
-  const tableClasses = classNames("min-w-[100%]!", className, {
+  const tableClasses = classNames("min-w-[100%]! table-auto!", className, {
     // "overflow-x-auto touch-pan-x": scroll,
   });
   const handleRow = (

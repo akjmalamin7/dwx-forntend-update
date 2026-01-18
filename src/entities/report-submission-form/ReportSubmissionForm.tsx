@@ -47,7 +47,7 @@ const ReportSubmissionForm = ({
   const [savePatient, { isLoading: isSaving }] = useSavePatientMutation();
   const [updatePatient, { isLoading: isUpdating }] = useUpdatePatientMutation();
 
-  const { handleSubmit, setValue, watch, register, reset } = useForm<FormData>({
+  const { handleSubmit, setValue, watch, register } = useForm<FormData>({
     defaultValues: {
       patient_id: patient_id,
       comments: commentsAndPassault?.comments || "",
@@ -110,7 +110,7 @@ const ReportSubmissionForm = ({
     setIsMedicalDiagnosis(isChecked);
     setValue("passault", isChecked ? "Yes" : "No", { shouldValidate: true });
   };
-
+/*
   const resetForm = () => {
     reset({
       patient_id,
@@ -119,7 +119,7 @@ const ReportSubmissionForm = ({
     });
     setSelectedType("");
     setIsMedicalDiagnosis(false);
-  };
+  };*/
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -139,8 +139,9 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
-        navigate("/doctor/patient");
-        resetForm();
+        //navigate("/doctor/patient");
+         navigate(0)
+        //resetForm();
       } else {
         console.warn(" Update failed:", response?.message);
       }

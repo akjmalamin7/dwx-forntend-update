@@ -3,7 +3,7 @@ import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+ import { useNavigate,  useParams } from "react-router-dom";
 import { useAddNewImageMutation } from "../api/mutation";
 import { ADD_NEW_IMAGE_SCHEMA } from "../model/schema";
 
@@ -31,7 +31,8 @@ const AddNewImageForm = () => {
         attachment: values.attachment,
         small_url: values.small_url,
       }).unwrap();
-      navigate("/admin/patient");
+      //navigate("/admin/patient");
+      navigate(0);
       reset();
       setResetCount((prev) => prev + 1);
     } catch (error) {

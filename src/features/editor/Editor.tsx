@@ -21,7 +21,7 @@ const Editor = ({
   const config = useMemo(
     () => ({
       readonly: false,
-      placeholder: placeholder || "Start typing...",
+      placeholder: placeholder || "",
       height: 400,
       toolbarAdaptive: false,
       toolbarButtonSize: "middle" as const,

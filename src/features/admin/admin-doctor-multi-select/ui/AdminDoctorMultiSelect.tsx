@@ -26,7 +26,7 @@ const AdminDoctorMultiSelect = <TFieldValues extends FieldValues>({
       ?.filter((doc) => doc !== null)
       .map((doc) => ({
         value: doc.id,
-        name: doc.name,
+        name: doc.email,
       })) ?? [];
 
   return (

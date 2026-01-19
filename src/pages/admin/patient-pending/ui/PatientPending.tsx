@@ -97,7 +97,7 @@ const PatientPending = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex">
+          <div key={rowIndex} className="flex flex-wrap gap-y-4">
             <TypingBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/select-doctor/${record?.key}`}
@@ -122,7 +122,7 @@ const PatientPending = () => {
   return (
     <Panel header="Pending Patients" size="lg">
       <DataTable
-        // size="xs"
+        size="xs"
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}

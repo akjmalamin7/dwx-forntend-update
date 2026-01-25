@@ -7,7 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";
+import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col"; 
 
 const CustomerBillRequestList = () => {
   const { month } = useParams<{ month: string }>();
@@ -47,7 +47,12 @@ const CustomerBillRequestList = () => {
               year: "numeric",
             })
           : "—",
-        received_number: item.received_number,
+        received_number:  item.received_number
+        ? item.received_number
+            .replace(/<[^>]*>/g, "")
+            .replace(/&nbsp;/g, "")
+            .trim()
+        : "—",
         action: "",
       })) || [],
     [billList?.data, limit, page]

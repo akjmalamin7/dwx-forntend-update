@@ -48,7 +48,7 @@ const DeleteAdminUser = ({ id, onDeleteSuccess }: IProps) => {
           disabled={isLoading}
         >
           <Text>
-            Are you sure you want to proceed with this <strong> {id} </strong>
+            Are you sure you want to proceed with this  
             action?
           </Text>
         </Modal>

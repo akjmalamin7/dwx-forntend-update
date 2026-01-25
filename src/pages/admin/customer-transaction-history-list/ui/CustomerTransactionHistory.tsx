@@ -45,8 +45,13 @@ const CustomerTransactionHistory = () => {
               month: "2-digit",
               year: "numeric",
             })
-          : "—",
-        received_number: item.received_number,
+          : "—", 
+        received_number:  item.received_number
+        ? item.received_number
+            .replace(/<[^>]*>/g, "")
+            .replace(/&nbsp;/g, "")
+            .trim()
+        : "—",
         action: "",
       })) || [],
     [billList?.data, page, limit]

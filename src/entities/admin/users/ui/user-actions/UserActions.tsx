@@ -1,3 +1,4 @@
+import { DeleteAdminUser } from "@/features";
 import { Link } from "react-router-dom";
 
 const UserActions = ({ id }: { id: string }) => {
@@ -8,7 +9,7 @@ const UserActions = ({ id }: { id: string }) => {
         className="bg-blue-500 text-white px-2 py-2 text-sm"
       >
         Edit
-      </Link>
+      </Link> 
 
       <Link
         to={`/admin/change-password/${id}`}
@@ -16,13 +17,8 @@ const UserActions = ({ id }: { id: string }) => {
       >
         C.Password
       </Link>
-
-      <Link
-        to={`/admin/delete/${id}`}
-        className="bg-red-500 text-white px-2 py-2 text-sm"
-      >
-        Delete
-      </Link>
+      <DeleteAdminUser id={id} />
+      
     </div>
   );
 };

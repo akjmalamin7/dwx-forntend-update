@@ -89,8 +89,7 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
     .min(6, "Password must be at least 6 characters"),
   mobile: yup
     .string()
-    .required("Mobile number is required")
-    .min(11, "Password must be at least 11 characters"),
+    .required("Mobile number is required"),
   address: yup.string().required("Address is required"),
   single: yup
     .number()

@@ -24,7 +24,7 @@ const EditUser = () => {
       name: userData?.name || "",
       email: userData?.email || "",
       password: userData?.password || "",
-      mobile: userData?.name || "",
+      mobile: userData?.mobile || "",
       address: userData?.address || "",
       single: userData?.single || 0,
       double: userData?.double || 0,
@@ -42,8 +42,9 @@ const EditUser = () => {
   });
   const onSubmit = form.handleSubmit(async (data) => {
     try {
+      console.log(data);
       await updateUser({ id, data }).unwrap();
-      navigate("/admin/user-list");
+      navigate(0);
       setResetCount((prev) => prev + 1);
     } catch (err) {
       console.error("Error creating user:", err);

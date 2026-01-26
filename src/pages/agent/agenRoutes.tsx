@@ -27,7 +27,7 @@ export const agentRoutes = [
     element: withSuspense(<Pages.QuickSendReport />),
   },
   {
-    path: "/upload",
+    path: "https://www.dwxviewer.site/upload",
     element: withSuspense(<h1>Upload</h1>),
   },
   {

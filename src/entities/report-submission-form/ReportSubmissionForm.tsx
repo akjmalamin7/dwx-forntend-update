@@ -139,8 +139,8 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
-        //navigate("/doctor/patient");
-         navigate(0)
+        navigate("/doctor/patient");
+        // navigate(0)
         //resetForm();
       } else {
         console.warn(" Update failed:", response?.message);

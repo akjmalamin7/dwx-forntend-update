@@ -27,6 +27,8 @@ const PatientView = () => {
       size="lg"
     >
       <PatientInformation />
+
+      
       <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">
         <div className="flex-1/2">
           <ClonePatient />

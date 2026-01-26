@@ -22,7 +22,7 @@ const BillPrint = () => {
   const billingHeaderData = {
     month: transformBill?.month || "N/A",
     printDate: new Date().toLocaleDateString("en-GB") || "N/A",
-    to: transformBill?.honorarium_to,
+    to: transformBill?.user_id?.name || "N/A", 
     status: transformBill?.status,
   };
 
@@ -50,6 +50,11 @@ const BillPrint = () => {
     total_amount: transformBill?.total_amount
       ? Number(transformBill.total_amount)
       : undefined,
+
+   total_patients: transformBill?.total_patients  // ✅ Add this
+    ? Number(transformBill.total_patients)
+    : undefined,
+
   };
   const { data: paymentGetway } = useGetPaymentGetwayListQuery();
 
@@ -115,12 +120,15 @@ const BillPrint = () => {
           <PaymentMethod methods={paymnetMethod} />
         </BillingInformation>
 
-        <div
+   
+
+         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none print:opacity-100 opacity-20 text-6xl font-bold  text-green-300"
           style={{ zIndex: 0 }}
         >
-          PAID
+          {transformBill?.status=="Paid"?"Paid":"Un-paid"}
         </div>
+
 
         <div className="after:content-[''] after:table after:clear-both"></div>
 

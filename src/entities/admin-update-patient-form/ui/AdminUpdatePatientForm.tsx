@@ -34,7 +34,7 @@ const AdminUpdatePatientForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty },
+    formState: {  },
   } = useForm({
     resolver: yupResolver(ADMIN_UPDATE_PATIENT_SCHEMA),
     values: {
@@ -43,6 +43,8 @@ const AdminUpdatePatientForm = () => {
       history: patient?.history || "",
       xray_name: patient?.xray_name || "",
       name: patient?.name || "",
+      age: patient?.age || "",
+      patient_id: patient?.patient_id || "",
       rtype: patient?.rtype || "xray",
     },
     mode: "onChange",
@@ -56,10 +58,10 @@ const AdminUpdatePatientForm = () => {
         history: values.history,
         xray_name: values.xray_name,
         name: values.name,
-        rtype: values.rtype,
-
-        study_for: patient?.study_for || "xray_dr",
-        age: patient?.age,
+        age: values.age,
+        patient_id: values.patient_id,
+        rtype: values.rtype, 
+        study_for: patient?.study_for || "xray_dr", 
         gender: patient?.gender,
         ref_doctor: patient?.ref_doctor,
         image_type: patient?.image_type || "Single",
@@ -98,6 +100,35 @@ const AdminUpdatePatientForm = () => {
               key={resetCount}
             />
           </div>
+          {/* Patient ID*/}
+          <ControlInput
+            label="Patient ID"
+            placeholder="Patient ID"
+            size="sm"
+            name="patient_id"
+            control={control}
+            isInputLabel={false}
+          />
+
+           {/* Patient Name*/}
+          <ControlInput
+            label="Patient Name"
+            placeholder="Patient Name"
+            size="sm"
+            name="name"
+            control={control}
+            isInputLabel={false}
+          />
+          {/* Patient Age*/}
+          <ControlInput
+            label="Patient Age"
+            placeholder="Patient Age"
+            size="sm"
+            name="age"
+            control={control}
+            isInputLabel={false}
+          />
+
           {/* Patient History*/}
           <ControlInput
             label="Patient History"
@@ -144,7 +175,7 @@ const AdminUpdatePatientForm = () => {
             size="size-2"
             width="full"
             loading={isPatientUpdating}
-            disabled={!isDirty || isPatientUpdating}
+            disabled={isPatientUpdating}
           >
             {isPatientUpdating ? "Updating Patient..." : "Update Patient"}
           </Button>

@@ -27,7 +27,7 @@ const BillPrintList = ({ billPrintList }: IProps) => {
   const singleSubtotal =
     toNum(billPrintList?.images?.total_single) *
     toNum(billPrintList?.price?.single);
-
+ 
   const doubleSubtotal =
     toNum(billPrintList?.images?.total_double) *
     toNum(billPrintList?.price?.double);

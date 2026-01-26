@@ -231,6 +231,7 @@ const PatientForm = ({
             { name: "Single", value: "single" },
             { name: "Double", value: "double" },
             { name: "Multiple", value: "multiple" },
+            { name: "ECG", value: "ecg" },
           ]}
         />
 

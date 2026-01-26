@@ -17,6 +17,7 @@ const SendEcgReport = () => {
       ...data,
       rtype: "ecg",
       study_for: "ecg_dr",
+      image_type: "ecg",
     };
 
     try {

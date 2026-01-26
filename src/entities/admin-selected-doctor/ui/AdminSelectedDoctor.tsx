@@ -60,8 +60,8 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     if (!patient_id) return;
     try {
       await selectdDoctor({ id: patient_id, data });
-      //navigate("/admin/patient");
-      navigate(0)
+      navigate("/admin/patient");
+      //navigate(0)
     } catch (err) {
       console.error(err);
     }

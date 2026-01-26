@@ -27,6 +27,7 @@ const BillingPadHeader = ({ billingHeader }: IProps) => {
           <Text element="p">
             <strong>To:</strong> {billingHeader?.to}
           </Text>
+        
         </div>
         <div className="text-right">
           <Text element="p">

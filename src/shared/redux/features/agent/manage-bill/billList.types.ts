@@ -5,6 +5,8 @@ export interface BILL_USER {
   multiple: number;
   ecg: number;
   id: string;
+  name: string; 
+  
 }
 export interface BILL_MODEL {
   _id: string;
@@ -22,7 +24,7 @@ export interface BILL_MODEL {
 export interface BILL_TRANSFORM_MODEL {
   _id: string;
   id: string;
-  user_id: string;
+  user_id: BILL_USER;
   month: string;
   createdAt: string;
   honorarium: string;
@@ -39,7 +41,7 @@ export interface BILL_TRANSFORM_MODEL {
   total_patients: string;
   total_single: string;
   trans_id: string;
-  updatedAt: string;
+  updatedAt: string; 
 }
 
 export interface BILL_RESPONSE {

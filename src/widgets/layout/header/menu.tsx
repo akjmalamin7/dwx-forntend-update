@@ -42,7 +42,7 @@ export const MENU_DATA: MenuType[] = [
     role: [RoleEnum.user],
     title: "DCM File Uploader",
     icon: <MdFileUpload />,
-    path: "/upload",
+    path: "https://www.dwxviewer.site/upload",
   },
   {
     id: "user-5",

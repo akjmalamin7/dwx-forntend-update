@@ -1,4 +1,5 @@
-import { ReportSubmissionForm, XrayImages } from "@/entities";
+import { ReportSubmissionForm } from "@/entities";
+import DwxViewer from "@/entities/dwx-viewer";
 import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
 import { usePageTitle } from "@/shared/hooks";
 import {
@@ -53,7 +54,7 @@ const PatientView = () => {
 
   const original_urls = useMemo(
     () => attachments?.map((att) => ({ src: att.original_url })),
-    [attachments]
+    [attachments],
   );
 
   const handleBackToOtherList = async () => {
@@ -89,7 +90,7 @@ const PatientView = () => {
       }
       size="lg"
     >
-      <div className="p-4">
+      <div className="px-2 py-4">
         {patient && (
           <Table
             size="xl"
@@ -101,7 +102,8 @@ const PatientView = () => {
         )}
 
         <div className="hidden lg:block mt-6">
-          <XrayImages attachments={attachments} />
+          {/* <XrayImages attachments={attachments} /> */}
+          <DwxViewer attachments={attachments} />
           <ReportSubmissionForm patient_id={patient_id} />
         </div>
 

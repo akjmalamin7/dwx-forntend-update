@@ -20,6 +20,7 @@ export interface InputProps {
   size?: "sm" | "md" | "lg";
   min?: string | number;
   max?: string | number;
+  step?: string | number;
   isLoading?: boolean;
   className?: string;
   readonly?: boolean;

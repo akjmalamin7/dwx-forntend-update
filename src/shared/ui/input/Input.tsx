@@ -12,6 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       size = "lg",
       radius = "sm",
       color = "dark",
+      step,
       min,
       max,
       bgColor = "transparent",
@@ -28,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onClear,
       onKeyDown,
     },
-    ref
+    ref,
   ) => {
     const colorClasses = {
       dark: "text-gray-900",
@@ -72,6 +73,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             onFocus={onFocus}
             min={min}
             max={max}
+            step={step}
             onKeyDown={onKeyDown}
             ref={ref}
             className={finalInputClasses}
@@ -94,7 +96,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

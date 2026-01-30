@@ -371,7 +371,7 @@ const DwxViewer = ({ attachments = [] }: Props) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 h-screen w-full">
+      <div className="grid grid-cols-5 h-screen w-full mt-5">
         <MainImageDisplay
           viewMode={viewMode}
           zoom={zoom}

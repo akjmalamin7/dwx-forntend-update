@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import type { AnnotationModel } from "./Annotation";
 
 interface Measurement {
@@ -68,6 +68,28 @@ const MainImageDisplay = ({
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+
+      if (viewMode !== 1) return;
+
+      if (e.deltaY < 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+    };
+  }, [handleNext, handlePrev, viewMode]);
   return (
     <div className="flex-1 flex flex-col h-full bg-gray-300 relative">
       <div

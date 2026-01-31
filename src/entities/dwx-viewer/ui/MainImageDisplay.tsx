@@ -62,34 +62,36 @@ const MainImageDisplay = ({
   handleMouseUp,
   handleWheel,
   setCurrentIndex,
-  // ডিস্ট্রাকচার করা হলো
   handlePrev,
   handleNext,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const lastScrollTime = useRef<number>(0);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    const onWheel = (e: WheelEvent) => {
+    const onWheelManual = (e: WheelEvent) => {
       e.preventDefault();
 
-      if (viewMode !== 1) return;
+      const now = Date.now();
+      if (now - lastScrollTime.current < 100) return;
 
-      if (e.deltaY < 0) {
-        handlePrev();
-      } else {
+      if (e.deltaY > 0) {
         handleNext();
+        lastScrollTime.current = now;
+      } else if (e.deltaY < 0) {
+        handlePrev();
+        lastScrollTime.current = now;
       }
     };
 
-    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("wheel", onWheelManual, { passive: false });
 
     return () => {
-      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("wheel", onWheelManual);
     };
-  }, [handleNext, handlePrev, viewMode]);
+  }, [handleNext, handlePrev]);
   return (
     <div className="flex-1 flex flex-col h-full bg-gray-300 relative">
       <div

@@ -24,7 +24,7 @@ const ThumnailSidebar = ({
           const rightIndex = rowIndex * 2 + 1;
 
           return (
-            <div key={rowIndex} className="grid grid-cols-3 gap-3 mb-3">
+            <div key={rowIndex} className="grid grid-cols-2 gap-3 mb-3">
               {/* Left thumbnail */}
               {leftIndex < images.length && (
                 <div

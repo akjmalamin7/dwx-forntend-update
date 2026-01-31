@@ -295,7 +295,7 @@ const DwxViewer = ({ attachments = [] }: Props) => {
       />
 
       {/* 3. Thumbnail Sidebar */}
-      <div className="w-[300px] border-l border-gray-200 bg-gray-50 overflow-y-auto">
+      <div className="w-[250px] border-l border-gray-200 bg-gray-50 overflow-y-auto">
         <ThumnailSidebar
           images={effectiveImages}
           currentIndex={currentIndex}

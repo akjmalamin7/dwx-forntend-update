@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 interface Measurement {
   id: string | number;
   x1: number;
@@ -68,11 +70,37 @@ const MainImageDisplay = ({
   getGridRows,
   getDisplayImages,
 }: Props) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+
+      if (viewMode !== 1) return;
+
+      if (e.deltaY < 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+    };
+  }, [handleNext, handlePrev, viewMode]);
+
   return (
-    <div className="col-span-4">
+    <div className="col-span-3">
       <div className="flex-1 flex flex-col h-full">
         <div
-          className={`flex-1 relative overflow-hidden bg-gray-300 ${
+          ref={containerRef}
+          className={`flex-1 relative overflow-hidden bg-black ${
             viewMode === 1 ? "" : "p-2"
           }`}
           style={{

@@ -342,16 +342,12 @@ const DwxViewer = ({ attachments = [] }: Props) => {
 
   return (
     <div>
-      <div className="grid grid-cols-8 gap-4  ">
+      <div className="grid grid-cols-8 gap-4 hidden ">
         <div className="col-span-6 bg-[#f1f1f1] border border-[#ebebeb] rounded-lg p-3">
-          <AdjustmentPanel
-            adjustments={adjustments}
-            setAdjustments={setAdjustments}
-            resetAdjustments={resetAdjustments}
-          />
+         
         </div>
 
-        <div className="col-span-2 bg-[#f1f1f1] rounded-lg p-3">
+        <div className="col-span-2 bg-[#f1f1f1] rounded-lg p-3 ">
           <div className="flex gap-2 flex-wrap">
             <ZoomRotateReset
               setZoom={setZoom}
@@ -371,7 +367,33 @@ const DwxViewer = ({ attachments = [] }: Props) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 h-screen w-full">
+      <div className="grid grid-cols-5 min-h-screen w-full mt-5">
+         <div className="col-span-1 bg-gray-200 border-l border-gray-400 overflow-y-auto">
+      <div className="p-3">
+        <div className="flex gap-2 flex-wrap">
+            <ZoomRotateReset
+              setZoom={setZoom}
+              setRotation={setRotation}
+              resetView={resetView}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+            />
+            <GridViewButton viewMode={viewMode} setViewMode={setViewMode} />
+            <MeasurementTool
+              measureMode={measureMode}
+              setMeasureMode={setMeasureMode}
+              clearMeasurements={clearMeasurements}
+              viewMode={viewMode}
+              zoom={zoom}
+            />
+          </div>
+         <AdjustmentPanel
+            adjustments={adjustments}
+            setAdjustments={setAdjustments}
+            resetAdjustments={resetAdjustments}
+          />
+          </div>
+          </div>
         <MainImageDisplay
           viewMode={viewMode}
           zoom={zoom}

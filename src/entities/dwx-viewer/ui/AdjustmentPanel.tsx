@@ -25,7 +25,7 @@ const AdjustmentPanel = ({
   };
   return (
     <div className=" overflow-y-auto ">
-      <div className="grid grid-cols-4 gap-4 items-center">
+      <div className="items-center">
         {/* Grayscale */}
         <Input
           label="Grayscale"

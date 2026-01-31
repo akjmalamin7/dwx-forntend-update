@@ -101,7 +101,7 @@ const PatientView = () => {
           />
         )}
 
-        <div className="hidden lg:block mt-6">
+        <div className="hidden lg:block mt-6">ফফফ
           {/* <XrayImages attachments={attachments} /> */}
           <DwxViewer attachments={attachments} />
           <ReportSubmissionForm patient_id={patient_id} />

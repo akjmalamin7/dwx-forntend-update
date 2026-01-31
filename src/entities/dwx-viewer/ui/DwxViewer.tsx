@@ -371,6 +371,8 @@ const DwxViewer = ({ attachments = [] }: Props) => {
          <div className="col-span-1 bg-gray-200 border-l border-gray-400 overflow-y-auto">
       <div className="p-3">
         <div className="flex gap-2 flex-wrap">
+
+          
             <ZoomRotateReset
               setZoom={setZoom}
               setRotation={setRotation}

@@ -1,5 +1,5 @@
 import { SelectCustomUser } from "@/features/select-custom-user";
-import { ControlInput } from "@/shared/ui";
+import { ControlInput, ControlledSelect } from "@/shared/ui";
 import { useFormContext } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
 import type { BILL_ENTRY_TYPE } from "../model/schema";
@@ -10,12 +10,33 @@ const BillEntryForm = () => {
     <Fragment>
       <SelectCustomUser control={control} name="user_id" label="User" />
 
-      <ControlInput
-        control={control}
-        size="sm"
+      
+      
+      <ControlledSelect
         label="Month"
-        placeholder="2025-01"
+        control={control}
         name="month"
+        options={[
+          { name: "2026-1", value: "2026-1" },
+          { name: "2026-2", value: "2026-2" },
+          { name: "2025-12", value: "2025-12" },
+          { name: "2025-11", value: "2025-11" },
+          { name: "2025-10", value: "2025-10" },
+          { name: "2025-9", value: "2025-9" },
+          { name: "2025-8", value: "2025-8" },
+          { name: "2025-7", value: "2025-7" },
+          { name: "2025-6", value: "2025-6" },
+          { name: "2025-5", value: "2025-5" },
+          { name: "2025-4", value: "2025-4" },
+          { name: "2025-3", value: "2025-3" },
+          { name: "2025-2", value: "2025-2" },
+          { name: "2025-1", value: "2025-1" },
+          { name: "2024-12", value: "2024-12" },
+          { name: "2024-11", value: "2024-11" },
+          { name: "2024-10", value: "2024-10" },
+          { name: "2024-9", value: "2024-9" },
+          { name: "2024-8", value: "2024-8" },
+        ]}
       />
 
       <ControlInput

@@ -27,18 +27,7 @@ const AdjustmentPanel = ({
    
     <div className=" overflow-y-auto ">
       <div className="  grid-cols-4 gap-4 items-center">
-        {/* Grayscale */}
-        <Input
-          label="Grayscale"
-          type="range"
-          min="0"
-          max="100"
-          value={String(adjustments.grayscale)}
-          onChange={(e) =>
-            handleAdjustmentChange("grayscale", Number(e.target.value))
-          }
-          className="h-auto!"
-        />
+       
 
         {/* Blur */}
         <Input
@@ -82,19 +71,7 @@ const AdjustmentPanel = ({
           className="h-auto!"
         />
 
-        {/* Hue Rotate */}
-
-        <Input
-          label="Hue Rotate"
-          type="range"
-          min="0"
-          max="360"
-          value={String(adjustments.hueRotate)}
-          onChange={(e) =>
-            handleAdjustmentChange("hueRotate", Number(e.target.value))
-          }
-          className="h-auto!"
-        />
+       
 
         {/* Opacity */}
 
@@ -124,19 +101,7 @@ const AdjustmentPanel = ({
           className="h-auto!"
         />
 
-        {/* Saturate */}
-
-        <Input
-          label="Saturate"
-          type="range"
-          min="0"
-          max="200"
-          value={String(adjustments.saturate)}
-          onChange={(e) =>
-            handleAdjustmentChange("saturate", Number(e.target.value))
-          }
-          className="h-auto!"
-        />
+       
 
         {/* Sepia */}
 

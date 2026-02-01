@@ -1,4 +1,5 @@
 import { ReportSubmissionForm } from "@/entities";
+import { useAuth } from "@/shared/hooks";
 import { Button, Input } from "@/shared/ui";
 import { type ChangeEvent, useState } from "react";
 import { createPortal } from "react-dom";
@@ -21,6 +22,7 @@ const XrayMobileImages = ({
   setActiveIndex,
   patient_id,
 }: XrayMobileModalProps) => {
+  const { role } = useAuth()
   const [filters, setFilters] = useState({
     exposure: 100,
     contrast: 100,
@@ -118,9 +120,8 @@ const XrayMobileImages = ({
       <div className="relative flex items-center justify-center mt-8">
         <button
           onClick={handlePrev}
-          className={`absolute left-2 z-20 p-4 text-3xl ${
-            activeIndex === 0 ? "opacity-10" : "opacity-100"
-          }`}
+          className={`absolute left-2 z-20 p-4 text-3xl ${activeIndex === 0 ? "opacity-10" : "opacity-100"
+            }`}
           disabled={activeIndex === 0}
         >
           <FaArrowLeft />
@@ -137,18 +138,19 @@ const XrayMobileImages = ({
 
         <button
           onClick={handleNext}
-          className={`absolute right-2 z-20 p-4  text-3xl ${
-            activeIndex === images.length - 1 ? "opacity-10" : "opacity-100"
-          }`}
+          className={`absolute right-2 z-20 p-4  text-3xl ${activeIndex === images.length - 1 ? "opacity-10" : "opacity-100"
+            }`}
           disabled={activeIndex === images.length - 1}
         >
           <FaArrowRight />
         </button>
       </div>
+      {
+        (role === "admin" || role === "user") ? "" : <div className="p-5">
+          <ReportSubmissionForm patient_id={patient_id} />
+        </div>
+      }
 
-      <div className="p-5">
-        <ReportSubmissionForm patient_id={patient_id} />
-      </div>
     </div>,
     document.body
   );

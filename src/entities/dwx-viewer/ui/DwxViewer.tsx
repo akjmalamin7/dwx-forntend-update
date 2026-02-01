@@ -210,7 +210,12 @@ const DwxViewer = ({ attachments = [] }: Props) => {
         e.deltaY < 0 ? Math.min(z + 0.1, 5) : Math.max(z - 0.1, 0.5),
       );
     } else {
-      e.deltaY < 0 ? handlePrev() : handleNext();
+      // FIX: Use a standard if-else here
+      if (e.deltaY < 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
     }
   };
 

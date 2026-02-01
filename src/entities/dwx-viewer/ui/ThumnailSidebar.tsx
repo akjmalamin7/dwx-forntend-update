@@ -17,7 +17,7 @@ const ThumnailSidebar = ({
   };
   return (
     <div className="col-span-1 bg-gray-200 border-l border-gray-400 overflow-y-auto">
-       <div className="p-3  h-[400px]">
+       <div className="p-3  h-[800px]">
   {/* Create rows of 4 thumbnails each */}
   {Array.from({ length: Math.ceil(images.length / 4) }).map(
     (_, rowIndex) => {

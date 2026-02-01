@@ -1,3 +1,5 @@
+ 
+
 interface Props {
   setZoom: React.Dispatch<React.SetStateAction<number>>;
   setRotation: React.Dispatch<React.SetStateAction<number>>;
@@ -22,7 +24,14 @@ const ZoomRotateReset = ({ setZoom, setRotation, resetView }: Props) => {
 
   return (
     <div>
+       <a href="#report-form"  className="p-2 bg-blue-600 text-white block text-center mb-2 hover:bg-blue-300 rounded transition-colors border border-gray-300">Write Report Comments</a>
       <div className="flex gap-2">
+
+      
+                     
+                   
+                
+
         <button
           onClick={handleZoomIn}
           className="p-2 bg-white hover:bg-gray-100 rounded transition-colors border border-gray-300"

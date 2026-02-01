@@ -5,6 +5,7 @@ interface Props {
   viewMode: number;
   zoom: number;
 }
+
 const MeasurementTool = ({
   measureMode,
   setMeasureMode,
@@ -29,24 +30,21 @@ const MeasurementTool = ({
         title="Measurement Tool"
         disabled={viewMode !== 1}
       >
+        {/* RULER / SCALE ICON */}
         <svg
           className="w-5 h-5"
+          viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          viewBox="0 0 24 24"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 12h3m3 0h3m3 0h3m3 0h3"
-          />
+          <rect x="3" y="6" width="18" height="12" rx="2" ry="2" />
+          <line x1="7" y1="6" x2="7" y2="12" />
+          <line x1="11" y1="6" x2="11" y2="10" />
+          <line x1="15" y1="6" x2="15" y2="12" />
+          <line x1="19" y1="6" x2="19" y2="10" />
         </svg>
       </button>
 

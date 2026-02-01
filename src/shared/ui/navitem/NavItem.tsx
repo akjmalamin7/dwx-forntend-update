@@ -91,7 +91,7 @@ const NavItem: React.FC<NavItemProps> = ({
 
   const hasChildren = children.length > 0;
   const isParentActive = children.some(
-    (child) => child.path && location.pathname.startsWith(child.path)
+    (child) => child.path && location.pathname.startsWith(child.path),
   );
 
   const sizeClass = SIZE_CLASSES[size];
@@ -147,6 +147,7 @@ const NavItem: React.FC<NavItemProps> = ({
     <NavLink
       to={path}
       onClick={handleMobileMenuToggle}
+      target={path === "https://www.dwxviewer.site/upload" ? "_blank" : "_self"}
       className={({ isActive }) => {
         const baseClasses = [
           BASE_NAV_CLASSES.container,

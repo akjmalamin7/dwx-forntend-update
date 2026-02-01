@@ -1,5 +1,4 @@
-import DwxViewer from "@/entities/dwx-viewer";
-import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
+import { CombineViewer } from "@/entities/combine-viewer";
 import { usePageTitle } from "@/shared/hooks";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Panel, PanelHeading } from "@/shared/ui";
@@ -13,7 +12,6 @@ import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
 const PatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
   const [visible, setVisible] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
   const {
     data: patient_view,
     isLoading: patientLoading,
@@ -22,7 +20,6 @@ const PatientView = () => {
 
   const patient = patient_view?.patient;
   const attachments = patient_view?.attachments;
-  console.log(patient_view);
   const DATA_TABLE: DataSource[] = useMemo(() => {
     if (!patient) return [];
 
@@ -42,17 +39,13 @@ const PatientView = () => {
       },
     ];
   }, [patient]);
-
+  const isDCM = patient?.rtype === "dcm";
   usePageTitle("View Patient", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
 
-  const original_urls = useMemo(
-    () => attachments?.map((att) => ({ src: att.original_url })),
-    [attachments],
-  );
   if (!patient_id) {
     return <div>Patient ID not found</div>;
   }
@@ -86,12 +79,17 @@ const PatientView = () => {
           />
         </div>
       )}
+      <CombineViewer
+        isDCM={isDCM}
+        attachments={attachments}
+        visible={visible}
+        setVisible={setVisible}
+      />
 
       {/* Image Viewer Section */}
       {/* Image Viewer Section */}
       {/* <XrayImages attachments={attachments || []} /> */}
-      <div className="hidden lg:block mt-6 gap-4">
-        {/* <XrayImages attachments={attachments} /> */}
+      {/* <div className="hidden lg:block mt-6 gap-4">
         <DwxViewer attachments={attachments} />
       </div>
 
@@ -123,8 +121,8 @@ const PatientView = () => {
         activeIndex={activeIndex}
         setActiveIndex={setActiveIndex}
         patient_id={patient_id}
-      />
-    </Panel >
+      /> */}
+    </Panel>
   );
 };
 

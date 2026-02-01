@@ -1,6 +1,4 @@
-import { ReportSubmissionForm } from "@/entities";
-import DwxViewer from "@/entities/dwx-viewer";
-import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
+import { CombineViewer } from "@/entities/combine-viewer";
 import { usePageTitle } from "@/shared/hooks";
 import {
   useBackToOtherApiMutation,
@@ -8,7 +6,7 @@ import {
 } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
 import { Button, Panel, PanelHeading } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
@@ -20,7 +18,6 @@ const PatientView = () => {
   const navigate = useNavigate();
 
   const [visible, setVisible] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)");
@@ -51,11 +48,7 @@ const PatientView = () => {
 
   const attachments = patient_view?.attachments;
   const patient = patient_view?.patient;
-
-  const original_urls = useMemo(
-    () => attachments?.map((att) => ({ src: att.original_url })),
-    [attachments],
-  );
+  const isDCM = patient_view?.patient?.rtype === "dcm";
 
   const handleBackToOtherList = async () => {
     if (!patient_id) return;
@@ -100,42 +93,11 @@ const PatientView = () => {
             border="bordered"
           />
         )}
-
-        <div className="hidden lg:block mt-6 gap-4">
-          {/* <XrayImages attachments={attachments} /> */}
-          <DwxViewer attachments={attachments} />
-          <div id='report-form'><ReportSubmissionForm patient_id={patient_id} /></div>
-        </div>
-
-        <div className="lg:hidden mt-6">
-          <h4 className="font-bold mb-3 text-gray-700">X-Ray Images</h4>
-          <div className="flex gap-3 flex-wrap">
-            {attachments?.map((img, i) => (
-              <div
-                key={i}
-                className="w-24 h-24 border rounded-md overflow-hidden cursor-pointer active:scale-95 transition-all shadow-sm"
-                onClick={() => {
-                  setActiveIndex(i);
-                  setVisible(true);
-                }}
-              >
-                <img
-                  src={img.small_url}
-                  className="w-full h-full object-cover"
-                  alt="Thumbnail"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <XrayMobileImages
-          isOpen={visible}
-          onClose={() => setVisible(false)}
-          images={original_urls ?? []}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
-          patient_id={patient_id}
+        <CombineViewer
+          isDCM={isDCM}
+          attachments={attachments}
+          visible={visible}
+          setVisible={setVisible}
         />
       </div>
     </Panel>

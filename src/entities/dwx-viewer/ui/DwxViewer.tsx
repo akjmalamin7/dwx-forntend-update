@@ -1,6 +1,5 @@
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
 import { useState } from "react";
-
 import AdjustmentPanel from "./AdjustmentPanel";
 import Annotation, {
   type AnnotationModel,
@@ -30,7 +29,6 @@ interface MeasurementModel {
   lengthPx: number;
   lengthMm: number;
 }
-
 interface Props {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
 }
@@ -93,7 +91,6 @@ const DwxViewer = ({ attachments = [] }: Props) => {
     setCurrentIndex(
       (prev) => (prev - 1 + effectiveImages.length) % effectiveImages.length,
     );
-
   const resetView = () => {
     setZoom(1);
     setRotation(0);

@@ -14,15 +14,15 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
 
   return (
     <div>
-      <Text element="p">Signature</Text>
+        <p className="font-semibold">Signature:</p> 
       <Text element="p">________________</Text>
 
       <div className="start">
-        <img src={signatureImg} alt="Logo" className="w-20 mr-4" />
-        <Text element="h4" size="xl">
+        <img src={signatureImg} alt="Logo" className="w-30 mr-4" />
+        <Text element="h4" size="xl" className="hidden">
           {signature?.name || ""}
         </Text>
-        <Text element="p" size="lg">
+        <Text element="p" size="2xl">
           {parse(DOMPurify.sanitize(String(signature?.address) || ""))}
         </Text>
         {passault === "Yes" ? (

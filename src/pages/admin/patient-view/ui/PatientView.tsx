@@ -21,10 +21,10 @@ const PatientView = () => {
         <PanelHeading
           title="Patient View"
           button="Back to Patient List"
-          path="/agent/patient-completed"
+          path="admin/patient"
         />
       }
-      size="lg"
+       size="xl"
     >
       <PatientInformation />
 

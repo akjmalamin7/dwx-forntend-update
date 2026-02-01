@@ -1,3 +1,5 @@
+import { useAuth } from "@/shared/hooks";
+
  
 
 interface Props {
@@ -22,9 +24,15 @@ const ZoomRotateReset = ({ setZoom, setRotation, resetView }: Props) => {
     setRotation((prev) => (prev + 90) % 360);
   };
 
+    const { role } = useAuth()
   return (
     <div>
-       <a href="#report-form"  className="p-2 bg-blue-600 text-white block text-center mb-2 hover:bg-blue-300 rounded transition-colors border border-gray-300">Write Report Comments</a>
+        {
+              (role === "admin" || role === "user") ? "" : <div className="p-5">
+                 <a href="#report-form"  className="p-2 bg-blue-600 text-white block text-center mb-2 hover:bg-blue-300 rounded transition-colors border border-gray-300">Write Report Comments</a>
+              </div>
+            }
+     
       <div className="flex gap-2">
 
       

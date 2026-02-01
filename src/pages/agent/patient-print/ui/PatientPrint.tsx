@@ -149,7 +149,7 @@ const PatientPrint = () => {
         <div className="after:content-[''] after:table after:clear-both"></div>
 
         {/* Prepared by + Signature Section */}
-        <div className="flex justify-between items-center mt-16 print:fixed print:bottom-0 print:left-0 print:right-0   print:mt-0">
+        <div className="flex justify-between items-center mt-16 /*print:fixed print:bottom-0*/ print:left-0 print:right-0   print:mt-10">
           <PrintDrSignature signature={signature} passault={passaultValue} />
           <PrintPreparedBy />
         </div>

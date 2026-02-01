@@ -40,7 +40,7 @@ const DwxViewer = ({ attachments = [] }: Props) => {
      BASIC STATE
      ========================= */
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.45);
   const [rotation, setRotation] = useState(0);
   const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
   const [viewMode, setViewMode] = useState(1);
@@ -92,7 +92,7 @@ const DwxViewer = ({ attachments = [] }: Props) => {
       (prev) => (prev - 1 + effectiveImages.length) % effectiveImages.length,
     );
   const resetView = () => {
-    setZoom(1);
+    setZoom(0.45);
     setRotation(0);
     setPanPosition({ x: 0, y: 0 });
   };
@@ -158,7 +158,8 @@ const DwxViewer = ({ attachments = [] }: Props) => {
         lengthPx,
         lengthMm: convertPxToMm(lengthPx),
       });
-    } else if (isDragging && zoom > 1) {
+    } else if (isDragging) {
+      // ✅ Removed zoom > 1 restriction — drag works at any zoom level
       setPanPosition({
         x: e.clientX - dragStart.x,
         y: e.clientY - dragStart.y,
@@ -210,7 +211,6 @@ const DwxViewer = ({ attachments = [] }: Props) => {
         e.deltaY < 0 ? Math.min(z + 0.1, 5) : Math.max(z - 0.1, 0.5),
       );
     } else {
-      // FIX: Use a standard if-else here
       if (e.deltaY < 0) {
         handlePrev();
       } else {

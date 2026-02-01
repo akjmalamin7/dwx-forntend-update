@@ -73,7 +73,8 @@ const MainImageDisplay = ({
   currentIndex,
   currentImage,
   measurements,
-  annotations, 
+  annotations,
+  isDragging,
   getImageFilters,
   getGridClass,
   getGridRows,
@@ -117,12 +118,13 @@ const MainImageDisplay = ({
           viewMode === 1 ? "" : "p-2"
         }`}
         style={{
+          // ✅ Updated cursor: grab/grabbing at any zoom, crosshair in tool modes
           cursor:
             measureMode || annotationMode
               ? "crosshair"
-              : zoom > 1
-                ? "move"
-                : "ns-resize",
+              : isDragging
+                ? "grabbing"
+                : "grab",
         }}
         onMouseDown={viewMode === 1 ? handleMouseDown : undefined}
         onMouseMove={viewMode === 1 ? handleMouseMove : undefined}
@@ -135,7 +137,7 @@ const MainImageDisplay = ({
             <img
               src={currentImage}
               alt="Patient Scan"
-              className="max-w-none select-none"
+              className="select-none"
               draggable={false}
               style={{
                 transform: `scale(${zoom}) rotate(${rotation}deg) translate(${panPosition.x / zoom}px, ${panPosition.y / zoom}px)`,
@@ -273,7 +275,7 @@ const MainImageDisplay = ({
             </svg>
 
             {/* NAV BUTTONS */}
-             <button
+            <button
               onClick={handlePrev}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full transition-colors border border-gray-300 shadow-lg pointer-events-auto"
               style={{ zIndex: 30 }}

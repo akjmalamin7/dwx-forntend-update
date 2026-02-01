@@ -11,35 +11,35 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
       <table className="w-full border border-black mb-4">
         <tbody>
           <tr>
-            <td className="border border-black px-2 py-1 w-1/3">
-              <Text element="label" className="font-semibold">
-                Patient ID:
+            <td className="border border-black px-2 py-1 w-1/3 text-xl">
+              <Text element="label" className="font-bold text-xl text-capitalize">
+                <strong className=" text-xl ">Patient ID:</strong>
               </Text>{" "}
-              {printPatient?.patient_id || "N/A"}
+             <span className="font-normal text-capitalize">{printPatient?.patient_id || "N/A"}</span>
             </td>
-            <td className="border border-black px-2 py-1 w-1/3" contentEditable>
-              <Text element="label" className="font-semibold">
-                Patient Name:
+            <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Patient Name:</strong>
               </Text>{" "}
               {printPatient?.name || "N/A"}
             </td>
-            <td className="border border-black px-2 py-1 w-1/3">
-              <Text element="label" className="font-semibold">
-                Age:
+            <td className="border border-black px-2 py-1 w-1/3  text-xl">
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Age:</strong>
               </Text>{" "}
               {printPatient?.age || "N/A"}
             </td>
           </tr>
           <tr>
-            <td className="border border-black px-2 py-1">
-              <Text element="label" className="font-semibold">
-                Date:{" "}
+            <td className="border border-black px-2 py-1 text-xl">
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Date: </strong>
               </Text>
               {formatDate(printPatient.createdAt)}
             </td>
-            <td className="border border-black px-2 py-1">
-              <Text element="label" className="font-semibold">
-                Print Time:{" "}
+            <td className="border border-black px-2 py-1 text-xl">
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Print Time: </strong>
               </Text>
               {new Date().toLocaleDateString("en-GB")}
               {", "}
@@ -48,9 +48,9 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
                 minute: "2-digit",
               })}
             </td>
-            <td className="border border-black px-2 py-1">
-              <Text element="label" className="font-semibold">
-                Sex:
+            <td className="border border-black px-2 py-1 text-xl">
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Sex:</strong>
               </Text>{" "}
               {printPatient?.gender || "N/A"}
             </td>
@@ -58,11 +58,11 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
           <tr>
             <td
               colSpan={3}
-              className="border border-black px-2 py-1"
+              className="border border-black px-2 py-1 text-xl"
               contentEditable
             >
-              <Text element="label" className="font-semibold">
-                Reference By:
+              <Text element="label" className="font-bold text-xl">
+                <strong className="text-xl ">Reference By:</strong>
               </Text>{" "}
               {printPatient?.ref_doctor || "N/A"}
             </td>

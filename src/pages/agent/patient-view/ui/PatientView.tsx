@@ -74,7 +74,7 @@ const PatientView = () => {
           path="/agent/patient-list"
         />
       }
-      size="lg"
+      size="xl"
     >
       {patient && (
         <div className="p-4">

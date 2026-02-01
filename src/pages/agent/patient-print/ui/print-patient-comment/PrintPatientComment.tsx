@@ -8,5 +8,5 @@ export const PrintPatientComment = ({ comments = [] }: IProps) => {
   const printComments = parse(
     DOMPurify.sanitize(String(comments[0]?.comments || ""))
   );
-  return <div contentEditable>{printComments}</div>;
+  return <div contentEditable className="text-2xl">{printComments}</div>;
 };

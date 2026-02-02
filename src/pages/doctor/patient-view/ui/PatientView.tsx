@@ -81,7 +81,7 @@ const PatientView = () => {
           }
         />
       }
-      size="xl"
+      size={isDCM ? "xl" : "lg"}
     >
       <div className="px-2 py-4">
         {patient && (

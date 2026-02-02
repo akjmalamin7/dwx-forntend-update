@@ -88,7 +88,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
       header={
         <PanelHeading title={title || "Select Doctor"} button=" " path=" " />
       }
-      size="lg"
+      size="xl"
     >
       <div className="md:container w-full mx-auto">
         <div className="mb-5">

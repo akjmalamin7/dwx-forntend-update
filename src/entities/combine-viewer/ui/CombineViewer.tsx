@@ -48,7 +48,7 @@ const CombineViewer = ({
           {attachments?.map((img, i) => (
             <div
               key={i}
-              className="w-24 h-24 border rounded-md overflow-hidden cursor-pointer active:scale-95 transition-all shadow-sm"
+              className="w-24 h-24 border rounded-md border-gray-300 overflow-hidden cursor-pointer active:scale-95 transition-all shadow-sm"
               onClick={() => {
                 setActiveIndex(i);
                 setVisible?.(true);

@@ -131,7 +131,7 @@ const XrayMobileImages = ({
           <img
             src={images[activeIndex]?.src}
             alt="Xray"
-            className="object-contain transition-all"
+            className="object-contain transition-all border border-gray-300 rounded-md mx-auto"
             style={imageFilterStyle}
           />
         </div>

@@ -21,6 +21,7 @@
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+  border: 2px solid #d7d5d5;
 }
 
 .gallery-item:hover {

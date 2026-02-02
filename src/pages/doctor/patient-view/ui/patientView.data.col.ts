@@ -17,17 +17,40 @@ export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
     title: "AGe",
     dataIndex: "age",
   },
-  {
-    key: "date",
-    title: "Date",
-    dataIndex: "date",
+ {
+  key: "date",
+  title: "Date",
+  dataIndex: "createdAt",
+  render: (value: unknown) => {
+    if (!value) return "-";
+
+    const date =
+      value instanceof Date ? value : new Date(String(value));
+
+    return date.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   },
-  {
-    key: "history",
-    title: "History",
-    dataIndex: "history",
-        render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
-  },
+},
+
+ {
+  key: "history",
+  title: "History",
+  dataIndex: "history",
+  render: (value: unknown) =>
+    parse(
+      DOMPurify.sanitize(
+        `<span style="color:red;font-size:26px;font-weight:500">
+          ${String(value || "")}
+        </span>`
+      )
+    ),
+},
   {
     key: "sex",
     title: "Sex",

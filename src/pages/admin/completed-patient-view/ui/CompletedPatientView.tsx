@@ -81,7 +81,7 @@ const CompletedPatientView = () => {
           path="/agent/patient-completed"
         />
       }
-      size="lg"
+      size="xl"
     >
       <PatientInformation />
       <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">

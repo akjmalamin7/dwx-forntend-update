@@ -23,7 +23,11 @@ export const BillListApi = apiSlice.injectEndpoints({
         url: `/agent/bill/${month}`,
         method: "GET",
       }),
-      providesTags: ["PrintBillByMonth"],
+      providesTags: (_result, _error, month) => [
+        "PrintBillByMonth",
+        { type: "PrintBillByMonth", id: month },
+      ],
+      keepUnusedDataFor: 0,
     }),
   }),
 });

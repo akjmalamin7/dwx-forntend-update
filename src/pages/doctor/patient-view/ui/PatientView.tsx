@@ -94,6 +94,7 @@ const PatientView = () => {
           />
         )}
         <CombineViewer
+          patient_id={patient_id}
           isDCM={isDCM}
           attachments={attachments}
           visible={visible}

@@ -26,7 +26,8 @@ const BillPrint = () => {
     month: transformBill?.month || "N/A",
     printDate: new Date().toLocaleDateString("en-GB") || "N/A",
     to: transformBill?.user_id?.name || "N/A",
-    status: transformBill?.status,
+    address: transformBill?.user_id?.address || "N/A",
+    status: transformBill?.status || "N/A",
   };
 
   const getSafeNumber = (obj: unknown, key: string): number => {
@@ -63,7 +64,8 @@ const BillPrint = () => {
   const paymnetMethod = useMemo(() => {
     return (
       paymentGetway?.data?.map((method) => ({
-        name: `${method.details} (${method.name})`,
+        //name: `${method.details} (${method.name})`,
+        name: `(${method.name})`,
         value: method.details,
       })) ?? []
     );
@@ -123,10 +125,13 @@ const BillPrint = () => {
         </BillingInformation>
 
         <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none print:opacity-100 opacity-20 text-6xl font-bold  text-green-300"
+          className="absolute inset-0 flex items-center justify-center
+                    -translate-y-4 pointer-events-none
+                    print:opacity-100 opacity-20
+                    text-6xl font-bold text-green-300"
           style={{ zIndex: 0 }}
         >
-          {transformBill?.status == "Paid" ? "Paid" : "Un-paid"}
+          {transformBill?.status === "Paid" ? "Paid" : "Un-paid"}
         </div>
 
         <div className="after:content-[''] after:table after:clear-both"></div>

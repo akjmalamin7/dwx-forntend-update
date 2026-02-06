@@ -13,6 +13,7 @@ interface TextProps {
     | "h6"
     | "p"
     | "span"
+    | "div"
     | "strong"
     | "label"
     | "del";
@@ -45,9 +46,9 @@ const Text = ({
 
   const sizeClasses = {
     sm: "text-[12px]",
-    md: "text-[12px] md:text-[14px]",
-    lg: "text-[14px] md:text-[16px]",
-    xl: "text-[16px] md:text-[20px]",
+    md: "text-[16px] md:text-[18px]",
+    lg: "text-[16px] md:text-[18px]",
+    xl: "text-[18px] md:text-[20px]",
     "2xl": "text-[20px] md:text-[28px]",
     "3xl": "text-[26px] lg:text-[36px]",
   }[size];

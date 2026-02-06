@@ -360,7 +360,7 @@ export const MENU_DATA: MenuType[] = [
     ],
   },
   {
-    id: "admin-6",
+    id: "admin-9",
     role: [RoleEnum.admin],
     title: "Software",
     icon: <IoIosSend />,

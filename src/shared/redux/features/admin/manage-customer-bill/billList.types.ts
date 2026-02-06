@@ -5,6 +5,8 @@ export interface BILL_USER {
   multiple: number;
   ecg: number;
   email: string;
+  name: string;
+  address: string;
   id: string;
 }
 export interface BILL_MODEL {

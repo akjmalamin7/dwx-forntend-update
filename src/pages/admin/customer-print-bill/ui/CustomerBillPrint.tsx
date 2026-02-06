@@ -23,8 +23,9 @@ const CustomerBillPrint = () => {
   const billingHeaderData = { 
     month: transformBill?.month || "N/A",
     printDate: new Date().toLocaleDateString("en-GB") || "N/A", 
-    to: transformBill?.user_id?.email || "N/A", 
+    to: transformBill?.user_id?.name || "N/A", 
     status: transformBill?.status,
+    address: transformBill?.user_id?.address || "N/A",
   };
 
   const getSafeNumber = (obj: unknown, key: string): number => {
@@ -61,7 +62,8 @@ const CustomerBillPrint = () => {
     const paymnetMethod = useMemo(() => {
       return (
         paymentGetway?.data?.map((method) => ({
-          name: `${method.details} (${method.name})`,
+         // name: `${method.details} (${method.name})`,
+          name: ` (${method.name})`,
           value: method.details,
         })) ?? []
       );

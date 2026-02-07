@@ -55,21 +55,35 @@ const QuickSendReprt = () => {
     },
   });
 
+
+    const normalizeGender = (gender?: string) => {
+      if (!gender) return "male";  
+
+      const g = gender.toLowerCase().trim();
+
+      if (g === "m" || g === "male") return "male";
+      if (g === "f" || g === "female") return "female";
+
+      return "male"; 
+  };
+
   const handleParsed = (data: ParsedPatientData) => {
+    console.log("Parsed Data:", data);
     setValue("patient_id", data.patient_id);
     setValue("name", data.name);
     setValue("age", data.age);
-    setValue(
-      "gender",
-      data.gender.toLowerCase() === "female" ? "female" : "male"
-    );
+    setValue("gender", normalizeGender(data.gender));
+   
     setValue("xray_name", data.xray_name);
   };
   const onSubmit = handleSubmit(async (data) => {
+ 
     try {
+     
       await createSendReport(data).unwrap();
       setResetCount((prev) => prev + 1);
       reset();
+      
     } catch (err: unknown) {
       console.error("Error creating patient:", err);
     }

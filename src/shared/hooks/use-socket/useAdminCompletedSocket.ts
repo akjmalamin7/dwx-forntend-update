@@ -72,6 +72,40 @@ export const useAdminCompletedSocket = ({
         }
         break;
       }
+
+      case "completed_back": {
+        setDeletedPatientIds((prev) => new Set(prev).add(payload._id));
+        setRealtimePatients((prev) =>
+          prev.filter((p) => p._id !== payload._id)
+        );
+        break;
+      }
+      case "update_patient":
+       case "update_print_status": {
+        if (payload.status !== "completed") break;
+
+        const completed = toCompleted(payload as ADMIN_PENDING_PATIENT_MODEL);
+
+        setRealtimePatients((prev) => {
+          const exists = prev.some((p) => p._id === completed._id);
+
+          if (exists) {
+            return prev.map((p) =>
+              p._id === completed._id
+                ? { ...p, ...completed, lastUpdated: Date.now() }
+                : p
+            );
+          }
+
+          if (page === 1) {
+            return [...prev, { ...completed }];
+          }
+
+          return prev;
+        });
+        break;
+      }
+      
       case "update_print_status": {
         setRealtimePatients((prev) => {
           const exists = prev.some((p) => p._id === payload._id);
@@ -116,37 +150,7 @@ export const useAdminCompletedSocket = ({
         break;
       }
 
-      case "completed_back": {
-        setDeletedPatientIds((prev) => new Set(prev).add(payload._id));
-        setRealtimePatients((prev) =>
-          prev.filter((p) => p._id !== payload._id)
-        );
-        break;
-      }
-      case "update_patient": {
-        if (payload.status !== "completed") break;
-
-        const completed = toCompleted(payload as ADMIN_PENDING_PATIENT_MODEL);
-
-        setRealtimePatients((prev) => {
-          const exists = prev.some((p) => p._id === completed._id);
-
-          if (exists) {
-            return prev.map((p) =>
-              p._id === completed._id
-                ? { ...p, ...completed, lastUpdated: Date.now() }
-                : p
-            );
-          }
-
-          if (page === 1) {
-            return [...prev, { ...completed }];
-          }
-
-          return prev;
-        });
-        break;
-      }
+      
 
       default:
     }

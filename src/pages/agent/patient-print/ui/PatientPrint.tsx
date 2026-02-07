@@ -4,7 +4,7 @@ import {
   useGetAgentPatientPrintQuery,
   useUpdateAgentPatientPrintStatusMutation,
 } from "@/entities/agent/agent-print-patient";
-import { Button, Input, Panel, PanelHeading, Text } from "@/shared/ui";
+import { Button, Input, Panel, PanelHeading } from "@/shared/ui";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
@@ -133,16 +133,15 @@ const PatientPrint = () => {
         {/* Table */}
         <PrintPatientInfo printPatient={printPatient} />
 
-        <Text
-          element="h2"
-          textAlign="center"
-          textDecoration="underline"
-          size="3xl"
-          fontWeight="bold"
-          className="mb-4 font-bold uppercase"
+       
+<div  contentEditable>
+        <h1     
+          className="mb-4 font-bold text-3xl uppercase text-center underline"
+         
         >
           {rtype} Report of {xrayName}
-        </Text>
+        </h1>
+        </div>
 
         <PrintPatientComment comments={comments || []} />
 

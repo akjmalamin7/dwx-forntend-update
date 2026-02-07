@@ -23,7 +23,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
               </Text>{" "}
               {printPatient?.name || "N/A"}
             </td>
-            <td className="border border-black px-2 py-1 w-1/3  text-xl">
+            <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-xl ">Age:</strong>
               </Text>{" "}
@@ -48,7 +48,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
                 minute: "2-digit",
               })}
             </td>
-            <td className="border border-black px-2 py-1 text-xl">
+            <td className="border border-black px-2 py-1 text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-xl ">Sex:</strong>
               </Text>{" "}

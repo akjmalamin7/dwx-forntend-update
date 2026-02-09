@@ -1,5 +1,6 @@
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";
-
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 export const PATIENT_DATA_COL: Columns<DataSource>[] = [
   {
     key: "sl",
@@ -17,10 +18,11 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
   },
   {
     key: "start_time",
-    title: "C.Time",
+    title: "S.T - C.time",
     dataIndex: "start_time",
     align: "start",
-    width: 30,
+    width: 60,
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
 
   {

@@ -46,7 +46,11 @@ const CompletedPatients = () => {
       mergedPatientData?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.completed_time).toLocaleString([], {
+         start_time: new Date(item.createdAt).toLocaleString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }) + " <br/> " + new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,

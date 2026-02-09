@@ -8,7 +8,7 @@ export interface ADMIN_ARCHIVE_DOCTOR_MODEL {
   _id: string;
   agent_id: ADMIN_ARCHIVE_DOCTOR;
   doctor_id: ADMIN_ARCHIVE_DOCTOR[];
-  completed_dr: ADMIN_ARCHIVE_DOCTOR[];
+  completed_dr: ADMIN_ARCHIVE_DOCTOR; 
   ignore_dr: ADMIN_ARCHIVE_DOCTOR[];
   patient_id: string;
   name: string;

@@ -12,7 +12,7 @@ const DeleteRerence = ({ id, onDeleteSuccess }: IProps) => {
   const handleDelete = async () => {
     if (!id) return;
     try {
-      console.log(id);
+       
       await deleteReference(id).unwrap();
       setIsModalOpen(false);
       if (onDeleteSuccess) {
@@ -20,7 +20,7 @@ const DeleteRerence = ({ id, onDeleteSuccess }: IProps) => {
       }
     } catch (error) {
       console.error("Delete failed:", error);
-      console.log("Full error object:", JSON.stringify(error, null, 2));
+       
     }
   };
   return (

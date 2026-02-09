@@ -42,7 +42,7 @@ const EditUser = () => {
   });
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      console.log(data);
+     
       await updateUser({ id, data }).unwrap();
       navigate(0);
       setResetCount((prev) => prev + 1);

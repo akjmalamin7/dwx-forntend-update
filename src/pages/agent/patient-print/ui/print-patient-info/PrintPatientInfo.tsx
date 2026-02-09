@@ -13,19 +13,19 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
           <tr>
             <td className="border border-black px-2 py-1 w-1/3 text-xl">
               <Text element="label" className="font-bold text-xl text-capitalize">
-                <strong className=" text-xl ">Patient ID:</strong>
+                <strong className=" text-2xl ">Patient ID:</strong>
               </Text>{" "}
              <span className="font-normal text-capitalize">{printPatient?.patient_id || "N/A"}</span>
             </td>
             <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Patient Name:</strong>
+                <strong className="text-2xl ">Patient Name:</strong>
               </Text>{" "}
               {printPatient?.name || "N/A"}
             </td>
             <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Age:</strong>
+                <strong className="text-2xl ">Age:</strong>
               </Text>{" "}
               {printPatient?.age || "N/A"}
             </td>
@@ -33,13 +33,13 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
           <tr>
             <td className="border border-black px-2 py-1 text-xl">
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Date: </strong>
+                <strong className="text-2xl ">Date: </strong>
               </Text>
               {formatDate(printPatient.createdAt)}
             </td>
             <td className="border border-black px-2 py-1 text-xl">
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Print Time: </strong>
+                <strong className="text-2xl ">Print Time: </strong>
               </Text>
               {new Date().toLocaleDateString("en-GB")}
               {", "}
@@ -50,7 +50,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
             </td>
             <td className="border border-black px-2 py-1 text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Sex:</strong>
+                <strong className="text-2xl ">Sex:</strong>
               </Text>{" "}
               {printPatient?.gender || "N/A"}
             </td>

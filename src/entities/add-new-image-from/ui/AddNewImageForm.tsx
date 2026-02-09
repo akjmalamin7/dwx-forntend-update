@@ -22,7 +22,7 @@ const AddNewImageForm = () => {
     mode: "onChange",
   });
   const attachments = watch("attachment");
-  console.log(watch());
+ 
   const hasImages = Array.isArray(attachments) && attachments.length > 0;
   const handleOnSubmit = handleSubmit(async (values) => {
     try {

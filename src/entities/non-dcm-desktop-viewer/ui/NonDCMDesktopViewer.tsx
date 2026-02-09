@@ -17,7 +17,7 @@ const NonDCMDesktopViewer = ({
     () => attachments?.map((att) => ({ src: att.original_url })),
     [attachments],
   );
-  console.log("attachments", original_urls);
+   
   const small_urls = useMemo(
     () => attachments?.map((att) => ({ src: att.small_url })),
     [attachments],

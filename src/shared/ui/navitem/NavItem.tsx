@@ -198,7 +198,7 @@ const NavItem: React.FC<NavItemProps> = ({
 
     return (
       <div
-        className="relative border-b border-b-[#f7f7f770] lg:border-b-transparent!"
+        className="relative border-b border-b-[#f7f7f770] lg:border-b-transparent"
         onClick={(e) => e.stopPropagation()}
         ref={dropdownRef}
       >

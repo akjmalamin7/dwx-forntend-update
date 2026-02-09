@@ -23,7 +23,7 @@ export const useAdminCompletedSocket = ({
 
   const lastProcessedRef = useRef<WSMessage | null>(null);
   const { lastMessage } = useSocket<WSMessage>(wsUrl, 5000);
-  const normalizeCompletedPatient = (
+  /*const normalizeCompletedPatient = (
     payload: ADMIN_PENDING_PATIENT_MODEL
   ): ADMIN_COMPLETED_PATIENTS_MODEL => {
     return {
@@ -37,6 +37,7 @@ export const useAdminCompletedSocket = ({
       completed_time: payload.completed_time ?? new Date().toISOString(),
     } as ADMIN_COMPLETED_PATIENTS_MODEL;
   };
+  */
   const toCompleted = (
     payload: ADMIN_PENDING_PATIENT_MODEL
   ): ADMIN_COMPLETED_PATIENTS_MODEL => ({
@@ -106,7 +107,7 @@ export const useAdminCompletedSocket = ({
         break;
       }
       
-      case "update_print_status": {
+     /* case "update_print_status": {
         setRealtimePatients((prev) => {
           const exists = prev.some((p) => p._id === payload._id);
 
@@ -140,7 +141,7 @@ export const useAdminCompletedSocket = ({
         });
         break;
       }
-
+*/
       case "delete_patient":
       case "patient_deleted": {
         setDeletedPatientIds((prev) => new Set(prev).add(payload._id));

@@ -33,7 +33,7 @@ const XrayDoctorList = () => {
   // Map data properly
   const DATA_TABLE = useMemo<DataSource[]>(() => {
     if (!doctorList?.data) return [];
-    console.log(doctorList.data);
+   
     return doctorList.data.map((item, index) => ({
       key: item._id,
       sl: (page - 1) * limit + index + 1,

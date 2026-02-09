@@ -113,7 +113,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
   const patient = response.data;
   const attachments = response.data.attachments ?? [];
   const doctorComments = response?.data?.doctorComments;
-  console.log(doctorComments);
+ 
 
   if (!patient || !patient._id) {
     console.error("Invalid patient response:", response);

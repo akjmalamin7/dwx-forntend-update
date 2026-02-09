@@ -12,8 +12,7 @@ const PrivateRoutes = ({ allowedRoles }: RoleProtectedProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (!user?.role || !allowedRoles.includes(user.role)) {
-    console.log(`User role "${user?.role}" not in allowed roles:`, allowedRoles);
+  if (!user?.role || !allowedRoles.includes(user.role)) { 
     return <Navigate to="/unauthorized" replace />;
   }
 

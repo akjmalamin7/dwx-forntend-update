@@ -19,7 +19,7 @@ const DeleteSoftware = ({ id, onDeleteSuccess }: IProps) => {
       }
     } catch (error) {
       console.error("Delete failed:", error);
-      console.log("Full error object:", JSON.stringify(error, null, 2));
+      
     }
   };
   return (

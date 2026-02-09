@@ -58,7 +58,7 @@ const CustomerPayBill = () => {
         ...data,
         user_id: transformBill?.user_id?._id,
       };
-      console.log("Payload Sending:", finalData);
+      
       await createBillPayment(finalData).unwrap();
       reset();
     } catch (err: unknown) {

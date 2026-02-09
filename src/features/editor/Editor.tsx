@@ -25,6 +25,29 @@ const Editor = ({
       height: 400,
       toolbarAdaptive: false,
       toolbarButtonSize: "middle" as const,
+
+       // ⭐ Add this part
+    style: {
+      fontSize: "20px",   // default text size inside editor
+      fontFamily: "Arial, sans-serif"
+    },
+
+    // ⭐ Control font size dropdown values
+    controls: {
+      fontsize: {
+        list: {
+          12: "12",
+          14: "14",
+          16: "16",
+          18: "18",
+          20: "20",
+          24: "24",
+          28: "28",
+          32: "32"
+        }
+      }
+    },
+
       buttons: [
         "bold",
         "italic",

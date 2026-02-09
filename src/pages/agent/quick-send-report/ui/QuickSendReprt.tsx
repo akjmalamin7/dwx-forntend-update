@@ -68,7 +68,7 @@ const QuickSendReprt = () => {
   };
 
   const handleParsed = (data: ParsedPatientData) => {
-    console.log("Parsed Data:", data);
+ 
     setValue("patient_id", data.patient_id);
     setValue("name", data.name);
     setValue("age", data.age);

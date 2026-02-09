@@ -7,7 +7,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "SL",
     dataIndex: "sl",
     align: "center",
-    width: 50,
+    width: 10,
   },
   
   {
@@ -15,14 +15,14 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "agent_name",
     key: "agent_name",
     align: "start",
-    width: 80,
+    width: 30,
   },
   {
     key: "start_time",
     title: "S.T - C.Time",
     dataIndex: "start_time",
     align: "start",
-    width: 60,
+    width: 30,
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
 
@@ -31,14 +31,14 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "P.ID",
     dataIndex: "patient_id",
     align: "start",
-    width: 40,
+    width: 10,
   },
   {
     key: "patient_name",
     title: "P.Name",
     dataIndex: "patient_name",
     align: "start",
-    width: 130,
+    width: 100,
   },
 
   {
@@ -46,7 +46,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Age",
     dataIndex: "age",
     align: "start",
-    width: 20,
+    width: 10,
   },
 
   {
@@ -54,27 +54,27 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Xray name",
     dataIndex: "xray_name",
     align: "start",
-    width: 150,
+    width: 40,
   },
   {
     key: "completed_dr",
     title: "Rep. By",
     dataIndex: "completed_dr",
     align: "start",
-    width: 70,
+    width: 30,
   },
   {
     key: "status",
     title: "Status",
     dataIndex: "status",
     align: "start",
-    width: 70,
+    width: 10,
   },
   {
     key: "action",
     title: "Action",
     dataIndex: "action",
     align: "end",
-    width: 100,
+    width: 130,
   },
 ];

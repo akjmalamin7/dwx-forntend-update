@@ -31,32 +31,39 @@ const CustomerBillRequestList = () => {
 
   const DATA_TABLE = useMemo(
     () =>
-      billList?.data?.map((item, index) => ({
-        key: item._id,
-        sl: (page - 1) * limit + index + 1,
-        month: item.month,
-        customer: item.user_id.email,
-        total_patients: item.total_patients,
-        total_amount: item.total_amount,
-        status: item.status,
-        paid_amount: item.paid_amount,
-        payment_date: item.payment_date
-          ? new Date(item.payment_date).toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })
-          : "—",
-        received_number:  item.received_number
-        ? item.received_number
-            .replace(/<[^>]*>/g, "")
-            .replace(/&nbsp;/g, "")
-            .trim()
-        : "—",
-        action: "",
-      })) || [],
+      billList?.data?.map((item, index) => {
+        const baseAmount = item.total_amount ?? 0;
+        const charge = baseAmount * 0.018; // 1.8% charge
+        const totalWithCharge = baseAmount + charge;
+
+        return {
+          key: item._id,
+          sl: (page - 1) * limit + index + 1,
+          month: item.month,
+          customer: item.user_id.email,
+          total_patients: item.total_patients,
+
+          // ✅ total including charge
+          total_amount: totalWithCharge.toFixed(2),
+
+          status: item.status,
+          paid_amount: item.paid_amount,
+          payment_date: item.payment_date
+            ? new Date(item.payment_date).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+            : "—",
+          received_number: item.received_number
+            ? item.received_number.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, "").trim()
+            : "—",
+          action: "",
+        };
+      }) || [],
     [billList?.data, limit, page]
   );
+
 
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
     if (item.key === "action") {

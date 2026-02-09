@@ -46,20 +46,18 @@ const PatientCompleted = () => {
     () =>
       mergedPatientData?.map((item, index) => ({
         key: item._id,
-        sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.createdAt).toLocaleString([], {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
+        sl: (page - 1) * limit + index + 1, 
+
+         start_time: new Date(item.createdAt).toLocaleString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }) + " <br/> " + new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
         }),
-        end_time: new Date(item.completed_time).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
+
         patient_age: item.age,
         patient_name: item.name,
         patient_id: item.patient_id,

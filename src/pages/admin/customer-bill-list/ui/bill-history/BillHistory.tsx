@@ -51,7 +51,7 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
               
              
                 <Link
-                  to={`/admin/customer-print-bill/${item.key}`}
+                  to={`/admin/customer-print-bill/${record.key}`}
                   className="bg-green-500 text-white px-4 py-2 text-sm rounded"
                 >
                   Print
@@ -60,7 +60,7 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
   
               
                 <Link
-                  to={`/admin/customer-pay-bill/${item.key}`}
+                  to={`/admin/customer-pay-bill/${record.key}`}
                   className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
                 >
                   Pay
@@ -69,7 +69,7 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
   
                 { record.status === "Waiting" && (
                 <Link
-                  to={`/admin/customer-pay-bill/${item.key}`}
+                  to={`/admin/customer-pay-bill/${record.key}`}
                   className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
                 >
                   Accept

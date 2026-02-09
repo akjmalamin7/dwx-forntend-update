@@ -71,7 +71,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                   key={column.key}
                   style={{ width: column.width ? `${column.width}px` : "auto" }}
                   className={classNames(
-                    "px-3 py-2 bg-grray-100",
+                    "px-1 py-1 bg-grray-100",
                     borderClasses
                   )}
                 >

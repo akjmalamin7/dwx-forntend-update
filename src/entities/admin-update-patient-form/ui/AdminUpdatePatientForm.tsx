@@ -54,7 +54,7 @@ const AdminUpdatePatientForm = () => {
     try {
       const submitData = {
         attachment: values.attachment,
-        small_url: values.attachment,
+        small_url: values.small_url,
         history: values.history,
         xray_name: values.xray_name,
         name: values.name,
@@ -66,7 +66,9 @@ const AdminUpdatePatientForm = () => {
         ref_doctor: patient?.ref_doctor,
         image_type: patient?.image_type || "Single",
       };
-      await adminUpdatePatient({
+
+      console.log("Submitting data:", submitData);
+     await adminUpdatePatient({
         patient_id,
         data: submitData,
       }).unwrap();
@@ -148,15 +150,7 @@ const AdminUpdatePatientForm = () => {
             control={control}
             isInputLabel={false}
           />
-          {/* X-ray Name*/}
-          <ControlInput
-            label="Name"
-            placeholder="Name"
-            size="sm"
-            name="name"
-            control={control}
-            isInputLabel={false}
-          />
+        
           <ControlledSelect
             control={control}
             name="rtype"

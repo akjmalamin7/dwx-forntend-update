@@ -78,7 +78,7 @@ const PatientPending = () => {
         agent_name: item.agent_id?.email || "N/A",
         patient_name: item.name || "Unknown",
         patient_id: item.patient_id || "N/A",
-        gender: item.gender || "N/A",
+        gender: item.gender || "N/A" + (item.age ? ` (${item.age})` : ""),
         age: item.age || "N/A",
         rtype: item.rtype || "N/A",
 

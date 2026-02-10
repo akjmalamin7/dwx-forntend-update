@@ -23,7 +23,7 @@ const Header = () => {
   }));
 
   const headerClasses = `
-  bg-green-500 text-white flex-col lg:flex-row lg:flex lg:flex-wrap lg:justify-center
+  bg-green-500 headerMain text-white flex-col lg:flex-row lg:flex lg:flex-wrap lg:justify-center
   fixed lg:relative w-[400px] lg:w-full h-full lg:h-auto top-0 z-[9999]  
   transition-all duration-300 ease-in-out
   ${isToggle ? "left-0" : "-left-[100%]"}

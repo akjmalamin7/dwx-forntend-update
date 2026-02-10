@@ -107,7 +107,7 @@ const CustomerBillPrint = () => {
       >
         <Button
           onClick={handlePrint}
-          className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"
+          className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden pabelButton"
         >
           Print Bill
         </Button>

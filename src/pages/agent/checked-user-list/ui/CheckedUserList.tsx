@@ -16,6 +16,7 @@ const CheckedUserList = () => {
     refetch,
   } = useGetCheckedUserListQuery();
 
+  console.log(ReferenceList);
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>

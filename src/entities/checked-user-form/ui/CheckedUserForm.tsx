@@ -38,7 +38,7 @@ const CheckedUserForm = ({
   const {
     control,
     reset,
-    formState: { isValid },
+    formState: {   },
   } = methods;
   useEffect(() => {
     if (defaultValues && isEdit) {
@@ -58,9 +58,10 @@ const CheckedUserForm = ({
   }, [isEdit, resetCount, reset]);
 
   const handleSubmit: SubmitHandler<CheckedUserFormValues> = async (data) => {
+    console.log(data);
     try {
-      const result = await onSubmit(data);
-      console.log(result);
+      await onSubmit(data);
+     
       if (!isEdit) {
         reset();
       }
@@ -104,8 +105,7 @@ const CheckedUserForm = ({
             size="size-2"
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            loading={isLoading}
-            disabled={!isValid}
+            loading={isLoading} 
           >
             {isLoading ? "Submitting..." : "Submit"}
           </Button>

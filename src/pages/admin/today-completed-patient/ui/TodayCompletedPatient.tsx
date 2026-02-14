@@ -45,6 +45,7 @@ const TodayCompletedPatient = () => {
 
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name,
+        printstatus: item.printstatus,
         action: "",
       })) || [],
     [patientList?.data, limit, page]

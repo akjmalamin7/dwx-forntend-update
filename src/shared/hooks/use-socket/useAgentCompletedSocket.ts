@@ -83,6 +83,16 @@ export const useAgentCompedPatientSocket = ({
 
     switch (type) {
       case "submit_patient": {
+
+         const mapped = mapAdminToAgentCompleted(
+            payload as ADMIN_COMPLETED_PATIENTS_MODEL
+          );
+
+          // Only append if logged-in agent matches
+          if (!user?.id || mapped.agent_id !== user.id) {
+            return;
+          }
+          
         setDeletedPatientIds((prev) => {
           const updated = new Set(prev);
           updated.delete(payload._id);

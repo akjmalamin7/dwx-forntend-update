@@ -185,7 +185,7 @@ const ReportSubmissionForm = ({
           </Text>
         </label>
 
-        <Input type="hidden" {...register("passault")} />
+        <Input type="text" {...register("passault")} />
 
         <div className="mt-4">
           <Button

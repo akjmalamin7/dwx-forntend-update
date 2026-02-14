@@ -18,7 +18,7 @@ const SendXrayReport = () => {
       rtype: "xray",
       study_for: "xray_dr",
     };
-
+ 
     try {
       await createSendReport(finalData).unwrap();
       setResetCount((prev) => prev + 1);

@@ -5,6 +5,7 @@ import { useAddCheckedUserMutation } from "@/shared/redux/features/agent/checked
 import { Panel, PanelHeading } from "@/shared/ui";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 const CheckedUserAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -14,6 +15,13 @@ const CheckedUserAdd = () => {
     try {
       await createCheckedUser(data).unwrap();
       setResetCount((prev) => prev + 1);
+
+       // Success toast
+      toast.success("Data submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -21,6 +29,12 @@ const CheckedUserAdd = () => {
       } else {
         console.error("Error creating patient:", String(err));
       }
+
+       // Error toast
+        toast.error("Failed to submit report. Please try again.", {
+          duration: 2000,
+          position: "top-right",
+        });
     }
   };
 
@@ -31,6 +45,8 @@ const CheckedUserAdd = () => {
     });
 
   return (
+     <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading
@@ -46,6 +62,7 @@ const CheckedUserAdd = () => {
         resetCount={resetCount}
       />
     </Panel>
+    </>
   );
 };
 

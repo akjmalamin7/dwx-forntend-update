@@ -39,8 +39,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
 
   return (
     <div>
-        <p className="font-semibold">Signature:</p> 
-      <Text element="p">________________</Text>
+        <p className="font-semibold">Signature:</p>  
 
       <div className="start">
         <img src={signatureImg} alt="Logo" className="w-30 mr-4" />

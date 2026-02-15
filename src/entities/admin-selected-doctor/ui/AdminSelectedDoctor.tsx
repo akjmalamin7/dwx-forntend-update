@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
 import DoctorList from "./DoctorList";
 interface CProps {
   title?: string;
@@ -60,10 +62,23 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
     if (!patient_id) return;
     try {
       await selectdDoctor({ id: patient_id, data });
+
+       // Success toast 
+        toast.success("Selected Doctor updated successfully!", {
+          duration: 2000,
+          position: "top-right",
+        });
+        
       navigate("/admin/patient");
+
       //navigate(0)
     } catch (err) {
       console.error(err);
+        // Error toast
+        toast.error("Failed to update selected doctor. Please try again.", {
+          duration: 2000,
+          position: "top-right",
+        });
     }
   });
   const handleUncheckedSelectedDoctor = () => {
@@ -84,6 +99,8 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
   if (!patient && !patientLoading) return <div>No patient data found</div>;
 
   return (
+    <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading title={title || "Select Doctor"} button=" " path=" " />
@@ -144,6 +161,7 @@ const AdminSelectedDoctor = ({ title }: CProps) => {
         </Button>
       </div>
     </Panel>
+    </>
   );
 };
 

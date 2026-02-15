@@ -7,6 +7,7 @@ import { DoctorForm } from "@/widgets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddUser = () => {
   const [createUser, { isLoading }] = useAddAdminUserMutation();
@@ -38,9 +39,22 @@ const AddUser = () => {
     try {
       await createUser(data).unwrap();
       setResetCount((prev) => prev + 1);
+      
       form.reset();
+      // Success toast 
+      toast.success("User created successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
+
     } catch (err) {
       console.error("Error creating user:", err);
+      // Error toast
+      toast.error("Failed to create user. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   });
 
@@ -51,6 +65,8 @@ const AddUser = () => {
   });
 
   return (
+    <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading
@@ -79,6 +95,7 @@ const AddUser = () => {
         </div>
       </div>
     </Panel>
+    </>
   );
 };
 

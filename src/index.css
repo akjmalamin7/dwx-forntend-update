@@ -32,3 +32,95 @@
 .bg-red-500{
     background-color:  #fb2c36 !important;
 }
+ 
+
+@media print {
+
+      /* Hide toolbar */
+  .jodit-toolbar,
+  .jodit-toolbar-editor-collection,
+  .jodit-workplace__toolbar {
+    display: none !important;
+  }
+
+  /* Hide status bar */
+  .jodit-status-bar,
+  .jodit-workplace__statusbar {
+    display: none !important;
+  }
+
+  /* Remove borders */
+  .jodit-container,
+  .jodit-wysiwyg,
+  .jodit-workplace {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Show only content */
+  .jodit-wysiwyg {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* Enforce font size for print */
+  .jodit-wysiwyg * {
+    font-size: inherit !important;
+  }
+
+  .jodit-wysiwyg {
+    font-size: 20px !important;
+  }
+  
+  /* Hide toolbar */
+  .jodit-toolbar,
+  .jodit-toolbar-editor-collection,
+  .jodit-workplace__toolbar {
+    display: none !important;
+  }
+
+  /* Hide status bar */
+  .jodit-status-bar,
+  .jodit-workplace__statusbar {
+    display: none !important;
+  }
+
+  /* Remove borders */
+  .jodit-container,
+  .jodit-wysiwyg,
+  .jodit-workplace {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Remove editor wrapper borders */
+  .print-editor-wrapper .jodit,
+  .print-editor-wrapper .jodit-container {
+    border: none !important;
+  }
+
+  /* Show only content */
+  .jodit-wysiwyg {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* Optional: Adjust font size for print */
+  .jodit-wysiwyg {
+    font-size: 20px !important;
+  }
+
+  /* Remove the contentEditable div if you don't need it */
+  .print-comment-container [contenteditable] {
+    border: none !important;
+  }
+}
+
+/* Optional: Hide contentEditable div on screen as well if not needed */
+.print-comment-container [contenteditable]:not(.jodit-wysiwyg) {
+  display: none;
+}

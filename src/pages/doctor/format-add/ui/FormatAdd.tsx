@@ -2,6 +2,7 @@ import { DoctorFormatForm } from "@/entities";
 import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
 
+
 const FormatAdd = () => {
 
   usePageTitle("Add Format", {

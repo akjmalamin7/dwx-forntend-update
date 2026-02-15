@@ -24,6 +24,7 @@ import { patientFormschema } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 const QuickSendReprt = () => {
   const { status, isProfileLoading } = useGetProfile();
@@ -82,10 +83,23 @@ const QuickSendReprt = () => {
      
       await createSendReport(data).unwrap();
       setResetCount((prev) => prev + 1);
+
+      // Success toast
+      toast.success("Patient report submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
       reset();
       
     } catch (err: unknown) {
       console.error("Error creating patient:", err);
+
+      // Error toast
+      toast.error("Failed to submit report. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   });
 
@@ -104,6 +118,8 @@ const QuickSendReprt = () => {
   }
 
   return (
+    <>
+    <Toaster />
     <Panel header="Quick Add Report">
       <form
         className="grid grid-cols-12 gap-y-4 items-center"
@@ -264,6 +280,7 @@ const QuickSendReprt = () => {
         </div>
       </form>
     </Panel>
+    </>
   );
 };
 

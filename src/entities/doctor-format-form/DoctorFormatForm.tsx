@@ -9,6 +9,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
 import {
   useAddFormatMutation,
   useUpdateFormatMutation,
@@ -57,23 +59,36 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
     try {
       if (isUpdate && id) {
         await updateFormat({ id, ...data }).unwrap();
+         // Success toast
+              toast.success("Format updated successfully!", {
+                duration: 2000,
+                position: "top-right",
+              });
         navigate("/doctor/format");
       } else {
         await createFormat(data).unwrap();
+         // Success toast
+      toast.success("Format created successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+
         reset();
       }
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
-        console.error("Error creating patient:", e.data?.message || e.message);
+        console.error("Error creating format:", e.data?.message || e.message);
       } else {
-        console.error("Error creating patient:", String(err));
+        console.error("Error creating format:", String(err));
       }
     }
   };
 
   const isLoading = isCreating || isUpdating || (isUpdate && isViewLoading);
   return (
+     <>
+    <Toaster />
     <form
       className="grid grid-cols-12 gap-y-4 items-center pt-5 pb-5"
       onSubmit={handleSubmit(onSubmit, (errros) => console.log(errros))}
@@ -119,6 +134,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
         </div>
       </div>
     </form>
+    </>
   );
 };
 

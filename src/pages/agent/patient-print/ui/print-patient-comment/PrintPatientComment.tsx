@@ -1,6 +1,8 @@
 import type { PRINT_DOCTOR_COMMENT } from "@/entities/agent/agent-print-patient/model/schema";
+ 
+import EditorPrint from "@/features/editor/EditorPrint";
 import createDOMPurify from "dompurify";
-import parse from "html-react-parser";
+ 
 interface IProps {
   comments: PRINT_DOCTOR_COMMENT[];
 }
@@ -21,15 +23,17 @@ DOMPurify?.addHook("uponSanitizeAttribute", (_node, data) => {
   }
 });
 
-// ✅ Safe wrapper
-const sanitizeHTML = (html: string) => {
-  if (!DOMPurify) return html;
-  return DOMPurify.sanitize(html);
-};
-
+ 
+ 
 export const PrintPatientComment = ({ comments = [] }: IProps) => {
-  const printComments = parse(
-   sanitizeHTML(String(comments[0]?.comments || ""))
-  );
-  return <div contentEditable className="text-2xl">{printComments}</div>;
+ 
+  const commentsValue = comments[0]?.comments || "";
+
+  return <div   className="text-2xl"> 
+   <EditorPrint
+            value={commentsValue} 
+            placeholder=""
+            
+          />
+          </div>;
 };

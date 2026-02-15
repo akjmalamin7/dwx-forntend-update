@@ -1,11 +1,15 @@
 import { useDeleteAdminPatientMutation } from "@/shared/redux/features/admin/delete-admin-patient/deleteAdminPatient";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 interface IProps {
   id?: string;
   onDeleteSuccess?: () => void;
 }
 const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
+   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteAdminPatient, { isLoading }] = useDeleteAdminPatientMutation();
   const handleDelete = async () => {
@@ -18,13 +22,26 @@ const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
       if (onDeleteSuccess) {
         onDeleteSuccess();
       }
+       // Success toast 
+        toast.success("Delete Admin Patient successfully!", {
+          duration: 2000,
+          position: "top-right",
+        });
+        navigate(0);
+        
     } catch (error) {
       console.error("Delete failed:", error);
+      // Error toast
+      toast.error("Failed to delete. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
        
     }
   };
   return (
     <>
+      <Toaster />
       <Button
         onClick={() => setIsModalOpen(true)}
         className="bg-red-500 text-white !px-2 !py-1 !h-auto  text-sm rounded-none"

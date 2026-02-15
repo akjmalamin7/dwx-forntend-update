@@ -9,6 +9,8 @@ import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
 const EditSendReport = () => {
   const { status, isProfileLoading } = useGetProfile();
   const { id } = useParams<{ id: string }>();
@@ -72,9 +74,20 @@ const EditSendReport = () => {
     try {
       await updateSendReport({ id, data: finalData }).unwrap();
       setResetCount((prev) => prev + 1);
+      // Success toast
+      toast.success("Patient report updated successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
       navigate("/");
     } catch (err: unknown) {
       console.error("Error creating patient:", err);
+      // Error toast
+      toast.error("Failed to submit report. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   };
 
@@ -108,19 +121,22 @@ const EditSendReport = () => {
 
   if (!patientData) {
     return (
-      <Panel
-        header={
-          <PanelHeading
-            title="Edit X-ray Report"
-            button="Patient List"
-            path="agent/patient/completed"
-          />
-        }
-      >
-        <div className="flex justify-center items-center py-8 text-yellow-500">
-          Patient data not found.
-        </div>
-      </Panel>
+       <>
+          <Toaster />
+          <Panel
+            header={
+              <PanelHeading
+                title="Edit X-ray Report"
+                button="Patient List"
+                path="agent/patient/completed"
+              />
+            }
+          >
+            <div className="flex justify-center items-center py-8 text-yellow-500">
+              Patient data not found.
+            </div>
+          </Panel>
+      </>
     );
   }
 
@@ -133,23 +149,26 @@ const EditSendReport = () => {
   }
 
   return (
-    <Panel
-      header={
-        <PanelHeading
-          title="=Edit  Report"
-          button="Patient List"
-          path="agent/patient/completed"
+     <>
+      <Toaster />
+      <Panel
+        header={
+          <PanelHeading
+            title="=Edit  Report"
+            button="Patient List"
+            path="agent/patient/completed"
+          />
+        }
+      >
+        <PatientForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          resetCount={resetCount}
+          defaultValues={defaultValues}
+          isEdit
         />
-      }
-    >
-      <PatientForm
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        resetCount={resetCount}
-        defaultValues={defaultValues}
-        isEdit
-      />
-    </Panel>
+      </Panel>
+    </>
   );
 };
 

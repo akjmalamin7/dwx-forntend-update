@@ -7,6 +7,7 @@ import { type PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 const SendEcgReport = () => {
   const { status, isProfileLoading } = useGetProfile();
@@ -23,8 +24,23 @@ const SendEcgReport = () => {
     try {
       await createSendReport(finalData).unwrap();
       setResetCount((prev) => prev + 1);
+
+      // Success toast
+      toast.success("Patient report submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       console.error("Error creating patient:", err);
+
+       // Error toast
+      toast.error("Failed to submit report. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
+
+      
     }
   };
   usePageTitle("Add Patient", {
@@ -39,6 +55,8 @@ const SendEcgReport = () => {
     );
   }
   return (
+    <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading
@@ -54,6 +72,7 @@ const SendEcgReport = () => {
         resetCount={resetCount}
       />
     </Panel>
+    </>
   );
 };
 

@@ -66,6 +66,7 @@ const PatientForm = ({
     reset,
     setValue,
     getValues,
+    trigger,
     formState: { errors, isValid },
   } = methods;
   useEffect(() => {
@@ -131,6 +132,7 @@ const PatientForm = ({
           setValue={setValue}
           control={control}
           name="attachment"
+          trigger={trigger}
         />
 
         {/* Patient ID */}
@@ -180,6 +182,7 @@ const PatientForm = ({
               label="Patient History"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
+              autoComplete="on"
               error={{
                 status: !!errors.history,
                 message: errors.history?.message as string,
@@ -197,6 +200,7 @@ const PatientForm = ({
               label="X-ray Name"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
+              autoComplete="on"
               error={{
                 status: !!errors.xray_name,
                 message: errors.xray_name?.message as string,
@@ -214,6 +218,7 @@ const PatientForm = ({
               label="Reference Doctor"
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
+              autoComplete="on"
               error={{
                 status: !!errors.ref_doctor,
                 message: errors.ref_doctor?.message as string,

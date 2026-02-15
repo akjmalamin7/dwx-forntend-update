@@ -8,9 +8,9 @@ export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
     dataIndex: "patient_id",
   },
   {
-    key: "patient_name",
+    key: "name",
     title: "Patient Name",
-    dataIndex: "patient_name",
+    dataIndex: "name",
   },
   {
     key: "age",

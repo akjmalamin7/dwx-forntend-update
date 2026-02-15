@@ -27,7 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onBlur,
       onFocus,
       onClear,
-      onKeyDown,
+      onKeyDown, 
     },
     ref,
   ) => {
@@ -77,7 +77,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             onKeyDown={onKeyDown}
             ref={ref}
             className={finalInputClasses}
-            autoComplete="off"
+            autoComplete="on" 
           />
           {onClear && (
             <button

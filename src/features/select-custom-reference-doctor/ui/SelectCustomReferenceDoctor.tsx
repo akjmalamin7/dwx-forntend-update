@@ -13,6 +13,8 @@ interface Props {
   label?: string;
   error?: ErrorType;
   value?: string;
+  autoComplete?: string;
+  name?: string;
   onSelectedValue?: (value: string) => void;
 }
 
@@ -21,6 +23,8 @@ const SelectCustomReferenceDoctor = ({
   error,
   value = "",
   onSelectedValue,
+  autoComplete = "on",
+  name = "ref_doctor",
 }: Props) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const [selectValue, setSelectValue] = useState<string>();
@@ -85,11 +89,13 @@ const SelectCustomReferenceDoctor = ({
       <div className="col-span-9 grid grid-cols-2 gap-2">
         {/* Input field */}
         <Input
+          name={name}
           value={inputValue}
           onChange={handleInputChange}
           placeholder="Select an option"
           size="sm"
           error={error}
+          autoComplete={autoComplete}
         />
 
         {/* Dropdown select */}

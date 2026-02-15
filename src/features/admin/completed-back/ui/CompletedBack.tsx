@@ -1,5 +1,6 @@
 import { useCompletedgBackMutation } from "@/shared/redux/features/admin/completed-back/completedBack";
 import { Button } from "@/shared/ui";
+import toast, { Toaster } from "react-hot-toast";
 interface TProps {
   path?: string;
   onDeleteSuccess?: () => void;
@@ -12,20 +13,33 @@ const CompletedBack = ({ path, onDeleteSuccess }: TProps) => {
       if (onDeleteSuccess) {
         onDeleteSuccess();
       }
+       // Success toast 
+        toast.success("Completed Back completed successfully!", {
+          duration: 2000,
+          position: "top-right",
+        });
     } catch (err) {
-      console.error("T.B failed:", err);
+      console.error("C.B failed:", err);
+      // Error toast
+      toast.error("Failed to complete C.B. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   };
 
   return (
-    <Button
-      onClick={handleTypingBack}
-      className="bg-blue-500 text-white !px-2 !py-2 text-sm !h-auto !rounded-[0px]"
-      loading={isLoading}
-      disabled={isLoading}
-    >
-      C.B
-    </Button>
+    <>
+      <Toaster />
+      <Button
+        onClick={handleTypingBack}
+        className="bg-blue-500 text-white !px-2 !py-2 text-sm !h-auto !rounded-[0px]"
+        loading={isLoading}
+        disabled={isLoading}
+      >
+        C.B
+      </Button>
+    </>
   );
 };
 

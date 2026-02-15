@@ -7,6 +7,7 @@ import { Button, Input, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 interface GetCommentsAndPassaultType {
   passault?: string;
@@ -139,19 +140,38 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
+
+        // Success toast
+        toast.success("Patient report submitted successfully!", {
+          duration: 2000,
+          position: "top-right",
+        });
         navigate("/doctor/patient");
         // navigate(0)
         //resetForm();
       } else {
         console.warn(" Update failed:", response?.message);
+        // Error toast
+        toast.error("Failed to submit report. Please try again.", {
+          duration: 2000,
+          position: "top-right",
+        });
       }
     } catch (error) {
       const apiError = error as ApiError;
       console.error("Error submitting form:", apiError);
+      // Error toast
+      toast.error("Failed to submit report. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   };
 
   return (
+    <>
+    <Toaster />
+      
     <div onClick={(e) => e.stopPropagation()} id='report-submission-form'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row gap-4 mb-4 mt-6">
@@ -180,12 +200,14 @@ const ReportSubmissionForm = ({
             onChange={handleMedicalDiagnosisChange}
             className="w-[20px] h-[20px] mt-1"
           />
+         
           <Text size="lg">
             This report is for medical diagnosis only, not for legal use
           </Text>
+           <Input type="hidden" {...register("passault")} />
         </label>
 
-        <Input type="text" {...register("passault")} />
+        
 
         <div className="mt-4">
           <Button
@@ -206,6 +228,7 @@ const ReportSubmissionForm = ({
         </div>
       </form>
     </div>
+    </>
   );
 };
 

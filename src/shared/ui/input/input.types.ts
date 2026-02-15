@@ -25,6 +25,7 @@ export interface InputProps {
   className?: string;
   readonly?: boolean;
   disabled?: boolean;
+  autoComplete?: string;
   error?: { status?: boolean; message?: string };
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;

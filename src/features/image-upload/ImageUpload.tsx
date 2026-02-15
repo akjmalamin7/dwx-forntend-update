@@ -5,6 +5,7 @@ import {
   type Control,
   type FieldValues,
   type Path,
+  type UseFormTrigger,
 } from "react-hook-form";
 
 interface ImageUploadProps<TFieldValues extends FieldValues> {
@@ -12,6 +13,7 @@ interface ImageUploadProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   control: Control<TFieldValues>;
   setValue?: (name: Path<TFieldValues>, value: string[]) => void;
+  trigger?: UseFormTrigger<TFieldValues>;
   isNote?: boolean;
   directory?: "signature" | "upload2";
 }
@@ -25,6 +27,7 @@ const ImageUpload = <TFieldValues extends FieldValues>({
   name,
   control,
   setValue,
+  trigger,
   isNote = true,
   directory = "upload2",
 }: ImageUploadProps<TFieldValues>) => {
@@ -122,6 +125,10 @@ const ImageUpload = <TFieldValues extends FieldValues>({
           setPreviewUrls(smallUrls);
 
           setUploading(false);
+
+          if (trigger) {
+            await trigger();
+          }
         };
 
         return (

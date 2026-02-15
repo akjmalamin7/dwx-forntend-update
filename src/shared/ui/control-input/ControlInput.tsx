@@ -22,6 +22,7 @@ interface IProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>;
   isInputLabel?: boolean;
   className?: string;
+  autoComplete?: string;
 }
 
 const ControlInput = <TFieldValues extends FieldValues>({
@@ -32,7 +33,8 @@ const ControlInput = <TFieldValues extends FieldValues>({
   placeholder,
   control,
   isInputLabel = true,
-  className
+  className,
+  autoComplete = "on",
 }: IProps<TFieldValues>) => {
   return (
     <Controller
@@ -61,6 +63,7 @@ const ControlInput = <TFieldValues extends FieldValues>({
               placeholder={placeholder}
               size={size}
               className={className}
+              autoComplete={autoComplete}
             />
           </div>
         </>

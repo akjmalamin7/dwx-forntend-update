@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditUser = () => {
   const { id } = useParams();
@@ -46,8 +47,20 @@ const EditUser = () => {
       await updateUser({ id, data }).unwrap();
       navigate(0);
       setResetCount((prev) => prev + 1);
+
+       // Success toast 
+      toast.success("User updated successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err) {
       console.error("Error creating user:", err);
+      // Error toast
+      toast.error("Failed to update user. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   });
 
@@ -58,6 +71,8 @@ const EditUser = () => {
   });
 
   return (
+    <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading
@@ -86,6 +101,7 @@ const EditUser = () => {
         </div>
       </div>
     </Panel>
+    </>
   );
 };
 

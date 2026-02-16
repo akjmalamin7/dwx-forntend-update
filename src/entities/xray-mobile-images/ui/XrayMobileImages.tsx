@@ -1,6 +1,6 @@
 import { ReportSubmissionForm } from "@/entities";
 import { useAuth } from "@/shared/hooks";
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, Text } from "@/shared/ui";
 import { type ChangeEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
@@ -10,6 +10,8 @@ interface XrayMobileModalProps {
   onClose: () => void;
   images: { src: string }[];
   activeIndex: number;
+  history?: string;
+  age?: string;
   setActiveIndex: (index: number) => void;
   patient_id: string;
 }
@@ -18,11 +20,13 @@ const XrayMobileImages = ({
   isOpen,
   onClose,
   images,
+  history,
+  age,
   activeIndex,
   setActiveIndex,
   patient_id,
 }: XrayMobileModalProps) => {
-  const { role } = useAuth()
+  const { role } = useAuth();
   const [filters, setFilters] = useState({
     exposure: 100,
     contrast: 100,
@@ -59,6 +63,14 @@ const XrayMobileImages = ({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="">
+        <div>
+          <Text color="danger" size="2xl" fontWeight="medium">
+            History: {history ?? ""}
+          </Text>
+          <Text color="danger" size="2xl" fontWeight="medium">
+            Age: {age ?? ""}
+          </Text>
+        </div>
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold text-gray-800">
             Adjustments ({activeIndex + 1}/{images.length})
@@ -120,8 +132,9 @@ const XrayMobileImages = ({
       <div className="relative flex items-center justify-center mt-8">
         <button
           onClick={handlePrev}
-          className={`absolute left-2 z-20 p-4 text-3xl ${activeIndex === 0 ? "opacity-10" : "opacity-100"
-            }`}
+          className={`absolute left-2 z-20 p-4 text-3xl ${
+            activeIndex === 0 ? "opacity-10" : "opacity-100"
+          }`}
           disabled={activeIndex === 0}
         >
           <FaArrowLeft />
@@ -138,21 +151,23 @@ const XrayMobileImages = ({
 
         <button
           onClick={handleNext}
-          className={`absolute right-2 z-20 p-4  text-3xl ${activeIndex === images.length - 1 ? "opacity-10" : "opacity-100"
-            }`}
+          className={`absolute right-2 z-20 p-4  text-3xl ${
+            activeIndex === images.length - 1 ? "opacity-10" : "opacity-100"
+          }`}
           disabled={activeIndex === images.length - 1}
         >
           <FaArrowRight />
         </button>
       </div>
-      {
-        (role === "admin" || role === "user") ? "" : <div className="p-5">
+      {role === "admin" || role === "user" ? (
+        ""
+      ) : (
+        <div className="p-5">
           <ReportSubmissionForm patient_id={patient_id} />
         </div>
-      }
-
+      )}
     </div>,
-    document.body
+    document.body,
   );
 };
 export default XrayMobileImages;

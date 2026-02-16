@@ -26,27 +26,27 @@ const Editor = ({
       toolbarAdaptive: false,
       toolbarButtonSize: "middle" as const,
 
-       // ⭐ Add this part
-    style: {
-      fontSize: "20px",   // default text size inside editor
-      fontFamily: "Arial, sans-serif"
-    },
+      // ⭐ Add this part
+      style: {
+        fontSize: "20px", // default text size inside editor
+        fontFamily: "Arial, sans-serif",
+      },
 
-    // ⭐ Control font size dropdown values
-    controls: {
-      fontsize: {
-        list: {
-          12: "12",
-          14: "14",
-          16: "16",
-          18: "18",
-          20: "20",
-          24: "24",
-          28: "28",
-          32: "32"
-        }
-      }
-    },
+      // ⭐ Control font size dropdown values
+      controls: {
+        fontsize: {
+          list: {
+            12: "12",
+            14: "14",
+            16: "16",
+            18: "18",
+            20: "20",
+            24: "24",
+            28: "28",
+            32: "32",
+          },
+        },
+      },
 
       buttons: [
         "bold",
@@ -78,7 +78,7 @@ const Editor = ({
       removeButtons: ["source", "about"],
       showXPathInStatusbar: false,
     }),
-    [placeholder]
+    [placeholder],
   );
 
   return (
@@ -95,13 +95,20 @@ const Editor = ({
       ) : (
         label
       )}
-      <JoditEditor
-        ref={editor}
-        value={value}
-        config={config}
-        tabIndex={1}
-        onBlur={(newContent) => onChange?.(newContent)}
-      />
+      <div
+        className="
+    [&_.jodit-wysiwyg]:!text-[36px]
+    [&_.jodit-wysiwyg_p]:!text-[36px]
+  "
+      >
+        <JoditEditor
+          ref={editor}
+          value={value}
+          config={config}
+          tabIndex={1}
+          onBlur={(newContent) => onChange?.(newContent)}
+        />
+      </div>
     </>
   );
 };

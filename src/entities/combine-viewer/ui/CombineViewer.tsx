@@ -7,6 +7,8 @@ import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/pat
 import { useMemo, useState } from "react";
 interface CombineViewerProps {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
+  history?: string;
+  age?: string;
   isDCM?: boolean;
   patient_id?: string;
   visible?: boolean;
@@ -15,6 +17,8 @@ interface CombineViewerProps {
 const CombineViewer = ({
   attachments,
   isDCM,
+  age,
+  history,
   patient_id = "",
   visible = false,
   setVisible,
@@ -66,6 +70,8 @@ const CombineViewer = ({
 
       <XrayMobileImages
         isOpen={visible}
+        history={history}
+        age={age}
         onClose={() => setVisible?.(false)}
         images={original_urls ?? []}
         activeIndex={activeIndex}

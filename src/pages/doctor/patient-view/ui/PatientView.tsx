@@ -94,6 +94,8 @@ const PatientView = () => {
           />
         )}
         <CombineViewer
+          history={patient?.history}
+          age={patient?.age}
           patient_id={patient_id}
           isDCM={isDCM}
           attachments={attachments}

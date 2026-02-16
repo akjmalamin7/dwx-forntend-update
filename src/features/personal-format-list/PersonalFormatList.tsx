@@ -1,5 +1,5 @@
 import { useGetPersonalFormLstQuery } from "@/shared/redux/features/doctor/personal-format-list/personalFormatListApi";
-import { CustomSelect, Text } from "@/shared/ui";
+import { Select, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 interface IProps {
   onSelect?: (value: string) => void;
@@ -38,16 +38,22 @@ const PersonalFormatList = ({ value, onSelect }: IProps) => {
         element="label"
         fontWeight="bold"
         size="md"
-        className="block mb-2 text-gray-900 dark:text-white"
+        className="block mb-2 text-gray-900 "
       >
+        {/* dark:text-white */}
         Personal Format
       </Text>
-
-      <CustomSelect
+      <Select
+        value={selectedValue}
+        options={options ?? []}
+        size="sm"
+        onSelect={handleSelectValue}
+      />
+      {/* <CustomSelect
         value={selectedValue}
         options={options ?? []}
         onSelectedValue={handleSelectValue}
-      />
+      /> */}
     </div>
   );
 };

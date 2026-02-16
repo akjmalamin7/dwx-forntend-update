@@ -1,5 +1,5 @@
 import { useGetAdminFormLstQuery } from "@/shared/redux/features/doctor/admin-format-list/adminFormatListApi";
-import { CustomSelect, Text } from "@/shared/ui";
+import { Select, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 interface IProps {
   value?: string;
@@ -40,15 +40,24 @@ const AdminFormatList = ({ value, onSelect }: IProps) => {
         element="label"
         fontWeight="bold"
         size="md"
-        className="block mb-2 text-gray-900 dark:text-white"
+        className="block mb-2
+
+          text-gray-900 "
       >
+        {/* //  dark:text-white */}
         Admin Format
       </Text>
-      <CustomSelect
+      <Select
+        value={selectedValue}
+        options={options ?? []}
+        size="sm"
+        onSelect={handleSelectValue}
+      />
+      {/* <CustomSelect
         value={selectedValue}
         options={options ?? []}
         onSelectedValue={handleSelectValue}
-      />
+      /> */}
     </div>
   );
 };

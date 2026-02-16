@@ -6,8 +6,8 @@ import {
 import { Button, Input, Text } from "@/shared/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface GetCommentsAndPassaultType {
   passault?: string;
@@ -40,7 +40,7 @@ const ReportSubmissionForm = ({
   isUpdate = false,
 }: IProps) => {
   const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
-    ""
+    "",
   );
   const navigate = useNavigate();
   const [isMedicalDiagnosis, setIsMedicalDiagnosis] = useState<boolean>(false);
@@ -105,13 +105,13 @@ const ReportSubmissionForm = ({
   };
 
   const handleMedicalDiagnosisChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const isChecked = e.target.checked;
     setIsMedicalDiagnosis(isChecked);
     setValue("passault", isChecked ? "Yes" : "No", { shouldValidate: true });
   };
-/*
+  /*
   const resetForm = () => {
     reset({
       patient_id,
@@ -140,7 +140,6 @@ const ReportSubmissionForm = ({
         response = await savePatient(submitData).unwrap();
       }
       if (response?.success) {
-
         // Success toast
         toast.success("Patient report submitted successfully!", {
           duration: 2000,
@@ -170,64 +169,62 @@ const ReportSubmissionForm = ({
 
   return (
     <>
-    <Toaster />
-      
-    <div onClick={(e) => e.stopPropagation()} id='report-submission-form'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col md:flex-row gap-4 mb-4 mt-6">
-          <AdminFormatList onSelect={handleAdminSelect} />
-          <PersonalFormatList onSelect={handlePersonalSelect} />
-        </div>
+      <Toaster />
 
-        <Input type="hidden" {...register("patient_id")} />
+      <div onClick={(e) => e.stopPropagation()} id="report-submission-form">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col md:flex-row gap-4 mb-4 mt-6">
+            <AdminFormatList onSelect={handleAdminSelect} />
+            <PersonalFormatList onSelect={handlePersonalSelect} />
+          </div>
 
-        <Editor
-          value={commentsValue}
-          onChange={handleEditorChange}
-          placeholder=""
-        />
+          <Input type="hidden" {...register("patient_id")} />
 
-        {selectedType && (
-          <Text size="sm" className="mt-2 text-gray-600">
-            {selectedType === "admin" ? "Admin Format" : "Personal Format"}
-          </Text>
-        )}
-
-        <label className="mt-4 flex items-start gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={isMedicalDiagnosis}
-            onChange={handleMedicalDiagnosisChange}
-            className="w-[20px] h-[20px] mt-1"
+          <Editor
+            value={commentsValue}
+            onChange={handleEditorChange}
+            placeholder=""
           />
-         
-          <Text size="lg">
-            This report is for medical diagnosis only, not for legal use
-          </Text>
-           <Input type="hidden" {...register("passault")} />
-        </label>
 
-        
+          {selectedType && (
+            <Text size="sm" className="mt-2 text-gray-600">
+              {selectedType === "admin" ? "Admin Format" : "Personal Format"}
+            </Text>
+          )}
 
-        <div className="mt-4">
-          <Button
-            type="submit"
-            color="dark"
-            size="size-2"
-            loading={isLoading}
-            disabled={!isFormValid || isLoading}
-          >
-            {isLoading
-              ? isUpdate
-                ? "Updating..."
-                : "Submitting..."
-              : isUpdate
-              ? "Update"
-              : "Submit"}
-          </Button>
-        </div>
-      </form>
-    </div>
+          <label className="mt-4 flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isMedicalDiagnosis}
+              onChange={handleMedicalDiagnosisChange}
+              className="w-[20px] h-[20px] mt-1"
+            />
+
+            <Text size="lg">
+              This report is for medical diagnosis only, not for legal use
+            </Text>
+            <Input type="hidden" {...register("passault")} />
+          </label>
+
+          <div className="mt-4">
+            <Button
+              type="submit"
+              color="dark"
+              size="size-2"
+              loading={isLoading}
+              disabled={!isFormValid || isLoading}
+            >
+              {isLoading
+                ? isUpdate
+                  ? "Updating..."
+                  : "Submitting..."
+                : isUpdate
+                  ? "Update"
+                  : "Submit"}
+            </Button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };

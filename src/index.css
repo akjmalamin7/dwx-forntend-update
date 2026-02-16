@@ -34,6 +34,20 @@
 }
  
 
+.text-22px{
+    font-size: 22px !important;
+}
+
+/* Optional: Adjust font size for print */
+  .jodit-wysiwyg {
+    font-size: 24px !important;
+  }
+
+    .jodit-wysiwyg p{
+    font-size: 24px !important;
+    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
+  }
+
 @media print {
 
       /* Hide toolbar */
@@ -109,10 +123,12 @@
     padding: 0 !important;
   }
 
-  /* Optional: Adjust font size for print */
-  .jodit-wysiwyg {
-    font-size: 20px !important;
+  
+ .jodit-wysiwyg p{
+    font-size: 24px !important;
+    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
   }
+
 
   /* Remove the contentEditable div if you don't need it */
   .print-comment-container [contenteditable] {

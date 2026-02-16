@@ -33,7 +33,7 @@ interface TextProps {
 
 const Text = ({
   element = "p",
-  size = "md",
+  size = "xl",
   color = "dark",
   textAlign = "start",
   fontWeight = "regular",

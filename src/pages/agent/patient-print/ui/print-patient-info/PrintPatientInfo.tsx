@@ -11,23 +11,23 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
       <table className="w-full border border-black mb-4">
         <tbody>
           <tr>
-            <td className="border border-black px-2 py-1 w-1/3 text-xl">
+            <td className="border border-black px-2 py-1 w-2/6 text-xl">
               <Text element="label" className="font-bold text-xl text-capitalize">
                 <strong className=" text-2xl ">Patient ID:</strong>
               </Text>{" "}
-             <span className="font-normal text-capitalize">{printPatient?.patient_id || "N/A"}</span>
+             <span className="font-normal text-capitalize text-22px">{printPatient?.patient_id || "N/A"}</span>
             </td>
-            <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
+            <td className="border border-black px-2 py-1 w-3/6  text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Patient Name:</strong>
               </Text>{" "}
-              {printPatient?.name || "N/A"}
+              <span className="text-22px">{printPatient?.name || "N/A"}</span>
             </td>
-            <td className="border border-black px-2 py-1 w-1/3  text-xl" contentEditable>
+            <td className="border border-black px-2 py-1 w-1/6  text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Age:</strong>
               </Text>{" "}
-              {printPatient?.age || "N/A"}
+             <span className="text-22px"> {printPatient?.age || "N/A"}</span>
             </td>
           </tr>
           <tr>
@@ -35,24 +35,36 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Date: </strong>
               </Text>
-              {formatDate(printPatient.createdAt)}
+              <span  className="text-22px">{formatDate(printPatient.createdAt)}</span>
             </td>
             <td className="border border-black px-2 py-1 text-xl">
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Print Time: </strong>
               </Text>
-              {new Date().toLocaleDateString("en-GB")}
-              {", "}
-              {new Date().toLocaleTimeString([], {
+             <span className="text-22px">  
+              {new Date()
+              .toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })
+              .replace(/ /g, "-")}
+            {", "}
+            {new Date()
+              .toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
-              })}
+                hour12: true,
+              })
+              .toUpperCase()}
+
+             </span>
             </td>
             <td className="border border-black px-2 py-1 text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Sex:</strong>
-              </Text>{" "}
-              {printPatient?.gender || "N/A"}
+              </Text>  
+              <span className="capitalize text-22px">{printPatient?.gender || "N/A"}</span>
             </td>
           </tr>
           <tr>
@@ -63,8 +75,8 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
             >
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-xl ">Reference By:</strong>
-              </Text>{" "}
-              {printPatient?.ref_doctor || "N/A"}
+              </Text> 
+             <span> {printPatient?.ref_doctor || "N/A"}</span>
             </td>
           </tr>
         </tbody>

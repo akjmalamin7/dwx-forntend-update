@@ -17,7 +17,7 @@ const ManageCustomerBillByMonth = () => {
       monthList?.map((item, index) => ({
         key: '',
         sl: index + 1, 
-        month:  item.month,  
+        month:  item.month??'',  
         action: "",
       })) || [],
     [monthList]

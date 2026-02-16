@@ -10,7 +10,7 @@ interface IProps {
   label?: React.ReactNode | string;
 }
 
-const EditorPrint = ({
+const EditorPrint = ({ 
   placeholder,
   value = "",
   onChange,
@@ -36,24 +36,32 @@ const EditorPrint = ({
 
       // Default text style inside editor
       style: {
-        fontSize: "20px",
-        fontFamily: "Arial, sans-serif",
+        fontSize: "24px",
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
       },
 
       // Remove font and fontsize buttons from toolbar
       buttons: [
+         "fontsize",
         "bold",
         "italic",
-        "underline", 
+        "underline",
+        "strikethrough",
         "|",
         "ul",
         "ol",
-        "|", 
-        "paragraph",
         "|",
-        "align",  
+        "font", 
+        "|",
+        "align",
+        "outdent",
+        "indent",
+        "|",
+           
+        "preview",
+        "fullsize",
       ],
-      removeButtons: ["source", "about", "font", "fontsize"],
+      removeButtons: ["source", "about", "font"],
       showXPathInStatusbar: false,
 
       // Clean font-size from pasted content

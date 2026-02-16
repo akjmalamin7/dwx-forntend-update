@@ -8,8 +8,20 @@ export const AddXraytypeApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [{ type: "XraytypeList", id: "LIST" }],
+      invalidatesTags: [{ type: "Reference", id: "LIST" }],
     }), 
+
+  
+    importReferences: builder.mutation({
+      query: (formData) => ({
+        url: '/admin/xraytype/import',  // ✅ Correct (no /api prefix)
+        method: 'POST',
+        body: formData, 
+      }),
+      invalidatesTags: ['Reference'],
+    }),
+
+
     DeleteXraytype: builder.mutation({
       query: (id) => ({
         url: `/admin/xraytype/${id}`,
@@ -25,4 +37,7 @@ export const AddXraytypeApi = apiSlice.injectEndpoints({
 export const {
   useAddXraytypeMutation, 
   useDeleteXraytypeMutation,
+  useImportReferencesMutation 
 } = AddXraytypeApi;
+
+ 

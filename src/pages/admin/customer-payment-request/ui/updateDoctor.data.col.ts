@@ -1,5 +1,11 @@
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";
- 
+
+const formatMonth = (monthString: string): string => {
+  const [year, month] = monthString.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1);
+  const monthName = date.toLocaleString('en-US', { month: 'short' });
+  return `${monthName}-${year}`;
+};
 export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
   {
     key: "sl",
@@ -14,6 +20,7 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
     key: "month",
     align: "start",
     width: 140,
+    render: (value) => formatMonth(value as string),
   }, 
   {
     key: "action",

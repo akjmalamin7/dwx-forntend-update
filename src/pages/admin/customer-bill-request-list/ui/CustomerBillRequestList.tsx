@@ -44,7 +44,7 @@ const CustomerBillRequestList = () => {
           total_patients: item.total_patients,
 
           // ✅ total including charge
-          total_amount: totalWithCharge.toFixed(2),
+          total_amount: totalWithCharge.toFixed(0),
 
           status: item.status,
           paid_amount: item.paid_amount,

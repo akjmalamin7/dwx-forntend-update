@@ -6,8 +6,12 @@ export const formatDate = (iso: string | number, isTime?: boolean) => {
   const ampm = d.getHours() >= 12 ? "PM" : "AM";
 
   const day = d.getDate().toString().padStart(2, "0");
-  const month = (d.getMonth() + 1).toString().padStart(2, "0");
+  const monthShort = d.toLocaleDateString("en-GB", { month: "short" });
   const year = d.getFullYear();
-  const time = `${hours}:${minutes} ${ampm}, `;
-  return ` ${isTime ? time : ""} ${day}/${month}/${year}`;
+  
+  const time = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
+  
+  return isTime 
+    ? `${day}-${monthShort}-${year}, ${time}` 
+    : `${day}-${monthShort}-${year}`;
 };

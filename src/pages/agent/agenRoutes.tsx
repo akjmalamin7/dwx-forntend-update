@@ -95,8 +95,12 @@ export const agentRoutes = [
     path: "/agent/patient-view/:patient_id",
     element: withSuspense(<Pages.ViewPatient />),
   },
-    {
+  {
     path: "/agent/software-list",
     element: withSuspense(<Pages.SoftwareList />),
+  },
+  {
+    path: "/agent/profile",
+    element: withSuspense(<Pages.Profile />),
   } 
 ];

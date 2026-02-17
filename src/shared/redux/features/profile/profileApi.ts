@@ -7,10 +7,21 @@ import type {
 
 export const ProfileApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+
     getProfile: builder.query<ProfileReferenceResponse, string>({
       query: (id) => ({
         url: `/agent/profile/${id}`,
         method: "GET",
+      }),
+    }),
+    updateProfile: builder.mutation<
+      ProfileReferenceResponse,
+      { id: string; data: Partial<ProfileSchemaTypes> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/agent/profile/${id}`,
+        method: "PUT",
+        body: data,
       }),
     }),
     getProfileSelectDoctorId: builder.query<ProfileSelectedDrIdsSchema, string>(
@@ -25,5 +36,5 @@ export const ProfileApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProfileQuery, useGetProfileSelectDoctorIdQuery } =
+export const { useGetProfileQuery, useGetProfileSelectDoctorIdQuery, useUpdateProfileMutation } =
   ProfileApi;

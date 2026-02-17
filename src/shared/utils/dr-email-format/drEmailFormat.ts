@@ -47,5 +47,5 @@ export const formatEmails = (list?: EmailSource[] | null): string => {
     return "Multiple";
   }
 
-   return emails.join("<br/>");
+   return emails.join(",");
 };

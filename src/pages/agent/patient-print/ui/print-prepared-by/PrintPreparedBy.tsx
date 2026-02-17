@@ -36,8 +36,8 @@ const PrintPreparedBy = () => {
         `}
       </style>
 
-      <div className="max-w-[250px] w-full">
-        <p className="font-semibold">Prepared by:</p>
+      <div className="max-w-[250px] w-full" contentEditable>
+        <p className="font-semibold" >Prepared by:</p>
 
         <div className="no-print">
           <Select

@@ -72,6 +72,7 @@ const EditSendReport = () => {
       study_for: "xray_dr",*/
     };
     try {
+ 
       await updateSendReport({ id, data: finalData }).unwrap();
       setResetCount((prev) => prev + 1);
       // Success toast

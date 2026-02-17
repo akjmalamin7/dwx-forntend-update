@@ -62,7 +62,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
             </td>
             <td className="border border-black px-2 py-1 text-xl" contentEditable>
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-2xl ">Sex:</strong>
+                <strong className="text-2xl ">Sex: </strong>
               </Text>  
               <span className="capitalize text-22px">{printPatient?.gender || "N/A"}</span>
             </td>
@@ -74,7 +74,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
               contentEditable
             >
               <Text element="label" className="font-bold text-xl">
-                <strong className="text-xl ">Reference By:</strong>
+                <strong className="text-xl ">Reference By: </strong>
               </Text> 
              <span> {printPatient?.ref_doctor || "N/A"}</span>
             </td>

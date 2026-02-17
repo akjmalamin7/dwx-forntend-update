@@ -48,6 +48,17 @@
     font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
   }
 
+  .jodit-container,.jodit-workplace{
+    height: unset !important;
+    max-height: unset !important;
+    border: none !important;
+  }
+  .jodit-toolbar__box{
+    border: none !important;
+  }
+  .jodit-status-bar.jodit-status-bar_resize-handle_true{
+    display: none !important;
+  }
 @media print {
 
       /* Hide toolbar */

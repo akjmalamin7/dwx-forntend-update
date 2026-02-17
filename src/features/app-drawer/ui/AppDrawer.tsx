@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import useLoggedOut from "../model/useLoggedOut";
 import UserIcons from "./user-icons/UserIcons";
+import { Link } from "react-router-dom";
 const AppDrawer = () => {
   const { handleLoggedOut } = useLoggedOut();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -132,6 +133,9 @@ const AppDrawer = () => {
                     >
                       Role: {role}
                     </Text>
+                  </li>
+                  <li className="h-[33px] px-[8px] rounded-[5px] hover:bg-[#f7f7f7] transition-colors duration-200 flex items-center">
+                    <Link to="/agent/profile">Profile View</Link>
                   </li>
                 </ul>
               </div>

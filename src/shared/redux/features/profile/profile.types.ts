@@ -14,6 +14,7 @@ export interface ProfileSchemaTypes {
   single: number;
   double: number;
   multiple: number;
+  top_margin: string;
   ecg: number;
   is_default: "Yes" | "No";
   hide_bill: "Yes" | "No";

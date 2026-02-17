@@ -28,6 +28,7 @@ export const Pages = {
   AgentManageBill: lazy(() => import("@/pages/agent/manage-bill")),
   AgentPayBill: lazy(() => import("@/pages/agent/pay-bill")),
   AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")), 
+  Profile: lazy(() => import("@/pages/agent/profile")), 
   AgentTransectionHistory: lazy(
     () => import("@/pages/agent/transection-history")
   ),

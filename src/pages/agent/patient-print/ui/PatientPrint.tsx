@@ -4,16 +4,27 @@ import {
   useGetAgentPatientPrintQuery,
   useUpdateAgentPatientPrintStatusMutation,
 } from "@/entities/agent/agent-print-patient";
-import { Button, Input, Panel, PanelHeading } from "@/shared/ui";
-import { useState } from "react";
+import { Button, Input, Loader, Panel, PanelHeading } from "@/shared/ui";
+ 
 import { useParams } from "react-router-dom";
 import PrintDrSignature from "./print-dr-signature/PrintDrSignature";
 import { PrintPatientComment } from "./print-patient-comment/PrintPatientComment";
 import PrintPatientInfo from "./print-patient-info/PrintPatientInfo";
 import PrintPreparedBy from "./print-prepared-by/PrintPreparedBy";
+import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
+import { useEffect, useState } from "react";
+
 const PatientPrint = () => {
-  const { id } = useParams<{ id: string }>();
-  const [paddingTop, setPaddingTop] = useState("2");
+  const { paddingTop: profilePaddingTop, isProfileLoading } = useGetProfile();
+  const { id } = useParams<{ id: string }>(); 
+  const [paddingTop, setPaddingTop] = useState<string>("2");
+
+  useEffect(() => {
+    if (profilePaddingTop !== undefined) {
+      setPaddingTop(String(profilePaddingTop));
+    }
+  }, [profilePaddingTop]);
+
   const {
     data: print_view,
     isLoading,
@@ -48,6 +59,9 @@ const PatientPrint = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
+
+
+   if (isProfileLoading) return <Loader />;
 
   // Loading state
   if (isLoading) {

@@ -23,13 +23,13 @@ export function usePageQuery({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = useState(
-    () => Number(searchParams.get("page")) || defaultPage
+    () => Number(searchParams.get("page")) || defaultPage,
   );
   const [limit, setLimit] = useState(
-    () => Number(searchParams.get("limit")) || defaultLimit
+    () => Number(searchParams.get("limit")) || defaultLimit,
   );
   const [search, setSearch] = useState(
-    () => searchParams.get("search") || defaultSearch
+    () => searchParams.get("search") || defaultSearch,
   );
 
   const urlDoctorId = searchParams.get("doctorId") || doctorId || "";
@@ -39,10 +39,13 @@ export function usePageQuery({
   // Sync URL whenever state changes
   useEffect(() => {
     const params: Record<string, string> = {
-      search,
+      // search,
       page: String(page),
       limit: String(limit),
     };
+    if (search) {
+      params.search = search;
+    }
     // if (doctorId) params.doctorId = doctorId;
     // if (userId) params.userId = userId;
     // if (month) params.month = month;

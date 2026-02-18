@@ -1,0 +1,30 @@
+/* Header.css */
+
+/* মেইন হেডার র‍্যাপার */
+.header-wrapper {
+  margin-bottom: 1rem;
+}
+
+/* প্রিন্ট করার সময় হাইড করার জন্য */
+@media print {
+  .header-wrapper {
+    display: none;
+  }
+}
+
+/* নেভিগেশন মেনু (সর্বদা ডেস্কটপ স্টাইল) */
+.nav-menu {
+  background-color: #22c55e; /* bg-green-500 */
+  color: white;
+
+  display: flex;
+  flex-direction: row; /* সর্বদা পাশাপাশি */
+  flex-wrap: wrap; /* জায়গা না হলে নিচে ভাঙবে, কিন্তু পাশাপাশি থাকবে */
+  justify-content: center; /* মাঝখানে থাকবে */
+  align-items: center;
+
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 1000;
+}

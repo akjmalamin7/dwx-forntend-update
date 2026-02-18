@@ -1,17 +1,13 @@
 import LOGO from "@/assets/images/logo.png";
 import { AppDrawer } from "@/features/app-drawer";
-import { toggleMobileMenu } from "@/shared/redux/features/mobile-menu/mobileMenuSlice";
-import type { RootState } from "@/shared/redux/stores/stores";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const TopHeader = () => {
-  const dispatch = useDispatch();
-  const { isToggle } = useSelector((state: RootState) => state.mobileMenu);
+  // const dispatch = useDispatch();
+  // const { isToggle } = useSelector((state: RootState) => state.mobileMenu);
 
-  const handleMobileMenu = () => {
-    dispatch(toggleMobileMenu({ isToggle: !isToggle }));
-  };
+  // const handleMobileMenu = () => {
+  //   dispatch(toggleMobileMenu({ isToggle: !isToggle }));
+  // };
 
   return (
     <div className="bg-[#0077A3] text-white flex items-center justify-between px-4 py-2">
@@ -39,9 +35,9 @@ const TopHeader = () => {
         </div>
 
         {/* Hamburger Button */}
-        <button className="lg:hidden relative z-30" onClick={handleMobileMenu}>
+        {/* <button className="lg:hidden relative z-30" onClick={handleMobileMenu}>
           {isToggle ? <FaTimes size={22} /> : <FaBars size={22} />}
-        </button>
+        </button> */}
       </div>
     </div>
   );

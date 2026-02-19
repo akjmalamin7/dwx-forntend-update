@@ -50,16 +50,22 @@
 
   .jodit-container,.jodit-workplace{
     height: unset !important;
-    max-height: unset !important;
+    max-height: unset !important; 
+  }
+ 
+  .jodit-status-bar.jodit-status-bar_resize-handle_true{
+    display: none !important;
+  }
+@media print {
+
+
+  .jodit-container,.jodit-workplace{
+    
     border: none !important;
   }
   .jodit-toolbar__box{
     border: none !important;
   }
-  .jodit-status-bar.jodit-status-bar_resize-handle_true{
-    display: none !important;
-  }
-@media print {
 
       /* Hide toolbar */
   .jodit-toolbar,

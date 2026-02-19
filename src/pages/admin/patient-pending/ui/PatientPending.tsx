@@ -120,9 +120,9 @@ const PatientPending = () => {
   });
 
   return (
-    <Panel header="Pending Patients" size="lg">
+    <Panel header="Pending Patients" size="xl">
       <DataTable
-        size="xs"
+        size="xl"
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}

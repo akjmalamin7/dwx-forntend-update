@@ -1,0 +1,178 @@
+/* NavItem.css */
+
+/* --- Variables (Matching Tailwind Colors) --- */
+:root {
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-red-600: #dc2626;
+  --color-white: #ffffff;
+  --border-light-transparent: rgba(247, 247, 247, 0.44); /* #f7f7f770 */
+}
+
+/* --- Utility Classes for Props --- */
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-base {
+  font-size: 1rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-default {
+  color: var(--color-white);
+}
+.text-white {
+  color: var(--color-white);
+}
+.text-danger {
+  color: var(--color-red-600);
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-bold {
+  font-weight: 700;
+}
+
+/* --- Main Navigation Item Container --- */
+.nav-item-container {
+  display: flex;
+  flex-direction: row; /* Mobile Default */
+  align-items: center;
+  gap: 0.25rem; /* gap-1 */
+  padding: 1rem; /* py-4 */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  transition: background-color 0.3s ease;
+  /* border-bottom: 1px solid var(--border-light-transparent); */
+  /* width: 100%; */
+  cursor: pointer;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.nav-item-container:hover {
+  background-color: var(--color-green-600);
+}
+
+/* Active State */
+.nav-item-container.active {
+  background-color: var(--color-green-700);
+  font-weight: 600;
+}
+
+/* --- Icons & Text Specifics --- */
+.nav-icon {
+  font-size: 1.125rem; /* text-lg */
+}
+
+.nav-text {
+  font-size: 12px; /* Mobile: text-2xl */
+}
+
+/* --- Dropdown Wrapper --- */
+.dropdown-wrapper {
+  position: relative;
+  /* border-bottom: 1px solid var(--border-light-transparent); */
+}
+
+/* --- Dropdown Menu (The list) --- */
+.dropdown-menu {
+  background-color: var(--color-green-600);
+  z-index: 50;
+  /* Mobile: Just flows naturally */
+}
+
+/* --- Dropdown Items --- */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+  padding: 1rem; /* py-4 */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid var(--color-green-500);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-green-700);
+}
+
+.dropdown-item.active {
+  background-color: var(--color-green-800);
+  font-weight: 600;
+}
+
+.dropdown-icon {
+  font-size: 0.875rem; /* text-sm */
+}
+
+/* --- Desktop / Large Screen Styles (lg: 1024px) --- */
+@media (min-width: 1024px) {
+  /* Main Container changes */
+  .nav-item-container {
+    flex-direction: column; /* lg:flex-col */
+    padding-top: 0.75rem; /* lg:py-3 */
+    padding-bottom: 0.75rem;
+    border-bottom-color: transparent; /* lg:border-b-transparent */
+  }
+
+  /* Dropdown Wrapper changes */
+  .dropdown-wrapper {
+    border-bottom-color: transparent;
+  }
+
+  /* Text Size Adjustment for Desktop */
+  .nav-text {
+    font-size: 0.875rem; /* lg:text-sm */
+  }
+
+  /* Dropdown Menu Positioning */
+  .dropdown-menu {
+    position: absolute; /* lg:absolute */
+    top: 100%; /* top-full */
+    left: 0;
+    min-width: 12rem; /* min-w-48 */
+    border-bottom-left-radius: 0.25rem; /* rounded-b */
+    border-bottom-right-radius: 0.25rem;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  }
+
+  /* Dropdown Item Padding */
+  .dropdown-item {
+    padding-top: 0.75rem; /* lg:py-3 */
+    padding-bottom: 0.75rem;
+  }
+}

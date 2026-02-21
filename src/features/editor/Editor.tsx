@@ -28,7 +28,7 @@ const Editor = ({
 
       // ⭐ Add this part
       style: {
-        fontSize: "20px", // default text size inside editor
+        fontSize: "18px", // default text size inside editor
         fontFamily: "Arial, sans-serif",
       },
 

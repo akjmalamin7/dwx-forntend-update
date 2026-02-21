@@ -40,11 +40,11 @@
 
 /* Optional: Adjust font size for print */
   .jodit-wysiwyg {
-    font-size: 24px !important;
+    font-size: 20px !important;
   }
 
     .jodit-wysiwyg p{
-    font-size: 24px !important;
+    font-size: 18px !important;
     font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
   }
 
@@ -55,6 +55,10 @@
  
   .jodit-status-bar.jodit-status-bar_resize-handle_true{
     display: none !important;
+  }
+
+  .viewer-container { 
+      position: fixed !important; 
   }
 @media print {
 

@@ -42,6 +42,7 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   gender: string;
   xray_name: string;
   ref_doctor: string;
+  rtype: string;
 }
 export interface PATIENT_IMAGE_ITEM_MODEL {
   _id: string;
@@ -130,6 +131,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     id: patient.id,
     gender: patient.gender,
     xray_name: patient.xray_name,
+    rtype: patient.rtype,
     ref_doctor: patient.ref_doctor,
   };
 

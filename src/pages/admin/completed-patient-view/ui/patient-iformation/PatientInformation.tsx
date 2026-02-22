@@ -2,12 +2,13 @@
 import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
-import { XrayImages } from "@/entities";
+import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col"; 
+import { CombineViewer } from "@/entities/combine-viewer";
 
 const PatientInformation = () => {
+  const [visible, setVisible] = useState(false);
   const { patient_id } = useParams<{ patient_id: string }>();
   const {
     patient,
@@ -33,9 +34,13 @@ const PatientInformation = () => {
     ];
   }, [patient]);
 
+  const isDCM = patient?.rtype === "dcm";
+
   if (!patient_id) {
     return <div>Patient ID not found</div>;
   }
+
+
 
   if (adminPatientViewError) {
     return <div>Error loading patient data</div>;
@@ -59,8 +64,14 @@ const PatientInformation = () => {
           </div>
         )}
 
-        {/* Image Viewer Section */}
-        <XrayImages attachments={attachments || []} />
+        {/* Image Viewer Section */} 
+         <CombineViewer
+                  isDCM={isDCM}
+                  attachments={attachments}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+
       </div>
      
     </div>

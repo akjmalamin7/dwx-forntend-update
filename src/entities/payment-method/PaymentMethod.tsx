@@ -8,7 +8,7 @@ type PaymentMethodType = {
 };
 
 interface IProps {
-  methods?: PaymentMethodType[];
+  methods?: PaymentMethodType[]; 
 }
 
 
@@ -36,7 +36,7 @@ const PaymentMethod = ({ methods = [] }: IProps) => {
       <div className="space-y-1 text-2xl">
         {rightBox.map((method) => (
           <Text key={method.value} element="div" className="text-2xl">
-            <strong> {parse(DOMPurify.sanitize(String(method.name)))}</strong>: 
+            <strong>{method.name}</strong>: 
             {parse(DOMPurify.sanitize(String(method.value) || ""))}
           </Text>
         ))}

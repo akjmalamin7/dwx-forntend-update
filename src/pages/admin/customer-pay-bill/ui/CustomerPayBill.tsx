@@ -18,9 +18,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
 import { useGetPaymentListQuery } from "@/shared/redux/features/admin/payment/paymentApi";
-import { useMemo } from "react";
-import DOMPurify from "dompurify";
-import parse from "html-react-parser";
+import { useMemo } from "react"; 
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -35,11 +33,11 @@ const CustomerPayBill = () => {
   
     const paymnetMethod = useMemo(() => {
       return (
-             paymentGetway?.map((item, index) => ({
+        paymentGetway?.map((item, index) => ({
         key: item.id,
         sl: index + 1, 
-         name:  parse(DOMPurify.sanitize(String(`${item.details} (${item.name})`))),
-        details: item.details,
+         name: item.name,
+         value: item.details,
         action: "",
       })) || []
 
@@ -124,13 +122,7 @@ const CustomerPayBill = () => {
                   name="received_number"
                   options={paymnetMethod}
                 />
-              <ControlInput
-                control={control}
-                size="sm"
-                label="Received Account Number"
-                placeholder="Received Account Number"
-                name="received_number"
-              />
+              
 
               {/* Total Pay */}
               <ControlInput

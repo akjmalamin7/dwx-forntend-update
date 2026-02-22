@@ -1,4 +1,4 @@
-import { ReportSubmissionForm, XrayImages } from "@/entities";
+import { ReportSubmissionForm } from "@/entities";
 import { useGetDoctorCompletedPatientViewQuery } from "@/entities/doctor/completed-patient-view/api/query";
 import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
@@ -9,9 +9,11 @@ import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import { CombineViewer } from "@/entities/combine-viewer";
 const CompletedPatientView = () => {
   const [viewData, setViewData] = useState({ passault: "", comments: "" });
   const { patient_id } = useParams<{ patient_id: string }>();
+  const [visible, setVisible] = useState(false);
   const {
     data: patient_view,
     isLoading: patientLoading,
@@ -88,6 +90,9 @@ const CompletedPatientView = () => {
     ];
   }, [patient]);
 
+ 
+  const isDCM = patient?.rtype === "dcm";
+
   if (!patient_id) {
     return <div>Patient ID not found</div>;
   }
@@ -120,9 +125,19 @@ const CompletedPatientView = () => {
             border="bordered"
           />
         </div>
-      )}
-      {/* Image Viewer Section */}
-      <XrayImages attachments={attachments} />
+      )} 
+      {/* Image Viewer Section */} 
+
+       <CombineViewer
+                history={patient?.history}
+                age={patient?.age}
+                patient_id={patient_id}
+                isDCM={isDCM}
+                attachments={attachments}
+                visible={visible}
+                setVisible={setVisible}
+              />
+
       <ReportSubmissionForm
         patient_id={patient_id}
         commentsAndPassault={viewData}

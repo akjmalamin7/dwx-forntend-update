@@ -24,7 +24,7 @@ const PatientView = () => {
           path="admin/patient"
         />
       }
-       size="xl"
+       size="xl" 
     >
       <PatientInformation />
 

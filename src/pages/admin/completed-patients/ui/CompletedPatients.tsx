@@ -93,7 +93,7 @@ const CompletedPatients = () => {
   });
 
   return (
-    <Panel header="Completed patients" size="lg">
+    <Panel header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

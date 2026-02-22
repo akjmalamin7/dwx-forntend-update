@@ -65,10 +65,12 @@ export interface ADMIN_COMPLETED_PATIENTS_API_RRSPONSE {
   page: number;
   limit: number;
   totalPages: number;
+  totalPatient: number;
   data: ADMIN_COMPLETED_PATIENTS_MODEL[];
 }
 export interface ADMIN_COMPLETED_PATIENTS_TRANSFORM_MODEL {
   data: ADMIN_COMPLETED_PATIENTS_MODEL[];
+  totalPatient: number; 
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -82,6 +84,7 @@ export const ADMIN_COMPLETED_PATIENTS_TRANSFORM_RESPONSE = (
 ): ADMIN_COMPLETED_PATIENTS_TRANSFORM_MODEL => {
   return {
     data: response.data,
+    totalPatient: response.totalPatient,
     pagination: {
       currentPage: response.page,
       totalPages: response.totalPages,

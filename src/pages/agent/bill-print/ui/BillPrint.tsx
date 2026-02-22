@@ -88,8 +88,11 @@ const BillPrint = () => {
       </Text>
     );
 
-  const currentMonth = new Date().toISOString().slice(0, 7);
+  const now = new Date();
+const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
+
+  console.log("billPrint", currentMonth);
   return (
     <>
       {/* Print-specific style */}

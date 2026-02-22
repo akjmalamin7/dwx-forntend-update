@@ -9,6 +9,7 @@ import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import PrintButton from "./PrintButton";
 
 const PatientCompleted = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -64,6 +65,7 @@ const PatientCompleted = () => {
         patient_sex: item.gender,
         xray_name: item.xray_name,
         type: item.rtype, 
+        completed_time: item.completed_time, 
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
@@ -82,12 +84,12 @@ const PatientCompleted = () => {
             >
               View
             </Link>
-            <Link
-              to={`/agent/patient-print/${record?.key}`}
-              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-            >
-              Print
-            </Link>
+        
+            <PrintButton
+              completedTime={record?.completed_time as string}
+              recordKey={record?.key as string}
+              delaySeconds={180}
+            />
           </div>
         ),
       };

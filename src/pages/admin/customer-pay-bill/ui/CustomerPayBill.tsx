@@ -17,6 +17,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
+import { useGetPaymentListQuery } from "@/shared/redux/features/admin/payment/paymentApi";
+import { useMemo } from "react";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -25,6 +29,22 @@ const CustomerPayBill = () => {
     isLoading: isBillLoading,
     isError: isBillError,
   } = useGetCustomerBillDetailsQuery(bill_id!, { skip: !bill_id });
+
+
+    const { data: paymentGetway } = useGetPaymentListQuery();
+  
+    const paymnetMethod = useMemo(() => {
+      return (
+             paymentGetway?.map((item, index) => ({
+        key: item.id,
+        sl: index + 1, 
+         name:  parse(DOMPurify.sanitize(String(`${item.details} (${item.name})`))),
+        details: item.details,
+        action: "",
+      })) || []
+
+      );
+    }, [paymentGetway]);
 
   const transformBill = data?.data[0];
 
@@ -98,7 +118,12 @@ const CustomerPayBill = () => {
           <div className="w-full md:w-1/2">
             <form className="grid pt-5 pb-5" onSubmit={onSubmit}>
               {/* Account Number */}
-
+              <ControlledSelect
+                  label="Account Number"
+                  control={control}
+                  name="received_number"
+                  options={paymnetMethod}
+                />
               <ControlInput
                 control={control}
                 size="sm"
@@ -126,7 +151,7 @@ const CustomerPayBill = () => {
                   options={[
                     { name: "Paid", value: "Paid" },
                     { name: "Pending", value: "Pending" },
-                    { name: "Waiting", value: "Waiting" },
+                    { name: "Unpaid", value: "Unpaid" },
                   ]}
                 />
               {/* honorarium   */}

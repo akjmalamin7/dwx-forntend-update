@@ -29,7 +29,7 @@ export const PrintPatientComment = ({ comments = [] }: IProps) => {
  
   const commentsValue = comments[0]?.comments || "";
 
-  return <div   className="text-2xl"> 
+  return <div   className="text-2xl patientComments"> 
    <EditorPrint
             value={commentsValue} 
             placeholder=""

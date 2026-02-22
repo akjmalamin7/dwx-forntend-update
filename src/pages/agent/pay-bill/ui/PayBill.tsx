@@ -1,5 +1,7 @@
 import { PaymentMethod } from "@/entities";
 import { usePageTitle } from "@/shared/hooks";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 import {
   BillPayFormschema,
   type BillPayFormValues,
@@ -34,7 +36,7 @@ const PayBill = () => {
   const paymnetMethod = useMemo(() => {
     return (
       paymentGetway?.data?.map((method) => ({
-        name: `${method.details} (${method.name})`,
+        name:  parse(DOMPurify.sanitize(String(`${method.details} (${method.name})`))),
         value: method.details,
       })) ?? []
     );

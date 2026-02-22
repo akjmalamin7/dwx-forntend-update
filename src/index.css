@@ -42,9 +42,16 @@
   .jodit-wysiwyg {
     font-size: 20px !important;
   }
+    .patientComments .jodit-wysiwyg {
+    font-size: 24px !important;
+  }
 
-    .jodit-wysiwyg p{
+   .jodit-wysiwyg p{
     font-size: 18px !important;
+    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
+  }
+    .patientComments .jodit-wysiwyg p{
+    font-size: 24px !important;
     font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
   }
 

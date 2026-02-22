@@ -120,7 +120,7 @@ const PatientPending = () => {
   });
 
   return (
-    <Panel header="Pending Patients" size="xl">
+    <Panel header={`Pending Patients, Total = ${patientList?.totalPatient ?? 0}`} size="xl">
       <DataTable
         size="xl"
         isLoading={isLoading}

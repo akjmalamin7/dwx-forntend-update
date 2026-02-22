@@ -42,9 +42,11 @@ export interface ADMIN_PENDING_PATIENT_API_RESPONSE_MODEL {
   page: number;
   limit: number;
   totalPages: number;
+  totalPatient: number;
   data: ADMIN_PENDING_PATIENT_MODEL[];
 }
 export interface ADMIN_TRANSFORM_PENDING_PATIENT_MODEL {
+  totalPatient: number; 
   data: ADMIN_PENDING_PATIENT_MODEL[];
   pagination: {
     currentPage: number;
@@ -59,6 +61,7 @@ export const ADMIN_TRANSFORM_PENDING_PATIENT_RESPONSE = (
 ): ADMIN_TRANSFORM_PENDING_PATIENT_MODEL => {
   return {
     data: response.data,
+    totalPatient: response.totalPatient,
     pagination: {
       currentPage: response.page,
       totalPages: response.totalPages,

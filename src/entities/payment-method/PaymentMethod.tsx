@@ -26,7 +26,7 @@ const PaymentMethod = ({ methods = [] }: IProps) => {
           element="div"
           className="text-2xl"
         >
-          <strong>{method.name}</strong>:{" "}
+          <strong>{method.name}</strong>: 
           {parse(DOMPurify.sanitize(String(method.value) || ""))}
         </Text>
       ))}
@@ -36,7 +36,7 @@ const PaymentMethod = ({ methods = [] }: IProps) => {
       <div className="space-y-1 text-2xl">
         {rightBox.map((method) => (
           <Text key={method.value} element="div" className="text-2xl">
-            <strong>{method.name}</strong>:{" "}
+            <strong> {parse(DOMPurify.sanitize(String(method.name)))}</strong>: 
             {parse(DOMPurify.sanitize(String(method.value) || ""))}
           </Text>
         ))}

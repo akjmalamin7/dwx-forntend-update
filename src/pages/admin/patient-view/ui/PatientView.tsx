@@ -6,14 +6,15 @@ import {
 import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
 import "viewerjs/dist/viewer.css";
-import { PatientInformation } from "./patient-iformation";
+import { PatientInformation } from "./patient-iformation"; 
+ 
 
 const PatientView = () => {
   usePageTitle("Patient View", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
-  });
+  });  
 
   return (
     <Panel
@@ -27,6 +28,8 @@ const PatientView = () => {
        size="xl" 
     >
       <PatientInformation />
+
+    
 
       
       <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">

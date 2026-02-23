@@ -67,6 +67,7 @@ const DataTable = ({
             value={limit?.toString()}
             onSelect={handleLimit}
             options={[
+              { name: "All", value: "10000" },
               { name: "10", value: "10" },
               { name: "20", value: "20" },
               { name: "30", value: "30" },

@@ -109,6 +109,8 @@ const PatientPrint = () => {
           @media print {
             @page {
               margin-top: ${paddingTop}in;
+              margin-left: 0.7in;
+              margin-right: 0.7in;
             }
           }
         `}

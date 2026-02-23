@@ -22,7 +22,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "S.Time",
     dataIndex: "start_time",
     align: "start",
-    width: 30,
+    width: 80,
   },
 
 
@@ -31,14 +31,14 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "P.ID",
     dataIndex: "patient_id",
     align: "start",
-    width: 10,
+    width: 50,
   },
   {
     key: "patient_name",
     title: "P.Name",
     dataIndex: "patient_name",
     align: "start",
-     width: 100,
+    width: 200,
   },
   {
     key: "gender",
@@ -52,7 +52,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Age",
     dataIndex: "age",
     align: "start",
-    width: 10,
+    width: 60,
   },
 
   {
@@ -60,21 +60,21 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "XrayName",
     dataIndex: "xray_name",
     align: "start",
-     width: 40,
+    width: 200,
   },
   {
     key: "rtype",
     title: "Type",
     dataIndex: "rtype",
     align: "start",
-     width: 10,
+    width: 10,
   },
   {
     key: "selected_dr",
     title: "Selected",
     dataIndex: "selected_dr",
     align: "start",
-        render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
     width: 30,
   },
   {
@@ -82,7 +82,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Ignored",
     dataIndex: "ignored_dr",
     align: "start",
-        render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
     width: 30,
   },
   {
@@ -97,6 +97,6 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Action",
     dataIndex: "action",
     align: "center",
-    width: 220,
+    width: 180,
   },
 ];

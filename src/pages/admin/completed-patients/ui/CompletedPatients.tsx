@@ -74,7 +74,7 @@ const CompletedPatients = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex justify-end">
+          <div key={rowIndex} className="flex justify-end pending-action-btns">
             <Link
               to={`/admin/completed-patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-2 text-sm"
@@ -93,7 +93,7 @@ const CompletedPatients = () => {
   });
 
   return (
-    <Panel header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`} size="lg">
+    <Panel header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`} size="xl">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

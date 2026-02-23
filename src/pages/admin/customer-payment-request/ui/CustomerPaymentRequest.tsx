@@ -44,10 +44,10 @@ const ManageCustomerBillByMonth = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}> 
+          <div key={rowIndex} className="flex   gap-2"> 
              <Link
               to={`/admin/customer-bill-list/${record?.month}`}
-              className="bg-green-500 text-white px-4 py-2 m-2 text-sm rounded"
+              className="bg-green-500 text-white px-4 py-2  text-sm rounded"
             >
               View Bill List
             </Link>

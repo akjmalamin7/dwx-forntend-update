@@ -44,7 +44,7 @@ const CustomerTransectionHistoryMonth = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}> 
+          <div key={rowIndex} className="flex   gap-2"> 
              <Link
               to={`/admin/customer-transection-history/${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"

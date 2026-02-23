@@ -67,6 +67,13 @@
   .viewer-container { 
       position: fixed !important; 
   }
+
+  .pending-action-btns{
+    width: 180px !important;
+  }
+  .bg-gray-900 {
+      background-color: #101828 !important;
+  }
 @media print {
 
 

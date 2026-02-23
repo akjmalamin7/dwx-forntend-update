@@ -43,7 +43,7 @@ const ServerSideSearch = ({
 
   return (
     <Input
-      label="Search:"
+      label=""
       size="sm"
       placeholder={placeholder}
       value={internalValue}

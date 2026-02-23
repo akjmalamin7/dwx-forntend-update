@@ -158,14 +158,14 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-1",
     role: [RoleEnum.admin],
     title: "Pending Report",
-    icon: <IoIosSend />,
+    icon: '',
     path: "/admin/patient",
   },
   {
     id: "admin-2",
     role: [RoleEnum.admin],
     title: "Completed Patients",
-    icon: <IoIosSend />,
+    icon: '',
     path: "/admin/completed-patients",
   },
 
@@ -173,7 +173,8 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-3",
     role: [RoleEnum.admin],
     title: "Manage Report",
-    icon: <IoIosSend />,
+    //icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -207,7 +208,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-4",
     role: [RoleEnum.admin],
     title: "Manage Doctor Bill",
-    icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -222,7 +223,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-8",
     role: [RoleEnum.admin],
     title: "Manage Customer Bill",
-    icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -256,7 +257,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-5",
     role: [RoleEnum.admin],
     title: "User Management",
-    icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -305,7 +306,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-6",
     role: [RoleEnum.admin],
     title: "Others setting",
-    icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -341,7 +342,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-7",
     role: [RoleEnum.admin],
     title: "Settings",
-    icon: <IoIosSend />,
+    icon: '',
     path: "",
     children: [
       {
@@ -363,7 +364,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-9",
     role: [RoleEnum.admin],
     title: "Software",
-    icon: <IoIosSend />,
+    icon: '',
     path: "/admin/software-list",
   },
 ];

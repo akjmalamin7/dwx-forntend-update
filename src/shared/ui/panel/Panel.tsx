@@ -28,7 +28,7 @@ const Panel = ({
     <div
       className={`${sizes} ${margins} mx-auto border border-indigo-200 rounded-md shadow-md print:shadow-none print:border-0 print:rounded-none`}
     >
-      <div className="bg-blue-600 panelHeader text-white px-3 py-3.5 rounded-t-md print:hidden">
+      <div className="bg-blue-600 panelHeader text-white px-3 py-1.5 rounded-t-md print:hidden">
         <Text element="h2" className="text-md text-yellow-50 font-semibold">
           {header ? header : "Pannel header"}
         </Text>

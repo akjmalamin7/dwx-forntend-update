@@ -149,7 +149,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                         style={{
                           width: column.width ? `${column.width}px` : "auto",
                         }}
-                        className={classNames("px-3 py-2", borderClasses, {
+                        className={classNames("px-2 py-2.5", borderClasses, {
                           [`text-${column.align}`]: column.align,
                         })}
                         colSpan={colSpanValue}
@@ -159,7 +159,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                           column.render(cellValue, data, rowIndex)
                         ) : column.dataIndex ? (
                           <Text
-                            size="md"
+                            size="sm"
                             fontWeight="regular"
                             color="dark"
                             textAlign={column.align}

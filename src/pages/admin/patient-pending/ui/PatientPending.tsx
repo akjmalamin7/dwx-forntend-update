@@ -97,7 +97,7 @@ const PatientPending = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex flex-wrap gap-y-4">
+          <div key={rowIndex} className="flex flex-wrap gap-y-4 pending-action-btns">
             <TypingBack path={record?.key} onDeleteSuccess={refetch} />
             <Link
               to={`/admin/select-doctor/${record?.key}`}

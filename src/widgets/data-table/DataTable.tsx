@@ -63,7 +63,7 @@ const DataTable = ({
         <div className="w-1/2 md:w-[120px]">
           <Select
             size="sm"
-            label="Limit"
+            label=""
             value={limit?.toString()}
             onSelect={handleLimit}
             options={[

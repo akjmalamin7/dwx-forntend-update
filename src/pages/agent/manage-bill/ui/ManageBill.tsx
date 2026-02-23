@@ -12,16 +12,22 @@ const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
 
   // Prepare data
+ 
   const DATA_TABLE = useMemo(
     () =>
-      BillList?.map((item, index) => ({
-        key: item._id,
-        sl: index + 1,
-        month: item.month,
-       
-        status: item.status,
-        action: "",
-      })) || [],
+      BillList?.slice() // don't mutate original
+        .sort((a, b) => {
+          const [aYear, aMonth] = a.month.split("-").map(Number);
+          const [bYear, bMonth] = b.month.split("-").map(Number);
+          return bYear !== aYear ? bYear - aYear : bMonth - aMonth;
+        })
+        .map((item, index) => ({
+          key: item._id,
+          sl: index + 1,
+          month: item.month,
+          status: item.status,
+          action: "",
+        })) || [],
     [BillList]
   );
 

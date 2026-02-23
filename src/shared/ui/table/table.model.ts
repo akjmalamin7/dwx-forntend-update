@@ -3,7 +3,7 @@ export interface Columns<D extends DataSource = DataSource> {
   title: string;
   dataIndex?: keyof D;
   align?: "start" | "center" | "end";
-  width?: number;
+  width?: number; 
   colSpan?: number | ((record: D, rowIndex: number) => number);
   rowSpan?: number | ((record: D, rowIndex: number) => number);
   render?: (

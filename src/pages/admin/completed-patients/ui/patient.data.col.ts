@@ -22,7 +22,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "S.T - C.Time",
     dataIndex: "start_time",
     align: "start",
-    width: 30,
+    width: 100,
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
 

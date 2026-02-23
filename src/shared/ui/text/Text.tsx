@@ -45,7 +45,7 @@ const Text = ({
   const Tag = element as keyof React.JSX.IntrinsicElements;
 
   const sizeClasses = {
-    sm: "text-[12px]",
+    sm: "text-[14px]",
     md: "text-[16px] md:text-[18px]",
     lg: "text-[16px] md:text-[18px]",
     xl: "text-[18px] md:text-[20px]",

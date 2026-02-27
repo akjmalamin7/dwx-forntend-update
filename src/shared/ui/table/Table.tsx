@@ -159,7 +159,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>((props, ref) => {
                           column.render(cellValue, data, rowIndex)
                         ) : column.dataIndex ? (
                           <Text
-                            size="sm"
+                            size="md"
                             fontWeight="regular"
                             color="dark"
                             textAlign={column.align}

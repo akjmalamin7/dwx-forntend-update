@@ -11,15 +11,13 @@ export const useAdminPatientView = () => {
     skip: !patient_id,
     refetchOnMountOrArgChange: true,
   });
-  const patient = adminPateintView?.data.patient;
-  const revisions = adminPateintView?.data.revisions;
+  const patient = adminPateintView?.data.patient; 
   const attachments = adminPateintView?.data.attachments;
   // const flattenedAttachments: string[] =
   //   attachments?.[0]?.attachment?.flat() || [];
   return {
     patient,
-    attachments,
-    revisions,
+    attachments, 
     // flattenedAttachments,
     adminPateintView,
     isAdminViewPatientLoading,

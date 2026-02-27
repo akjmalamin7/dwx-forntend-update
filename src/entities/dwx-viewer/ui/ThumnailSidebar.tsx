@@ -1,3 +1,4 @@
+ 
 interface Props {
   images: string[];
   currentIndex: number;
@@ -40,6 +41,7 @@ const ThumnailSidebar = ({
                     : "hover:ring-2 hover:ring-gray-400"
                 }`}
               >
+                
                 <img
                   src={images[firstIndex]}
                   alt={`Thumbnail ${firstIndex + 1}`}

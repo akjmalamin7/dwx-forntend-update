@@ -15,7 +15,7 @@ import { PATIENT_DATA_COL } from "./patient.data.col";
 // interface Doctor {
 //   _id: string;
 //   email: string;
-//   id?: string;
+//   id?: string; 
 // }
 
 const PatientPending = () => {

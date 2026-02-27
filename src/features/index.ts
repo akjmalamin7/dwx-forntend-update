@@ -2,6 +2,7 @@ export {
   AdminDoctorMultiSelect,
   CompletedBack,
   DeleteAdminPatient,
+  DeleteAdminPatientAttachment,
   DeleteAdminUser,
   PatientDeleteBack,
   TypingBack,

@@ -10,12 +10,9 @@ import { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-
-import {
-  useAddFormatMutation,
-  useUpdateFormatMutation,
-} from "../formates/api/mutation";
-import { useGetAdminFormatQuery } from "../formates/api/query";
+ 
+import { useAddDoctorFormatMutation, useUpdateDoctorFormatMutation } from "../formates/doctorapi/mutation";
+import { useGetDoctorFormatQuery } from "../formates/doctorapi/query";
 interface Iprops {
   isUpdate?: boolean;
 }
@@ -37,9 +34,9 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [createFormat, { isLoading: isCreating }] = useAddFormatMutation();
-  const [updateFormat, { isLoading: isUpdating }] = useUpdateFormatMutation();
-  const { data: formatData, isLoading: isViewLoading } = useGetAdminFormatQuery(
+  const [createFormat, { isLoading: isCreating }] = useAddDoctorFormatMutation();
+  const [updateFormat, { isLoading: isUpdating }] = useUpdateDoctorFormatMutation();
+  const { data: formatData, isLoading: isViewLoading } = useGetDoctorFormatQuery(
     id!,
     {
       skip: !isUpdate || !id,

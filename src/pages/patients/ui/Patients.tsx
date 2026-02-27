@@ -4,8 +4,7 @@ import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAgentPendingSocket } from "@/shared/hooks/use-socket/useAgentPendingSocket";
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
-import type { DataSource } from "@/shared/ui/table/table.model";
-import { formatEmails } from "@/shared/utils/dr-email-format/drEmailFormat";
+import type { DataSource } from "@/shared/ui/table/table.model"; 
 import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -75,8 +74,8 @@ const Patients = () => {
           //   Array.isArray(item.doctor_id) && item.doctor_id.length > 0
           //     ? item.doctor_id.map((d) => d.email).join(", ")
           //     : "All",
-          selected_dr: user?.id ? formatEmails(item.doctor_id) || "All" : "All",
-          ignore_dr: formatEmails(item.ignore_dr) || "N/A",
+          //selected_dr: user?.id ? formatEmails(item.doctor_id) || "All" : "All",
+          //ignore_dr: formatEmails(item.ignore_dr) || "N/A",
           // ignore_dr:
           //   Array.isArray(item.ignore_dr) && item.ignore_dr.length > 0
           //     ? item.ignore_dr.map((d) => d.email).join(", ")

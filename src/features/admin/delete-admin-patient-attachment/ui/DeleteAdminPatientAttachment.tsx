@@ -1,3 +1,4 @@
+import { useAuth } from "@/shared/hooks";
 import { useDeleteAdminPatientAttachmentMutation } from "@/shared/redux/features/admin/delete-admin-patient/deleteAdminPatient";
 import { Button, Modal, Text } from "@/shared/ui";
 import { useState } from "react";
@@ -39,18 +40,23 @@ const DeleteAdminPatientAttachment = ({ id, onDeleteSuccess }: IProps) => {
        
     }
   };
+
+    const { user } = useAuth();
+
   return (
     <>
       <Toaster />
-
-      <Button
+      {user?.role === "admin" ? (
+        <Button
         onClick={() => setIsModalOpen(true)}
         className="bg-red-500 text-white !px-2 !py-1 !h-auto  text-sm rounded-none"
         loading={isLoading}
         disabled={isLoading}
-      >
+        >
         X
-      </Button>
+        </Button>
+      ) : null} 
+
 
       {isModalOpen && (
         <Modal

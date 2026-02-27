@@ -194,4 +194,8 @@ export const adminRoutes = [
     path: "/admin/bill-add",
     element: withSuspense(<Pages.BillAdd />),
   }, 
+  {
+    path: "/admin/settings",
+    element: withSuspense(<Pages.AdminSetting />),
+  }, 
 ];

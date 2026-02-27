@@ -5,26 +5,34 @@ import { type ChangeEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
+interface GetCommentsAndPassaultType {
+  passault?: string;
+  comments?: string;
+}
 interface XrayMobileModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  commentsAndPassault?: GetCommentsAndPassaultType;
+  isUpdate?: boolean;
   images: { src: string }[];
   activeIndex: number;
   history?: string;
   age?: string;
-  setActiveIndex: (index: number) => void;
   patient_id: string;
+  setActiveIndex: (index: number) => void;
+  onClose: () => void;
 }
 
 const XrayMobileImages = ({
   isOpen,
-  onClose,
+  commentsAndPassault,
+  isUpdate,
   images,
   history,
   age,
   activeIndex,
   setActiveIndex,
   patient_id,
+  onClose,
 }: XrayMobileModalProps) => {
   const { role } = useAuth();
   const [filters, setFilters] = useState({
@@ -163,7 +171,11 @@ const XrayMobileImages = ({
         ""
       ) : (
         <div className="p-5">
-          <ReportSubmissionForm patient_id={patient_id} />
+          <ReportSubmissionForm
+            patient_id={patient_id}
+            commentsAndPassault={commentsAndPassault}
+            isUpdate={isUpdate}
+          />
         </div>
       )}
     </div>,

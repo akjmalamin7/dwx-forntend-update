@@ -2,8 +2,7 @@ import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/pat
 import { useMemo, useState } from "react";
 import "./NonDCMDesktopViewer.css";
 import Viewer from "./Viewer";
-import { DeleteAdminPatientAttachment } from "@/features";
-import { useAuth } from "@/shared/hooks";
+import { DeleteAdminPatientAttachment } from "@/features"; 
 
 interface NonDCMDesktopViewerProps {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
@@ -28,8 +27,7 @@ const NonDCMDesktopViewer = ({
   const openViewer = (i: number): void => {
     setStartIndex(i);
     setViewerOpen(true);
-  };
-  const { user } = useAuth();
+  }; 
  
   return (
     <div className="gallery-page">
@@ -37,11 +35,10 @@ const NonDCMDesktopViewer = ({
         {small_urls.map((img, i) => (
           <div className="gallery-item-wrapper" key={i}  >
             
-            <div style={{ display: "none" }}>
-            {user?.role === "admin" ? (
+             
               <DeleteAdminPatientAttachment id={attachments[i]._id} onDeleteSuccess={() => window.location.reload()} />
-            ) : null} 
-            </div>
+           
+          
             <div className="gallery-item" key={i} onClick={() => openViewer(i)}>
             
             <img src={img.src} />

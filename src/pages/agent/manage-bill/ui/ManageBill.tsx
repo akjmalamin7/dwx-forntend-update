@@ -7,12 +7,14 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { BILL_DATA_COL } from "./bill.data.col";
+import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/customer-settings/customerSettingsApi";
 
 const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
-
+  const { data: settingsData } = useGetCustomerSettingsQuery();
   // Prepare data
- 
+   const isPrint = settingsData?.data?.is_print === 1;
+
   const DATA_TABLE = useMemo(
     () =>
       BillList?.slice() // don't mutate original
@@ -48,22 +50,25 @@ const ManageBill = () => {
     if (item.key === "action") {
       return {
         ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
-            <Link
-              to={`/agent/pay-bill/${record?.month}`}
-              className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-            >
-              Pay Bill
-            </Link>
-            <Link
-              to={`/agent/print-bill/${record?.month}`}
-              className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
-            >
-              Print Bill
-            </Link>
-          </div>
-        ),
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => {
+          if (isPrint) return null;
+          return (
+            <div key={rowIndex}>
+              <Link
+                to={`/agent/pay-bill/${record?.month}`}
+                className="bg-green-500 text-white px-2 py-1 rounded text-sm"
+              >
+                Pay Bill
+              </Link>
+              <Link
+                to={`/agent/print-bill/${record?.month}`}
+                className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"
+              >
+                Print Bill
+              </Link>
+            </div>
+          );
+        },
       };
     }
     return item;

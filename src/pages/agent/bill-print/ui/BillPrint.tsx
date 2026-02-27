@@ -9,9 +9,15 @@ import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list";
 import { BillingInformation } from "./billing-information";
 import { BillingPadHeader } from "./billing-pad-header";
+import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/customer-settings/customerSettingsApi";
 
 const BillPrint = () => {
   const { month } = useParams<{ month: string }>();
+
+  const { data: settingsData } = useGetCustomerSettingsQuery();
+  // Prepare data
+   const isPrint = settingsData?.data?.bill_is_print === 1;
+    console.log("isPrint:", isPrint);
   const {
     data: bill,
     isLoading: isBillLoading,
@@ -91,8 +97,7 @@ const BillPrint = () => {
   const now = new Date();
 const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
-
-  console.log("billPrint", currentMonth);
+ 
   return (
     <>
       {/* Print-specific style */}
@@ -110,7 +115,9 @@ const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
         header={<PanelHeading title="Print Bill" button="" path="" />}
         size="lg"
       >
-        {month != currentMonth && (
+
+       
+        {!isPrint && month != currentMonth && (
           <Button
             onClick={handlePrint}
             className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden"

@@ -348,7 +348,7 @@ export const MENU_DATA: MenuType[] = [
       {
         id: "message-settings-1",
         title: "Message Settings",
-        path: "/admin/message-settings",
+        path: "/admin/settings",
         role: [RoleEnum.admin],
       },
 

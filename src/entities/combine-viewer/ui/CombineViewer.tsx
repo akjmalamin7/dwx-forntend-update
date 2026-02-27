@@ -1,28 +1,36 @@
 import DwxViewer from "@/entities/dwx-viewer";
 import { NonDCMDesktopViewer } from "@/entities/non-dcm-desktop-viewer";
 import { ReportSubmissionForm } from "@/entities/report-submission-form";
-import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages"; 
+import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
 import { DeleteAdminPatientAttachment } from "@/features";
 import { useAuth } from "@/shared/hooks";
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
 import { useMemo, useState } from "react";
+interface GetCommentsAndPassaultType {
+  passault?: string;
+  comments?: string;
+}
 interface CombineViewerProps {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
+  commentsAndPassault?: GetCommentsAndPassaultType;
   history?: string;
   age?: string;
   isDCM?: boolean;
   patient_id?: string;
   visible?: boolean;
+  isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
 }
 const CombineViewer = ({
   attachments,
   isDCM,
+  commentsAndPassault,
+  isUpdate,
   age,
   history,
   patient_id = "",
   visible = false,
-  
+
   setVisible,
 }: CombineViewerProps) => {
   const { role } = useAuth();
@@ -43,7 +51,11 @@ const CombineViewer = ({
           ""
         ) : (
           <div id="report-form">
-            <ReportSubmissionForm patient_id={patient_id} />
+            <ReportSubmissionForm
+              patient_id={patient_id}
+              commentsAndPassault={commentsAndPassault}
+              isUpdate={isUpdate}
+            />
           </div>
         )}
       </div>
@@ -60,7 +72,10 @@ const CombineViewer = ({
                 setVisible?.(true);
               }}
             >
-              <DeleteAdminPatientAttachment id={img._id} onDeleteSuccess={() => setVisible?.(false)} />
+              <DeleteAdminPatientAttachment
+                id={img._id}
+                onDeleteSuccess={() => setVisible?.(false)}
+              />
               <img
                 src={img.small_url}
                 className="w-full h-full object-cover"

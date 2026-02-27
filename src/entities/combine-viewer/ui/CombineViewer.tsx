@@ -95,6 +95,8 @@ const CombineViewer = ({
         activeIndex={activeIndex}
         setActiveIndex={setActiveIndex}
         patient_id={patient_id}
+        commentsAndPassault={commentsAndPassault}
+        isUpdate={isUpdate}
       />
     </>
   );

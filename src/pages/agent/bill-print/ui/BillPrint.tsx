@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list";
 import { BillingInformation } from "./billing-information";
 import { BillingPadHeader } from "./billing-pad-header";
-import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/customer-settings/customerSettingsApi";
+import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/settings/customerSettingsApi";
 
 const BillPrint = () => {
   const { month } = useParams<{ month: string }>();

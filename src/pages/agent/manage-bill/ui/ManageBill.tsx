@@ -7,7 +7,7 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { BILL_DATA_COL } from "./bill.data.col";
-import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/customer-settings/customerSettingsApi";
+import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/settings/customerSettingsApi";
 
 const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();

@@ -56,7 +56,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "type",
     align: "start",
     width: 10,
-  },
+  },/*
   {
     key: "selected_dr",
     title: "SelectedDr",
@@ -70,7 +70,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "ignore_dr",
     align: "start",
     width: 30,
-  },
+  },*/
   {
     key: "online_dr",
     title: "OnlineDr",

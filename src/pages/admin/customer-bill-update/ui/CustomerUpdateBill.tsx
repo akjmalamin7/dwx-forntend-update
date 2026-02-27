@@ -54,7 +54,7 @@ const CustomerUpdateBill = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex   gap-2">
+          <div key={rowIndex} className="flex  float-right  gap-2">
             <Link
               to={`/admin/patient-view/${record?.key}`}
               className="bg-yellow-500 text-white px-2 py-2 text-sm"

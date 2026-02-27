@@ -28,7 +28,7 @@ const Editor = ({
 
       // ⭐ Add this part
       style: {
-        fontSize: "18px", // default text size inside editor
+        fontSize: "18px",  
         fontFamily: "Arial, sans-serif",
       },
 
@@ -96,10 +96,7 @@ const Editor = ({
         label
       )}
       <div
-        className="
-    [&_.jodit-wysiwyg]:!text-[36px]
-    [&_.jodit-wysiwyg_p]:!text-[36px]
-  "
+        className=""
       >
         <JoditEditor
           ref={editor}

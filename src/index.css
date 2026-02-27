@@ -39,7 +39,7 @@
 }
 
 /* Optional: Adjust font size for print */
-  .jodit-wysiwyg {
+ /* .jodit-wysiwyg {
     font-size: 20px !important;
   }
     .patientComments .jodit-wysiwyg {
@@ -54,7 +54,7 @@
     font-size: 24px !important;
     font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
   }
-
+*/
   .jodit-container,.jodit-workplace{
     height: unset !important;
     max-height: unset !important; 
@@ -158,11 +158,11 @@
     padding: 0 !important;
   }
 
-  
+  /*
  .jodit-wysiwyg p{
     font-size: 24px !important;
     font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
-  }
+  }*/
 
 
   /* Remove the contentEditable div if you don't need it */

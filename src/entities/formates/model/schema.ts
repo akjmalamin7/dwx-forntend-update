@@ -48,7 +48,7 @@ export interface ADMIN_FORMATE_VIEW_TYPE {
   user_id: string;
   title: string;
   details: string;
-  type: "AdminFormat";
+  type: "AdminFormat" | "DoctorFormat";
   createdAt: string;
   updatedAt: string;
   _v: number;

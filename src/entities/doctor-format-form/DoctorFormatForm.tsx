@@ -43,7 +43,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
     }
   );
   useEffect(() => {
-    if (isUpdate && formatData) {
+    if (isUpdate && formatData) { 
       reset({
         title: formatData.title || "",
         details: formatData.details || "",
@@ -70,7 +70,7 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
         position: "top-right",
       });
 
-        reset();
+        reset(); 
       }
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {

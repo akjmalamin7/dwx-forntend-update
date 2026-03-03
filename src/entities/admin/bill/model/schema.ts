@@ -11,6 +11,7 @@ interface ADMIN_CUSTOMER_UPDATE_BILL_DOCTOR_MODEL {
   image_type: "single" | "double" | "multiple" | "ecg" | string;
   month_year: string;
   xray_name: string;
+  total_images: string;
 }
 
 export interface ADMIN_CUSTOMER_BILL_DOCTOR_API_RESPONSE {

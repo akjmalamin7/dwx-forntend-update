@@ -16,7 +16,7 @@ const BillPrint = () => {
 
   const { data: settingsData } = useGetCustomerSettingsQuery();
   // Prepare data
-   const isPrint = settingsData?.data?.bill_is_print === 1;
+   const isPrint = settingsData?.data?.bill_is_print === 2;
     console.log("isPrint:", isPrint);
   const {
     data: bill,
@@ -94,7 +94,9 @@ const BillPrint = () => {
       </Text>
     );
 
-  const now = new Date();
+ const now = new Date(
+  new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" })
+);
 const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
  
@@ -137,8 +139,8 @@ const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
         <div
           className="absolute inset-0 flex items-center justify-center
                     -translate-y-4 pointer-events-none
-                    print:opacity-100 opacity-20
-                    text-6xl font-bold text-green-300"
+                    print:opacity-40 opacity-20
+                    text-2xl font-bold text-green-300"
           style={{ zIndex: 0 }}
         >
           {transformBill?.status === "Paid" ? "Paid" : "Un-paid"}

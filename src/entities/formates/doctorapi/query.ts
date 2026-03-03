@@ -34,20 +34,24 @@ export const FormatList = apiSlice.injectEndpoints({
       providesTags: [{ type: "FormatList", id: "LIST" }],
     }),
     /* Get Format  */
-    getDoctorFormat: builder.query<ADMIN_FORMATE_VIEW_TYPE, string>({
-      query: (id: string) => ({
-        url: `/doctor/format/${id}`,
-        method: "GET",
-      }),
-      transformResponse: (
-        response: ADMIN_FORMATE_VIEW_RESPOONSE | ADMIN_FORMATE_VIEW_TYPE[]
-      ) => {
-        if (Array.isArray(response)) return response[0];
-        return response.data ?? response;
-      },
-      providesTags: (result, _, id) =>
-        result ? [{ type: "Format", id }] : [{ type: "Format", id }],
-    }),
+ getDoctorFormat: builder.query<ADMIN_FORMATE_VIEW_TYPE, string>({
+  query: (id: string) => ({
+    url: `/doctor/format/${id}`,
+    method: "GET",
+  }),
+  transformResponse: (response: ADMIN_FORMATE_VIEW_TYPE[] | ADMIN_FORMATE_VIEW_RESPOONSE) => {
+    // API returns array directly
+    if (Array.isArray(response)) {
+      return response[0];
+    }
+    // or wrapped in { data: [] }
+    if (Array.isArray(response.data)) {
+      return response.data[0];
+    }
+    return response.data;
+  },
+  providesTags: (_, __, id) => [{ type: "Format", id }],
+}),
 
     /* Add Format  */
   }),

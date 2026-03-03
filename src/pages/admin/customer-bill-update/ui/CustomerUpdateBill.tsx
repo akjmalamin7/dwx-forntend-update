@@ -43,6 +43,7 @@ const CustomerUpdateBill = () => {
         xray_name: item.xray_name,
         image_type: item.image_type,
         month: item.month_year,
+        total_images: item.total_images,
         view: "",
         action: "",
       })) || [],
@@ -56,11 +57,11 @@ const CustomerUpdateBill = () => {
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
           <div key={rowIndex} className="flex  float-right  gap-2">
             <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-yellow-500 text-white px-2 py-2 text-sm"
+              to={`/admin/completed-patient-view/${record?.key}`}
+              className="bg-yellow-500 text-white px-2 py-1 text-sm"
             >
-              View
-            </Link>
+              View 
+            </Link> {record?.total_images ? `(${record.total_images})` : ""}
           </div>
         ),
       };
@@ -76,7 +77,7 @@ const CustomerUpdateBill = () => {
           return (
             <div key={rowIndex}>
               <CustomerUpdateBillAction
-                defaultValue={(record?.image_type ?? "") as string}
+                defaultValue={(String(record?.image_type ?? "")).toLowerCase()}
                 name="image_type"
                 id={originalItem?._id}
               />

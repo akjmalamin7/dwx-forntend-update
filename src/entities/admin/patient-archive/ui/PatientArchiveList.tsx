@@ -13,7 +13,7 @@ const PatientArchiveList = () => {
   const { month } = useParams<{ month: string }>();
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
     defaultPage: 1,
-    defaultLimit: 10,
+    defaultLimit: 100,
   });
   const {
     data: patientList,
@@ -28,7 +28,7 @@ const PatientArchiveList = () => {
   });
   // const wsUrl = import.meta.env.VITE_WS_URL;
   // const { sendMessage } = useWebSocket<WSMessage>(wsUrl, 500);
-console.log("patientList", patientList);
+ 
   const DATA_TABLE = useMemo(
     () =>
       patientList?.data?.map((item, index) => ({
@@ -82,7 +82,7 @@ console.log("patientList", patientList);
     return item;
   });
   return (
-    <Panel header="Archive patients" size="lg">
+    <Panel header={`Archive patients , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

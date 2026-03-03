@@ -173,7 +173,7 @@ const ReportSubmissionForm = ({
 
       <div onClick={(e) => e.stopPropagation()} id="report-submission-form">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col md:flex-row gap-4 mb-4 mt-6">
+          <div className="flex   md:flex-row gap-4 mb-4 mt-6">
             <AdminFormatList onSelect={handleAdminSelect} />
             <PersonalFormatList onSelect={handlePersonalSelect} />
           </div>

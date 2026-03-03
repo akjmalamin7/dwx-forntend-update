@@ -41,11 +41,13 @@ export interface ADMIN_DELETE_PATIENT_API_RESPONSE_MODEL {
   page: number;
   limit: number;
   totalPages: number;
+  totalPatient: number;
   data: ADMIN_DELETED_PATIENT_MODEL[];
 }
 
 export interface ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL {
   data: ADMIN_DELETED_PATIENT_MODEL[];
+  totalPatient: number;
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -60,6 +62,7 @@ export const ADMIN_TRANSFORMED_DELETE_PATIENT_RESPONSE = (
 ): ADMIN_TRANSFORMED_DELETE_PATIENT_MODEL => {
   return {
     data: response.data,
+    totalPatient: response.totalPatient,
     pagination: {
       currentPage: response.page,
       totalPages: response.totalPages,

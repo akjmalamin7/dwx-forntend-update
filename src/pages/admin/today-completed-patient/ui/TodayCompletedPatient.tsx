@@ -75,7 +75,7 @@ const TodayCompletedPatient = () => {
   });
 
   return (
-    <Panel header="Completed patients" size="lg">
+    <Panel header={`Completed patients , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

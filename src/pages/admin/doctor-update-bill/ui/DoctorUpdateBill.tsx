@@ -68,8 +68,8 @@ const DoctorUpdateBill = () => {
 
           return (
             <div key={rowIndex}>
-              <DoctorUpdateBillAction
-                defaultValue={(record?.image_type ?? "") as string}
+              <DoctorUpdateBillAction 
+                defaultValue={(String(record?.image_type ?? "")).toLowerCase()}
                 name="image_type"
                 id={originalItem?._id}
               />

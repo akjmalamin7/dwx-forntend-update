@@ -1,7 +1,7 @@
 interface ADMIN_ARCHIVE_DOCTOR {
   _id: string;
   email: string;
-  id: string;
+  id: string; 
 }
 
 export interface ADMIN_ARCHIVE_DOCTOR_MODEL {
@@ -42,10 +42,12 @@ export interface ADMIN_ARCHIVE_DOCTOR_API_RESPONSE {
   limit: number;
   totalPages: number;
   data: ADMIN_ARCHIVE_DOCTOR_MODEL[];
+  totalPatient: number;
 }
 
 export interface ADMIN_ARCHIVE_DOCTOR_TRANSFORM_MODEL {
   data: ADMIN_ARCHIVE_DOCTOR_MODEL[];
+  totalPatient: number;
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -58,7 +60,8 @@ export const ADMIN_ARCHIVE_DOCTOR_TRANSFORM_RESPONSE = (
   response: ADMIN_ARCHIVE_DOCTOR_API_RESPONSE
 ): ADMIN_ARCHIVE_DOCTOR_TRANSFORM_MODEL => {
   return {
-    data: response.data,
+    totalPatient: response.totalPatient,
+    data: response.data, 
     pagination: {
       currentPage: response.page,
       totalPages: response.totalPages,

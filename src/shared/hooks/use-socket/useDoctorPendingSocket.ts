@@ -268,29 +268,48 @@ export const useDoctorPendingSocket = ({
         if (refetch) refetch();
         break;
 
-      case "update_patient": {
-        const doctorPayload = mapAdminToDoctorPatient(payload);
+     case "update_patient": {
+      const doctorPayload = mapAdminToDoctorPatient(payload);
 
-        if (isPatientForMe(doctorPayload)) {
-          setRealtimePatients((prev) => {
-            const exists = prev.some((p) => p._id === doctorPayload._id);
-            if (exists)
-              return prev.map((p) =>
-                p._id === doctorPayload._id ? { ...p, ...doctorPayload } : p
-              );
-            if (page === 1) return [...prev, doctorPayload];
-            return prev;
-          });
+      // Check study_for field matches user role
+      const studyFor = (payload as ADMIN_PENDING_PATIENT_MODEL).study_for;
+      const userRole = user?.role;
 
-          if (apiPatients?.some((p) => p._id === doctorPayload._id) && refetch)
-            refetch();
-        } else {
+      if (studyFor && userRole && studyFor !== userRole) {
+        const isInRealtime = realtimePatients.some((p) => p._id === doctorPayload._id);
+        const isInApi = apiPatients?.some((p) => p._id === doctorPayload._id);
+
+        if (isInRealtime) {
           setRealtimePatients((prev) =>
             prev.filter((p) => p._id !== doctorPayload._id)
           );
         }
-        break;
+        if (isInApi && refetch) {
+          refetch();
+        }
+        break; // Don't process further
       }
+
+      if (isPatientForMe(doctorPayload)) {
+        setRealtimePatients((prev) => {
+          const exists = prev.some((p) => p._id === doctorPayload._id);
+          if (exists)
+            return prev.map((p) =>
+              p._id === doctorPayload._id ? { ...p, ...doctorPayload } : p
+            );
+          if (page === 1) return [...prev, doctorPayload];
+          return prev;
+        });
+
+        if (apiPatients?.some((p) => p._id === doctorPayload._id) && refetch)
+          refetch();
+      } else {
+        setRealtimePatients((prev) =>
+          prev.filter((p) => p._id !== doctorPayload._id)
+        );
+      }
+      break;
+    }
 
       default:
         break;

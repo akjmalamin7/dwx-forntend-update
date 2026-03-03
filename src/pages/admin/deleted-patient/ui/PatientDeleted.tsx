@@ -92,7 +92,7 @@ const PatientDeleted = () => {
   });
 
   return (
-    <Panel header="Deleted Report" size="lg">
+    <Panel header={`Deleted Report , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
       <DataTable
         size="lg"
         isLoading={isLoading}

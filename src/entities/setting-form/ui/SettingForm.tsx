@@ -210,8 +210,8 @@ const SettingForm = ({
         control={control}
         name="is_print"
         options={[
-          { name: "Hide", value: "1" },
-          { name: "Show", value: "0" },
+          { name: "Show", value: "1" },
+          { name: "Hide", value: "2" },
         ]}
       />
       
@@ -221,8 +221,8 @@ const SettingForm = ({
         control={control}
         name="bill_is_print"
         options={[
-          { name: "Hide", value: "1" },
-          { name: "Show", value: "0" },
+          { name: "Show", value: "1" },
+          { name: "Hide", value: "2" },
         ]}
       />
       

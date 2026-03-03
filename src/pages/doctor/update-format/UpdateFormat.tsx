@@ -14,7 +14,7 @@ const UpdateFormat = () => {
     <Panel
       header={
         <PanelHeading
-          title="Add Format"
+          title="Edit Format"
           button="Format List"
           path="/doctor/format"
         />

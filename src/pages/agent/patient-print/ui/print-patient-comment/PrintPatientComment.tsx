@@ -1,19 +1,19 @@
 import type { PRINT_DOCTOR_COMMENT } from "@/entities/agent/agent-print-patient/model/schema";
  
-import EditorPrint from "@/features/editor/EditorPrint";
-import createDOMPurify from "dompurify";
- 
+import EditorPrint from "@/features/editor/EditorPrint"; 
 interface IProps {
   comments: PRINT_DOCTOR_COMMENT[];
 }
 
  // Next.js safe DOMPurify instance
-const DOMPurify =
+/*
+ const DOMPurify =
   typeof window !== "undefined"
     ? createDOMPurify(window)
     : null;
 
 // Remove font-size from inline styles
+
 DOMPurify?.addHook("uponSanitizeAttribute", (_node, data) => {
   if (data.attrName === "style" && data.attrValue) {
     data.attrValue = data.attrValue.replace(
@@ -22,7 +22,7 @@ DOMPurify?.addHook("uponSanitizeAttribute", (_node, data) => {
     );
   }
 });
-
+*/
  
  
 export const PrintPatientComment = ({ comments = [] }: IProps) => {

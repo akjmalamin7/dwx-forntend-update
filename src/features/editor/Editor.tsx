@@ -96,7 +96,8 @@ const Editor = ({
         label
       )}
       <div
-        className=""
+        className="[&_.jodit-wysiwyg]:!text-[36px]
+    [&_.jodit-wysiwyg_p]:!text-[36px]"
       >
         <JoditEditor
           ref={editor}

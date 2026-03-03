@@ -13,7 +13,7 @@ const ManageBill = () => {
   const { data: BillList, isLoading } = useGetBillListQuery();
   const { data: settingsData } = useGetCustomerSettingsQuery();
   // Prepare data
-   const isPrint = settingsData?.data?.is_print === 1;
+   const isPrint = settingsData?.data?.is_print === 2;
 
   const DATA_TABLE = useMemo(
     () =>

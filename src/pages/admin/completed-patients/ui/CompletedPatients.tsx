@@ -44,7 +44,7 @@ const CompletedPatients = () => {
   const DATA_TABLE = useMemo(
     () =>
       mergedPatientData?.map((item, index) => ({
-        key: item._id || `fallback-key-${index}`,
+        key: item._id,
         sl: (page - 1) * limit + index + 1,
         start_time:
           new Date(item.createdAt).toLocaleString([], {

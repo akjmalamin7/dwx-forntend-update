@@ -31,7 +31,7 @@ const CustomerBillList = () => {
   const matchHasPendigHistory = (id: string | undefined) => {
     if (!id) return false;
     return !!billList?.data.find(
-      (bill) => bill.user_id._id === id && bill.hasPendingHistory
+      (bill) => bill.user_id._id === id && bill.hasPendingHistory,
     );
   };
 
@@ -45,7 +45,7 @@ const CustomerBillList = () => {
   const DATA_TABLE = useMemo(
     () =>
       billList?.data?.map((item, index) => ({
-        key: item._id,
+        key: item._id || `fallback-key-${index}`,
         sl: (page - 1) * limit + index + 1,
         month: item.month,
         user_id: item.user_id,
@@ -64,7 +64,7 @@ const CustomerBillList = () => {
         received_number: item.received_number,
         action: "",
       })) || [],
-    [billList?.data, limit, page]
+    [billList?.data, limit, page],
   );
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
     if (item.key === "action") {
@@ -72,7 +72,7 @@ const CustomerBillList = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
           const customerRecord = record as CustomerBillRow;
-            const disabled = !customerRecord?.key;
+          const disabled = !customerRecord?.key;
           return (
             <div key={rowIndex} className="flex gap-2">
               <BillHistory
@@ -82,60 +82,57 @@ const CustomerBillList = () => {
                 userId={customerRecord.user_id?._id}
               />
 
-                 {/* PRINT BUTTON */}
-            {disabled ? (
-              <button
-                disabled
-                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-              >
-                Print
-              </button>
-            ) : (
-              <Link
-                to={`/admin/customer-print-bill/${customerRecord.key}`}
-                className="bg-green-500 text-white px-4 py-2 text-sm rounded"
-              >
-                Print
-              </Link>
-            )}
+              {/* PRINT BUTTON */}
+              {disabled ? (
+                <button
+                  disabled
+                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+                >
+                  Print
+                </button>
+              ) : (
+                <Link
+                  to={`/admin/customer-print-bill/${customerRecord.key}`}
+                  className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+                >
+                  Print
+                </Link>
+              )}
 
-            {/* PAY BUTTON */}
-            {disabled ? (
-              <button
-                disabled
-                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-              >
-                Pay
-              </button>
-            ) : (
-              <Link
-                to={`/admin/customer-pay-bill/${customerRecord.key}`}
-                className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
-              >
-                Pay
-              </Link>
-            )}
+              {/* PAY BUTTON */}
+              {disabled ? (
+                <button
+                  disabled
+                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+                >
+                  Pay
+                </button>
+              ) : (
+                <Link
+                  to={`/admin/customer-pay-bill/${customerRecord.key}`}
+                  className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+                >
+                  Pay
+                </Link>
+              )}
 
-
-           {/* ACCEPT BUTTON */}
-            {disabled ? (
-              <button
-                disabled
-                className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-              >
-                Accept
-              </button>
-            ) : (
-             <Link
-                to={`/admin/customer-pay-bill/${customerRecord.key}`}
-                className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
-              >
-                Accept
-              </Link>
-            )} 
-
- 
-            </div> 
+              {/* ACCEPT BUTTON */}
+              {disabled ? (
+                <button
+                  disabled
+                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
+                >
+                  Accept
+                </button>
+              ) : (
+                <Link
+                  to={`/admin/customer-pay-bill/${customerRecord.key}`}
+                  className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+                >
+                  Accept
+                </Link>
+              )}
+            </div>
           );
         },
       };

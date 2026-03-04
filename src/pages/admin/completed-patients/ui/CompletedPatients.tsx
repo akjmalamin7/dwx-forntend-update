@@ -21,7 +21,7 @@ const CompletedPatients = () => {
     refetch,
   } = useGetAdminCompletedPatientListQuery(
     { page, limit, search },
-    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true },
   );
   const totalPages = patientList?.pagination.totalPages || 1;
 
@@ -46,15 +46,18 @@ const CompletedPatients = () => {
       mergedPatientData?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
-         start_time: new Date(item.createdAt).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }) + " <br/> " + new Date(item.completed_time).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
+        start_time:
+          new Date(item.createdAt).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }) +
+          " <br/> " +
+          new Date(item.completed_time).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
         agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,
@@ -66,7 +69,7 @@ const CompletedPatients = () => {
         xray_name: item.xray_name,
         action: "",
       })) || [],
-    [mergedPatientData, limit, page]
+    [mergedPatientData, limit, page],
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -93,7 +96,10 @@ const CompletedPatients = () => {
   });
 
   return (
-    <Panel header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`} size="xl">
+    <Panel
+      header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`}
+      size="xl"
+    >
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

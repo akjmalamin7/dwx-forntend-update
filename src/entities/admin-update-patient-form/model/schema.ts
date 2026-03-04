@@ -14,4 +14,5 @@ export const ADMIN_UPDATE_PATIENT_SCHEMA = yup.object({
   patient_id: yup.string().required("Patient ID is required"),
   name: yup.string().required("Patient name is required"),
   rtype: yup.string().required("Report type is required"),
+  study_for: yup.string().required("Study for is required"),
 });

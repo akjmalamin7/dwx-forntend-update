@@ -16,6 +16,7 @@ export interface CustomerBillPayFormValues {
   user_id: BILL_USER;
   honorarium: string;
   honorarium_to: string;
+  paid_amount: string;
   status: string;
 }
 
@@ -26,5 +27,6 @@ export const ADD_CUSTOMER_BILL_PAY_SCHEMA = yup.object({
   received_number: yup.string().required("Received number is required"),
   status: yup.string().required("Status is required"),
   honorarium: yup.string().required("Honorarium is required"),
- honorarium_to: yup.string().required("Honorarium To is required"),
+  honorarium_to: yup.string().required("Honorarium To is required"),
+  paid_amount: yup.string().required("Paid Amount is required"),
 });

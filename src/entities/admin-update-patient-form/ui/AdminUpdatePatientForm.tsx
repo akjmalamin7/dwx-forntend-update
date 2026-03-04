@@ -46,6 +46,7 @@ const AdminUpdatePatientForm = () => {
       age: patient?.age || "",
       patient_id: patient?.patient_id || "",
       rtype: patient?.rtype || "xray",
+      study_for: patient?.study_for || "xray_dr",
     },
     mode: "onChange",
   });
@@ -61,7 +62,7 @@ const AdminUpdatePatientForm = () => {
         age: values.age,
         patient_id: values.patient_id,
         rtype: values.rtype, 
-        study_for: patient?.study_for || "xray_dr", 
+        study_for: values?.study_for || "xray_dr", 
         gender: patient?.gender,
         ref_doctor: patient?.ref_doctor,
         image_type: patient?.image_type || "Single",
@@ -163,6 +164,18 @@ const AdminUpdatePatientForm = () => {
               { name: "CTSCAN", value: "ctscan" },
             ]}
           />
+
+          <ControlledSelect
+            control={control}
+            name="study_for"
+            label="Study For"
+            isInputLabel={false}
+            options={[
+              { name: "Xray Dr", value: "xray_dr" },
+              { name: "ECG Dr", value: "ecg_dr" }, 
+            ]}
+          />
+
 
           <Button
             type="submit"

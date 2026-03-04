@@ -19,6 +19,7 @@ export interface ADMIN_CUSTOMER_BILL_DOCTOR_API_RESPONSE {
   message: string;
   page: number;
   limit: number;
+  total: number;
   totalPages: number;
   data: ADMIN_CUSTOMER_UPDATE_BILL_DOCTOR_MODEL[];
 }
@@ -26,6 +27,7 @@ export interface ADMIN_CUSTOMER_BILL_DOCTOR_API_RESPONSE {
 export interface ADMIN_CUSTOMER_BILL_DOCTOR_TRANSFORM_MODEL {
   data: ADMIN_CUSTOMER_UPDATE_BILL_DOCTOR_MODEL[];
   pagination: {
+    total: number;
     currentPage: number;
     totalPages: number;
     limit: number;
@@ -39,6 +41,7 @@ export const ADMIN_CUSTOMER_BILL_DOCTOR_TRANSFORM_RESPONSE = (
   return {
     data: response.data,
     pagination: {
+      total:  response.total,
       currentPage: response.page,
       totalPages: response.totalPages,
       limit: response.limit,
@@ -89,12 +92,15 @@ export interface ADMIN_CUSTOMER_BILL_REQUEST_API_RESPONSE {
   page: number;
   limit: number;
   totalPages: number;
+  total: number;
   data: ADMIN_CUSTOMER_BILL_REQUEST_MODEL[];
 }
 
 export interface ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL {
   data: ADMIN_CUSTOMER_BILL_REQUEST_MODEL[];
+  
   pagination: {
+    total: number;
     currentPage: number;
     totalPages: number;
     limit: number;
@@ -106,11 +112,12 @@ export const ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_RESPONSE = (
   response: ADMIN_CUSTOMER_BILL_REQUEST_API_RESPONSE
 ): ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL => {
   return {
-    data: response.data,
+    data: response.data, 
     pagination: {
+      total: response.total,
       currentPage: response.page,
       totalPages: response.totalPages,
-      limit: response.limit,
+      limit: response.limit, 
       hasNext: response.page < response.totalPages,
       hasPrev: response.page > 1,
     },

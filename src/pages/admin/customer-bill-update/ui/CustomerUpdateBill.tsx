@@ -96,7 +96,7 @@ const CustomerUpdateBill = () => {
   });
 
   return (
-    <Panel header="Update Customer Bill" size="lg">
+    <Panel header={`Update Customer Bill, Total= ${doctorList?.pagination.total || 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

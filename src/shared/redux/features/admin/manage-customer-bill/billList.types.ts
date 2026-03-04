@@ -20,6 +20,7 @@ export interface BILL_MODEL {
   total_multiple: string;
   total_ecg: string;
   total_amount: string;
+  paid_amount: string;
   status: string;
 }
 
@@ -39,6 +40,7 @@ export interface BILL_TRANSFORM_MODEL {
   honorarium_to: string;  
   received_number: string;  
   total_amount: string;
+  paid_amount: string;
 }
 
 export interface BILL_RESPONSE {
@@ -65,6 +67,7 @@ export const transformBillListResponse = (data: BILL_MODEL[]): BILL_MODEL[] => {
     total_multiple: item.total_multiple,
     total_ecg: item.total_ecg,
     total_amount: item.total_amount,
+    paid_amount: item.paid_amount,
     status: item.status,
   }));
 };

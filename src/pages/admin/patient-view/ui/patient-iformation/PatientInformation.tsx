@@ -1,11 +1,11 @@
-import { AdminSelectedDoctor } from "@/entities";
-import { CombineViewer } from "@/entities/combine-viewer";
+import { AddNewImageForm, AdminSelectedDoctor } from "@/entities";
 import { useAdminPatientView } from "@/shared/hooks/admin-patient-view/useAdminPatientView";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import AdminCombineViewer from "@/entities/combine-viewer/ui/AdminCombineViewer";
 
 const PatientInformation = () => {
   const [visible, setVisible] = useState(false);
@@ -48,7 +48,9 @@ const PatientInformation = () => {
   return (
     <div className="flex flex-col gap-8">
       <div className="w-full">
-        {patient && (
+        <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+          <div className="flex-1/2">
+            {patient && (
           <div className="p-4 responsive">
             <Table
               columns={PATIENT_VIEW_DAT_COL}
@@ -59,12 +61,24 @@ const PatientInformation = () => {
             />
           </div>
         )}
-        <CombineViewer
+        <AdminCombineViewer
           isDCM={isDCM}
           attachments={attachments}
           visible={visible}
           setVisible={setVisible}
         />
+        <div className="mt-8">
+          <AddNewImageForm />
+        </div>
+         
+        </div>
+          <div className="flex-1/2">
+           <div className="w-full">
+            <AdminSelectedDoctor />
+          </div>
+          </div>
+        </div>
+      
         {/* Image Viewer Section */}
         {/* <XrayImages attachments={attachments || []} /> */}
         {/* <div className="hidden lg:block mt-6 gap-4">
@@ -102,9 +116,7 @@ const PatientInformation = () => {
         /> */}
       </div>
       {/* <div className="w-1/2"> */}
-      <div className="w-full">
-        <AdminSelectedDoctor />
-      </div>
+     
     </div>
   );
 };

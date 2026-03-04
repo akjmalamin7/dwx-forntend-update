@@ -1,6 +1,5 @@
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
-import { useState } from "react";
-import AdjustmentPanel from "./AdjustmentPanel";
+import { useState } from "react"; 
 import Annotation, {
   type AnnotationModel,
   type AnnotationType,
@@ -10,11 +9,11 @@ import MainImageDisplay from "./MainImageDisplay";
 import MeasurementTool from "./MeasurementTool";
 import ThumnailSidebar from "./ThumnailSidebar";
 import ZoomRotateReset from "./ZoomRotateReset";
+import AdminAdjustmentPanel from "./AdminAdjustmentPanel";
 
 /* =========================
    CONFIG: MM PER PIXEL
-   ========================= */
-// 🔴 Replace this with real DICOM PixelSpacing when available
+   ========================= */ 
 const MM_PER_PIXEL = 0.5;
 
 /* =========================
@@ -33,7 +32,7 @@ interface Props {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
 }
 
-const DwxViewer = ({ attachments = [] }: Props) => {
+const AdminDwxViewer = ({ attachments = [] }: Props) => {
   const effectiveImages = attachments.map((att) => att.original_url);
 
   /* =========================
@@ -223,58 +222,37 @@ const DwxViewer = ({ attachments = [] }: Props) => {
      RENDER
      ========================= */
   return (
-    <div className="flex h-[92vh] w-full mt-5 bg-white rounded-lg border border-gray-200 overflow-hidden">
-      {/* LEFT TOOLBAR */}
-      <div className="w-[280px] bg-gray-50 border-r p-4 overflow-y-auto">
+    <>
+    
+    <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+      <div className="flex-1/3">
         <ZoomRotateReset
-          setZoom={setZoom}
-          setRotation={setRotation}
-          resetView={resetView}
-          setCurrentIndex={setCurrentIndex}
-        />
-
-        <GridViewButton viewMode={viewMode} setViewMode={setViewMode} />
-
-        <MeasurementTool
-          measureMode={measureMode}
-          setMeasureMode={(v) => {
-            setMeasureMode(v);
-            if (v) setAnnotationMode(false);
-          }}
-          clearMeasurements={() => setMeasurements([])}
-          viewMode={viewMode}
-          zoom={zoom}
-        />
-
-        <Annotation
-          annotationMode={annotationMode}
-          setAnnotationMode={setAnnotationMode}
-          setMeasureMode={setMeasureMode}
-          annotations={annotations}
-          setAnnotations={setAnnotations}
-          annotationType={annotationType}
-          setAnnotationType={setAnnotationType}
-          viewMode={viewMode}
-        />
-
-        <AdjustmentPanel
-          adjustments={adjustments}
-          setAdjustments={setAdjustments}
-          resetAdjustments={() =>
-            setAdjustments({
-              grayscale: 0,
-              blur: 0,
-              exposure: 100,
-              contrast: 100,
-              hueRotate: 0,
-              opacity: 100,
-              invert: 0,
-              saturate: 100,
-              sepia: 0,
-            })
-          }
+        setZoom={setZoom}
+        setRotation={setRotation}
+        resetView={resetView}
+        setCurrentIndex={setCurrentIndex}
         />
       </div>
+      <div className="flex-1/3">
+        <GridViewButton viewMode={viewMode} setViewMode={setViewMode} />
+      </div>
+      <div className="flex-1/3">
+        <MeasurementTool
+        measureMode={measureMode}
+        setMeasureMode={(v) => {
+        setMeasureMode(v);
+        if (v) setAnnotationMode(false);
+        }}
+        clearMeasurements={() => setMeasurements([])}
+        viewMode={viewMode}
+        zoom={zoom}
+        />
+      </div> 
+    </div>
+          
+    <div className="flex h-[92vh] w-full mt-5 bg-white rounded-lg border border-gray-200 overflow-hidden">
+     
+      
 
       {/* MAIN VIEW */}
       <MainImageDisplay
@@ -327,7 +305,46 @@ const DwxViewer = ({ attachments = [] }: Props) => {
         />
       </div>
     </div>
+
+     {/* LEFT TOOLBAR */}
+      <div className="w-full bg-gray-50 border-r p-4 overflow-y-auto">
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+          <div className="w-full">
+            
+ 
+        <Annotation
+          annotationMode={annotationMode}
+          setAnnotationMode={setAnnotationMode}
+          setMeasureMode={setMeasureMode}
+          annotations={annotations}
+          setAnnotations={setAnnotations}
+          annotationType={annotationType}
+          setAnnotationType={setAnnotationType}
+          viewMode={viewMode}
+        />
+
+        <AdminAdjustmentPanel
+          adjustments={adjustments}
+          setAdjustments={setAdjustments}
+          resetAdjustments={() =>
+            setAdjustments({
+              grayscale: 0,
+              blur: 0,
+              exposure: 100,
+              contrast: 100,
+              hueRotate: 0,
+              opacity: 100,
+              invert: 0,
+              saturate: 100,
+              sepia: 0,
+            })
+          }
+        />
+        </div>
+      </div>
+          </div>
+    </>
   );
 };
 
-export default DwxViewer;
+export default AdminDwxViewer;

@@ -4,8 +4,8 @@ import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col"; 
-import { CombineViewer } from "@/entities/combine-viewer";
+import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";  
+import AdminCombineViewer from "@/entities/combine-viewer/ui/AdminCombineViewer";
 
 const PatientInformation = () => {
   const [visible, setVisible] = useState(false);
@@ -65,7 +65,7 @@ const PatientInformation = () => {
         )}
 
         {/* Image Viewer Section */} 
-         <CombineViewer
+         <AdminCombineViewer
                   isDCM={isDCM}
                   attachments={attachments}
                   visible={visible}

@@ -83,8 +83,12 @@ const CompletedPatientView = () => {
       }
       size="xl"
     >
-      <PatientInformation />
-      <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">
+        <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+          <div className="flex-1/2">
+              <PatientInformation />
+          </div>
+          <div className="flex-1/2">
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
         <div className="flex-1">
           <FormProvider {...form}>
             <Controller
@@ -122,6 +126,12 @@ const CompletedPatientView = () => {
           </Button>
         </div>
       </div>
+          
+          </div>
+        </div>
+
+      
+      
       <div className="mt-4">
         <Text element="h3" fontWeight="semiBold">
           Review list

@@ -51,6 +51,7 @@ const CustomerPayBill = () => {
   const bill = {
     month: transformBill?.month || "N/A",
     total_amount: roundedGrandTotal,
+    paid_amount: transformBill?.paid_amount ?? "0",
     to: transformBill?.user_id?.email || "N/A",
     status: transformBill?.status || "Pending",
   };
@@ -61,7 +62,8 @@ const CustomerPayBill = () => {
       honorarium: transformBill?.honorarium || "",
       honorarium_to: transformBill?.honorarium_to || "",
       received_number: transformBill?.received_number || "",
-      total_bill: Number(roundedGrandTotal),
+      total_bill: Number(roundedGrandTotal), 
+      paid_amount: transformBill?.paid_amount ?? "0",
       month: transformBill?.month ?? "",
       trans_id: transformBill?.trans_id || "",
       status: transformBill?.status || "",
@@ -76,8 +78,10 @@ const CustomerPayBill = () => {
         ...data,
         user_id: transformBill?.user_id?._id,
       };
-      
+       
       await createBillPayment(finalData).unwrap();
+
+
       reset();
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
@@ -134,18 +138,17 @@ const CustomerPayBill = () => {
                 type="number"
               />
 
-             
+             {/* Total Paid */}
+              <ControlInput
+                control={control}
+                size="sm"
+                label="Total Paid"
+                placeholder="Total Paid"
+                name="paid_amount"
+                type="number"
+              />
 
-              <ControlledSelect
-                  label="Status"
-                  control={control}
-                  name="status"
-                  options={[
-                    { name: "Paid", value: "Paid" },
-                    { name: "Pending", value: "Pending" },
-                    { name: "Unpaid", value: "Unpaid" },
-                  ]}
-                />
+              
               {/* honorarium   */}
               {/* <ControlInput
                 control={control}
@@ -179,6 +182,18 @@ const CustomerPayBill = () => {
                 placeholder="Transaction ID"
                 name="trans_id"
               />
+
+              <ControlledSelect
+                  label="Status"
+                  control={control}
+                  name="status"
+                  options={[
+                    { name: "Paid", value: "Paid" },
+                    { name: "Pending", value: "Pending" },
+                    { name: "Unpaid", value: "Unpaid" },
+                  ]}
+                />
+
 
               {/* Submit */}
               <div className="mt-3">

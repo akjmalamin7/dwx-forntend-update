@@ -1,5 +1,4 @@
-import {
-  AddNewImageForm,
+import { 
   AdminUpdatePatientForm,
   ClonePatient,
 } from "@/entities";
@@ -36,8 +35,7 @@ const PatientView = () => {
         <div className="flex-1/2">
           <ClonePatient />
         </div>
-        <div className="flex-1/2 flex flex-col gap-6">
-          <AddNewImageForm />
+        <div className="flex-1/2 flex flex-col gap-6"> 
           <AdminUpdatePatientForm />
         </div>
       </div>

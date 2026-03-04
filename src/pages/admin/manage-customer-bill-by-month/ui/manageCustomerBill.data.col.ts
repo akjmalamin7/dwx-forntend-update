@@ -1,5 +1,6 @@
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";
-
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
   {
     key: "sl",
@@ -49,8 +50,9 @@ export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "received_number",
     align: "start",
     width: 180,
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
-  {
+  { 
     key: "status",
     title: "Status",
     dataIndex: "status",

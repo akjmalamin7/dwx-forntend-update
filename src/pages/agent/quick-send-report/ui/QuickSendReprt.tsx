@@ -256,6 +256,7 @@ const QuickSendReprt = () => {
           label="Selected Doctor"
           useIgnored={false}
           setValue={setValue}
+          formFor="Xray"
         />
 
         <CustomDoctorMultiSelector
@@ -264,6 +265,7 @@ const QuickSendReprt = () => {
           useIgnored
           label="Ignored Doctor"
           setValue={setValue}
+          formFor="Xray"
         />
 
         {/* Submit */}

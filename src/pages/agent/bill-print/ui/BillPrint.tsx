@@ -69,10 +69,9 @@ const BillPrint = () => {
 
   const paymnetMethod = useMemo(() => {
     return (
-      paymentGetway?.data?.map((method) => ({
-        //name: `${method.details} (${method.name})`,
+      paymentGetway?.data?.map((method) => ({ 
         name: `(${method.name})`,
-        value: method.details,
+        value: method.name,
       })) ?? []
     );
   }, [paymentGetway]);

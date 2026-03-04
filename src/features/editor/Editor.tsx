@@ -51,28 +51,15 @@ const Editor = ({
       buttons: [
         "bold",
         "italic",
-        "underline",
-        "strikethrough",
+        "underline", 
         "|",
-        "ul",
-        "ol",
+        "ul", 
         "|",
         "font",
-        "fontsize",
-        "brush",
+        "fontsize", 
         "paragraph",
         "|",
-        "align",
-        "outdent",
-        "indent",
-        "|",
-        "link",
-        "image",
-        "|",
-        "undo",
-        "redo",
-        "|",
-        "preview",
+        "align",  
         "fullsize",
       ],
       removeButtons: ["source", "about"],
@@ -96,8 +83,8 @@ const Editor = ({
         label
       )}
       <div
-        className="[&_.jodit-wysiwyg]:!text-[36px]
-    [&_.jodit-wysiwyg_p]:!text-[36px]"
+        className="[&_.jodit-wysiwyg]:!text-[24px]
+    [&_.jodit-wysiwyg_p]:!text-[24px]"
       >
         <JoditEditor
           ref={editor}

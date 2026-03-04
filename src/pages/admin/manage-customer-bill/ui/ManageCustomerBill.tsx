@@ -35,9 +35,10 @@ const ManageCustomerBillByMonth = () => {
   } = useSearchPagination({
     data: DATA_TABLE,
     searchFields: ["email", "address"],
-    rowsPerPage: 50,
+    rowsPerPage: 500,
   });
 
+  console.log("customerList", customerList);
   const COLUMN = DOCTOR_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
@@ -46,7 +47,7 @@ const ManageCustomerBillByMonth = () => {
           <div key={rowIndex}>
             <Link
               to={`/admin/manage-customer-bill-month/${record?.key}`}
-              className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
             >
               View
             </Link>
@@ -64,7 +65,7 @@ const ManageCustomerBillByMonth = () => {
   });
 
   return (
-    <Panel header="Manage Customer Bill" size="lg">
+    <Panel header={`Manage Customer Bill, Total= ${customerList?.length || 0}`} size="lg">
       <div className="p-4 bg-white">
         <div className="mb-4 w-1/3">
           <Search

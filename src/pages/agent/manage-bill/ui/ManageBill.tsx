@@ -15,6 +15,12 @@ const ManageBill = () => {
   // Prepare data
    const isPrint = settingsData?.data?.is_print === 2;
 
+
+   const currentMonth = useMemo(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${now.getMonth() + 1}`; // 👈 e.g. "2026-3"
+  }, [])
+
   const DATA_TABLE = useMemo(
     () =>
       BillList?.slice() // don't mutate original
@@ -27,7 +33,7 @@ const ManageBill = () => {
           key: item._id,
           sl: index + 1,
           month: item.month,
-          status: item.status,
+          status: item.month === currentMonth ? "Preparing" : item.status,
           action: "",
         })) || [],
     [BillList]
@@ -52,14 +58,19 @@ const ManageBill = () => {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
           if (isPrint) return null;
+          const isCurrentMonth = record?.month === currentMonth;
+          const isPaid = record?.status === "Paid"; 
+          const hidePayButton = isCurrentMonth || isPaid;
           return (
             <div key={rowIndex}>
+              {!hidePayButton  && (
               <Link
                 to={`/agent/pay-bill/${record?.month}`}
                 className="bg-green-500 text-white px-2 py-1 rounded text-sm"
               >
                 Pay Bill
               </Link>
+              )}
               <Link
                 to={`/agent/print-bill/${record?.month}`}
                 className="bg-yellow-500 ml-2 text-white px-2 py-1 rounded text-sm"

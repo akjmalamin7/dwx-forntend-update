@@ -47,13 +47,13 @@ const ManageCustomerBillByMonth = () => {
           <div key={rowIndex} className="flex   gap-2"> 
              <Link
               to={`/admin/customer-bill-list/${record?.month}`}
-              className="bg-green-500 text-white px-4 py-2  text-sm rounded"
+              className="bg-green-500 text-white px-4 py-1  text-sm rounded"
             >
               View Bill List
             </Link>
              <Link
               to={`/admin/customer-bill-request/${record?.month}`}
-              className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
             >
               View Request List
             </Link>

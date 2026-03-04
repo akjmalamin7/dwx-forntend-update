@@ -52,7 +52,7 @@ const CompletedPatients = () => {
             minute: "2-digit",
             hour12: true,
           }) +
-          " <br/> " +
+          " - " +
           new Date(item.completed_time).toLocaleString([], {
             hour: "2-digit",
             minute: "2-digit",

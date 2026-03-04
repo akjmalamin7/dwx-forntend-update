@@ -43,7 +43,7 @@ const MonthList = () => {
           <div key={rowIndex}>
             <Link
               to={`/admin/patient-archive/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-2 rounded text-sm"
+              className="bg-green-500 text-white px-4 py-1 rounded text-sm"
             >
               View
             </Link>

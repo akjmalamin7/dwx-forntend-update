@@ -46,7 +46,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
         <Text element="h4" size="xl" className="hidden">
           {signature?.name || ""}
         </Text>
-        <Text element="p" size="xl">
+        <Text element="p" size="xl" className="text-[#000]">
           {parse(sanitizeHTML(String(signature?.address) || ""))}
         </Text>
         {passault === "Yes" ? (
@@ -54,7 +54,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
             element="p"
             size="xl"
             fontWeight="semiBold"
-            className="mt-2 italic text-gray-600"
+            className="mt-2 italic text-[#000]"
           >
             N.B. This report is for medical diagnosis only, not for legal use
           </Text>

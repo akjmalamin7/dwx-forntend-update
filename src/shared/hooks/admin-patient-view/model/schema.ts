@@ -70,11 +70,27 @@ export interface PATIENT_IMAGE_MODEL {
   id: string;
 }
 
+interface REVISIONS {
+  _id: string;
+  patient_id: string;
+  doctor_id: AGENT_DOCTOR;
+  passault: string;
+  comments: string;
+  image_type: string;
+  month: string;
+  xray_name: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
+
 export interface PATIENT_VIEW_RESPONSE {
   message: string;
   success: boolean;
   data: {
     patient: PATIENT_VIEW_MODEL;
+    revisions: REVISIONS[];
     attachments: PATIENT_IMAGE_ITEM_MODEL[];
   };
 }

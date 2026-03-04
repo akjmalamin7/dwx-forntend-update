@@ -31,7 +31,7 @@ const DoctorList = ({
   };
   return (
     <div className="border border-gray-300 rounded-md p-4">
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-1 mb-4">
         <h2 className="text-sm font-semibold text-gray-700 ">{title}</h2>
         <Button
           className={`h-auto! py-[4px]! rounded-[12px]! text-[13px]! `}
@@ -44,7 +44,7 @@ const DoctorList = ({
       {isLoading ? (
         <Loader type="regular" />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-y-1 gap-x-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-y-0 gap-x-2">
           {doctor
             ?.filter((dr) => dr.email !== "All")
             ?.map((dr) => (

@@ -38,21 +38,24 @@ const ReadTextFile = ({ onParsed, setIndex }: ReadTextFileProps) => {
     return line ? line.split(":").slice(1).join(":").trim() : "";
   };
 
-  const extractAge = (text?: string): string => {
-    if (!text) return "";
-    const match = text.match(
-      /\b(?:age\s*[:\-]?\s*)?(\d{1,3})\s*(yrs?|years?)\b/i
-    );
-    return match ? `${match[1]} Yrs` : "";
-  };
+ 
 
-  const cleanName = (name: string): string => {
-    return name
-      .replace(/\b(?:age\s*[:\-]?\s*)?\d{1,3}\s*(yrs?|years?)\b/i, "")
-      .replace(/\s*[:\-]\s*$/, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  };
+const extractAge = (text?: string): string => {
+  if (!text) return "";
+  const match = text.match(
+    /[-–]?\s*(?:age\s*[:\-]?\s*)?(\d{1,3})(\s*)(yrs?|years?|months?|days?|[ymMdD])\b/i
+  );
+  if (!match) return "";
+  return `${match[1]}${match[2]}${match[3]}`; // 👈 preserve original spacing
+};
+
+const cleanName = (name: string): string => {
+  return name
+    .replace(/\s*[-–]?\s*(?:age\s*[:\-]?\s*)?\d{1,3}\s*(yrs?|years?|months?|days?|[ymMdD])\b/gi, "")
+    .replace(/\s*[:\-]\s*$/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
 
   // -------- extraction --------
 

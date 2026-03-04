@@ -65,7 +65,7 @@ const CustomerTransactionHistory = () => {
           <div key={rowIndex} className="flex gap-2">
             <Link
               to={`/admin/customer-print-bill/${record?.key}`}
-              className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-green-500 text-white px-4 py-1 text-sm rounded"
             >
               Print
             </Link>
@@ -83,7 +83,7 @@ const CustomerTransactionHistory = () => {
   });
 
   return (
-    <Panel header="Manage Customer Transaction History" size="lg">
+    <Panel header={`Manage Customer Transaction History Total= ${billList?.pagination.total || 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

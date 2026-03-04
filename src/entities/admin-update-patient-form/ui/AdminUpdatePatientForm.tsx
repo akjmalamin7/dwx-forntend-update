@@ -93,7 +93,7 @@ const AdminUpdatePatientForm = () => {
         }
         size="lg"
       >
-        <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+        <form className="flex flex-col gap-1" onSubmit={onSubmit}>
           {/* Upload Image */}
           <div>
             <ImageUpload

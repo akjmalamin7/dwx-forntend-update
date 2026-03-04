@@ -73,7 +73,7 @@ const CustomerBillRequestList = () => {
           <div key={rowIndex} className="flex gap-2">
             <Link
               to={`/admin/customer-pay-bill/${record?.key}`}
-              className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
             >
               Accept
             </Link>
@@ -91,7 +91,7 @@ const CustomerBillRequestList = () => {
   });
 
   return (
-    <Panel header="Manage Customer Bill" size="lg">
+    <Panel header={`Manage Customer Bill Total= ${billList?.pagination.total || 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

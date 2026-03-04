@@ -39,9 +39,7 @@ const ReportSubmissionForm = ({
   commentsAndPassault,
   isUpdate = false,
 }: IProps) => {
-  const [selectedType, setSelectedType] = useState<"admin" | "personal" | "">(
-    "",
-  );
+  
   const navigate = useNavigate();
   const [isMedicalDiagnosis, setIsMedicalDiagnosis] = useState<boolean>(false);
 
@@ -83,20 +81,19 @@ const ReportSubmissionForm = ({
   const handleAdminSelect = (value: string) => {
     if (value) {
       setValue("comments", value, { shouldValidate: true });
-      setSelectedType("admin");
+       
     } else {
-      setValue("comments", "", { shouldValidate: true });
-      setSelectedType("");
+      setValue("comments", "", { shouldValidate: true }); 
     }
   };
 
   const handlePersonalSelect = (value: string) => {
     if (value) {
       setValue("comments", value, { shouldValidate: true });
-      setSelectedType("personal");
+      
     } else {
       setValue("comments", "", { shouldValidate: true });
-      setSelectedType("");
+     
     }
   };
 
@@ -117,8 +114,7 @@ const ReportSubmissionForm = ({
       patient_id,
       comments: "",
       passault: "",
-    });
-    setSelectedType("");
+    }); 
     setIsMedicalDiagnosis(false);
   };*/
 
@@ -186,31 +182,32 @@ const ReportSubmissionForm = ({
             placeholder=""
           />
 
-          {selectedType && (
-            <Text size="sm" className="mt-2 text-gray-600">
-              {selectedType === "admin" ? "Admin Format" : "Personal Format"}
-            </Text>
-          )}
-
-          <label className="mt-4 flex items-start gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={isMedicalDiagnosis}
-              onChange={handleMedicalDiagnosisChange}
-              className="w-[20px] h-[20px] mt-1"
-            />
-
-            <Text size="lg">
+           
+        <div>
+          <label className="mt-4 flex items-start gap-2 cursor-pointer w-full">
+            <div>
+              <input
+                type="checkbox"
+                checked={isMedicalDiagnosis}
+                onChange={handleMedicalDiagnosisChange}
+                className="w-[20px] h-[20px] mt-1"
+              />
+            </div>
+            <div>
+            <Text className="w-full w-[300px]">
               This report is for medical diagnosis only, not for legal use
             </Text>
             <Input type="hidden" {...register("passault")} />
+             </div>
           </label>
+         
+          </div>
 
-          <div className="mt-4">
+          <div className="mt-4 mb-6">
             <Button
               type="submit"
               color="dark"
-              size="size-2"
+              size="size-4"
               loading={isLoading}
               disabled={!isFormValid || isLoading}
             >

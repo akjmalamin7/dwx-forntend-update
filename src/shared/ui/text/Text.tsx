@@ -33,7 +33,7 @@ interface TextProps {
 
 const Text = ({
   element = "p",
-  size = "xl",
+  size = "sm",
   color = "dark",
   textAlign = "start",
   fontWeight = "regular",
@@ -59,7 +59,7 @@ const Text = ({
     tertiary: "text-green-600",
     danger: "text-red-600",
     warning: "text-yellow-500",
-    dark: "text-gray-900",
+    dark: "text-[#000]",
     white: "text-white",
   }[color];
 

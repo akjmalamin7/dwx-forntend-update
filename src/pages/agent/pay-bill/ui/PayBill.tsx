@@ -35,7 +35,7 @@ const PayBill = () => {
     return (
       paymentGetway?.data?.map((method) => ({
         name: method.name, 
-        value: method.details,
+        value: method.name,
       })) ?? []
     );
   }, [paymentGetway]);
@@ -71,10 +71,10 @@ const PayBill = () => {
   useEffect(() => {
     if (transformBill) {
       reset({
-        received_number: "",
+        received_number: paymnetMethod[0]?.value || "",  
         total_bill: String(roundedGrandTotal),
-        month: transformBill.month || "N/A",
-        trans_id: "",
+        month: transformBill.month || "",
+        trans_id: transformBill.trans_id || "",
       });
     }
   }, [transformBill, reset, roundedGrandTotal]);

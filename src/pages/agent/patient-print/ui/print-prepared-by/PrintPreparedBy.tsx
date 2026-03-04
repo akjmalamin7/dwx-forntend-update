@@ -49,7 +49,7 @@ const PrintPreparedBy = () => {
           />
         </div>
 
-        <div className="checkuserDetails text-xl">
+        <div className="checkuserDetails text-xl text-[#000]">
           {parse(DOMPurify.sanitize(String(preparedBy)))}
         </div>
       </div>

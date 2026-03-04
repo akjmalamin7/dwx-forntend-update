@@ -78,17 +78,17 @@ const CompletedPatientView = () => {
         <PanelHeading
           title="Patient View"
           button="Back to Patient List"
-          path="/agent/patient-completed"
+          path="/admin/completed-patients"
         />
       }
       size="xl"
     >
-        <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+        <div className="flex flex-col lg:flex-row w-full mt-1 gap-6">
           <div className="flex-1/2">
               <PatientInformation />
           </div>
           <div className="flex-1/2">
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-1 gap-6">
+          <div className="flex flex-col lg:flex-row w-full mt-1 gap-6">
         <div className="flex-1">
           <FormProvider {...form}>
             <Controller
@@ -152,7 +152,7 @@ const CompletedPatientView = () => {
         )}
       </div>
 
-       <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">
+       <div className="flex flex-col lg:flex-row w-full mt-8 gap-6">
           <div className="flex-1/2">
             <ClonePatient />
           </div>

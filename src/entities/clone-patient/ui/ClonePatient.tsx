@@ -76,7 +76,7 @@ const ClonePatient = () => {
         header={<PanelHeading title="Clone Report" button=" " path=" " />}
         size="lg"
       >
-        <form className=" w-full flex flex-col gap-4" onSubmit={onSubmit}>
+        <form className=" w-full flex flex-col gap-1" onSubmit={onSubmit}>
           <div>
             <ImageUpload control={control} name="attachment" isNote={false} />
           </div>

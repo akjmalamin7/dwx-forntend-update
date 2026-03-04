@@ -56,10 +56,10 @@ const Modal = ({
   return createPortal(
     <>
       {/* Separate Overlay */}
-      <div className="fixed w-full h-screen top-0 left-0 z-40 bg-[#1A1A1Ad2]  " />
+      <div className="fixed w-full h-screen top-0 left-0 z-9999 bg-[#1A1A1Ad2]  " />
 
       {/* Modal Content */}
-      <div className="fixed w-full h-screen top-0 left-0 z-40 flex items-start justify-center pt-[60px]">
+      <div className="fixed w-full h-screen top-0 left-0 z-9999 flex items-start justify-center pt-[60px]">
         <div className={`${sizes} mx-auto px-[20px]`}>
           <Card cardStyle="shadow" bgColor="white">
             <Card.CardHeader padding={headerPadding}>

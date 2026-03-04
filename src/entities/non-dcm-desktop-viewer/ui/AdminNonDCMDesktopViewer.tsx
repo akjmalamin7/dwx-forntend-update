@@ -1,15 +1,18 @@
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
 import { useMemo, useState } from "react";
 import "./NonDCMDesktopViewer.css";
-import Viewer from "./Viewer"; 
+import Viewer from "./Viewer";
+import { DeleteAdminPatientAttachment } from "@/features"; 
 
-interface NonDCMDesktopViewerProps {
+interface AdminNonDCMDesktopViewerProps {
   attachments?: PATIENT_IMAGE_ITEM_MODEL[];
+  status?: string;
 }
 
-const NonDCMDesktopViewer = ({
+const AdminNonDCMDesktopViewer = ({
   attachments = [],
-}: NonDCMDesktopViewerProps) => {
+  status,
+}: AdminNonDCMDesktopViewerProps) => {
   const [viewerOpen, setViewerOpen] = useState<boolean>(false);
   const [startIndex, setStartIndex] = useState<number>(0);
 
@@ -32,7 +35,11 @@ const NonDCMDesktopViewer = ({
     <div className="gallery-page">
       <div className="gallery-grid">
         {small_urls.map((img, i) => (
-          <div className="gallery-item-wrapper" key={i}  > 
+          <div className="gallery-item-wrapper" key={i}  >
+            
+              {status == "pending" && (
+              <DeleteAdminPatientAttachment id={attachments[i]._id} onDeleteSuccess={() => window.location.reload()} />
+                )}
           
             <div className="gallery-item" key={i} onClick={() => openViewer(i)}>
             
@@ -54,4 +61,4 @@ const NonDCMDesktopViewer = ({
   );
 };
 
-export default NonDCMDesktopViewer;
+export default AdminNonDCMDesktopViewer;

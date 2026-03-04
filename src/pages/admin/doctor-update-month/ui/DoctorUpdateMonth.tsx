@@ -58,19 +58,19 @@ const DoctorUpdateMonth = () => {
           <div key={rowIndex} className="flex gap-2">
             <Link
               to={`/admin/doctor-print-bill/${record?.key}`}
-              className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-green-500 text-white px-4 py-1 text-sm rounded"
             >
               Print
             </Link>
             <Link
               to={`/admin/doctor-pay-bill/${record?.key}`}
-              className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
             >
               Pay
             </Link>
             <Link
               to={`/admin/doctor-update-bill/${record?.doctor_id}/${record?.month}`}
-              className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
             >
               Update
             </Link>

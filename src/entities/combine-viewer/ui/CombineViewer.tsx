@@ -1,8 +1,7 @@
 import DwxViewer from "@/entities/dwx-viewer";
 import { NonDCMDesktopViewer } from "@/entities/non-dcm-desktop-viewer";
 import { ReportSubmissionForm } from "@/entities/report-submission-form";
-import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
-import { DeleteAdminPatientAttachment } from "@/features";
+import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages"; 
 import { useAuth } from "@/shared/hooks";
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
 import { useMemo, useState } from "react";
@@ -71,11 +70,7 @@ const CombineViewer = ({
                 setActiveIndex(i);
                 setVisible?.(true);
               }}
-            >
-              <DeleteAdminPatientAttachment
-                id={img._id}
-                onDeleteSuccess={() => setVisible?.(false)}
-              />
+            > 
               <img
                 src={img.small_url}
                 className="w-full h-full object-cover"

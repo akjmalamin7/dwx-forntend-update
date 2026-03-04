@@ -35,7 +35,7 @@ const ControlledSelect = <TFieldValues extends FieldValues>({
     <>
       <Controller
         name={name}
-        control={control} // ✅ exact type as useForm returns
+        control={control}
         rules={rules}
         render={({ field, fieldState }) => (
           <>

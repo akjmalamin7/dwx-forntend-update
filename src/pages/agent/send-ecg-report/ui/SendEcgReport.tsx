@@ -48,7 +48,7 @@ const SendEcgReport = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  if (isProfileLoading) <Loader />;
+if (isProfileLoading) return <Loader />;
   if (status == "inactive") {
     return (
       <AgentFormError title="Something went wrong!. Please contact with support." />
@@ -70,6 +70,7 @@ const SendEcgReport = () => {
         onSubmit={onSubmit}
         isLoading={isLoading}
         resetCount={resetCount}
+        formFor='ECG'
       />
     </Panel>
     </>

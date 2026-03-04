@@ -21,17 +21,15 @@ const PatientView = () => {
         <PanelHeading
           title="Patient View"
           button="Back to Patient List"
-          path="admin/patient"
+          path="/admin/patient"
         />
       }
        size="xl" 
     >
-      <PatientInformation />
-
-    
+      <PatientInformation /> 
 
       
-      <div className="flex flex-col-reverse lg:flex-row w-full mt-8 gap-6">
+      <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
         <div className="flex-1/2">
           <ClonePatient />
         </div>

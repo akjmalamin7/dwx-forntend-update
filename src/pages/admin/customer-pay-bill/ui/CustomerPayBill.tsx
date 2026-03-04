@@ -45,8 +45,8 @@ const CustomerPayBill = () => {
     }, [paymentGetway]);
 
   const transformBill = data?.data[0];
-
-  const roundedGrandTotal = Number(transformBill?.total_amount ?? 0);
+ 
+  const roundedGrandTotal = Number(((transformBill?.total_amount || 0) * 1.018).toFixed(0));
 
   const bill = {
     month: transformBill?.month || "N/A",

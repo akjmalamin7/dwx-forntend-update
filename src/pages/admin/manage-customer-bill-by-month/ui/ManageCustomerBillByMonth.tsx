@@ -18,6 +18,12 @@ const PatientArchive = () => {
   } = useGetAdminCustomerBillQuery(user_id!, { skip: !user_id });
 
 
+  const currentMonth = useMemo(() => {
+      const now = new Date();
+      return `${now.getFullYear()}-${now.getMonth() + 1}`; // 👈 e.g. "2026-3"
+   }, [])
+
+
   const DATA_TABLE = useMemo(
     () =>
       billList?.map((item, index) => ({
@@ -27,7 +33,7 @@ const PatientArchive = () => {
         user_id: item.user_id,
         total_patients: item.total_patients,
         total_amount: item.total_amount,
-        status: item.status,
+        status: item.month === currentMonth ? "Preparing" : item.status,
         paid_amount: item.paid_amount,
         payment_date: item.payment_date ? new Date(item.payment_date).toLocaleDateString("en-GB", {
           day: "2-digit",
@@ -59,31 +65,41 @@ const PatientArchive = () => {
 
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
     if (item.key === "action") {
+
+     
+      
       return {
         ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+        render: (_: unknown, record?: DataSource, rowIndex?: number) => { 
+           const isCurrentMonth = record?.month === currentMonth;
+          const isPaid = record?.status === "Paid"; 
+          const hidePayButton = isCurrentMonth || isPaid;
+           return (
           <div key={rowIndex} className="flex gap-2">
             <Link
               to={`/admin/customer-print-bill/${record?.key}`}
-              className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-green-500 text-white px-4 py-1 text-sm rounded"
             >
               Print
             </Link>
+            {!hidePayButton  && (
             <Link
               to={`/admin/customer-pay-bill/${record?.key}`}
-              className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
             >
               Pay
             </Link>
+            )}
             <Link
               to={`/admin/customer-update-bill/?userId=${record?.user_id}&month=${record?.month}`}
-              className="bg-yellow-500 text-white px-4 py-2 text-sm rounded"
+              className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
             >
               Update
             </Link>
 
           </div>
-        ),
+           );
+          },
       };
     }
     return item;

@@ -46,7 +46,7 @@ const SendXrayReport = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-  if (isProfileLoading) <Loader />;
+  if (isProfileLoading) return <Loader />;
   if (status == "inactive") {
     return (
       <AgentFormError title="Something went wrong!. Please contact with support." />
@@ -68,6 +68,7 @@ const SendXrayReport = () => {
         onSubmit={onSubmit}
         isLoading={isLoading}
         resetCount={resetCount}
+        formFor='Xray'
       />
     </Panel>
     </>

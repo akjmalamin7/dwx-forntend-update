@@ -8,7 +8,7 @@ interface CheckboxProps extends React.ComponentProps<"input"> {
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ label, name, onChange, checked, ...rest }, ref) => {
     return (
-      <label className="flex items-center mb-2 gap-2 cursor-pointer">
+      <label className="flex items-center mb-1 gap-2 cursor-pointer">
         <input
           ref={ref}
           name={name}
@@ -22,7 +22,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         />
 
         {label && (
-          <Text element="p" color="dark"  size="lg">
+          <Text element="p" color="dark"  size="sm">
             {label}
           </Text>
         )}

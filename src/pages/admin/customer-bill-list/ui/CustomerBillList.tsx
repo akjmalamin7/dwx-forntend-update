@@ -51,8 +51,8 @@ const CustomerBillList = () => {
         user_id: item.user_id,
         customer: item.user_id.email || "",
         total_patients: item.total_patients,
-        total_amount: item.total_amount,
-        status: item.status,
+        total_amount: ((item.total_amount || 0) * 1.018).toFixed(0),
+        status: (item.total_amount || 0) === 0 ? null : item.status,
         paid_amount: item.paid_amount,
         payment_date: item.payment_date
           ? new Date(item.payment_date).toLocaleDateString("en-GB", {
@@ -71,8 +71,11 @@ const CustomerBillList = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => {
-          const customerRecord = record as CustomerBillRow;
-          const disabled = !customerRecord?.key;
+        const customerRecord = record as CustomerBillRow;  
+        const isPending = record?.status === "Pending"; 
+        const hasAmount = Number(record?.total_amount) > 0;
+        
+        if (!hasAmount) return null;
           return (
             <div key={rowIndex} className="flex gap-2">
               <BillHistory
@@ -83,55 +86,34 @@ const CustomerBillList = () => {
               />
 
               {/* PRINT BUTTON */}
-              {disabled ? (
-                <button
-                  disabled
-                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-                >
-                  Print
-                </button>
-              ) : (
+              
                 <Link
-                  to={`/admin/customer-print-bill/${customerRecord.key}`}
-                  className="bg-green-500 text-white px-4 py-2 text-sm rounded"
+                  to={`/admin/customer-print-bill/${record?.key}`}
+                  className="bg-green-500 text-white px-4 py-1 text-sm rounded"
                 >
                   Print
                 </Link>
-              )}
+              
 
               {/* PAY BUTTON */}
-              {disabled ? (
-                <button
-                  disabled
-                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-                >
-                  Pay
-                </button>
-              ) : (
+              
                 <Link
-                  to={`/admin/customer-pay-bill/${customerRecord.key}`}
-                  className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+                  to={`/admin/customer-pay-bill/${record?.key}`}
+                  className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
                 >
                   Pay
                 </Link>
-              )}
+             
 
               {/* ACCEPT BUTTON */}
-              {disabled ? (
-                <button
-                  disabled
-                  className="bg-gray-300 text-gray-500 px-4 py-2 text-sm rounded cursor-not-allowed"
-                >
-                  Accept
-                </button>
-              ) : (
+             {isPending &&  (
                 <Link
-                  to={`/admin/customer-pay-bill/${customerRecord.key}`}
-                  className="bg-blue-500 text-white px-4 py-2 text-sm rounded"
+                  to={`/admin/customer-pay-bill/${record?.key}`}
+                  className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
                 >
                   Accept
                 </Link>
-              )}
+             )}
             </div>
           );
         },
@@ -148,7 +130,7 @@ const CustomerBillList = () => {
 
   return (
     <>
-      <Panel header="Manage Customer Bill" size="lg">
+      <Panel header={`Manage Customer Bill Total= ${billList?.pagination.total || 0}`} size="lg">
         <DataTable
           isLoading={isLoading}
           column={COLUMN}

@@ -27,6 +27,7 @@ interface PatientFormProps {
   defaultValues?: Partial<PatientFormValues>;
   isEdit?: boolean;
   resetCount?: number;
+  formFor: string;
 }
 
 // Export form methods for parent component access
@@ -37,6 +38,7 @@ const PatientForm = ({
   isLoading = false,
   defaultValues,
   isEdit = false,
+  formFor = "Xray",
   resetCount = 0,
 }: PatientFormProps) => {
   const methods = useForm<PatientFormValues>({
@@ -111,6 +113,15 @@ const PatientForm = ({
       });
     }
   }, [resetCount, reset, isEdit, getValues]);
+
+
+  // Auto-fill xray_name when type is ECG
+  useEffect(() => {
+    if (formFor?.toUpperCase() === "ECG") {
+      setValue("xray_name", "ECG", { shouldValidate: true, shouldDirty: true });
+      setValue("image_type", "ecg", { shouldValidate: true, shouldDirty: true }); 
+    }
+  }, [formFor, setValue]);
 
   // load profile data
   const handleSubmit: SubmitHandler<PatientFormValues> = async (data) => {
@@ -197,10 +208,10 @@ const PatientForm = ({
           name="xray_name"
           render={({ field }) => (
             <SelectCustomXrayName
-              label="X-ray Name"
+              label={`${formFor} Name`}
               value={field.value}
               onSelectedValue={(val) => field.onChange(val)}
-              autoComplete="on"
+              autoComplete="on" 
               error={{
                 status: !!errors.xray_name,
                 message: errors.xray_name?.message as string,
@@ -248,6 +259,7 @@ const PatientForm = ({
           label="Selected Doctor"
           useIgnored={false}
           setValue={setValue}
+          formFor={formFor}
         />
 
         <CustomDoctorMultiSelector
@@ -256,6 +268,7 @@ const PatientForm = ({
           useIgnored
           label="Ignored Doctor"
           setValue={setValue}
+          formFor={formFor}
         />
 
         {/* Submit */}

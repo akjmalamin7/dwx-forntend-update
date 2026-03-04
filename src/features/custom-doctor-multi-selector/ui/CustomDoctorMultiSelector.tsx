@@ -18,6 +18,7 @@ interface IProps<TFieldValues extends FieldValues> {
   setValue: (name: Path<TFieldValues>, value: string[]) => void;
   useIgnored?: boolean;
   weight?: string;
+  formFor?: string;
 }
 const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
   label,
@@ -26,7 +27,9 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
   setValue,
   useIgnored = false,
   weight,
+  formFor,
 }: IProps<TFieldValues>) => {
+  const isEcg = formFor?.toUpperCase() === "ECG";
   const decoded = useJWT();
   const userId: string | undefined = decoded?.id;
   const { data: doctorOptions = [], isLoading: isDoctorsLoading } =
@@ -53,7 +56,7 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
   }, [doctorOptions]);
 
   useEffect(() => {
-    if (selectedDrData) {
+    if (selectedDrData && !isEcg) {
       const preselectedIds: string[] = useIgnored
         ? selectedDrData.ignored_dr ?? []
         : selectedDrData.selected_dr ?? [];
@@ -82,8 +85,7 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
 
           <div className="col-span-9">
             <CustomMultiSelect
-              options={allOptions}
-              // value={field.value?.length ? field.value : preselectedIds}
+              options={allOptions} 
               value={field.value ?? []}
               loading={isDoctorsLoading || isProfileLoading}
               onSelect={(values: string[]) => field.onChange(values)}

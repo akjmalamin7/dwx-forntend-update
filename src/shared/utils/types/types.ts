@@ -23,7 +23,7 @@ export interface PatientFormValues {
   gender: "male" | "female";
   xray_name: string;
   ref_doctor: string;
-  image_type: "multiple" | "double" | "single";
+  image_type: "multiple" | "double" | "single" | 'ecg';
 }
 
 export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
@@ -45,8 +45,8 @@ export const patientFormschema: yup.ObjectSchema<PatientFormValues> =
     xray_name: yup.string().required("X-ray name is required"),
     ref_doctor: yup.string().required("Reference doctor is required"),
     image_type: yup
-      .mixed<"single" | "double" | "multiple">()
-      .oneOf(["single", "double", "multiple"])
+      .mixed<"single" | "double" | "multiple" | "ecg">()
+      .oneOf(["single", "double", "multiple", "ecg"])
       .required(),
   }) as yup.ObjectSchema<PatientFormValues>;
 

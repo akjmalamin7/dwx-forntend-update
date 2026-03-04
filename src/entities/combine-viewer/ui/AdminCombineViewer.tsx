@@ -1,6 +1,6 @@
  
-import AdminDwxViewer from "@/entities/dwx-viewer/ui/AdminDwxViewer";
-import { NonDCMDesktopViewer } from "@/entities/non-dcm-desktop-viewer";
+import AdminDwxViewer from "@/entities/dwx-viewer/ui/AdminDwxViewer"; 
+import AdminNonDCMDesktopViewer from "@/entities/non-dcm-desktop-viewer/ui/AdminNonDCMDesktopViewer";
 import { ReportSubmissionForm } from "@/entities/report-submission-form";
 import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages";
 import { DeleteAdminPatientAttachment } from "@/features";
@@ -18,6 +18,7 @@ interface CombineViewerProps {
   age?: string;
   isDCM?: boolean;
   patient_id?: string;
+  status?: string;
   visible?: boolean;
   isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
@@ -31,6 +32,7 @@ const AdminCombineViewer = ({
   history,
   patient_id = "",
   visible = false,
+  status,
 
   setVisible,
 }: CombineViewerProps) => {
@@ -39,14 +41,14 @@ const AdminCombineViewer = ({
   const original_urls = useMemo(
     () => attachments?.map((att) => ({ src: att.original_url })),
     [attachments],
-  );
+  ); 
   return (
     <>
       <div className="hidden lg:block mt-6 gap-4">
         {isDCM ? (
           <AdminDwxViewer attachments={attachments} />
         ) : (
-          <NonDCMDesktopViewer attachments={attachments} />
+          <AdminNonDCMDesktopViewer status={status} attachments={attachments} />
         )}
         {role === "admin" || role === "user" ? (
           ""
@@ -73,10 +75,12 @@ const AdminCombineViewer = ({
                 setVisible?.(true);
               }}
             >
+              {status == "pending" && (
               <DeleteAdminPatientAttachment
                 id={img._id}
                 onDeleteSuccess={() => setVisible?.(false)}
-              />
+              /> 
+                )}  
               <img
                 src={img.small_url}
                 className="w-full h-full object-cover"

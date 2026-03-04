@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+  
+body{ 
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+  }
+
+
 .headerMain{
       background-color: #0cc952;
 }
@@ -43,17 +54,14 @@
  .jodit-wysiwyg {
     font-size: 20px !important;
   }*/
-  .jodit-wysiwyg {
-    font-size: 24px;
+  .jodit-wysiwyg { 
+    font-size: clamp(24px, 2vw, 68px);
   }
 
-.jodit-wysiwyg p{
-    font-size: 18px;
-    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
-  }
-   .jodit-wysiwyg p{
-    font-size: 24px;
-    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
+ 
+   .jodit-wysiwyg p{ 
+    font-size: clamp(24px, 2vw, 68px);
+    font-family:  "Arial, sans-serif" !important;
   }
 
   .jodit-container,.jodit-workplace{
@@ -78,7 +86,7 @@
 
   @media(max-width: 1024px){
   #report-submission-form  .jodit-wysiwyg{
-       min-height: 300px !important;
+       min-height: 200px !important;
     }
   }
 @media print {
@@ -163,9 +171,8 @@
   }
 
   
- .jodit-wysiwyg p{
-    font-size: 24px;
-    font-family:  "'Helvetica Neue', Helvetica, Arial, sans-serif" !important;
+ .jodit-wysiwyg p{ 
+    font-family:  "Arial, sans-serif" !important; 
   }
 
 

@@ -49,6 +49,10 @@ const PatientInformation = () => {
   if (!patient && !isAdminViewPatientLoading) {
     return <div>No patient data found</div>;
   }
+
+    const patientStatus = patient?.status || "pending";
+  console.log("PatientInformation patientStatus:", patientStatus);
+
   return (
     <div className="flex flex-col gap-8">
       <div className="w-full">
@@ -70,6 +74,7 @@ const PatientInformation = () => {
                   attachments={attachments}
                   visible={visible}
                   setVisible={setVisible}
+                  status={patientStatus}
                 />
 
       </div>

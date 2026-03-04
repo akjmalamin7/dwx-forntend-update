@@ -32,11 +32,18 @@ const TodayCompletedPatient = () => {
       patientList?.data?.map((item, index) => ({
         key: item._id,
         sl: (page - 1) * limit + index + 1,
-        start_time: new Date(item.completed_time).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
+        start_time:
+          new Date(item.createdAt).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }) +
+          " - " +
+          new Date(item.completed_time).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
         agent_name: item.agent_id?.email,
         patient_name: item.name,
         patient_id: item.patient_id,
@@ -44,8 +51,8 @@ const TodayCompletedPatient = () => {
         rtype: item.rtype,
 
         completed_dr: item.completed_dr?.email,
-        xray_name: item.xray_name,
-        printstatus: item.printstatus,
+        xray_name: item.xray_name, 
+        printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
     [patientList?.data, limit, page]
@@ -75,7 +82,7 @@ const TodayCompletedPatient = () => {
   });
 
   return (
-    <Panel header={`Completed patients , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
+    <Panel header={`Completed patients , Total = ${patientList?.totalPatient ?? 0}`} size="xl">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

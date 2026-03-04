@@ -38,7 +38,7 @@ const PatientArchiveList = () => {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
-        }) + " <br/> " + new Date(item.completed_time).toLocaleString([], {
+        }) + " - " + new Date(item.completed_time).toLocaleString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
@@ -82,7 +82,7 @@ const PatientArchiveList = () => {
     return item;
   });
   return (
-    <Panel header={`Archive patients , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
+    <Panel header={`Archive patients , Total = ${patientList?.totalPatient ?? 0}`} size="xl">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

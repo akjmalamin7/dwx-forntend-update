@@ -49,9 +49,10 @@ const EditSendReport = () => {
       ref_doctor: data.patient?.ref_doctor ?? "",
       image_type: (data.patient?.image_type === "multiple" ||
       data.patient?.image_type === "double" ||
-      data.patient?.image_type === "single"
+      data.patient?.image_type === "single" ||
+      data.patient?.image_type === "ecg"
         ? data.patient?.image_type
-        : "single") as "multiple" | "double" | "single",
+        : "single") as "multiple" | "double" | "single" | "ecg",
 
       doctor_id: data.patient?.doctor_id || [],
       ignore_dr: data.patient?.ignore_dr || [],
@@ -141,6 +142,8 @@ const EditSendReport = () => {
     );
   }
 
+  console.log(patientData);
+
   if (isProfileLoading) <Loader />;
 
   if (status !== "active") {
@@ -148,6 +151,8 @@ const EditSendReport = () => {
       <AgentFormError title="Something went wrong!. Please contact with support." />
     );
   }
+
+  const isEcg = (patientData?.patient?.image_type as string) === "ecg";
 
   return (
      <>
@@ -166,6 +171,7 @@ const EditSendReport = () => {
           isLoading={isLoading}
           resetCount={resetCount}
           defaultValues={defaultValues}
+          formFor={isEcg ? "ECG" : "Xray"}
           isEdit
         />
       </Panel>

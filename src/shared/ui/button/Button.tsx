@@ -6,7 +6,7 @@ const Button = ({
   variant = "fill",
   color = "primary",
   type = "submit",
-  size = "size-3",
+  size = "size-1",
   loading = false,
   disabled = false,
   className,

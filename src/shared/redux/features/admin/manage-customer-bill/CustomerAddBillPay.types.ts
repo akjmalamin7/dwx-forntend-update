@@ -11,22 +11,22 @@ export interface BILL_USER {
 export interface CustomerBillPayFormValues {
   total_bill: string;
   month: string;
-  trans_id: string;
-  received_number: string;
+  trans_id?: string;        
+  received_number?: string;  
   user_id: BILL_USER;
-  honorarium: string;
-  honorarium_to: string;
-  paid_amount: string;
+  honorarium?: string;      
+  honorarium_to?: string;  
+  paid_amount?: string;    
   status: string;
 }
 
 export const ADD_CUSTOMER_BILL_PAY_SCHEMA = yup.object({
   total_bill: yup.number().required("Total Amount is required"),
   month: yup.string().required("Bill Month is required"),
-  trans_id: yup.string().required("Transaction ID is required"),
-  received_number: yup.string().required("Received number is required"),
+  trans_id: yup.string().optional().default(""),
+  received_number: yup.string().optional().default(""),
   status: yup.string().required("Status is required"),
-  honorarium: yup.string().required("Honorarium is required"),
-  honorarium_to: yup.string().required("Honorarium To is required"),
-  paid_amount: yup.string().required("Paid Amount is required"),
+  honorarium: yup.string().optional().default(""),
+  honorarium_to: yup.string().optional().default(""),
+  paid_amount: yup.string().optional().default(""),
 });

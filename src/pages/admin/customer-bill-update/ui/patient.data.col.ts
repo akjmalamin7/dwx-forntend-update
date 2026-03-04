@@ -20,7 +20,7 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "month",
     dataIndex: "month",
     align: "start",
-    width: 20,
+    width: 120,
   },
      
   {
@@ -36,8 +36,8 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     key: "view",
     title: "View",
     dataIndex: "view",
-    align: "center",
-    width: 30,
+    align: "end",
+    width: 20,
   },
 
   {

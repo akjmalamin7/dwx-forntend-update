@@ -19,10 +19,12 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import {   useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
+import toast, { Toaster } from "react-hot-toast";
 
-const PayBill = () => {
+
+const PayBill = () => { 
   const { month } = useParams<{ month: string }>();
   const {
     data,
@@ -84,7 +86,13 @@ const PayBill = () => {
   const onSubmit: SubmitHandler<BillPayFormValues> = async (data) => {
     try {
       await createBillPayment(data).unwrap();
-      reset();
+
+       // Success toast
+      toast.success("Bill Request submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -92,6 +100,13 @@ const PayBill = () => {
       } else {
         console.error("Error creating patient:", String(err));
       }
+
+      // Error toast
+      toast.error("Failed to submit bill request. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     }
   };
 
@@ -111,6 +126,7 @@ const PayBill = () => {
 
   return (
     <>
+    <Toaster />
       <Panel
         header={<PanelHeading title="Pay Bill" button="" path="" />}
         size="lg"

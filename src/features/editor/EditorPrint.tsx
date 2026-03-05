@@ -36,13 +36,15 @@ const EditorPrint = ({
 
       // Default text style inside editor
       style: {
-        fontSize: "24px",
-        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontSize: "22px",  
+        fontFamily: "Arial, sans-serif",
+        lineHeight: "2.5",
+        color: "#000",
       },
 
       // Remove font and fontsize buttons from toolbar
       buttons: [
-        "bold",
+         "bold",
         "italic",
         "underline", 
         "|",
@@ -55,7 +57,7 @@ const EditorPrint = ({
         "align",  
         "fullsize",
       ],
-      removeButtons: ["source", "about", "font"],
+      removeButtons: ["source", "about" ],
       showXPathInStatusbar: false,
 
       // Clean font-size from pasted content

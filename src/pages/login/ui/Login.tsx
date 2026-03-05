@@ -7,9 +7,9 @@ import { usePageTitle } from "@/shared/hooks";
 
 const Login = () => {
 
-  usePageTitle("Login Digital Web Xray", {
-        prefix: "DWX - ",
-        defaultTitle: "DWX",
+  usePageTitle("Login", {
+        prefix: "Digital Web Expert - ",
+        defaultTitle: "",
         restoreOnUnmount: true,
       });
 

@@ -9,7 +9,7 @@ const ContactInfo = () => {
       </Text>
       <Text element="p">
         {" "}
-        If you need any help please call Digital Web X-ray help line or send us
+        If you need any help please call Digital Web Expert help line or send us
         an email.
       </Text>
 

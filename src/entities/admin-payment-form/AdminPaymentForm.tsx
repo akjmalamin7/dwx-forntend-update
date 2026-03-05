@@ -8,7 +8,8 @@ import { useAddPaymentMutation } from "@/shared/redux/features/admin/payment/pay
 import { Button, ControlInput, Text } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup"; 
 import { Controller, useForm, type SubmitHandler } from "react-hook-form"; 
- 
+import toast, { Toaster } from "react-hot-toast";
+
 const AdminPaymentForm = () => {
   const {
     control,
@@ -30,6 +31,12 @@ const AdminPaymentForm = () => {
     try {
       
         await createPayment(data).unwrap();
+        // Success toast
+        toast.success("Payment added successfully!", {
+          duration: 2000,
+          position: "top-right",
+        });
+        
         reset();
        
     } catch (err: unknown) {
@@ -39,11 +46,17 @@ const AdminPaymentForm = () => {
       } else {
         console.error("Error creating Payment:", String(err));
       }
+       toast.error("Something is wrong!", {
+          duration: 2000,
+          position: "top-right",
+        });
     }
   };
 
   const isLoading = isCreating ;
   return (
+    <>
+    <Toaster />
     <form
       className="grid grid-cols-12 gap-y-4 items-center pt-5 pb-5"
       onSubmit={handleSubmit(onSubmit, (errros) => console.log(errros))}
@@ -89,6 +102,7 @@ const AdminPaymentForm = () => {
         </div>
       </div>
     </form>
+    </>
   );
 };
 

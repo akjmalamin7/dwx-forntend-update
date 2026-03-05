@@ -6,7 +6,7 @@ import { useGetSettingsQuery, useUpsertSettingsMutation } from "@/shared/redux/f
  
 import { SettingForm } from "@/entities/setting-form";
 import type { SettingsFormValues } from "./setting";
- 
+import toast, { Toaster } from "react-hot-toast";
 
 const AppSettings = () => {
   const [upsertSettings, { isLoading }] = useUpsertSettingsMutation();
@@ -15,6 +15,13 @@ const AppSettings = () => {
   const onSubmit: SubmitHandler<SettingsFormValues> = async (data) => {
     try {
       await upsertSettings(data).unwrap();
+
+      // Success toast
+      toast.success("Settings saved successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -22,6 +29,12 @@ const AppSettings = () => {
       } else {
         console.error("Error saving settings:", String(err));
       }
+
+      // Error toast
+      toast.error("Failed to save settings. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   };
 
@@ -32,6 +45,8 @@ const AppSettings = () => {
   });
 
   return (
+    <>
+    <Toaster />
     <Panel
       header={
         <PanelHeading
@@ -48,6 +63,7 @@ const AppSettings = () => {
         isEdit={true}
       />
     </Panel>
+    </>
   );
 };
 

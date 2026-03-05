@@ -55,12 +55,11 @@ body{
     font-size: 20px !important;
   }*/
   .jodit-wysiwyg { 
-    font-size: clamp(24px, 2vw, 68px);
+    font-size: clamp(24px, 2vw, 38px);
   }
 
  
-   .jodit-wysiwyg p{ 
-    font-size: clamp(24px, 2vw, 68px);
+   .jodit-wysiwyg p{  
     font-family:  "Arial, sans-serif" !important;
   }
 

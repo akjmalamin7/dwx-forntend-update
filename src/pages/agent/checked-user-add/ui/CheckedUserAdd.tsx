@@ -5,7 +5,7 @@ import { useAddCheckedUserMutation } from "@/shared/redux/features/agent/checked
 import { Panel, PanelHeading } from "@/shared/ui";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast"; 
 
 const CheckedUserAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);

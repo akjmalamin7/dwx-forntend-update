@@ -5,6 +5,7 @@ import { type XrayTypeFormValues } from "./xraytypeAdd.types";
 import { useAddXraytypeMutation } from "@/shared/redux/features/admin/xraytype-add/addXraytypeApi";
 import { XraytypeForm } from "@/entities/xraytype-form";
 import { usePageTitle } from "@/shared/hooks";
+import toast, { Toaster } from "react-hot-toast";
 
 const XraytypeAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -14,6 +15,13 @@ const XraytypeAdd = () => {
     try {
       await createXraytype(data).unwrap();
       setResetCount((prev) => prev + 1);
+
+      // Success toast
+      toast.success("Xray type added successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -21,6 +29,13 @@ const XraytypeAdd = () => {
       } else {
         console.error("Error creating xray type:", String(err));
       }
+
+      // Error toast
+      toast.error("Failed to save settings. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     }
   };
 
@@ -32,22 +47,25 @@ const XraytypeAdd = () => {
   });
 
   return (
-    <Panel
-      header={
-        <PanelHeading
-          title="Add Xray type"
-          button="Xray Type List"
-          path="/admin/xraytype-list"
+    <>
+      <Toaster />
+      <Panel
+        header={
+          <PanelHeading
+            title="Add Xray type"
+            button="Xray Type List"
+            path="/admin/xraytype-list"
+          />
+        }
+      >
+        <XraytypeForm
+          onSubmit={onSubmit}
+          resetCount={resetCount}
+          isLoading={isLoading}
+          key={resetCount}
         />
-      }
-    >
-      <XraytypeForm
-        onSubmit={onSubmit}
-        resetCount={resetCount}
-        isLoading={isLoading}
-        key={resetCount}
-      />
-    </Panel>
+      </Panel>
+    </>
   );
 };
 

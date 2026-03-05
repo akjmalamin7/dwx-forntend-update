@@ -5,6 +5,7 @@ import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { type ReferenceFormValues } from "./referenceAdd.types";
 import { usePageTitle } from "@/shared/hooks";
+import toast, { Toaster } from "react-hot-toast";
 
 const ReferenceAdd = () => {
   const [resetCount, setResetCount] = useState<number>(0);
@@ -13,7 +14,16 @@ const ReferenceAdd = () => {
   const onSubmit: SubmitHandler<ReferenceFormValues> = async (data) => {
     try {
       await createReference(data).unwrap();
+
+      
       setResetCount((prev) => prev + 1);
+
+      // Success toast
+      toast.success("Reference submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -21,6 +31,12 @@ const ReferenceAdd = () => {
       } else {
         console.error("Error creating patient:", String(err));
       }
+
+      // Error toast
+      toast.error("Failed to submit reference request. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
     }
   };
 
@@ -31,22 +47,25 @@ const ReferenceAdd = () => {
     });
     
   return (
-    <Panel
-      header={
-        <PanelHeading
-          title="Add Reference"
-          button="Reference List"
-          path="/agent/reference-list"
+    <>
+      <Toaster />
+      <Panel
+        header={
+          <PanelHeading
+            title="Add Reference"
+            button="Reference List"
+            path="/agent/reference-list"
+          />
+        }
+      >
+        <ReferenceForm
+          onSubmit={onSubmit}
+          resetCount={resetCount}
+          isLoading={isLoading}
+          key={resetCount}
         />
-      }
-    >
-      <ReferenceForm
-        onSubmit={onSubmit}
-        resetCount={resetCount}
-        isLoading={isLoading}
-        key={resetCount}
-      />
-    </Panel>
+      </Panel>
+    </>
   );
 };
 

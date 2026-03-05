@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
 import { useGetPaymentListQuery } from "@/shared/redux/features/admin/payment/paymentApi";
 import { useMemo } from "react"; 
+import toast, { Toaster } from "react-hot-toast";
 
 const CustomerPayBill = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
@@ -55,7 +56,7 @@ const CustomerPayBill = () => {
     to: transformBill?.user_id?.email || "N/A",
     status: transformBill?.status || "Pending",
   };
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit } = useForm({
     mode: "onChange",
     resolver: yupResolver(ADD_CUSTOMER_BILL_PAY_SCHEMA),
     values: {
@@ -81,8 +82,13 @@ const CustomerPayBill = () => {
        
       await createBillPayment(finalData).unwrap();
 
+      // Success toast
+      toast.success("Bill payment submitted successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
 
-      reset();
+      
     } catch (err: unknown) {
       if (err && typeof err === "object" && "data" in err) {
         const e = err as { data?: { message?: string }; message?: string };
@@ -90,6 +96,13 @@ const CustomerPayBill = () => {
       } else {
         console.error("Error creating patient:", String(err));
       }
+
+      // Error toast
+      toast.error("Failed to submit bill payment. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     }
   });
   usePageTitle("Customer Pay Bill", {
@@ -108,6 +121,7 @@ const CustomerPayBill = () => {
 
   return (
     <>
+      <Toaster />
       <Panel
         header={<PanelHeading title="Customer Pay Bill" button="" path="" />}
         size="lg"

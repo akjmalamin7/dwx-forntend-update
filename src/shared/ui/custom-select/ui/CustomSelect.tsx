@@ -61,7 +61,7 @@ const CustomSelect = ({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setInputValue(val);
-
+    setHighlightIndex(-1);
     if (!val.trim()) {
       setOptionsData(options);
       if (!isMultiSelect) {
@@ -72,7 +72,7 @@ const CustomSelect = ({
     }
 
     const filtered = options.filter((op) =>
-      op.name.toLowerCase().includes(val.toLowerCase())
+      op.name.toLowerCase().includes(val.toLowerCase()),
     );
     setOptionsData(filtered);
 
@@ -88,6 +88,7 @@ const CustomSelect = ({
   const handleFocus = () => {
     setOptionsData(options);
     setVisible(true);
+    setHighlightIndex(-1);
   };
 
   // -------------------------
@@ -110,12 +111,12 @@ const CustomSelect = ({
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setHighlightIndex((prev) =>
-        prev < optionsData.length - 1 ? prev + 1 : 0
+        prev < optionsData.length - 1 ? prev + 1 : 0,
       );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setHighlightIndex((prev) =>
-        prev > 0 ? prev - 1 : optionsData.length - 1
+        prev > 0 ? prev - 1 : optionsData.length - 1,
       );
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -178,7 +179,7 @@ const CustomSelect = ({
 
     const left = Math.min(
       Math.max(inputRect.left + window.scrollX, VIEWPORT_PADDING),
-      vw - menuRect.width - VIEWPORT_PADDING
+      vw - menuRect.width - VIEWPORT_PADDING,
     );
 
     const width = inputRect.width; // ⭐ MATCH WIDTH
@@ -237,9 +238,10 @@ const CustomSelect = ({
               options={optionsData}
               onSelect={handleSelect}
               loading={loading}
+              highlightIndex={highlightIndex}
             />
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );

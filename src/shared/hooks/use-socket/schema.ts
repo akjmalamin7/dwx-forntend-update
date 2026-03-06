@@ -1,5 +1,6 @@
 import type { ADMIN_COMPLETED_PATIENTS_MODEL } from "@/shared/redux/features/admin/completed-patients/completedPatients.types";
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
+import type { BILL_TRANSFORM_MODEL } from "@/shared/redux/features/agent/manage-bill/billList.types";
 import type { AGENT_PENDING_PATIENT_MODEL } from "@/shared/redux/features/agent/pending-patient-list/pendingPatientList.types";
 interface Doctor {
   _id: string;
@@ -15,6 +16,10 @@ export type WSMessage =
   | {
       type: "new_ecg_report";
       payload: ADMIN_PENDING_PATIENT_MODEL;
+    }
+  | {
+      type: "bill_updated";
+      payload: BILL_TRANSFORM_MODEL;
     }
   | {
       type: "submit_patient";

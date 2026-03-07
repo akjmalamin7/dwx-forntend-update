@@ -38,7 +38,7 @@ const CustomerPayBill = () => {
         key: item.id,
         sl: index + 1, 
          name: item.name,
-         value: item.details,
+         value: item.name,
         action: "",
       })) || []
 

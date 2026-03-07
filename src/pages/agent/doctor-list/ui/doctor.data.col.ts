@@ -15,14 +15,7 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "name",
     align: "start",
     width: 180,
-  },
-  {
-    key: "mobile",
-    title: "Mobile",
-    dataIndex: "mobile",
-    align: "start",
-    width: 150,
-  },
+  }, 
   {
     key: "role",
     title: "Department",
@@ -36,5 +29,6 @@ export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "address",
     align: "start",
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
+    width: 180,
   },
 ];

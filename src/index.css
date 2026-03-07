@@ -83,6 +83,11 @@ body{
       background-color: #101828 !important;
   }
 
+  .patientComments  {
+    margin-bottom: 100px;
+  }
+  
+
   @media(max-width: 1024px){
   #report-submission-form  .jodit-wysiwyg{
        min-height: 200px !important;
@@ -133,7 +138,10 @@ body{
   .jodit-wysiwyg {
     font-size: 20px !important;
   }
-  
+   
+  .patientComments   .jodit-wysiwyg p{
+    font-size: 26px;
+  }
   /* Hide toolbar */
   .jodit-toolbar,
   .jodit-toolbar-editor-collection,

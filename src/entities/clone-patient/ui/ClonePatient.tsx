@@ -70,7 +70,7 @@ const ClonePatient = () => {
       console.error(error);
     }
   });
-  return (
+  return ( 
     <div className="w-full">
       <Panel
         header={<PanelHeading title="Clone Report" button=" " path=" " />}
@@ -80,102 +80,115 @@ const ClonePatient = () => {
           <div>
             <ImageUpload control={control} name="attachment" isNote={false} />
           </div>
-          <ControlInput
-            label="Patient Id"
-            placeholder="Patient Id"
-            size="sm"
-            name="patient_id"
-            control={control}
-            isInputLabel={false}
-          />
-          <ControlInput
-            label="Patient Name"
-            placeholder="Patient Name"
-            size="sm"
-            name="name"
-            control={control}
-            isInputLabel={false}
-          />
-          <ControlInput
-            label="Patient AGe"
-            placeholder="Patient Age"
-            size="sm"
-            name="age"
-            control={control}
-            isInputLabel={false}
-          />
-          <ControlledSelect
-            control={control}
-            name="gender"
-            label="Gender"
-            isInputLabel={false}
-            options={[
-              { name: "Male", value: "male" },
-              { name: "Female", value: "female" },
-            ]}
-          />
-          <ControlInput
-            label="Patient History"
-            placeholder="Patient History"
-            size="sm"
-            name="history"
-            control={control}
-            isInputLabel={false}
-          />
-          <ControlInput
-            label="X-ray Name"
-            placeholder="X-ray Name"
-            size="sm"
-            name="xray_name"
-            control={control}
-            isInputLabel={false}
-          />
-          <ControlInput
-            label="Reference Doctor"
-            placeholder="Reference Doctor"
-            size="sm"
-            name="ref_doctor"
-            control={control}
-            isInputLabel={false}
-          />
 
-          <ControlledSelect
-            control={control}
-            name="image_type"
-            label="Image Category"
-            isInputLabel={false}
-            options={[
-              { name: "Single", value: "single" },
-              { name: "Double", value: "double" },
-              { name: "Multiple", value: "multiple" },
-            ]}
-          />
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+            <div className="flex-1/3">
+              <ControlInput
+                label="Patient Id"
+                placeholder="Patient Id"
+                size="sm"
+                name="patient_id"
+                control={control}
+                isInputLabel={false}
+              />
+            </div>
+            <div className="flex-1/3"> 
+              <ControlInput
+                label="Patient Name"
+                placeholder="Patient Name"
+                size="sm"
+                name="name"
+                control={control}
+                isInputLabel={false}
+              />
+            </div>
+            <div className="flex-1/3">
+              <ControlInput
+                label="Patient AGe"
+                placeholder="Patient Age"
+                size="sm"
+                name="age"
+                control={control}
+                isInputLabel={false}
+              />
+            </div>
 
-          {/* <div className="flex flex-col gap-1">
-            <DoctorMultiSelector
-              control={control}
-              name="doctor_id"
-              label="Selected Doctor"
-              weight="font-regular"
-            />
           </div>
-          <div className="flex flex-col gap-1">
-            <DoctorMultiSelector
-              control={control}
-              name="ignore_dr"
-              label="Ignore Doctor"
-              weight="font-regular"
-            />
-          </div> */}
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+            
+            <div className="flex-1/3"> 
+              <ControlledSelect
+                control={control}
+                name="gender"
+                label="Gender"
+                isInputLabel={false}
+                options={[
+                  { name: "Male", value: "male" },
+                  { name: "Female", value: "female" },
+                ]}
+              />
+            </div>
+        
+            <div className="flex-1/3">
+                <ControlInput
+                  label="Patient History"
+                  placeholder="Patient History"
+                  size="sm"
+                  name="history"
+                  control={control}
+                  isInputLabel={false}
+                />
+            </div>
+            <div className="flex-1/3 "> 
+              <ControlInput
+                label="X-ray Name"
+                placeholder="X-ray Name"
+                size="sm"
+                name="xray_name"
+                control={control}
+                isInputLabel={false}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+            <div className="flex-1/3">
+                <ControlInput
+                  label="Reference Doctor"
+                  placeholder="Reference Doctor"
+                  size="sm"
+                  name="ref_doctor"
+                  control={control}
+                  isInputLabel={false}
+                />
+            </div>
+            <div className="flex-1/3"> 
+              <ControlledSelect
+                control={control}
+                name="image_type"
+                label="Image Category"
+                isInputLabel={false}
+                options={[
+                  { name: "Single", value: "single" },
+                  { name: "Double", value: "double" },
+                  { name: "Multiple", value: "multiple" },
+                ]}
+              />
+            </div>
+             <div className="flex-1/3"> 
+              <Button
+                size="size-2"
+                type="submit"
+                className="mt-6"
+                width="full"
+                loading={isCloneCreating}
+              >
+                {isCloneCreating ? "Cloning Patient..." : "Clone Patient"}
+              </Button>
+             </div>
+          </div>
+ 
 
-          <Button
-            size="size-2"
-            type="submit"
-            width="full"
-            loading={isCloneCreating}
-          >
-            {isCloneCreating ? "Cloning Patient..." : "Clone Patient"}
-          </Button>
+          
         </form>
       </Panel>
     </div>

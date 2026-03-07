@@ -36,7 +36,7 @@ const EditorPrint = ({
 
       // Default text style inside editor
       style: {
-        fontSize: "22px",  
+        fontSize: "28px",  
         fontFamily: "Arial, sans-serif",
         lineHeight: "2.5",
         color: "#000",

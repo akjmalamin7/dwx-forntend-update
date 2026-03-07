@@ -15,8 +15,7 @@ const DoctorList = () => {
       DoctorList?.filter((item) => item.email !== "All").map((item, index) => ({
         key: item._id,
         sl: index + 1,
-        name: item.email,
-        mobile: item.mobile,
+        name: item.email, 
         role: item.role === "xray_dr" ? "Radiology" : "ECG",
         address: item.address,
         action: "",
@@ -45,7 +44,7 @@ const DoctorList = () => {
     });
 
   return (
-    <Panel header="Doctor List" size="lg">
+    <Panel header="Doctor List" size="md">
       <div className="w-1/3">
       <Search
         value={searchQuery}

@@ -13,16 +13,8 @@ export const BILL_HISTORY_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "month",
     key: "month",
   },
-  {
-    title: "Paid Amount",
-    dataIndex: "paid_amount",
-    key: "paid_amount",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "a",
-  },
+ 
+  
   {
     title: "Total Amount",
     dataIndex: "total_amount",
@@ -33,11 +25,7 @@ export const BILL_HISTORY_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "trans_id",
     key: "trans_id",
   },
-  {
-    title: "Total Patient",
-    dataIndex: "total_patients",
-    key: "total_patients",
-  },
+  
   {
     title: "Status",
     dataIndex: "status",
@@ -47,5 +35,6 @@ export const BILL_HISTORY_DATA_COL: Columns<DataSource>[] = [
     title: "Action",
     dataIndex: "action",
     key: "action",
+    width: 130
   },
 ];

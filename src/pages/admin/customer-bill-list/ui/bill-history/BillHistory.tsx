@@ -27,12 +27,10 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
   const DATA_TABLE = data?.data.map((item, index) => ({
     key: item._id,
     sl: index + 1,
-    month: item.month,
-    paid_amount: item.paid_amount,
+    month: item.month, 
     status: item.status,
     total_amount: ((item.total_amount || 0) * 1.018).toFixed(0),
-    trans_id: item.trans_id,
-    total_patients: item.total_patients,
+    trans_id: item.trans_id, 
   }));
 
 
@@ -40,11 +38,9 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
   // ---- Footer totals ----
   const totals = data?.data.reduce(
     (acc, item) => ({
-      paid_amount: acc.paid_amount + (item.paid_amount || 0),
-      total_amount: acc.total_amount + (item.total_amount || 0),
-      total_patients: acc.total_patients + (item.total_patients || 0),
+      total_amount: acc.total_amount + (item.total_amount || 0), 
     }),
-    { paid_amount: 0, total_amount: 0, total_patients: 0 }
+    {   total_amount: 0,   }
   );
  
   
@@ -52,12 +48,10 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
     {
       key: "footer",
       sl: "Total",
-      month: "",
-      paid_amount: totals?.paid_amount,
+      month: "", 
       status: "",
       total_amount:  ((totals?.total_amount || 0) * 1.018).toFixed(0) ,
-      trans_id: "",
-      total_patients: totals?.total_patients,
+      trans_id: "", 
     },
   ];
 
@@ -81,9 +75,8 @@ const BillHistory = ({ userId, buttonAction }: IProps) => {
     }
 
     if (
-      item.key === "paid_amount" ||
-      item.key === "total_amount" ||
-      item.key === "total_patients"
+     
+      item.key === "total_amount" 
     ) {
       return {
         ...item,

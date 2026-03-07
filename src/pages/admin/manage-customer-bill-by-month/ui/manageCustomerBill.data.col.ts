@@ -15,14 +15,7 @@ export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
     key: "month",
     align: "start",
     width: 100,
-  },
-  {
-    key: "total_patients",
-    title: "Total Patient",
-    dataIndex: "total_patients",
-    align: "start",
-    width: 100,
-  },
+  }, 
   {
     key: "total_amount",
     title: "Total Amount",

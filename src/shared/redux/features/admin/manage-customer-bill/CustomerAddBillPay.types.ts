@@ -9,7 +9,7 @@ export interface BILL_USER {
   id: string;
 }
 export interface CustomerBillPayFormValues {
-  total_bill: string;
+  total_bill: number;
   month: string;
   trans_id?: string;        
   received_number?: string;  

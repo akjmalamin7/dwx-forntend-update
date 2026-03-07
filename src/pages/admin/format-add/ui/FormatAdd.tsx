@@ -1,4 +1,5 @@
-import { DoctorFormatForm } from "@/entities";
+ 
+import AdminFormatForm from "@/entities/doctor-format-form/AdminFormatForm";
 import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
 
@@ -20,7 +21,7 @@ const FormatAdd = () => {
         />
       }
     >
-      <DoctorFormatForm />
+      <AdminFormatForm />
     </Panel>
   );
 };

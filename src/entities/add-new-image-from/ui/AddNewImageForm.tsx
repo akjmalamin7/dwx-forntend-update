@@ -48,21 +48,31 @@ const AddNewImageForm = () => {
         <form onSubmit={handleOnSubmit}>
           {/* Patient Image */}
 
-          <ImageUpload
-            control={control}
-            name="attachment"
-            key={resetCount}
-            isNote={false}
-            setValue={setValue}
-          />
-          <Button
-            type="submit"
-            className=" text-white mt-5 bg-blue-600 hover:bg-blue-700 "
-            loading={isUploading}
-            disabled={!hasImages}
-          >
-            Submit
-          </Button>
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+              <div className="flex-1/4">
+                  <ImageUpload
+                    control={control}
+                    name="attachment"
+                    key={resetCount}
+                    isNote={false}
+                    setValue={setValue}
+                  />
+              </div>
+              <div className="flex-1/4"> 
+                  <Button
+                    type="submit"
+                    className=" text-white mt-5 bg-blue-600 hover:bg-blue-700 "
+                    loading={isUploading}
+                    disabled={!hasImages}
+                  >
+                    Submit
+                  </Button>
+              </div>
+                
+            </div>
+
+          
+          
         </form>
       </Panel>
     </div>

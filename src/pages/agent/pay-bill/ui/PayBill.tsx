@@ -72,8 +72,8 @@ const PayBill = () => {
   });
   useEffect(() => {
     if (transformBill) {
-      reset({
-        received_number: paymnetMethod[0]?.value || "",  
+      reset({ 
+         received_number: transformBill.received_number || paymnetMethod[0]?.value || "",
         total_bill: String(roundedGrandTotal),
         month: transformBill.month || "",
         trans_id: transformBill.trans_id || "",

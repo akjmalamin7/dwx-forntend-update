@@ -103,89 +103,104 @@ const AdminUpdatePatientForm = () => {
               key={resetCount}
             />
           </div>
-          {/* Patient ID*/}
-          <ControlInput
-            label="Patient ID"
-            placeholder="Patient ID"
-            size="sm"
-            name="patient_id"
-            control={control}
-            isInputLabel={false}
-          />
 
-           {/* Patient Name*/}
-          <ControlInput
-            label="Patient Name"
-            placeholder="Patient Name"
-            size="sm"
-            name="name"
-            control={control}
-            isInputLabel={false}
-          />
-          {/* Patient Age*/}
-          <ControlInput
-            label="Patient Age"
-            placeholder="Patient Age"
-            size="sm"
-            name="age"
-            control={control}
-            isInputLabel={false}
-          />
-
-          {/* Patient History*/}
-          <ControlInput
-            label="Patient History"
-            placeholder="Patient History"
-            size="sm"
-            name="history"
-            control={control}
-            isInputLabel={false}
-          />
-
-          {/* X-ray Name*/}
-          <ControlInput
-            label="X-ray Name"
-            placeholder="X-ray Name"
-            size="sm"
-            name="xray_name"
-            control={control}
-            isInputLabel={false}
-          />
-        
-          <ControlledSelect
-            control={control}
-            name="rtype"
-            label="R Type"
-            isInputLabel={false}
-            options={[
-              { name: "Xray", value: "xray" },
-              { name: "ECG", value: "ecg" },
-              { name: "DCM", value: "dcm" },
-              { name: "CTSCAN", value: "ctscan" },
-            ]}
-          />
-
-          <ControlledSelect
-            control={control}
-            name="study_for"
-            label="Study For"
-            isInputLabel={false}
-            options={[
-              { name: "Xray Dr", value: "xray_dr" },
-              { name: "ECG Dr", value: "ecg_dr" }, 
-            ]}
-          />
-
-
-          <Button
-            type="submit"
-            size="size-2"
-            width="full"
-            loading={isPatientUpdating}
-            disabled={isPatientUpdating}
-          >
-            {isPatientUpdating ? "Updating Patient..." : "Update Patient"}
-          </Button>
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+            <div className="flex-1/4">
+                {/* Patient ID*/}
+                <ControlInput
+                  label="Patient ID"
+                  placeholder="Patient ID"
+                  size="sm"
+                  name="patient_id"
+                  control={control}
+                  isInputLabel={false}
+                />
+            </div>
+            <div className="flex-1/4"> 
+                {/* Patient Name*/}
+                <ControlInput
+                  label="Patient Name"
+                  placeholder="Patient Name"
+                  size="sm"
+                  name="name"
+                  control={control}
+                  isInputLabel={false}
+                />
+            </div>
+             <div className="flex-1/4"> 
+                 {/* Patient Age*/}
+                <ControlInput
+                  label="Patient Age"
+                  placeholder="Patient Age"
+                  size="sm"
+                  name="age"
+                  control={control}
+                  isInputLabel={false}
+                />
+             </div>
+             <div className="flex-1/4"> 
+                 {/* Patient History*/}
+                <ControlInput
+                  label="Patient History"
+                  placeholder="Patient History"
+                  size="sm"
+                  name="history"
+                  control={control}
+                  isInputLabel={false}
+                />
+             </div>
+          </div>
+          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+            <div className="flex-1/4">
+                {/* X-ray Name*/}
+                <ControlInput
+                  label="X-ray Name"
+                  placeholder="X-ray Name"
+                  size="sm"
+                  name="xray_name"
+                  control={control}
+                  isInputLabel={false}
+                />
+            </div>
+            <div className="flex-1/4"> 
+                <ControlledSelect
+                control={control}
+                name="rtype"
+                label="R Type"
+                isInputLabel={false}
+                options={[
+                  { name: "Xray", value: "xray" },
+                  { name: "ECG", value: "ecg" },
+                  { name: "DCM", value: "dcm" },
+                  { name: "CTSCAN", value: "ctscan" },
+                ]}
+              />
+            </div>
+             <div className="flex-1/4"> 
+                <ControlledSelect
+                  control={control}
+                  name="study_for"
+                  label="Study For"
+                  isInputLabel={false}
+                  options={[
+                    { name: "Xray Dr", value: "xray_dr" },
+                    { name: "ECG Dr", value: "ecg_dr" }, 
+                  ]}
+                />
+             </div>
+             <div className="flex-1/4"> 
+               <Button
+                type="submit"
+                size="size-2"
+                width="full"
+                loading={isPatientUpdating}
+                disabled={isPatientUpdating}
+              >
+                {isPatientUpdating ? "Updating Patient..." : "Update Patient"}
+              </Button>
+             </div>
+          </div>
+ 
         </form>
       </Panel>
     </div>

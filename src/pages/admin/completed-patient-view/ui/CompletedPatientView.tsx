@@ -15,6 +15,7 @@ import { PatientInformation } from "./patient-iformation";
 import { AddNewImageForm, AdminUpdatePatientForm, ClonePatient } from "@/entities";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
+import toast, { Toaster } from "react-hot-toast";
 
 const CompletedPatientView = () => {
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -27,6 +28,7 @@ const CompletedPatientView = () => {
     useUpdateAdminCompletedPatientMutation();
   const { data } = useGetAdminCompletedPatientQuery(patient_id as string);
   const comments = data?.data.comments?.comments;
+  const doctorName = data?.data.completed_dr.email??"";
   const passault = data?.data.comments?.passault;
 
   const revisions = useMemo(() => {
@@ -40,7 +42,7 @@ const CompletedPatientView = () => {
         name: r.doctor_id.name,
         comments: r.comments,
       }));
-  }, [data?.data?.revisions]);
+  }, [data?.data?.revisions]); 
 
   const form = useForm({
     resolver: yupResolver(ADMIN_COMPLETED_REPORT_UDPAT_SCHEMA),
@@ -68,11 +70,28 @@ const CompletedPatientView = () => {
         patient_id: patient_id,
         data: formData,
       }).unwrap();
+
+      // Success toast 
+      toast.success("Report updated successfully!", {
+        duration: 2000,
+        position: "top-right",
+      });
+
     } catch (err) {
       console.error("Error updating patient:", err);
+
+      // Error toast
+      toast.error("Failed to create user. Please try again.", {
+        duration: 2000,
+        position: "top-right",
+      });
+      
     }
   });
   return (
+    <>
+    <Toaster />
+    
     <Panel
       header={
         <PanelHeading
@@ -98,6 +117,7 @@ const CompletedPatientView = () => {
                 <Editor {...field} onChange={handleEditorChange} />
               )}
             />
+            <Text element="h2" className="text-lg mt-2">Completed By: {doctorName}</Text>
 
             <div className="mt-3">
               <Controller
@@ -154,14 +174,18 @@ const CompletedPatientView = () => {
 
        <div className="flex flex-col lg:flex-row w-full mt-8 gap-6">
           <div className="flex-1/2">
+            <div className=" ">
+               <AddNewImageForm />
+            </div>
             <ClonePatient />
           </div>
           <div className="flex-1/2 flex flex-col gap-6">
-            <AddNewImageForm />
+          
             <AdminUpdatePatientForm />
           </div>
         </div>
     </Panel>
+    </>
   );
 };
 

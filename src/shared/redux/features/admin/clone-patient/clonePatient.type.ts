@@ -11,19 +11,10 @@ export const CLONE_PATIENT_SCHEMA = yup.object({
 
   patient_id: yup.string().required("Patient ID is required"),
   name: yup.string().required("Patient name is required"),
-  age: yup.string().required("Age is required"),
-  gender: yup.string().required("Gender is required"),
-  history: yup.string().required("Patient history is required"),
-  xray_name: yup.string().required("X-ray name is required"),
-  ref_doctor: yup.string().required("Referring doctor is required"),
-  image_type: yup.string().required("Image type is required"),
-  //   doctor_id: yup
-  //     .array()
-  //     .of(yup.string().required("Doctor ID is required"))
-  //     .min(1, "At least one doctor must be selected")
-  //     .required("Selected doctors are required"),
-  //   ignore_dr: yup
-  //     .array()
-  //     .of(yup.string().required("Doctor ID is required"))
-  //     .default([]),
+  age: yup.string().optional().default(""),
+  gender: yup.string().optional().default(""),
+  history: yup.string().optional().default(""),
+  xray_name: yup.string().optional().default(""),
+  ref_doctor: yup.string().optional().default(""),
+  image_type: yup.string().required("Image type is required"), 
 });

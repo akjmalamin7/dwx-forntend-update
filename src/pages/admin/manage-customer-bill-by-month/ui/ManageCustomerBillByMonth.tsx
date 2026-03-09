@@ -78,6 +78,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-print-bill/${record?.key}`}
               className="bg-green-500 text-white px-4 py-1 text-sm rounded"
+                target='_blank'
             >
               Print
             </Link>
@@ -85,6 +86,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-pay-bill/${record?.key}`}
               className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
+              target='_blank'
             >
               Pay
             </Link>
@@ -92,6 +94,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-update-bill/?userId=${record?.user_id}&month=${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
+                target='_blank'
             >
               Update
             </Link>

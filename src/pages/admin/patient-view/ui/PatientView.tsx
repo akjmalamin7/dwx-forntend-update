@@ -1,4 +1,5 @@
 import { 
+  AddNewImageForm,
   AdminUpdatePatientForm,
   ClonePatient,
 } from "@/entities";
@@ -31,6 +32,10 @@ const PatientView = () => {
       
       <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
         <div className="flex-1/2">
+        <div className=" ">
+          <AddNewImageForm />
+        </div>
+
           <ClonePatient />
         </div>
         <div className="flex-1/2 flex flex-col gap-6"> 

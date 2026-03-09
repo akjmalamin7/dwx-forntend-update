@@ -48,6 +48,7 @@ const CustomerBillRequestList = () => {
 
           status: item.status,
           paid_amount: item.paid_amount,
+          trans_id: item.trans_id,
           payment_date: item.payment_date
             ? new Date(item.payment_date).toLocaleDateString("en-GB", {
                 day: "2-digit",

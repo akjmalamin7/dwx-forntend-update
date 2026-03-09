@@ -87,7 +87,11 @@ body{
     margin-bottom: 100px;
   }
   
-
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
   @media(max-width: 1024px){
   #report-submission-form  .jodit-wysiwyg{
        min-height: 200px !important;

@@ -129,7 +129,7 @@ const CustomerPayBill = () => {
         {/* Table */}
         <BillInfo bill={bill} />
 
-        <div className="flex   mt-16 gap-6">
+        <div className="flex   mt-2 gap-6">
           {/* Left Side: Payment Form */}
           <div className="w-full md:w-1/2">
             <form className="grid pt-5 pb-5" onSubmit={onSubmit}>
@@ -179,13 +179,7 @@ const CustomerPayBill = () => {
                 placeholder="Honorarium Amount"
                 name="honorarium"
               />
-               <ControlInput
-                control={control}
-                size="sm"
-                label="Person to Honorarium"
-                placeholder="Person to Honorarium"
-                name="honorarium_to"
-              />
+               
 
 
               {/* Transaction ID */}

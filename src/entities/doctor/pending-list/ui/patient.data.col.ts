@@ -8,17 +8,18 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     align: "center",
     width: 50,
   },
-  {
-    key: "start_time",
-    title: "Stat Time",
-    dataIndex: "start_time",
-    align: "start",
-    width: 100,
-  },
+  
   {
     title: "DC Name",
     dataIndex: "agent_name",
     key: "agent_name",
+    align: "start",
+    width: 100,
+  },
+  {
+    key: "start_time",
+    title: "Stat Time",
+    dataIndex: "start_time",
     align: "start",
     width: 100,
   },

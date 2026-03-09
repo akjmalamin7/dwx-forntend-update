@@ -28,12 +28,7 @@ const CustomerBillList = () => {
     month,
     search,
   });
-  const matchHasPendigHistory = (id: string | undefined) => {
-    if (!id) return false;
-    return !!billList?.data.find(
-      (bill) => bill.user_id._id === id && bill.hasPendingHistory,
-    );
-  };
+ 
 
   const totalPages = billList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -53,6 +48,7 @@ const CustomerBillList = () => {
         total_amount: ((item.total_amount || 0) * 1.018).toFixed(0),
         status: (item.total_amount || 0) === 0 ? null : item.status,
         paid_amount: item.paid_amount,
+        hasPendingHistory: item.hasPendingHistory,
         payment_date: item.payment_date
           ? new Date(item.payment_date).toLocaleDateString("en-GB", {
               day: "2-digit",
@@ -73,42 +69,45 @@ const CustomerBillList = () => {
         const customerRecord = record as CustomerBillRow;  
         const isPending = record?.status === "Pending"; 
         const hasAmount = Number(record?.total_amount) > 0;
+        const hasPendingHistory = !!(customerRecord as any)?.hasPendingHistory;
         
-        if (!hasAmount) return null;
+
+        //if (!hasAmount) return null;
           return (
             <div key={rowIndex} className="flex gap-2">
               <BillHistory
-                buttonAction={
-                  !matchHasPendigHistory(customerRecord.user_id?._id)
-                }
+                buttonAction={hasPendingHistory}
                 userId={customerRecord.user_id?._id}
               />
 
               {/* PRINT BUTTON */}
-              
+              {hasAmount &&  (
                 <Link
                   to={`/admin/customer-print-bill/${record?.key}`}
                   className="bg-green-500 text-white px-4 py-1 text-sm rounded"
+                  target='_blank'
                 >
                   Print
                 </Link>
-              
+              )}
 
               {/* PAY BUTTON */}
-              
+              {hasAmount &&  (
                 <Link
                   to={`/admin/customer-pay-bill/${record?.key}`}
                   className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
+                  target='_blank'
                 >
                   Pay
                 </Link>
-             
+             )}
 
               {/* ACCEPT BUTTON */}
              {isPending &&  (
                 <Link
                   to={`/admin/customer-pay-bill/${record?.key}`}
                   className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
+                  target='_blank'
                 >
                   Accept
                 </Link>

@@ -58,6 +58,13 @@ export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
     width: 180,
   },
   {
+    key: "trans_id",
+    title: "Transaction ID",
+    dataIndex: "trans_id",
+    align: "start",
+    width: 180,
+  },
+  {
     key: "status",
     title: "Status",
     dataIndex: "status",

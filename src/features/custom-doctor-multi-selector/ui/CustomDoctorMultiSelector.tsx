@@ -19,6 +19,7 @@ interface IProps<TFieldValues extends FieldValues> {
   useIgnored?: boolean;
   weight?: string;
   formFor?: string;
+  defaultIds?: string[]; 
 }
 const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
   label,
@@ -28,6 +29,7 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
   useIgnored = false,
   weight,
   formFor,
+  defaultIds
 }: IProps<TFieldValues>) => {
   const isEcg = formFor?.toUpperCase() === "ECG";
   const decoded = useJWT();
@@ -44,17 +46,23 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
       }
     : { doctor_id: [], ignore_dr: [] };
 
+  const SKIPPED_IDS = ["686b95c980aa4c941420dcf2", "686b95c980aa4c941420dd1f"];
+
+ 
   const preselectedIds: string[] = useIgnored
     ? transformedData.ignore_dr
     : transformedData.doctor_id;
+ 
+    
 
   const allOptions = useMemo(() => {
-    const options = doctorOptions
-      .filter((d) => d !== null)
-      .map((doc) => ({ value: doc.id, name: doc.name }));
-    return options;
-  }, [doctorOptions]);
+  return doctorOptions
+    .filter((d) => d !== null)
+    .filter((d) => !SKIPPED_IDS.includes(d.id))  // 👈 এটা add করুন
+    .map((doc) => ({ value: doc.id, name: doc.name }));
+}, [doctorOptions]);
 
+/*
   useEffect(() => {
     if (selectedDrData && !isEcg) {
       const preselectedIds: string[] = useIgnored
@@ -63,7 +71,27 @@ const CustomDoctorMultiSelector = <TFieldValues extends FieldValues>({
 
       setValue(name, preselectedIds);
     }
-  }, [selectedDrData, useIgnored, control, name, setValue]);
+  }, [selectedDrData, useIgnored, control, name, setValue]);*/
+
+   
+  useEffect(() => {
+  if (!isEcg) {
+    if (defaultIds && defaultIds.length > 0) {
+      // Edit mode — patient data  
+      setValue(name, defaultIds.filter((id) => !SKIPPED_IDS.includes(id)));
+    } else if (selectedDrData) {
+      // Create mode — profile  
+      const preselectedIds = (
+        useIgnored
+          ? selectedDrData.ignored_dr ?? []
+          : selectedDrData.selected_dr ?? []
+      ).filter((id) => !SKIPPED_IDS.includes(id));
+
+      setValue(name, preselectedIds);
+    }
+  }
+}, [selectedDrData, defaultIds, useIgnored, name, setValue]);
+
 
   return (
     <Controller

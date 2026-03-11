@@ -82,7 +82,41 @@ export const useAgentCompedPatientSocket = ({
     const { type, payload } = lastMessage;
 
     switch (type) {
-      case "submit_patient": {
+          case "submit_patient": {
+          const mapped = mapAdminToAgentCompleted(
+            payload as ADMIN_COMPLETED_PATIENTS_MODEL
+          );
+
+          if (!user?.id || mapped.agent_id !== user.id) {
+            return;
+          }
+
+          setDeletedPatientIds((prev) => {
+            const updated = new Set(prev);
+            updated.delete(mapped._id);
+            return updated;
+          });
+
+          setRealtimePatients((prev) => {
+            const exists = prev.some((p) => p._id === mapped._id);
+
+            if (exists) {
+              return prev.map((p) =>
+                p._id === mapped._id ? mapped : p
+              );
+            }
+
+            if (page === 1) {
+              return [...prev, mapped];
+            }
+
+            return prev;
+          });
+
+          break;
+        }
+
+      /*case "submit_patient": {
 
          const mapped = mapAdminToAgentCompleted(
             payload as ADMIN_COMPLETED_PATIENTS_MODEL
@@ -97,9 +131,10 @@ export const useAgentCompedPatientSocket = ({
           const updated = new Set(prev);
           updated.delete(payload._id);
           return updated;
-        });
+        }); 
+ 
 
-        if (page === 1) {
+         if (page === 1) {
           setRealtimePatients((prev) => {
             const exists = prev.some((p) => p._id === payload._id);
             if (exists) {
@@ -111,7 +146,7 @@ export const useAgentCompedPatientSocket = ({
           });
         }
         break;
-      }
+      }*/
 
       case "delete_patient":
       case "completed_back":

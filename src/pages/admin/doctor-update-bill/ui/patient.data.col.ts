@@ -28,9 +28,16 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     key: "xray_name",
     title: "Xray Name",
     dataIndex: "xray_name",
-    align: "start",
+    align: "end",
     width: 30,
   }, 
+   {
+    key: "view",
+    title: "View",
+    dataIndex: "view",
+    align: "end",
+    width: 20,
+  },
      
   {
     key: "action",

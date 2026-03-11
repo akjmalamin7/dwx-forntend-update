@@ -6,6 +6,7 @@ interface ADMIN_UPDATE_BILL {
   image_type: "single" | "double" | "multiple" | "ecg" | string;
   month: string;
   xray_name: string;
+  total_images: string;
 }
 
 export interface ADMIN_UPDATE_BILL_API_RESPONSE {

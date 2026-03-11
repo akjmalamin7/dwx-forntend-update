@@ -8,11 +8,13 @@ import { usePageTitle } from "@/shared/hooks";
 
 const DoctorList = () => {
   const { data: DoctorList, isLoading } = useGetDoctorListQuery();
-
+  const SKIPPED_IDS = ["686b95c980aa4c941420dcf2", "686b95c980aa4c941420dd1f"];
   // Prepare data
   const DATA_TABLE = useMemo(
     () =>
-      DoctorList?.filter((item) => item.email !== "All").map((item, index) => ({
+      DoctorList?.filter((item) => item.email !== "All")
+    .filter((item) => !SKIPPED_IDS.includes(item._id))
+    .map((item, index) => ({
         key: item._id,
         sl: index + 1,
         name: item.email, 

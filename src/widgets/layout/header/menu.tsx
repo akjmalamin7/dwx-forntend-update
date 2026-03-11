@@ -268,6 +268,12 @@ export const MENU_DATA: MenuType[] = [
       },
       {
         id: "user-list-1",
+        title: "Admin List",
+        path: "/admin/admin-list",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "user-list-1",
         title: "User List",
         path: "/admin/user-list",
         role: [RoleEnum.admin],

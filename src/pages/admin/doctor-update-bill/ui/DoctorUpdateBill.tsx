@@ -7,7 +7,7 @@ import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
 const DoctorUpdateBill = () => {
@@ -51,13 +51,33 @@ const DoctorUpdateBill = () => {
         email: item.username,
         xray_name: item.xray_name,
         image_type: item.image_type,
+        total_images: item.total_images,
         month: item.month,
         action: "",
+        view: "",
       })) || [],
     [doctorList?.data, page, limit]
-  );
+  ); 
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
+
+
+    if (item.key === "view") {
+          return {
+            ...item,
+            render: (_: unknown, record?: DataSource, rowIndex?: number) => (
+              <div key={rowIndex} className="flex  float-right  gap-2">
+                <Link
+                  to={`/admin/completed-patient-view/${record?.key}`}
+                  className="bg-yellow-500 text-white px-2 py-1 text-sm"
+                >
+                  View 
+                </Link> {record?.total_images ? `(${record.total_images})` : ""}
+              </div>
+            ),
+          };
+        }
+
     if (item.key === "action") {
       return {
         ...item,

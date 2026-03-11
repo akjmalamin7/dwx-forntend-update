@@ -260,6 +260,7 @@ const PatientForm = ({
           useIgnored={false}
           setValue={setValue}
           formFor={formFor}
+          defaultIds={defaultValues?.doctor_id}
         />
 
         <CustomDoctorMultiSelector
@@ -269,6 +270,7 @@ const PatientForm = ({
           label="Ignored Doctor"
           setValue={setValue}
           formFor={formFor}
+          defaultIds={defaultValues?.ignore_dr}
         />
 
         {/* Submit */}

@@ -1,4 +1,4 @@
-import { CombineViewer } from "@/entities/combine-viewer";
+ 
 import { useGetDoctorCompletedPatientViewQuery } from "@/entities/doctor/completed-patient-view/api/query";
 import { usePageTitle } from "@/shared/hooks";
 import { Panel, PanelHeading } from "@/shared/ui";
@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import { PATIENT_VIEW_DAT_COL } from "./patientView.data.col";
+import CombineViewerUpdate from "@/entities/combine-viewer/ui/CombineViewerUpdate";
 const CompletedPatientView = () => {
   const [viewData, setViewData] = useState({ passault: "", comments: "" });
   const { patient_id } = useParams<{ patient_id: string }>();
@@ -126,7 +127,7 @@ const CompletedPatientView = () => {
       )}
       {/* Image Viewer Section */}
 
-      <CombineViewer
+      <CombineViewerUpdate
         history={patient?.history}
         age={patient?.age}
         patient_id={patient_id}

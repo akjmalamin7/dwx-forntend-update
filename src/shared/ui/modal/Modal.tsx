@@ -60,7 +60,7 @@ const Modal = ({
 
       {/* Modal Content */}
       <div className="fixed w-full h-screen top-0 left-0 z-9999 flex items-start justify-center pt-[60px]">
-        <div className={`${sizes} mx-auto px-[20px]`}>
+        <div className={`${sizes} mx-auto max-h-[100vh] overflow-y-auto  px-[20px]`}>
           <Card cardStyle="shadow" bgColor="white">
             <Card.CardHeader padding={headerPadding}>
               <div className="flex items-center justify-between">

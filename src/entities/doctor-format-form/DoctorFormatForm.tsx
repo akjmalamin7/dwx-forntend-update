@@ -57,10 +57,10 @@ const DoctorFormatForm = ({ isUpdate = false }: Iprops) => {
       if (isUpdate && id) {
         await updateFormat({ id, ...data }).unwrap();
          // Success toast
-              toast.success("Format updated successfully!", {
-                duration: 2000,
-                position: "top-right",
-              });
+          toast.success("Format updated successfully!", {
+            duration: 2000,
+            position: "top-right",
+          });
         navigate("/doctor/format");
       } else {
         await createFormat(data).unwrap();

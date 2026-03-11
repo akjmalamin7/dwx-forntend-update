@@ -101,6 +101,17 @@ const PendingPatientsList = () => {
         ),
       };
     }
+
+      if (item.key === "agent_name") {
+        return {
+          ...item,
+          render: (value: unknown) => (
+            <span className="text-red-500 font-semibold">
+              {String(value ?? "")}
+            </span>
+          ),
+        };
+      }
     return item;
   });
   return (

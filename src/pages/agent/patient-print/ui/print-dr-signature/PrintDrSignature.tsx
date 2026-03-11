@@ -61,6 +61,7 @@ const PrintDrSignature = ({ signature, passault }: IProps) => {
         ) : (
           ""
         )}
+        <Text element="p"  size="sm"> N.B. This report has been electronically signed</Text>
       </div>
     </div>
   );

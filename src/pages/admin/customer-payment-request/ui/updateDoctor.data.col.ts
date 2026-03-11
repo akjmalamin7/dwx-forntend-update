@@ -6,7 +6,7 @@ const formatMonth = (monthString: string): string => {
   const monthName = date.toLocaleString('en-US', { month: 'short' });
   return `${monthName}-${year}`;
 };
-export const DOCTOR_DATA_COL: Columns<DataSource>[] = [
+export const DOCTOR_DATA_COL: Columns<DataSource>[] = [ 
   {
     key: "sl",
     title: "SL",

@@ -100,6 +100,7 @@ export const Pages = {
   AdminEditUser: lazy(() => import("@/pages/admin/edit-user")),
   AdminChangePassword: lazy(() => import("@/pages/admin/change-password")),
   AdminCustomerList: lazy(() => import("@/pages/admin/users-list")),
+  AdminUserList: lazy(() => import("@/pages/admin/user-admin")),
   AdminXrayDoctorList: lazy(() => import("@/pages/admin/xray-doctors")),
   AdminEcgDoctorList: lazy(() => import("@/pages/admin/ecg-doctors")),
   AdminDeletedDoctorList: lazy(() => import("@/pages/admin/deleted-doctors")),

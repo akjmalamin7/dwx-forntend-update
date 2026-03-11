@@ -1,6 +1,14 @@
 import type { Columns, DataSource } from "@/shared/ui/table/table.model";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
+
+const formatMonth = (monthString: string): string => {
+  const [year, month] = monthString.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1);
+  const monthName = date.toLocaleString('en-US', { month: 'short' });
+  return `${monthName}-${year}`;
+};
+
 export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
   {
     key: "sl",
@@ -15,6 +23,7 @@ export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
     key: "month",
     align: "start",
     width: 100,
+    render: (value) => formatMonth(value as string),
   }, 
   {
     key: "total_amount",

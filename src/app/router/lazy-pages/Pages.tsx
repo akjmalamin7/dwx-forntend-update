@@ -5,6 +5,7 @@ export const Pages = {
   Unauthorized: lazy(() => import("@/pages/unauthorized")),
   Patients: lazy(() => import("@/pages/patients")),
   ViewPatient: lazy(() => import("@/pages/agent/patient-view")),
+  
   SendXrayReport: lazy(() => import("@/pages/agent/send-xray-report")),
   SendEcgReport: lazy(() => import("@/pages/agent/send-ecg-report")),
   EditSendReport: lazy(() => import("@/pages/agent/edit-send-report")),
@@ -60,6 +61,7 @@ export const Pages = {
   AdminDeletedPatient: lazy(() => import("@/pages/admin/deleted-patient")),
   AdminDoctorList: lazy(() => import("@/pages/admin/doctor-list")),
   AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")),
+  AdminPatientRevisoin: lazy(() => import("@/pages/admin/patient-revision")),
   AdminCompletedPatientView: lazy(
     () => import("@/pages/admin/completed-patient-view")
   ),

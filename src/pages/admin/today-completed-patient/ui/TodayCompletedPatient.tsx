@@ -6,7 +6,7 @@ import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/ad
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -52,34 +52,54 @@ const TodayCompletedPatient = () => {
 
         completed_dr: item.completed_dr?.email,
         xray_name: item.xray_name, 
+        hasRevision: item.hasRevision, 
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
     [patientList?.data, limit, page]
   );
+ 
 
+
+  
   const COLUMN = PATIENT_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
         ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex justify-end">
-            <Link
-              to={`/admin/completed-patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-2 text-sm"
-            >
-              View
-            </Link>
+        
+      render: (_: unknown, record?: DataSource, rowIndex?: number): ReactNode => { 
+      const hasRevision = record?.hasRevision;
+      return (
+              <div key={rowIndex} className="flex flex-wrap gap-y-4 pending-action-btns">
+                
+                <Link
+                  to={`/admin/completed-patient-view/${record?.key}`}
+                  className="bg-green-500 text-white px-2 py-2 text-sm"
+                >
+                  View
+                </Link>
 
-            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
+                <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
 
-            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
-          </div>
-        ),
-      };
-    }
-    return item;
-  });
+                <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+
+                {hasRevision  && ( 
+                    <Link
+                      to={`/admin/patient-revision/${record?.key}`}
+                      className="bg-yellow-500 text-white px-2 py-2 text-sm"
+                    >
+                      Rev
+                    </Link> 
+                  )}
+                      
+                </div>
+                      );
+                    },
+                  };
+                }
+        return item;
+      });
+
 
   return (
     <Panel header={`Completed patients , Total = ${patientList?.totalPatient ?? 0}`} size="xl">

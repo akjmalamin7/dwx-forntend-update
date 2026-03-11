@@ -31,6 +31,7 @@ export interface ADMIN_PENDING_PATIENT_MODEL {
   printstatus: string | null;
   study_for: string;
   viewed: boolean;
+  hasRevision: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;

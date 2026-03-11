@@ -11,7 +11,7 @@ import { DataTable } from "@/widgets";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
-
+import type { ReactNode } from "react";
 // interface Doctor {
 //   _id: string;
 //   email: string;
@@ -87,6 +87,7 @@ const PatientPending = () => {
 
         online_dr: doctorEmail,
         xray_name: item.xray_name || "N/A",
+        hasRevision: item.hasRevision,
         action: "",
       };
     });
@@ -96,28 +97,42 @@ const PatientPending = () => {
     if (item.key === "action") {
       return {
         ...item,
-        render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex} className="flex flex-wrap gap-y-4 pending-action-btns">
-            <TypingBack path={record?.key} onDeleteSuccess={refetch} />
-            <Link
-              to={`/admin/select-doctor/${record?.key}`}
-              className="bg-blue-500 text-white px-2 py-2 text-sm"
-            >
-              S.D
-            </Link>
-            <Link
-              to={`/admin/patient-view/${record?.key}`}
-              className="bg-yellow-500 text-white px-2 py-2 text-sm"
-            >
-              View
-            </Link>
-            <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
-          </div>
-        ),
-      };
-    }
-    return item;
-  });
+        
+      render: (_: unknown, record?: DataSource, rowIndex?: number): ReactNode => {
+
+      const hasRevision = record?.hasRevision;
+      return (
+              <div key={rowIndex} className="flex flex-wrap gap-y-4 pending-action-btns">
+                <TypingBack path={record?.key} onDeleteSuccess={refetch} />
+                <Link
+                  to={`/admin/select-doctor/${record?.key}`}
+                  className="bg-blue-500 text-white px-2 py-2 text-sm"
+                >
+                  S.D
+                </Link>
+                <Link
+                  to={`/admin/patient-view/${record?.key}`}
+                  className="bg-yellow-500 text-white px-2 py-2 text-sm"
+                >
+                  View
+                </Link>
+                {hasRevision  && ( 
+                    <Link
+                      to={`/admin/patient-revision/${record?.key}`}
+                      className="bg-blue-500 text-white px-2 py-2 text-sm"
+                    >
+                      Rev
+                    </Link> 
+                  )}
+              
+                <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+              </div>
+              );
+    },
+          };
+        }
+        return item;
+      });
 
   return (
     <Panel header={`Pending Patients, Total = ${patientList?.totalPatient ?? 0}`} size="xl">

@@ -108,16 +108,7 @@ const ReportSubmissionForm = ({
     setIsMedicalDiagnosis(isChecked);
     setValue("passault", isChecked ? "Yes" : "No", { shouldValidate: true });
   };
-  /*
-  const resetForm = () => {
-    reset({
-      patient_id,
-      comments: "",
-      passault: "",
-    }); 
-    setIsMedicalDiagnosis(false);
-  };*/
-
+ 
   const onSubmit = async (data: FormData) => {
     try {
       const submitData = {

@@ -5,6 +5,7 @@ interface ADMIN_USER_MODEL {
   mobile: string;
   address: string;
   role: string;
+  status: string;
   image: string[] | undefined;
   id: string;
 }

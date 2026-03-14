@@ -46,6 +46,13 @@ export const ECG_DOCTOR_LIST: Columns<DataSource>[] = [
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
   {
+    key: "status",
+    title: "Status",
+    dataIndex: "status",
+    align: "start",
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
+  },
+  {
     key: "action",
     title: "Action",
     dataIndex: "action",

@@ -14,7 +14,7 @@ export interface DOCTOR {
 }
 export interface PATIENT_VIEW_MODEL {
   _id: string;
-  agent_id: AGENT_DOCTOR;
+  agent_id: AGENT_DOCTOR; 
   doctor_id: string[];
   ignore_dr: string[];
   patient_id: string;

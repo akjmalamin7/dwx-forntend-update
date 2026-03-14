@@ -50,6 +50,7 @@ const ECGDoctorList = () => {
           role: item.role === "ecg_dr" ? "ECG" : "",
           signature: item.image,
           address: item.address,
+          status: item.status,
           action: item._id,
         })) || [],
     [doctorList?.data, page, limit]
@@ -73,6 +74,22 @@ const ECGDoctorList = () => {
         render: (_: unknown, record?: DataSource) => (
           <UserActions id={record?.key ?? ""} />
         ),
+      };
+    }
+
+    if (col.key === "status") {
+      return {
+        ...col,
+        render: (value: unknown) => {
+          const status = value as string;
+          const isInactive = status === "inactive";
+
+          return (
+            <span className={isInactive ? "text-red-500 font-semibold" : "text-green-500"}>
+              {status}
+            </span>
+          );
+        },
       };
     }
 

@@ -31,7 +31,8 @@ const PatientRevInformation = () => {
         age: patient.age || "N/A",
         history: patient.history || "N/A",
         sex: patient.gender || "N/A",
-        agent_name: patient.agent_id?.email, 
+        agent_name: patient.agent_id?.email,  
+        completed_dr: patient.completed_dr?.email,
       },
     ];
   }, [patient]);

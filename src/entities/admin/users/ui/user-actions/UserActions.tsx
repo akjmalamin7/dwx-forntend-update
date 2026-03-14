@@ -1,4 +1,4 @@
-import { DeleteAdminUser } from "@/features";
+ 
 import { Link } from "react-router-dom";
 
 const UserActions = ({ id }: { id: string }) => {
@@ -16,8 +16,7 @@ const UserActions = ({ id }: { id: string }) => {
         className="bg-yellow-500 text-white px-2 py-2 text-sm"
       >
         C.Password
-      </Link>
-      <DeleteAdminUser id={id} />
+      </Link> 
       
     </div>
   );

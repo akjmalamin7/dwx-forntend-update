@@ -41,6 +41,7 @@ const DeletedUserList = () => {
           name: item.email,
           mobile: item.mobile,
           role: item.role === "ecg_dr" ? "ECG" : "Radiology",
+          status: item.status,
           address: item.address,
           action: "",
         })) || [],
@@ -66,14 +67,25 @@ const DeletedUserList = () => {
               C.Password
             </Link>
 
-            <Link
-              to={`/admin/delete/${record?.key}`}
-              className="bg-red-500 text-white px-2 py-2 text-sm"
-            >
-              Delete
-            </Link>
+             
           </div>
         ),
+      };
+    }
+
+    if (item.key === "status") {
+      return {
+        ...item,
+        render: (value: unknown) => {
+          const status = value as string;
+          const isInactive = status === "inactive";
+
+          return (
+            <span className={isInactive ? "text-red-500 font-semibold" : "text-green-500"}>
+              {status}
+            </span>
+          );
+        },
       };
     }
     return item;

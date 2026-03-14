@@ -38,6 +38,13 @@ export const USER_DATA_COL: Columns<DataSource>[] = [
     render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
   },
   {
+    key: "status",
+    title: "Status",
+    dataIndex: "status",
+    align: "start",
+    render: (value: unknown) => parse(DOMPurify.sanitize(String(value) || "")),
+  },
+  {
     key: "action",
     title: "Action",
     dataIndex: "action",

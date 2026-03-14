@@ -39,7 +39,7 @@ const AdminUserList = () => {
           sl: (page - 1) * limit + index + 1,
           name: item.email,
           mobile: item.mobile,
-          role: item.role === "admin" ? "User" : "",
+          role: item.role === "admin" ? "Admin" : "",
           address: item.address,
           status: item.status,
           action: "",

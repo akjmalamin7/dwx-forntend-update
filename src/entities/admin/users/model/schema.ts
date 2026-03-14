@@ -122,6 +122,7 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
   role: yup.string().required("Role is required"),
 
   status: yup.string().oneOf(["active", "inactive"]),
+  soft_delete: yup.string().oneOf(["Yes", "No"]),
   image: yup
     .string()
     .nullable()

@@ -30,7 +30,7 @@ const PatientView = () => {
       <PatientInformation /> 
 
       
-      <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+      <div className="flex  lg:flex-row w-full mt-2 gap-6">
         <div className="flex-1/2">
         <div className=" ">
           <AddNewImageForm />

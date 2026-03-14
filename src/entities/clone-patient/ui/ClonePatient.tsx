@@ -81,7 +81,7 @@ const ClonePatient = () => {
             <ImageUpload control={control} name="attachment" isNote={false} />
           </div>
 
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex  w-full mt-2 gap-6">
             <div className="flex-1/3">
               <ControlInput
                 label="Patient Id"
@@ -114,7 +114,7 @@ const ClonePatient = () => {
             </div>
 
           </div>
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex   w-full mt-2 gap-6">
             
             <div className="flex-1/3"> 
               <ControlledSelect
@@ -150,7 +150,7 @@ const ClonePatient = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex  w-full mt-2 gap-6">
             <div className="flex-1/3">
                 <ControlInput
                   label="Reference Doctor"

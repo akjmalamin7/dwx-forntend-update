@@ -48,7 +48,7 @@ const AddNewImageForm = () => {
         <form onSubmit={handleOnSubmit}>
           {/* Patient Image */}
 
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex  w-full mt-2 gap-6">
               <div className="flex-1/4">
                   <ImageUpload
                     control={control}

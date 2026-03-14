@@ -13,6 +13,7 @@ export const useAdminPatientView = () => {
   });
   const patient = adminPateintView?.data.patient; 
   const revisions = adminPateintView?.data.revisions; 
+  const comments = adminPateintView?.data.comments;
   const attachments = adminPateintView?.data.attachments;
   // const flattenedAttachments: string[] =
   //   attachments?.[0]?.attachment?.flat() || [];
@@ -20,6 +21,7 @@ export const useAdminPatientView = () => {
     patient,
     revisions,
     attachments, 
+    comments,
     // flattenedAttachments,
     adminPateintView,
     isAdminViewPatientLoading,

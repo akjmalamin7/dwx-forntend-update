@@ -104,7 +104,7 @@ const AdminUpdatePatientForm = () => {
             />
           </div>
 
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex  w-full mt-2 gap-6">
             <div className="flex-1/4">
                 {/* Patient ID*/}
                 <ControlInput
@@ -150,7 +150,7 @@ const AdminUpdatePatientForm = () => {
                 />
              </div>
           </div>
-          <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+          <div className="flex  w-full mt-2 gap-6">
             <div className="flex-1/4">
                 {/* X-ray Name*/}
                 <ControlInput

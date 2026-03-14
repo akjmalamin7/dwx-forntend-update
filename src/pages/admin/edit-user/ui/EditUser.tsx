@@ -33,6 +33,7 @@ const EditUser = () => {
       ecg: userData?.ecg || 0,
       is_default: userData?.is_default || "",
       status: userData?.status || "",
+      soft_delete: userData?.soft_delete || "",
       hide_bill: userData?.hide_bill || "",
       role: userData?.role || "",
       image: userData?.image || null,

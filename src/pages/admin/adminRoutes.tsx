@@ -30,6 +30,10 @@ export const adminRoutes = [
     path: "/admin/deleted-patient",
     element: withSuspense(<Pages.AdminDeletedPatient />),
   },
+  {
+    path: "/admin/patient-filter",
+    element: withSuspense(<Pages.AdminPatientFilter />),
+  },
 
   {
     path: "/admin/doctor-list",
@@ -201,9 +205,9 @@ export const adminRoutes = [
   {
     path: "/admin/bill-add",
     element: withSuspense(<Pages.BillAdd />),
-  }, 
+  },
   {
     path: "/admin/settings",
     element: withSuspense(<Pages.AdminSetting />),
-  }, 
+  },
 ];

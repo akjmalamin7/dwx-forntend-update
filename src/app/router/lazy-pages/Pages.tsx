@@ -5,7 +5,7 @@ export const Pages = {
   Unauthorized: lazy(() => import("@/pages/unauthorized")),
   Patients: lazy(() => import("@/pages/patients")),
   ViewPatient: lazy(() => import("@/pages/agent/patient-view")),
-  
+
   SendXrayReport: lazy(() => import("@/pages/agent/send-xray-report")),
   SendEcgReport: lazy(() => import("@/pages/agent/send-ecg-report")),
   EditSendReport: lazy(() => import("@/pages/agent/edit-send-report")),
@@ -15,7 +15,7 @@ export const Pages = {
   AgentCompleted: lazy(() => import("@/pages/agent/patient-completed")),
   AgentThisMonthReports: lazy(() => import("@/pages/agent/this-month-reports")),
   AgentPreviousMonthReports: lazy(
-    () => import("@/pages/agent/previous-month-reports")
+    () => import("@/pages/agent/previous-month-reports"),
   ),
   AgentPatientView: lazy(() => import("@/pages/agent/patient-view")),
   AgentPatientPrint: lazy(() => import("@/pages/agent/patient-print")),
@@ -28,22 +28,22 @@ export const Pages = {
   AgentReferenceList: lazy(() => import("@/pages/agent/reference-list")),
   AgentManageBill: lazy(() => import("@/pages/agent/manage-bill")),
   AgentPayBill: lazy(() => import("@/pages/agent/pay-bill")),
-  AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")), 
-  Profile: lazy(() => import("@/pages/agent/profile")), 
+  AgentPrintBill: lazy(() => import("@/pages/agent/bill-print")),
+  Profile: lazy(() => import("@/pages/agent/profile")),
   AgentTransectionHistory: lazy(
-    () => import("@/pages/agent/transection-history")
+    () => import("@/pages/agent/transection-history"),
   ),
   // doctor
   DoctorPendingPatient: lazy(() => import("@/pages/doctor/patient-pending")),
   DoctorViewPatient: lazy(() => import("@/pages/doctor/patient-view")),
   DoctorCompletedPatient: lazy(
-    () => import("@/pages/doctor/patient-completed")
+    () => import("@/pages/doctor/patient-completed"),
   ),
   DoctorAllCompletedPatient: lazy(
-    () => import("@/pages/doctor/all-completed-patients")
+    () => import("@/pages/doctor/all-completed-patients"),
   ),
   DoctorCompletedPatientView: lazy(
-    () => import("@/pages/doctor/completed-patient-view")
+    () => import("@/pages/doctor/completed-patient-view"),
   ),
   DoctorFormatList: lazy(() => import("@/pages/doctor/format-list")),
   DoctorFormatAdd: lazy(() => import("@/pages/doctor/format-add")),
@@ -51,19 +51,20 @@ export const Pages = {
 
   AdminPendingPatient: lazy(() => import("@/pages/admin/patient-pending")),
   AdminCompletedPatients: lazy(
-    () => import("@/pages/admin/completed-patients")
+    () => import("@/pages/admin/completed-patients"),
   ),
   AdminTodayCompletedPatient: lazy(
-    () => import("@/pages/admin/today-completed-patient")
+    () => import("@/pages/admin/today-completed-patient"),
   ),
   AdminTodaySummery: lazy(() => import("@/pages/admin/today-summary")),
   AdminMonthlyCompleted: lazy(() => import("@/pages/admin/monthly-completed")),
   AdminDeletedPatient: lazy(() => import("@/pages/admin/deleted-patient")),
+  AdminPatientFilter: lazy(() => import("@/pages/admin/patient-filter")),
   AdminDoctorList: lazy(() => import("@/pages/admin/doctor-list")),
   AdminViewPatient: lazy(() => import("@/pages/admin/patient-view")),
   AdminPatientRevisoin: lazy(() => import("@/pages/admin/patient-revision")),
   AdminCompletedPatientView: lazy(
-    () => import("@/pages/admin/completed-patient-view")
+    () => import("@/pages/admin/completed-patient-view"),
   ),
   AdminSelectDoctor: lazy(() => import("@/pages/admin/select-doctor")),
   AdminPatientArchive: lazy(() => import("@/pages/admin/patient-archive")),
@@ -73,30 +74,30 @@ export const Pages = {
   AdminDoctorUpdateBill: lazy(() => import("@/pages/admin/doctor-update-bill")),
 
   AdminManageCustomerBill: lazy(
-    () => import("@/pages/admin/manage-customer-bill")
+    () => import("@/pages/admin/manage-customer-bill"),
   ),
   AdminManageCustomerBillMonth: lazy(
-    () => import("@/pages/admin/manage-customer-bill-by-month")
+    () => import("@/pages/admin/manage-customer-bill-by-month"),
   ),
   AdminCustomerPrintBill: lazy(
-    () => import("@/pages/admin/customer-print-bill")
+    () => import("@/pages/admin/customer-print-bill"),
   ),
   AdminCustomerPayBill: lazy(() => import("@/pages/admin/customer-pay-bill")),
   AdminCustomerUpdateBill: lazy(
-    () => import("@/pages/admin/customer-bill-update")
+    () => import("@/pages/admin/customer-bill-update"),
   ),
   AdminCustomerBillMonth: lazy(
-    () => import("@/pages/admin/customer-payment-request")
+    () => import("@/pages/admin/customer-payment-request"),
   ),
   AdminCustomerBillRequest: lazy(
-    () => import("@/pages/admin/customer-bill-request-list")
+    () => import("@/pages/admin/customer-bill-request-list"),
   ),
   AdminCustomerBillList: lazy(() => import("@/pages/admin/customer-bill-list")),
   AdminCustomerTransactionHistory: lazy(
-    () => import("@/pages/admin/customer-transaction-history")
+    () => import("@/pages/admin/customer-transaction-history"),
   ),
   AdminCustomerTransactionHistoryList: lazy(
-    () => import("@/pages/admin/customer-transaction-history-list")
+    () => import("@/pages/admin/customer-transaction-history-list"),
   ),
   AdminAddUser: lazy(() => import("@/pages/admin/add-user")),
   AdminEditUser: lazy(() => import("@/pages/admin/edit-user")),
@@ -119,6 +120,6 @@ export const Pages = {
   AdminSoftwareAdd: lazy(() => import("@/pages/admin/software-add")),
   AdminSoftwareList: lazy(() => import("@/pages/admin/software-list")),
   AdminSetting: lazy(() => import("@/pages/admin/setting")),
-  BillAdd: lazy(() => import("@/pages/admin/bill-entry")), 
+  BillAdd: lazy(() => import("@/pages/admin/bill-entry")),
   SoftwareList: lazy(() => import("@/pages/agent/software-list")),
 };

@@ -1,5 +1,7 @@
 import { CheckedUserForm } from "@/entities";
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import type { CheckedUserFormValues } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUser.types";
 import { useEditCheckedUserMutation } from "@/shared/redux/features/agent/checked-user-add/AddCheckedUserApi";
 import { useGetCheckeduserQuery } from "@/shared/redux/features/agent/checked-user-list/checkedUserListApi";
@@ -20,10 +22,10 @@ const CheckedUserEdit = () => {
   } = useGetCheckeduserQuery(id!, { skip: !id });
 
   const transformCheckedUser = (
-    data: typeof checkedUser
+    data: typeof checkedUser,
   ): Partial<CheckedUserFormValues> => {
     if (!data) return {};
- 
+
     return {
       name: data.data.name || "",
       details: data.data.details || "",
@@ -50,7 +52,12 @@ const CheckedUserEdit = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-
+  const { status } = useActiveUser();
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
 
   const isLoading = isUpdateLoading || isViewLoading;
   if (isViewLoading) {

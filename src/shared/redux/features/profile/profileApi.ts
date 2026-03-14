@@ -7,7 +7,6 @@ import type {
 
 export const ProfileApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getProfile: builder.query<ProfileReferenceResponse, string>({
       query: (id) => ({
         url: `/agent/profile/${id}`,
@@ -31,10 +30,13 @@ export const ProfileApi = apiSlice.injectEndpoints({
           selected_dr: response.data.selected_dr,
           ignored_dr: response.data.ignored_dr,
         }),
-      }
+      },
     ),
   }),
 });
 
-export const { useGetProfileQuery, useGetProfileSelectDoctorIdQuery, useUpdateProfileMutation } =
-  ProfileApi;
+export const {
+  useGetProfileQuery,
+  useGetProfileSelectDoctorIdQuery,
+  useUpdateProfileMutation,
+} = ProfileApi;

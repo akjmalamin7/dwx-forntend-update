@@ -1,6 +1,7 @@
 import { useUpdateReportMutation } from "@/entities/agent/send-report";
 import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-view/patientViewApi";
 import { Loader, Message, Panel, PanelHeading } from "@/shared/ui";
@@ -8,8 +9,8 @@ import type { PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
 import { useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditSendReport = () => {
   const { status, isProfileLoading } = useGetProfile();
@@ -27,7 +28,7 @@ const EditSendReport = () => {
   } = useGetPatientViewQuery(id!, { skip: !id });
 
   const transformPatientData = (
-    data: typeof patientData
+    data: typeof patientData,
   ): Partial<PatientFormValues> => {
     if (!data) {
       return {};
@@ -73,7 +74,6 @@ const EditSendReport = () => {
       study_for: "xray_dr",*/
     };
     try {
- 
       await updateSendReport({ id, data: finalData }).unwrap();
       setResetCount((prev) => prev + 1);
       // Success toast
@@ -81,7 +81,7 @@ const EditSendReport = () => {
         duration: 2000,
         position: "top-right",
       });
-      
+
       navigate("/");
     } catch (err: unknown) {
       console.error("Error creating patient:", err);
@@ -98,7 +98,12 @@ const EditSendReport = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-
+  const { status: updateStatus } = useActiveUser();
+  if (updateStatus !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
   const isLoading = isUpdateLoading || isViewLoading;
 
   if (isViewLoading) {
@@ -123,21 +128,21 @@ const EditSendReport = () => {
 
   if (!patientData) {
     return (
-       <>
-          <Toaster />
-          <Panel
-            header={
-              <PanelHeading
-                title="Edit X-ray Report"
-                button="Patient List"
-                path="agent/patient/completed"
-              />
-            }
-          >
-            <div className="flex justify-center items-center py-8 text-yellow-500">
-              Patient data not found.
-            </div>
-          </Panel>
+      <>
+        <Toaster />
+        <Panel
+          header={
+            <PanelHeading
+              title="Edit X-ray Report"
+              button="Patient List"
+              path="agent/patient/completed"
+            />
+          }
+        >
+          <div className="flex justify-center items-center py-8 text-yellow-500">
+            Patient data not found.
+          </div>
+        </Panel>
       </>
     );
   }
@@ -155,7 +160,7 @@ const EditSendReport = () => {
   const isEcg = (patientData?.patient?.image_type as string) === "ecg";
 
   return (
-     <>
+    <>
       <Toaster />
       <Panel
         header={

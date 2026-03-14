@@ -1,5 +1,8 @@
 import { DeleteCheckedUser } from "@/features";
+import { AgentFormError } from "@/features/agent/agent-form-error";
+import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import { useGetCheckedUserListQuery } from "@/shared/redux/features/agent/checked-user-list/checkedUserListApi";
 import { Pagination, Panel, PanelHeading, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
@@ -7,7 +10,6 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { CHECKED_USER_DATA_COL } from "./checkedUser.data.col";
-import { usePageTitle } from "@/shared/hooks";
 
 const CheckedUserList = () => {
   const {
@@ -27,7 +29,7 @@ const CheckedUserList = () => {
         details: item.details,
         action: "",
       })) || [],
-    [ReferenceList]
+    [ReferenceList],
   );
 
   const {
@@ -63,13 +65,17 @@ const CheckedUserList = () => {
     return item;
   });
 
-
   usePageTitle("Checked User List", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-
+  const { status } = useActiveUser();
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
   return (
     <Panel
       header={

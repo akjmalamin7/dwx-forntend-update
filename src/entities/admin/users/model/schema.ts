@@ -5,6 +5,7 @@ export interface ADMIN_USER_MODEL {
   mobile: string;
   address: string;
   role: string;
+  status: string;
   image: string[] | undefined;
   id: string;
 }
@@ -118,6 +119,7 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
   role: yup.string().required("Role is required"),
 
   status: yup.string().oneOf(["active", "inactive"]),
+  soft_delete: yup.string().oneOf(["Yes", "No"]),
   image: yup
     .string()
     .nullable()

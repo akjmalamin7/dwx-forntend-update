@@ -4,9 +4,17 @@ export interface AGENT_DOCTOR {
   id: string;
 }
 
+export interface DOCTOR {
+  _id: string;
+  name: string;
+  email: string;
+  address: string;
+  image: string[];
+  id: string;
+}
 export interface PATIENT_VIEW_MODEL {
   _id: string;
-  agent_id: AGENT_DOCTOR;
+  agent_id: AGENT_DOCTOR; 
   doctor_id: string[];
   ignore_dr: string[];
   patient_id: string;
@@ -31,7 +39,7 @@ export interface PATIENT_VIEW_MODEL {
   updatedAt: string;
   __v: number;
   online_dr: string | null;
-  completed_dr: string;
+  completed_dr: DOCTOR;
   id: string;
 }
 
@@ -70,6 +78,20 @@ export interface PATIENT_IMAGE_MODEL {
   id: string;
 }
 
+interface COMMENTS {
+  _id: string;
+  patient_id: string;
+  doctor_id: string;
+  passault: string;
+  comments: string;
+  image_type: string;
+  month: string;
+  xray_name: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
 interface REVISIONS {
   _id: string;
   patient_id: string;
@@ -91,6 +113,7 @@ export interface PATIENT_VIEW_RESPONSE {
   data: {
     patient: PATIENT_VIEW_MODEL;
     revisions: REVISIONS[];
+    comments: COMMENTS;
     attachments: PATIENT_IMAGE_ITEM_MODEL[];
   };
 }

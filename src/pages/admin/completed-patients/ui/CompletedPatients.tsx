@@ -84,13 +84,13 @@ const CompletedPatients = () => {
         return (
                 <div key={rowIndex} className="flex flex-wrap gap-y-4 pending-action-btns">
                   <Link
-              to={`/admin/completed-patient-view/${record?.key}`}
-              className="bg-green-500 text-white px-2 py-2 text-sm"
-            >
-              View
-            </Link>
+                    to={`/admin/completed-patient-view/${record?.key}`}
+                    className="bg-green-500 text-white px-2 py-2 text-sm"
+                  >
+                    View
+                  </Link>
 
-            <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
+                  <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
                   {hasRevision  && ( 
                       <Link
                         to={`/admin/patient-revision/${record?.key}`}

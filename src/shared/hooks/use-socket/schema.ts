@@ -1,4 +1,4 @@
-import type { AdminUser } from "@/entities/admin/users/model/schema";
+import type { USER_MODEL } from "@/entities/admin/users/model/schema";
 import type { ADMIN_COMPLETED_PATIENTS_MODEL } from "@/shared/redux/features/admin/completed-patients/completedPatients.types";
 import type { ADMIN_PENDING_PATIENT_MODEL } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientList.types";
 import type { BILL_TRANSFORM_MODEL } from "@/shared/redux/features/agent/manage-bill/billList.types";
@@ -40,4 +40,4 @@ export type WSMessage =
   | { type: "completed_back"; payload: { _id: string } }
   | { type: "admin_mr_delete_back"; payload: { _id: string } }
   | { type: "select_doctor_and_update"; payload: AGENT_PENDING_PATIENT_MODEL }
-  | { type: "update_user"; payload: AdminUser };
+  | { type: "update_user"; payload: USER_MODEL };

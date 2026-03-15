@@ -127,6 +127,16 @@ const UserForm = ({ resetCount = 0, isEdit }: UserFormProps) => {
         ]}
       />
 
+      <ControlledSelect
+        label="Soft Delete Status"
+        control={control}
+        name="soft_delete"
+        options={[
+          { name: "Yes", value: "Yes" },
+          { name: "No", value: "No" },
+        ]}
+      />
+
       {/* Status */}
       <ControlledSelect
         label="Status"
@@ -137,7 +147,7 @@ const UserForm = ({ resetCount = 0, isEdit }: UserFormProps) => {
           value: s,
         }))}
       />
-
+   
       {/* Selected / Ignored Doctors */}
       <AdminDoctorMultiSelect
         label="Selected Doctors (IDs)"

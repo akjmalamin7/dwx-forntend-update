@@ -15,6 +15,7 @@ const PatientRevInformation = () => {
     patient,
     attachments,
     revisions,
+    comments,
     isAdminViewPatientLoading,
     adminPatientViewError,
   } = useAdminPatientView();
@@ -30,7 +31,8 @@ const PatientRevInformation = () => {
         age: patient.age || "N/A",
         history: patient.history || "N/A",
         sex: patient.gender || "N/A",
-        agent_name: patient.agent_id?.email,
+        agent_name: patient.agent_id?.email,  
+        completed_dr: patient.completed_dr?.email,
       },
     ];
   }, [patient]);
@@ -49,7 +51,7 @@ const PatientRevInformation = () => {
   }
 
   const patientStatus = patient?.status || "pending"; 
- 
+  
   return (
     <div className="flex flex-col gap-8">
       <div className="w-full">
@@ -73,27 +75,55 @@ const PatientRevInformation = () => {
           setVisible={setVisible}
           status={patientStatus}
         />
-      
-        {revisions && revisions.length > 0 && (
-        <div className="mt-4">
-            <Text element="h3" fontWeight="semiBold">
-              Review list
-            </Text>
-            {revisions && (
-              <div>
-                {revisions.map((r) => (
-                  <div key={r.doctor_id._id} className="mt-2 p-4 border rounded-md bg-gray-50">
-                    <Text element="h5" fontWeight="semiBold">
-                      {r.doctor_id.email}  
-                    </Text> 
-                    
-                    <Text element="div" size="md"> {parse(DOMPurify.sanitize(String(r.comments) || ""))}</Text>
-                  </div>
-                ))}
-              </div>
-            )}
+
+
+        <div className="flex flex-col-reverse lg:flex-row w-full mt-2 gap-6">
+                <div className="flex-1/2">
+                    {revisions && revisions.length > 0 && (
+                    <div className="mt-4">
+                        <Text element="h3" fontWeight="semiBold">
+                          Review list
+                        </Text>
+                        {revisions && (
+                          <div>
+                            {revisions.map((r) => (
+                              <div key={r.doctor_id._id} className="mt-2 p-4 border rounded-md bg-gray-50">
+                                <Text element="h5" fontWeight="semiBold">
+                                  {r.doctor_id.email}  
+                                </Text> 
+                                
+                                <Text element="div" size="md"> {parse(DOMPurify.sanitize(String(r.comments) || ""))}</Text>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                </div>
+                <div className="flex-1/2 flex flex-col gap-6"> 
+                    {comments && (
+                      <div className="mt-4">
+                        <Text element="h3" fontWeight="semiBold">
+                          Last Comment
+                        </Text>
+                        <div  className="mt-2 p-4 border rounded-md bg-gray-30">
+                        
+                          <Text element="h3" fontWeight="semiBold">
+                            Completed Doctor: {patient?.completed_dr?.email}
+                          </Text>
+                          <Text element="div" size="md">
+                            {parse(DOMPurify.sanitize(comments?.comments || ""))}
+                          </Text>
+                          {comments?.passault==='Yes' && (
+                            <Text element="p">This report is for medical diagnosis only, not for legal use</Text>
+                          )}
+                          
+                        </div>
+                      </div>
+                  )}
+                </div>
           </div>
-        )}
+ 
 
         </div>
      

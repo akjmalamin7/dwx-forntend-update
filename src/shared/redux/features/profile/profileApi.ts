@@ -9,7 +9,7 @@ export const ProfileApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query<ProfileReferenceResponse, string>({
       query: (id) => ({
-        url: `/agent/profile/${id}`,
+        url: `/profile/${id}`,
         method: "GET",
       }),
     }),

@@ -1,5 +1,4 @@
-import { useGetAdminUserListQuery } from "@/entities/admin/users/api/query";
-import { DeleteAdminUser } from "@/features";
+import { useGetAdminUserListQuery } from "@/entities/admin/users/api/query"; 
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
@@ -23,8 +22,7 @@ const AdminUserList = () => {
 
   const {
     data: doctorList,
-    isLoading,
-    refetch,
+    isLoading, 
   } = useGetAdminUserListQuery({ page, limit, role: "admin", search });
   const totalPages = doctorList?.pagination.totalPages || 1;
   useServerSidePagination({
@@ -41,16 +39,14 @@ const AdminUserList = () => {
           sl: (page - 1) * limit + index + 1,
           name: item.email,
           mobile: item.mobile,
-          role: item.role === "admin" ? "User" : "",
+          role: item.role === "admin" ? "Admin" : "",
           address: item.address,
+          status: item.status,
           action: "",
         })) || [],
     [doctorList?.data, page, limit]
   );
-
-  const handleRefetch = () => {
-    refetch();
-  };
+ 
   const COLUMN = USER_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {
@@ -68,10 +64,25 @@ const AdminUserList = () => {
               className="bg-yellow-500 text-white px-2 py-2 text-sm"
             >
               C.Password
-            </Link>
-            <DeleteAdminUser id={record?.key} onDeleteSuccess={handleRefetch} />
+            </Link> 
           </div>
         ),
+      };
+    }
+
+    if (item.key === "status") {
+      return {
+        ...item,
+        render: (value: unknown) => {
+          const status = value as string;
+          const isInactive = status === "inactive";
+
+          return (
+            <span className={isInactive ? "text-red-500 font-semibold" : "text-green-500"}>
+              {status}
+            </span>
+          );
+        },
       };
     }
     return item;

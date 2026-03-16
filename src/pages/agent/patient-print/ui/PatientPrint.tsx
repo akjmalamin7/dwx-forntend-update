@@ -31,6 +31,7 @@ const PatientPrint = () => {
     isError,
   } = useGetAgentPatientPrintQuery(id!, {
     skip: !id,
+    refetchOnMountOrArgChange: true,
   });
   const [updateAgentPatientPrintStatus, { isLoading: isUpdatePrinting }] =
     useUpdateAgentPatientPrintStatusMutation();

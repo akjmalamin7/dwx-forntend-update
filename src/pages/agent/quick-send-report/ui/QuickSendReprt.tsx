@@ -109,7 +109,7 @@ const QuickSendReprt = () => {
     restoreOnUnmount: true,
   });
 
-  if (isProfileLoading) <Loader />;
+  if (isProfileLoading) return <Loader />;
 
   if (status !== "active") {
     return (
@@ -133,8 +133,9 @@ const QuickSendReprt = () => {
           name="attachment"
         />
 
-        {/* Patient ID */}
-        <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />
+        {/* Patient ID */} 
+        <ReadTextFile onParsed={handleParsed} setIndex={resetCount} />
+
 
         {/* Patient ID */}
         <div className="hidden">

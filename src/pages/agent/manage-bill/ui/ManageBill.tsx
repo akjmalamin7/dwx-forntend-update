@@ -1,5 +1,7 @@
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useSearchPagination } from "@/shared/hooks/search-paginatation/useSearchPagination";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import type { WSMessage } from "@/shared/hooks/use-socket/schema";
 import { useSocket } from "@/shared/hooks/use-socket/useSocket";
 import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
@@ -104,7 +106,12 @@ const ManageBill = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-
+  const { status } = useActiveUser();
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
   return (
     <Panel header="Manage Bill" size="lg">
       <div className="w-1/3">

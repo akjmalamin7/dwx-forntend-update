@@ -1,0 +1,1 @@
+import{b as e}from"./index-Cri1stFi.js";const s=e.injectEndpoints({endpoints:t=>({getCustomerSettings:t.query({query:()=>({url:"/agent/settings",method:"GET"}),providesTags:[{type:"Settings",id:"SINGLE"}]})})}),{useGetCustomerSettingsQuery:n}=s;export{n as u};

@@ -40,4 +40,4 @@ export type WSMessage =
   | { type: "completed_back"; payload: { _id: string } }
   | { type: "admin_mr_delete_back"; payload: { _id: string } }
   | { type: "select_doctor_and_update"; payload: AGENT_PENDING_PATIENT_MODEL }
-    | { type: "update_user"; payload: USER_MODEL };
+  | { type: "update_user"; payload: USER_MODEL };

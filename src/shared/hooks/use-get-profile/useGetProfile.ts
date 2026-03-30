@@ -1,6 +1,6 @@
 import { useGetProfileQuery } from "@/shared/redux/features/profile/profileApi";
 import { skipToken } from "@reduxjs/toolkit/query";
-import useJWT from "../decode-token/useJWT"; 
+import useJWT from "../decode-token/useJWT";
 import { useProfileSocket } from "../use-socket/useProfileSocket";
 
 export const useGetProfile = () => {
@@ -23,5 +23,6 @@ export const useGetProfile = () => {
     status: profileStatus,
     paddingTop: top_margin,
     isProfileLoading: isLoading,
+    refetch,
   };
 };

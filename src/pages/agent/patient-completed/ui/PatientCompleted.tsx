@@ -1,5 +1,7 @@
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
 import { useServerSidePagination } from "@/shared/hooks/server-side-pagination/useServerSidePagination";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAgentCompedPatientSocket } from "@/shared/hooks/use-socket/useAgentCompletedSocket";
 import { useGetAgentCompletedPatientListQuery } from "@/shared/redux/features/agent/completed-patient-list/completedPatientListApi";
@@ -23,7 +25,7 @@ const PatientCompleted = () => {
     // refetch,
   } = useGetAgentCompletedPatientListQuery(
     { page, limit, search },
-    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true }
+    { pollingInterval: 5 * 60 * 1000, refetchOnMountOrArgChange: true },
   );
 
   const totalPages = patientList?.pagination.totalPages || 1;
@@ -47,29 +49,32 @@ const PatientCompleted = () => {
     () =>
       mergedPatientData?.map((item, index) => ({
         key: item._id,
-        sl: (page - 1) * limit + index + 1, 
+        sl: (page - 1) * limit + index + 1,
 
-         start_time: new Date(item.createdAt).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }) + " <br/> " + new Date(item.completed_time).toLocaleString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
+        start_time:
+          new Date(item.createdAt).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }) +
+          " <br/> " +
+          new Date(item.completed_time).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
 
         patient_age: item.age,
         patient_name: item.name,
         patient_id: item.patient_id,
         patient_sex: item.gender,
         xray_name: item.xray_name,
-        type: item.rtype, 
-        completed_time: item.completed_time, 
+        type: item.rtype,
+        completed_time: item.completed_time,
         printstatus: item.printstatus || "Waiting",
         action: "",
       })) || [],
-    [mergedPatientData, limit, page]
+    [mergedPatientData, limit, page],
   );
 
   const COLUMN = PATIENT_DATA_COL.map((item) => {
@@ -84,7 +89,7 @@ const PatientCompleted = () => {
             >
               View
             </Link>
-        
+
             <PrintButton
               completedTime={record?.completed_time as string}
               recordKey={record?.key as string}
@@ -102,7 +107,12 @@ const PatientCompleted = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
-
+  const { status } = useActiveUser();
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
   return (
     <Panel header="Completed Report" size="lg">
       <DataTable

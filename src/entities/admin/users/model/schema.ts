@@ -1,4 +1,4 @@
-interface ADMIN_USER_MODEL {
+export interface ADMIN_USER_MODEL {
   _id: string;
   name: string;
   email: string;
@@ -30,7 +30,7 @@ export interface ADMIN_USER_LIST_TRANSFORM_MODEL {
   };
 }
 export const ADMIN_USER_LIST_TRANSFORM_RESPONSE = (
-  response: ADMIN_USER_LIST_API_RESPONSE
+  response: ADMIN_USER_LIST_API_RESPONSE,
 ): ADMIN_USER_LIST_TRANSFORM_MODEL => {
   return {
     data: response.data,
@@ -72,8 +72,6 @@ export const ADMIN_USER_LIST_TRANSFORM_RESPONSE = (
 //   data: AdminUser[];
 // }
 
-
-
 import * as yup from "yup";
 export const ADD_ADMIN_USER_SCHEMA = yup.object({
   name: yup
@@ -88,9 +86,7 @@ export const ADD_ADMIN_USER_SCHEMA = yup.object({
     .string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
-  mobile: yup
-    .string()
-    .required("Mobile number is required"),
+  mobile: yup.string().required("Mobile number is required"),
   address: yup.string().required("Address is required"),
   single: yup
     .number()
@@ -184,7 +180,7 @@ export interface UserListApiResponse {
 }
 
 export const transformUserListResponse = (
-  data: USER_TRANSFORM_MODEL[]
+  data: USER_TRANSFORM_MODEL[],
 ): USER_TRANSFORM_MODEL[] => {
   return data.map((item) => ({
     _id: item._id,

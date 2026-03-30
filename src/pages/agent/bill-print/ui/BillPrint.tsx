@@ -1,23 +1,26 @@
 import FOOTERPAD from "@/assets/images/footer.png";
 import { PaymentMethod } from "@/entities";
+import { AgentFormError } from "@/features/agent/agent-form-error";
 import { usePageTitle } from "@/shared/hooks";
+import { useActiveUser } from "@/shared/hooks/use-active-user";
 import { useGetBillQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
 import { useGetPaymentGetwayListQuery } from "@/shared/redux/features/agent/payment-getway/paymentGetwayApi";
+import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/settings/customerSettingsApi";
 import { Button, Loader, Panel, PanelHeading, Text } from "@/shared/ui";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list";
 import { BillingInformation } from "./billing-information";
 import { BillingPadHeader } from "./billing-pad-header";
-import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/settings/customerSettingsApi";
 
 const BillPrint = () => {
   const { month } = useParams<{ month: string }>();
+  const { status } = useActiveUser();
 
   const { data: settingsData } = useGetCustomerSettingsQuery();
   // Prepare data
-   const isPrint = settingsData?.data?.bill_is_print === 2;
-    console.log("isPrint:", isPrint);
+  const isPrint = settingsData?.data?.bill_is_print === 2;
+  console.log("isPrint:", isPrint);
   const {
     data: bill,
     isLoading: isBillLoading,
@@ -70,7 +73,7 @@ const BillPrint = () => {
 
   const paymnetMethod = useMemo(() => {
     return (
-      paymentGetway?.data?.map((method) => ({ 
+      paymentGetway?.data?.map((method) => ({
         name: `(${method.name})`,
         value: method.name,
       })) ?? []
@@ -86,6 +89,11 @@ const BillPrint = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
   if (isBillLoading) <Loader />;
   if (isBillError)
     return (
@@ -94,12 +102,11 @@ const BillPrint = () => {
       </Text>
     );
 
- const now = new Date(
-  new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" })
-);
-const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
+  const now = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+  );
+  const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
- 
   return (
     <>
       {/* Print-specific style */}
@@ -117,8 +124,6 @@ const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
         header={<PanelHeading title="Print Bill" button="" path="" />}
         size="lg"
       >
-
-       
         {!isPrint && month != currentMonth && (
           <Button
             onClick={handlePrint}

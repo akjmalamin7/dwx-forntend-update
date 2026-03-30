@@ -1,0 +1,1 @@
+import{j as r,P as a,T as t}from"./index-Cri1stFi.js";const l=({message:s,title:e="Radiology Doctor List",type:o="normal"})=>r.jsx(a,{size:"lg",header:e,children:r.jsxs(t,{size:"3xl",color:o==="error"?"danger":"dark",children:[s,"s."]})});export{l as M};

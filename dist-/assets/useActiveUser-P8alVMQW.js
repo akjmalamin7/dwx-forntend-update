@@ -1,0 +1,1 @@
+import{l as o,h as u,r as c}from"./index-Cri1stFi.js";const f=()=>{const{status:t,refetch:e,profileData:r}=o(),{lastMessage:s}=u("wss://api.dwxapp.store/ws",5e3);return c.useEffect(()=>{if(!s)return;const{type:a}=s;a==="update_user"&&e()},[s,e,r?.status]),{status:t}};export{f as u};

@@ -1,0 +1,1 @@
+import{j as t}from"./index-Cri1stFi.js";import"./XrayImages-LNsrk0qK.js";import{A as o}from"./AdminSelectedDoctor-BBzMehAw.js";import"./schema-FZyx7I32.js";import"./index.esm-Ca34irks.js";import"./PanelHeading-D7gsbKBg.js";import"./yup-DdYKBLsw.js";const a=()=>t.jsx(o,{});export{a as SelectDoctor,a as default};

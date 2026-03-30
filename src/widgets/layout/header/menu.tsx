@@ -108,15 +108,14 @@ export const MENU_DATA: MenuType[] = [
     icon: <IoIosSend />,
     path: "/agent/checked-user-list",
   },
-   {
+  {
     id: "user-10",
-    role: [RoleEnum.user ],
+    role: [RoleEnum.user],
     title: "Software Download",
     icon: <IoIosSend />,
     path: "/agent/software-list",
   },
 
- 
   {
     id: "doctor-1",
     role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
@@ -146,7 +145,7 @@ export const MENU_DATA: MenuType[] = [
     path: "/doctor/format",
   },
 
-    {
+  {
     id: "doctor-5",
     role: [RoleEnum.ecg_dr, RoleEnum.xray_dr],
     title: "Software Download",
@@ -154,110 +153,12 @@ export const MENU_DATA: MenuType[] = [
     path: "/doctor/software-list",
   },
 
-  {
-    id: "admin-1",
-    role: [RoleEnum.admin],
-    title: "Pending Report",
-    icon: '',
-    path: "/admin/patient",
-  },
-  {
-    id: "admin-2",
-    role: [RoleEnum.admin],
-    title: "Completed Patients",
-    icon: '',
-    path: "/admin/completed-patients",
-  },
-
-  {
-    id: "admin-3",
-    role: [RoleEnum.admin],
-    title: "Manage Report",
-    //icon: <IoIosSend />,
-    icon: '',
-    path: "",
-    children: [
-      {
-        id: "today-completed-1",
-        title: "Today Completed Report",
-        path: "/admin/today-completed-patient",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "today-summary-2",
-        title: "Today Summery",
-        path: "/admin/today-summary",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "monthly-completed-3",
-        title: "Monthly Completed",
-        path: "/admin/monthly-completed",
-        role: [RoleEnum.admin],
-      },
-
-      {
-        id: "delete-report-5",
-        title: "Deleted Patient",
-        path: "/admin/deleted-patient",
-        role: [RoleEnum.admin],
-      },
-    ],
-  },
-  {
-    id: "admin-4",
-    role: [RoleEnum.admin],
-    title: "Manage Doctor Bill",
-    icon: '',
-    path: "",
-    children: [
-      {
-        id: "doctor-update-1",
-        title: "Doctor List",
-        path: "/admin/doctor-list",
-        role: [RoleEnum.admin],
-      },
-    ],
-  },
-  {
-    id: "admin-8",
-    role: [RoleEnum.admin],
-    title: "Manage Customer Bill",
-    icon: '',
-    path: "",
-    children: [
-      {
-        id: "customer-update-1",
-        title: "Customer Update",
-        path: "/admin/manage-customer-bill",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "transection-history-2",
-        title: "Payment Request",
-        path: "/admin/customer-payment-request",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "transection-history-3",
-        title: "Transection History",
-        path: "/admin/customer-transection-history",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "transection-history-4",
-        title: "Bill Entry",
-        path: "/admin/bill-add",
-        role: [RoleEnum.admin],
-      },
-    ],
-  },
-
+  
   {
     id: "admin-5",
     role: [RoleEnum.admin],
-    title: "User Management",
-    icon: '',
+    title: "Manage User",
+    icon: "",
     path: "",
     children: [
       {
@@ -309,10 +210,116 @@ export const MENU_DATA: MenuType[] = [
   },
 
   {
+    id: "admin-1",
+    role: [RoleEnum.admin],
+    title: "Pending Report",
+    icon: "",
+    path: "/admin/patient",
+  },
+  {
+    id: "admin-2",
+    role: [RoleEnum.admin],
+    title: "Completed Patients",
+    icon: "",
+    path: "/admin/completed-patients",
+  },
+
+  {
+    id: "admin-3",
+    role: [RoleEnum.admin],
+    title: "Manage Report",
+    //icon: <IoIosSend />,
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "today-completed-1",
+        title: "Today Completed Report",
+        path: "/admin/today-completed-patient",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "today-summary-2",
+        title: "Today Summery",
+        path: "/admin/today-summary",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "monthly-completed-3",
+        title: "Monthly Completed",
+        path: "/admin/monthly-completed",
+        role: [RoleEnum.admin],
+      },
+
+      {
+        id: "delete-report-5",
+        title: "Deleted Patient",
+        path: "/admin/deleted-patient",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "patient-filter-6",
+        title: "Patient Filter",
+        path: "/admin/patient-filter",
+        role: [RoleEnum.admin],
+      },
+    ],
+  },
+  {
+    id: "admin-4",
+    role: [RoleEnum.admin],
+    title: "Manage Doctor Bill",
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "doctor-update-1",
+        title: "Doctor List",
+        path: "/admin/doctor-list",
+        role: [RoleEnum.admin],
+      },
+    ],
+  },
+  {
+    id: "admin-8",
+    role: [RoleEnum.admin],
+    title: "Manage Customer Bill",
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "customer-update-1",
+        title: "Customer Update",
+        path: "/admin/manage-customer-bill",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "transection-history-2",
+        title: "Payment Request",
+        path: "/admin/customer-payment-request",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "transection-history-3",
+        title: "Transection History",
+        path: "/admin/customer-transection-history",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "transection-history-4",
+        title: "Bill Entry",
+        path: "/admin/bill-add",
+        role: [RoleEnum.admin],
+      },
+    ],
+  },
+
+
+  {
     id: "admin-6",
     role: [RoleEnum.admin],
     title: "Others setting",
-    icon: '',
+    icon: "",
     path: "",
     children: [
       {
@@ -348,7 +355,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-7",
     role: [RoleEnum.admin],
     title: "Settings",
-    icon: '',
+    icon: "",
     path: "",
     children: [
       {
@@ -370,7 +377,7 @@ export const MENU_DATA: MenuType[] = [
     id: "admin-9",
     role: [RoleEnum.admin],
     title: "Software",
-    icon: '',
+    icon: "",
     path: "/admin/software-list",
   },
 ];

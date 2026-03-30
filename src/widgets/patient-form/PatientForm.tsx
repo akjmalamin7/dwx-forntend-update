@@ -12,7 +12,7 @@ import {
   type PatientFormValues,
 } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Controller,
   FormProvider,
@@ -63,6 +63,8 @@ const PatientForm = ({
     },
   });
 
+
+  const hasReset = useRef(false);
   const {
     control,
     reset,
@@ -71,26 +73,36 @@ const PatientForm = ({
     trigger,
     formState: { errors, isValid },
   } = methods;
+   
+
   useEffect(() => {
-    if (isEdit && defaultValues) {
-      methods.reset({
-        attachment: defaultValues.attachment || [],
-        small_url: defaultValues.small_url || [],
-        patient_id: defaultValues.patient_id || "",
-        name: defaultValues.name || "",
-        age: defaultValues.age || "",
-        history: defaultValues.history || "",
-        gender: defaultValues.gender || "male",
-        xray_name: defaultValues.xray_name || "",
-        ref_doctor: defaultValues.ref_doctor || "",
-        image_type: defaultValues.image_type || "single",
-        doctor_id: defaultValues.doctor_id || [],
-        ignore_dr: defaultValues.ignore_dr || [],
-        rtype: defaultValues.rtype || "xray",
-        study_for: defaultValues.study_for || "xray_dr",
-      });
-    }
-  }, [isEdit, defaultValues, methods]);
+  if (isEdit && defaultValues && !hasReset.current) {
+    // ✅ অন্তত একটা field আছে কিনা check করো
+    const hasData = Object.values(defaultValues).some(
+      (val) => val !== "" && val !== undefined && (Array.isArray(val) ? val.length > 0 : true)
+    );
+    if (!hasData) return; // ← empty object হলে wait করো
+
+    hasReset.current = true;
+    methods.reset({
+      attachment: defaultValues.attachment || [],
+      small_url: defaultValues.small_url || [],
+      patient_id: defaultValues.patient_id || "",
+      name: defaultValues.name || "",
+      age: defaultValues.age || "",
+      history: defaultValues.history || "",
+      gender: defaultValues.gender || "male",
+      xray_name: defaultValues.xray_name || "",
+      ref_doctor: defaultValues.ref_doctor || "",
+      image_type: defaultValues.image_type || "single",
+      doctor_id: defaultValues.doctor_id || [],
+      ignore_dr: defaultValues.ignore_dr || [],
+      rtype: defaultValues.rtype || "xray",
+      study_for: defaultValues.study_for || "xray_dr",
+    });
+  }
+}, [isEdit, defaultValues, methods]);
+
   // reset data only add mode
   useEffect(() => {
     const currentDoctorId = getValues("doctor_id");

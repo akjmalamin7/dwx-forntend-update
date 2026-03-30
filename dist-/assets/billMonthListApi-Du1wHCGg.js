@@ -1,0 +1,1 @@
+import{b as o}from"./index-Cri1stFi.js";const s=n=>n.map(t=>({month:t._id,count:t.count})),e=o.injectEndpoints({endpoints:n=>({getBillMonthList:n.query({query:()=>({url:"/admin/bill/billrequest",method:"GET"}),transformResponse:t=>s(t.data),providesTags:["Bill"]})})}),{useGetBillMonthListQuery:r}=e;export{r as u};

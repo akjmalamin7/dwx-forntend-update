@@ -1,1 +1,0 @@
-import{b as t}from"./index-Cri1stFi.js";const a=t.injectEndpoints({endpoints:e=>({getPaymentGetwayList:e.query({query:()=>({url:"/agent/reference/payment",method:"GET"}),providesTags:["PaymentGetway"]})})}),{useGetPaymentGetwayListQuery:y}=a;export{y as u};

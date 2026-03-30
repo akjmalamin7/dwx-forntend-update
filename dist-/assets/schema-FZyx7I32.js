@@ -1,1 +1,0 @@
-import{c as e,a as t}from"./index-Cri1stFi.js";const r=a=>({data:a.data,pagination:{currentPage:a.page,totalPages:a.totalPages,limit:a.limit,hasNext:a.page<a.totalPages,hasPrev:a.page>1}}),d=e({title:t().required("Format Title is required"),type:t().required("Type is required"),details:t().required("Details is required")});export{r as A,d as a};

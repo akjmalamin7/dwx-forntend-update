@@ -7,85 +7,86 @@ import { useGetPatientViewQuery } from "@/shared/redux/features/agent/patient-vi
 import { Loader, Message, Panel, PanelHeading } from "@/shared/ui";
 import type { PatientFormValues } from "@/shared/utils/types/types";
 import { PatientForm } from "@/widgets";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
+// ✅ typeof useGetPatientViewQuery থেকে type নেওয়া — manual type লাগবে না
+type PatientViewData = ReturnType<typeof useGetPatientViewQuery>["data"];
+
+const transformPatientData = (data: PatientViewData): Partial<PatientFormValues> => {
+  if (!data || !data.patient) return {};
+ 
+  const original_urls = data.attachments?.map((item: { original_url: string; small_url: string }) => item.original_url) || [];
+  const small_urls = data.attachments?.map((item: { original_url: string; small_url: string }) => item.small_url) || [];
+
+  return {
+    patient_id: data.patient.patient_id ?? "",
+    name: data.patient.name ?? "",
+    age: data.patient.age ?? "",
+    history: data.patient.history ?? "",
+    gender: (
+      data.patient.gender === "male" || data.patient.gender === "female"
+        ? data.patient.gender
+        : "male"
+    ) as "male" | "female",
+    xray_name: data.patient.xray_name ?? "",
+    ref_doctor: data.patient.ref_doctor ?? "",
+    image_type: (
+      ["multiple", "double", "single", "ecg"].includes(data.patient.image_type ?? "")
+        ? data.patient.image_type
+        : "single"
+    ) as "multiple" | "double" | "single" | "ecg",
+    doctor_id: data.patient.doctor_id || [],
+    ignore_dr: data.patient.ignore_dr || [],
+    attachment: original_urls,
+    small_url: small_urls,
+    rtype: data.patient.rtype ?? "xray",
+    study_for: data.patient.study_for ?? "xray_dr",
+  };
+};
+
 const EditSendReport = () => {
+  // ✅ সব hooks আগে
   const { status, isProfileLoading } = useGetProfile();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { status: updateStatus } = useActiveUser();
 
   const [updateSendReport, { isLoading: isUpdateLoading }] =
     useUpdateReportMutation();
-
   const [resetCount, setResetCount] = useState<number>(0);
+
   const {
     data: patientData,
     isLoading: isViewLoading,
     isError,
-  } = useGetPatientViewQuery(id!, { skip: !id });
+  } = useGetPatientViewQuery(id!, { skip: !id ,refetchOnMountOrArgChange: true});
 
-  const transformPatientData = (
-    data: typeof patientData,
-  ): Partial<PatientFormValues> => {
-    if (!data) {
-      return {};
-    }
-    const original_urls =
-      data.attachments?.map((item) => item.original_url) || [];
-    const small_urls = data.attachments?.map((item) => item.small_url) || [];
+  // ✅ transformPatientData বাইরে থাকায় dependency শুধু patientData
+  const defaultValues = useMemo(
+    () => transformPatientData(patientData),
+    [patientData]
+  );
 
-    return {
-      patient_id: data.patient?.patient_id ?? "",
-      name: data.patient?.name ?? "",
-      age: data.patient?.age ?? "",
-      history: data.patient?.history ?? "",
-      gender: (data.patient?.gender === "male" ||
-      data.patient?.gender === "female"
-        ? data.patient?.gender
-        : "male") as "male" | "female",
-      xray_name: data.patient?.xray_name ?? "",
-      ref_doctor: data.patient?.ref_doctor ?? "",
-      image_type: (data.patient?.image_type === "multiple" ||
-      data.patient?.image_type === "double" ||
-      data.patient?.image_type === "single" ||
-      data.patient?.image_type === "ecg"
-        ? data.patient?.image_type
-        : "single") as "multiple" | "double" | "single" | "ecg",
+  usePageTitle("Edit Report", {
+    prefix: "DWX - ",
+    defaultTitle: "DWX",
+    restoreOnUnmount: true,
+  });
 
-      doctor_id: data.patient?.doctor_id || [],
-      ignore_dr: data.patient?.ignore_dr || [],
-      attachment: original_urls,
-      small_url: small_urls,
-      rtype: data.patient?.rtype ?? "xray",
-      study_for: data.patient?.study_for ?? "xray_dr",
-    };
-  };
-
-  const defaultValues = transformPatientData(patientData);
-
-  //   submit data
   const onSubmit: SubmitHandler<PatientFormValues> = async (data) => {
-    const finalData = {
-      ...data,
-      /*rtype: "xray",
-      study_for: "xray_dr",*/
-    };
     try {
-      await updateSendReport({ id, data: finalData }).unwrap();
+      await updateSendReport({ id, data }).unwrap();
       setResetCount((prev) => prev + 1);
-      // Success toast
       toast.success("Patient report updated successfully!", {
         duration: 2000,
         position: "top-right",
       });
-
       navigate("/");
     } catch (err: unknown) {
-      console.error("Error creating patient:", err);
-      // Error toast
+      console.error("Error updating patient:", err);
       toast.error("Failed to submit report. Please try again.", {
         duration: 2000,
         position: "top-right",
@@ -93,18 +94,20 @@ const EditSendReport = () => {
     }
   };
 
-  usePageTitle("Edit Report", {
-    prefix: "DWX - ",
-    defaultTitle: "DWX",
-    restoreOnUnmount: true,
-  });
-  const { status: updateStatus } = useActiveUser();
+  // ✅ Early returns — সব hooks এর পরে
   if (updateStatus !== "active") {
     return (
       <AgentFormError title="Something went wrong!. Please contact with support." />
     );
   }
-  const isLoading = isUpdateLoading || isViewLoading;
+
+  if (isProfileLoading) return <Loader />;
+
+  if (status !== "active") {
+    return (
+      <AgentFormError title="Something went wrong!. Please contact with support." />
+    );
+  }
 
   if (isViewLoading) {
     return (
@@ -147,17 +150,8 @@ const EditSendReport = () => {
     );
   }
 
-  console.log(patientData);
-
-  if (isProfileLoading) <Loader />;
-
-  if (status !== "active") {
-    return (
-      <AgentFormError title="Something went wrong!. Please contact with support." />
-    );
-  }
-
   const isEcg = (patientData?.patient?.image_type as string) === "ecg";
+  const isLoading = isUpdateLoading || isViewLoading;
 
   return (
     <>
@@ -165,7 +159,7 @@ const EditSendReport = () => {
       <Panel
         header={
           <PanelHeading
-            title="=Edit  Report"
+            title="Edit Report"
             button="Patient List"
             path="agent/patient/completed"
           />

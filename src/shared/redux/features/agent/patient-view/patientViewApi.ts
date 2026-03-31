@@ -20,6 +20,7 @@ export const PatientViewApi = apiSlice.injectEndpoints({
         url: `/agent/patient/${patient_id}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 0,
       transformResponse: (response: PATIENT_VIEW_RESPONSE) => {
         return TRANSFORM_PATIENT_VIEW_RESPONSE(response);
       },

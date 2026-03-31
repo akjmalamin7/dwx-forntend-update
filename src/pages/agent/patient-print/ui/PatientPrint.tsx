@@ -12,12 +12,16 @@ import { PrintPatientComment } from "./print-patient-comment/PrintPatientComment
 import PrintPatientInfo from "./print-patient-info/PrintPatientInfo";
 import PrintPreparedBy from "./print-prepared-by/PrintPreparedBy";
 import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { usePatientPrintSocket } from "@/shared/hooks/use-socket/usePatientPrintSocket"; // add
 
 const PatientPrint = () => {
   const { paddingTop: profilePaddingTop, isProfileLoading } = useGetProfile();
   const { id } = useParams<{ id: string }>(); 
   const [paddingTop, setPaddingTop] = useState<string>("2");
+
+
+ 
 
   useEffect(() => {
     if (profilePaddingTop !== undefined) {
@@ -29,6 +33,7 @@ const PatientPrint = () => {
     data: print_view,
     isLoading,
     isError,
+    refetch,  
   } = useGetAgentPatientPrintQuery(id!, {
     skip: !id,
     refetchOnMountOrArgChange: true,
@@ -43,7 +48,7 @@ const PatientPrint = () => {
   const xrayName = print_view?.data?.xray_name;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
-  const handlePrint = async () => {
+  /*const handlePrint = async () => {
     if (!id) return;
     try {
       await updateAgentPatientPrintStatus(id).unwrap();
@@ -53,7 +58,24 @@ const PatientPrint = () => {
       console.error("Print status update failed:", error);
       alert("Status update failed, but you can still try to print manually.");
     }
-  };
+  }; */
+    const handlePrint = useCallback(async () => {   // wrap in useCallback
+      if (!id) return;
+      try {
+        await updateAgentPatientPrintStatus(id).unwrap();
+        window.print();
+      } catch (error) {
+        console.error("Print status update failed:", error);
+        alert("Status update failed, but you can still try to print manually.");
+      }
+    }, [id, updateAgentPatientPrintStatus]);
+
+    // ✅ Socket: auto-trigger print when submit_patient fires for this patient
+    usePatientPrintSocket({
+      wsUrl: import.meta.env.VITE_WS_URL,
+      patientId: id, 
+      onSubmit: refetch,
+    });
 
   usePageTitle("Print Report", {
     prefix: "DWX - ",

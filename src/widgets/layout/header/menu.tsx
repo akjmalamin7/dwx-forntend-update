@@ -153,6 +153,62 @@ export const MENU_DATA: MenuType[] = [
     path: "/doctor/software-list",
   },
 
+  
+  {
+    id: "admin-5",
+    role: [RoleEnum.admin],
+    title: "Manage User",
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "user-list-6",
+        title: "Add User",
+        path: "/admin/add-user",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "user-list-1",
+        title: "Admin List",
+        path: "/admin/admin-list",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "user-list-1",
+        title: "User List",
+        path: "/admin/user-list",
+        role: [RoleEnum.admin],
+      },
+
+      {
+        id: "xray-doctor-list-2",
+        title: "Xray Doctor List",
+        path: "/admin/xray-doctor-list",
+        role: [RoleEnum.admin],
+      },
+
+      {
+        id: "ecg-doctor-list-3",
+        title: "Ecg Doctor List",
+        path: "/admin/ecg-doctor-list",
+        role: [RoleEnum.admin],
+      },
+
+      {
+        id: "deleted-user-4",
+        title: "Deleted Users",
+        path: "/admin/deleted-users",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "deleted-doctor-5",
+        title: "Deleted Doctors",
+        path: "/admin/deleted-doctors",
+        role: [RoleEnum.admin],
+      },
+    ],
+  },
+
   {
     id: "admin-1",
     role: [RoleEnum.admin],
@@ -258,60 +314,6 @@ export const MENU_DATA: MenuType[] = [
     ],
   },
 
-  {
-    id: "admin-5",
-    role: [RoleEnum.admin],
-    title: "User Management",
-    icon: "",
-    path: "",
-    children: [
-      {
-        id: "user-list-6",
-        title: "Add User",
-        path: "/admin/add-user",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "user-list-1",
-        title: "Admin List",
-        path: "/admin/admin-list",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "user-list-1",
-        title: "User List",
-        path: "/admin/user-list",
-        role: [RoleEnum.admin],
-      },
-
-      {
-        id: "xray-doctor-list-2",
-        title: "Xray Doctor List",
-        path: "/admin/xray-doctor-list",
-        role: [RoleEnum.admin],
-      },
-
-      {
-        id: "ecg-doctor-list-3",
-        title: "Ecg Doctor List",
-        path: "/admin/ecg-doctor-list",
-        role: [RoleEnum.admin],
-      },
-
-      {
-        id: "deleted-user-4",
-        title: "Deleted Users",
-        path: "/admin/deleted-users",
-        role: [RoleEnum.admin],
-      },
-      {
-        id: "deleted-doctor-5",
-        title: "Deleted Doctors",
-        path: "/admin/deleted-doctors",
-        role: [RoleEnum.admin],
-      },
-    ],
-  },
 
   {
     id: "admin-6",

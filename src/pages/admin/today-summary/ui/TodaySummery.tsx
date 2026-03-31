@@ -53,7 +53,7 @@ const TodaySummery = () => {
   });
 
   return (
-    <Panel header="Today summary" size="lg">
+    <Panel header= {`Today summary, Total = ${summeryList?.totalPatient ?? 0}`}  size="lg">
       <div>
         <label className="font-semibold">Filter By Date:</label>
         <input

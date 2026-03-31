@@ -14,10 +14,12 @@ export interface ADMIN_TODAY_SUMMARY_API_RESPONSE {
   page: number;
   limit: number;
   totalPages: number;
+  totalPatient: number;
   data: ADMIN_TODAY_SUMMARY_MODEL[];
 }
 export interface ADMIN_TODAY_SUMMARY_TRANSFORM_MODEL {
   data: ADMIN_TODAY_SUMMARY_MODEL[];
+  totalPatient: number;
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -32,6 +34,7 @@ export const ADMIN_TODAY_SUMMARY_TRANSFORM_RESPONSE = (
 ): ADMIN_TODAY_SUMMARY_TRANSFORM_MODEL => {
   return {
     data: response.data,
+    totalPatient: response.totalPatient,
     pagination: {
       currentPage: response.page,
       totalPages: response.totalPages,

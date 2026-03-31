@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import "viewerjs/dist/viewer.css";
 import { ADMIN_COMPLETED_REPORT_UDPAT_SCHEMA } from "../model/schema";
 import { PatientInformation } from "./patient-iformation";
-import { AddNewImageForm, AdminUpdatePatientForm, ClonePatient } from "@/entities";
+import { AddNewImageForm, AdminSelectedDoctor, AdminUpdatePatientForm, ClonePatient } from "@/entities";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
 import toast, { Toaster } from "react-hot-toast";
@@ -105,45 +105,50 @@ const CompletedPatientView = () => {
         <div className="flex flex-col lg:flex-row w-full mt-1 gap-6">
           <div className="flex-1/2">
               <PatientInformation />
+              <div className="mt-2">
+                <FormProvider {...form}>
+                  <Controller
+                    control={form.control}
+                    name="comments"
+                    render={({ field }) => (
+                      <Editor {...field} onChange={handleEditorChange} />
+                    )}
+                  />
+                  <Text element="h2" className="text-lg mt-2">Completed By: {doctorName}</Text>
+
+                  <div className="mt-3">
+                    <Controller
+                      control={form.control}
+                      name="passault"
+                      render={({ field }) => (
+                        <Checkbox
+                          checked={field.value === "Yes"}
+                          onChange={(e) =>
+                            field.onChange(e.target.checked ? "Yes" : "No")
+                          }
+                          label=" This report is for medical diagnosis only, not for legal use"
+                        />
+                      )}
+                    />
+                  </div>
+                </FormProvider>
+                <Button
+                  size="size-2"
+                  className="mt-3"
+                  type="submit"
+                  loading={isLoading}
+                  onClick={onSubmit}
+                >
+                  {isLoading ? "Updating..." : "Update"}
+                </Button>
+            </div>
           </div>
           <div className="flex-1/2">
           <div className="flex flex-col lg:flex-row w-full mt-1 gap-6">
         <div className="flex-1">
-          <FormProvider {...form}>
-            <Controller
-              control={form.control}
-              name="comments"
-              render={({ field }) => (
-                <Editor {...field} onChange={handleEditorChange} />
-              )}
-            />
-            <Text element="h2" className="text-lg mt-2">Completed By: {doctorName}</Text>
-
-            <div className="mt-3">
-              <Controller
-                control={form.control}
-                name="passault"
-                render={({ field }) => (
-                  <Checkbox
-                    checked={field.value === "Yes"}
-                    onChange={(e) =>
-                      field.onChange(e.target.checked ? "Yes" : "No")
-                    }
-                    label=" This report is for medical diagnosis only, not for legal use"
-                  />
-                )}
-              />
-            </div>
-          </FormProvider>
-          <Button
-            size="size-2"
-            className="mt-3"
-            type="submit"
-            loading={isLoading}
-            onClick={onSubmit}
-          >
-            {isLoading ? "Updating..." : "Update"}
-          </Button>
+          <div className="w-full">
+            <AdminSelectedDoctor />
+          </div>
         </div>
       </div>
           

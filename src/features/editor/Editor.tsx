@@ -14,7 +14,7 @@ const Editor = ({
   placeholder,
   value = "",
   onChange,
-  label = "Doctor Comments",
+  label = "Doctor Comments"
 }: IProps) => {
   const editor = useRef(null);
 
@@ -25,6 +25,12 @@ const Editor = ({
       height: 400,
       toolbarAdaptive: false,
       toolbarButtonSize: "middle" as const,
+
+      askBeforePasteHTML: false,
+      askBeforePasteFromWord: false,
+      defaultActionOnPaste: "insert_as_html" as const,
+
+      
 
       // ⭐ Add this part
       style: {

@@ -28,6 +28,7 @@ const BillPrint = () => {
   } = useGetBillQuery(month!, {
     pollingInterval: 3000,
     skip: !month,
+    refetchOnMountOrArgChange: true,
   });
   const transformBill = bill?.data[0];
 

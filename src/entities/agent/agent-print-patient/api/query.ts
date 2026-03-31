@@ -8,6 +8,7 @@ export const AgentPatientPrintApi = apiSlice.injectEndpoints({
         url: `/agent/patient/print/${id}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 0,
     }),
     updateAgentPatientPrintStatus: builder.mutation({
       query: (id) => ({

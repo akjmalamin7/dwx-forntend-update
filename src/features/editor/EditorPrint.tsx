@@ -34,6 +34,11 @@ const EditorPrint = ({
       toolbarAdaptive: false,
       toolbarButtonSize: "middle" as const,
 
+      askBeforePasteHTML: false,
+      askBeforePasteFromWord: false,
+      defaultActionOnPaste: "insert_as_html" as const,
+
+
       // Default text style inside editor
       style: {
         fontSize: "28px",  

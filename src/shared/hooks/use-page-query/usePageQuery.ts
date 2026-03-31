@@ -8,6 +8,8 @@ interface UsePageQueryProps {
   doctorId?: string;
   userId?: string;
   month?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 import { useState } from "react";
@@ -19,6 +21,8 @@ export function usePageQuery({
   doctorId,
   userId,
   month,
+  startDate,
+  endDate,
 }: UsePageQueryProps = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -32,9 +36,15 @@ export function usePageQuery({
     () => searchParams.get("search") || defaultSearch,
   );
 
+  const urlStartDate = searchParams.get("start_date") || startDate || "";
+  const urlEndDate = searchParams.get("end_date") || endDate || "";
+
   const urlDoctorId = searchParams.get("doctorId") || doctorId || "";
   const urlUserId = searchParams.get("userId") || userId || "";
   const urlMonth = searchParams.get("month") || month || "";
+
+  const [startDateState, setStartDate] = useState(urlStartDate);
+  const [endDateState, setEndDate] = useState(urlEndDate);
 
   // Sync URL whenever state changes
   useEffect(() => {
@@ -53,8 +63,21 @@ export function usePageQuery({
     if (urlUserId) params.userId = urlUserId;
     if (urlMonth) params.month = urlMonth;
 
+    if (startDateState) params.start_date = startDateState;
+    if (endDateState) params.end_date = endDateState;
+
     setSearchParams(params, { replace: true });
-  }, [page, limit, search, urlDoctorId, urlUserId, urlMonth, setSearchParams]);
+  }, [
+    page,
+    limit,
+    search,
+    urlDoctorId,
+    urlUserId,
+    urlMonth,
+    startDateState,
+    endDateState,
+    setSearchParams,
+  ]);
   // [page, limit, search, doctorId, userId, month, setSearchParams]
   return {
     page,
@@ -63,6 +86,10 @@ export function usePageQuery({
     setPage,
     setLimit,
     setSearch,
+    startDate: startDateState,
+    endDate: endDateState,
+    setStartDate,
+    setEndDate,
     doctorId: urlDoctorId,
     userId: urlUserId,
     month: urlMonth,

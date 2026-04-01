@@ -15,6 +15,7 @@ export const AdminPatientFilterListApi = apiSlice.injectEndpoints({
         search?: string;
         startDate?: string;
         endDate?: string;
+        agentId?: string;
       }
     >({
       query: ({
@@ -23,6 +24,8 @@ export const AdminPatientFilterListApi = apiSlice.injectEndpoints({
         search = "",
         startDate = "",
         endDate = "",
+        agentId = "",
+
       }) => {
         const params = new URLSearchParams({
           page: page.toString(),
@@ -33,6 +36,7 @@ export const AdminPatientFilterListApi = apiSlice.injectEndpoints({
         }
         if (startDate) params.append("start_date", startDate);
         if (endDate) params.append("end_date", endDate);
+        if (agentId) params.append("agent_id", agentId);
         return {
           url: `/admin/patient/search-report?${params.toString()}`,
           method: "GET",

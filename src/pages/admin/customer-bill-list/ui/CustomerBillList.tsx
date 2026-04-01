@@ -62,6 +62,29 @@ const CustomerBillList = () => {
     [billList?.data, limit, page],
   );
   const COLUMN = CUSTOMER_DATA_COL.map((item) => {
+
+    if (item.key === "status") {
+    return {
+      ...item,
+      render: (_: unknown, record?: DataSource) => {
+        const status = record?.status;
+        if (!status) return <span className="text-gray-400">—</span>;
+        return (
+          <span
+            className={
+              status === "Paid"
+                ? "text-green-600 font-semibold"
+                : status === "Pending"
+                  ? "text-yellow-500 font-semibold"
+                  : "text-gray-600"
+            }
+          >
+            {String(status)}
+          </span>
+        );
+      },
+    };
+  }
     if (item.key === "action") {
       return {
         ...item,

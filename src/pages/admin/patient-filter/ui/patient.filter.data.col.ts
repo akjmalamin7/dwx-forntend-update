@@ -2,12 +2,19 @@ import type { Columns, DataSource } from "@/shared/ui/table/table.model";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
 export const PATIENT_FILTER_DATA_COL: Columns<DataSource>[] = [
-  {
+  { 
     key: "sl",
     title: "Sl",
     dataIndex: "sl",
     align: "center",
     width: 50,
+  },
+   {
+    title: "DC",
+    dataIndex: "agent_name",
+    key: "agent_name",
+    align: "start",
+    width: 30,
   },
   {
     key: "start_time",
@@ -52,12 +59,20 @@ export const PATIENT_FILTER_DATA_COL: Columns<DataSource>[] = [
     dataIndex: "type",
     align: "start",
   },
+   {
+    key: "completed_dr",
+    title: "Rep. By",
+    dataIndex: "completed_dr",
+    align: "start",
+    width: 70,
+  },
   {
     key: "printstatus",
     title: "Print",
     dataIndex: "printstatus",
     align: "start",
   },
+  
   {
     key: "action",
     title: "Action",

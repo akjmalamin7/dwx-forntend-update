@@ -33,33 +33,7 @@ export interface ADMIN_PATIENTS_FILTER_MODEL {
   __v: number;
   id: string;
 }
-interface COMMENTS {
-  _id: string;
-  patient_id: string;
-  doctor_id: string;
-  passault: string;
-  comments: string;
-  image_type: string;
-  month: string;
-  xray_name: string;
-  createdAt: string;
-  updatedAt: string;
-  id: string;
-}
-interface REVISIONS {
-  _id: string;
-  patient_id: string;
-  doctor_id: ADMIN_AGENT_DOCTOR;
-  passault: string;
-  comments: string;
-  image_type: string;
-  month: string;
-  xray_name: string;
-  createdAt: string;
-  updatedAt: string;
-  id: string;
-}
-
+  
 export interface ADMIN_PATIENTS_FILTER_API_RESPONSE {
   message: string;
   success: boolean;

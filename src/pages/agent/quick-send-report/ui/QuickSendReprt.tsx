@@ -121,7 +121,7 @@ const QuickSendReprt = () => {
           />
 
           {/* Patient ID */}
-          <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />
+          <ReadTextFile onParsed={handleParsed} setIndex={resetCount} />  
 
           {/* Patient ID */}
           <div className="hidden">

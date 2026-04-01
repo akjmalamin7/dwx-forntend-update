@@ -13,7 +13,7 @@ import {
 } from "@/features/read-text-file";
 import { usePageTitle } from "@/shared/hooks";
 import { useActiveUser } from "@/shared/hooks/use-active-user";
-import { Button, ControlInput, ControlledSelect,  Panel } from "@/shared/ui";
+import { Button, ControlInput, ControlledSelect, Panel } from "@/shared/ui";
 import { patientFormschema } from "@/shared/utils/types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -99,8 +99,6 @@ const QuickSendReprt = () => {
     defaultTitle: "DWX",
     restoreOnUnmount: true,
   });
- 
-
   if (status !== "active") {
     return (
       <AgentFormError title="Something went wrong!. Please contact with support." />
@@ -108,22 +106,22 @@ const QuickSendReprt = () => {
   }
   return (
     <>
-    <Toaster />
-    <Panel header="Quick Add Report">
-      <form
-        className="grid grid-cols-12 gap-y-4 items-center"
-        onSubmit={onSubmit}
-      >
-        {/* Patient ID */}
-        <ImageUpload
-          key={resetCount}
-          setValue={setValue}
-          control={control}
-          name="attachment"
-        />
+      <Toaster />
+      <Panel header="Quick Add Report">
+        <form
+          className="grid grid-cols-12 gap-y-4 items-center"
+          onSubmit={onSubmit}
+        >
+          {/* Patient ID */}
+          <ImageUpload
+            key={resetCount}
+            setValue={setValue}
+            control={control}
+            name="attachment"
+          />
 
-        {/* Patient ID */} 
-        <ReadTextFile onParsed={handleParsed} setIndex={resetCount} /> 
+          {/* Patient ID */}
+          <ReadTextFile onParsed={handleParsed} setIndex={Math.random()} />
 
           {/* Patient ID */}
           <div className="hidden">

@@ -3,7 +3,7 @@ import React from "react";
 interface TextProps {
   isEditable?: boolean;
   children?: React.ReactNode;
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
   element?:
     | "h1"
     | "h2"
@@ -45,6 +45,7 @@ const Text = ({
   const Tag = element as keyof React.JSX.IntrinsicElements;
 
   const sizeClasses = {
+    xs: "text-[12px]",
     sm: "text-[14px]",
     md: "text-[16px] md:text-[18px]",
     lg: "text-[16px] md:text-[18px]",

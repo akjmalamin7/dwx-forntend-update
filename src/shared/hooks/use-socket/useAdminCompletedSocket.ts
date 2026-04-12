@@ -43,9 +43,14 @@ export const useAdminCompletedSocket = ({
   ): ADMIN_COMPLETED_PATIENTS_MODEL => ({
     ...payload,
     status: "completed",
+    
     completed_dr: Array.isArray(payload.completed_dr)
       ? payload.completed_dr[0] ?? null
       : payload.completed_dr,
+      checked_by: null,
+      is_checked: null,
+      printstatus: payload.printstatus ?? null,
+      completed_time: payload.completed_time ?? new Date().toISOString(),
   });
 
   useEffect(() => {

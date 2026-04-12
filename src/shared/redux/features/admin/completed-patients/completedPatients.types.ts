@@ -5,7 +5,8 @@ interface ADMIN_AGENT_DOCTOR {
 }
 export interface ADMIN_COMPLETED_PATIENTS_MODEL {
   _id: string;
-  agent_id: ADMIN_AGENT_DOCTOR;
+  agent_id: ADMIN_AGENT_DOCTOR; 
+  checked_by: ADMIN_AGENT_DOCTOR | null;
   doctor_id: ADMIN_AGENT_DOCTOR[];
   completed_dr: ADMIN_AGENT_DOCTOR;
   ignore_dr: ADMIN_AGENT_DOCTOR[];
@@ -106,6 +107,7 @@ interface ADMIN_AGENT_DOCTOR_SINGLE_DOCTOR {
 interface ADMIN_COMPLETED_PATIENT_MODEL {
   _id: string;
   agent_id: ADMIN_AGENT_DOCTOR_SINGLE_DOCTOR;
+  checked_by: ADMIN_AGENT_DOCTOR_SINGLE_DOCTOR;
   doctor_id: ADMIN_AGENT_DOCTOR_SINGLE_DOCTOR;
   completed_dr: ADMIN_AGENT_DOCTOR_SINGLE_DOCTOR;
   patient_id: string;

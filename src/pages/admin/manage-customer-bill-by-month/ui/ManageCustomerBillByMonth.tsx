@@ -32,6 +32,7 @@ const PatientArchive = () => {
         month: item.month,
         user_id: item.user_id, 
         total_amount: item.total_amount,
+        total_patients: item.total_patients,
         status: item.month === currentMonth ? "Preparing" : item.status,
         paid_amount: item.paid_amount,
         payment_date: item.payment_date ? new Date(item.payment_date).toLocaleDateString("en-GB", {

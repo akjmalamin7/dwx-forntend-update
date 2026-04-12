@@ -6,7 +6,7 @@ import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { DataTable } from "@/widgets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 
@@ -34,6 +34,15 @@ const CustomerUpdateBill = () => {
     initialPage: page,
     onPageChange: setPage,
   });
+
+  // Scroll to top when page or search changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [page, search]);
+
   const DATA_TABLE = useMemo(
     () =>
       doctorList?.data?.map((item, index) => ({

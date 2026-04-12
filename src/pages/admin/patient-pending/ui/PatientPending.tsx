@@ -6,12 +6,12 @@ import { useAdminPendingPatientSocket } from "@/shared/hooks/use-socket/useAdmin
 import { useGetPendingPatientListQuery } from "@/shared/redux/features/admin/pending-patient-list/pendingPatientListApi";
 import { Panel } from "@/shared/ui";
 import type { DataSource } from "@/shared/ui/table/table.model";
-import { formatEmails } from "@/shared/utils/dr-email-format/drEmailFormat";
-import { DataTable } from "@/widgets";
+import { formatEmails } from "@/shared/utils/dr-email-format/drEmailFormat"; 
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
 import type { ReactNode } from "react";
+import DataTableAdmin from "@/widgets/data-table/DataTableAdmin";
 // interface Doctor {
 //   _id: string;
 //   email: string;
@@ -60,6 +60,13 @@ const PatientPending = () => {
   useEffect(() => {
     resetRealtime();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    
   }, [page, search]);
 
   const DATA_TABLE = useMemo(() => {
@@ -115,15 +122,18 @@ const PatientPending = () => {
                   className="bg-yellow-500 text-white px-2 py-2 text-sm"
                 >
                   View
+                </Link> 
+                <Link
+                  to={hasRevision ? `/admin/patient-revision/${record?.key}` : "#"}
+                  onClick={(e) => !hasRevision && e.preventDefault()}
+                  className={`px-2 py-2 text-sm text-white ${
+                    hasRevision
+                      ? "bg-yellow-700 hover:bg-yellow-600"
+                      : "bg-gray-400 cursor-not-allowed opacity-70"
+                  }`}
+                >
+                  Rev
                 </Link>
-                {hasRevision  && ( 
-                    <Link
-                      to={`/admin/patient-revision/${record?.key}`}
-                      className="bg-blue-500 text-white px-2 py-2 text-sm"
-                    >
-                      Rev
-                    </Link> 
-                  )}
               
                 <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
               </div>
@@ -136,7 +146,7 @@ const PatientPending = () => {
 
   return (
     <Panel header={`Pending Patients, Total = ${patientList?.totalPatient ?? 0}`} size="xl">
-      <DataTable
+      <DataTableAdmin
         size="xl"
         isLoading={isLoading}
         column={COLUMN}

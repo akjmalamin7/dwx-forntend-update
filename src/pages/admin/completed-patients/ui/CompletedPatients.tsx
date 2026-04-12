@@ -4,11 +4,11 @@ import { usePageQuery } from "@/shared/hooks/use-page-query/usePageQuery";
 import { useAdminCompletedSocket } from "@/shared/hooks/use-socket/useAdminCompletedSocket";
 import { useGetAdminCompletedPatientListQuery } from "@/shared/redux/features/admin/completed-patients/completedPatientsApi";
 import { Panel } from "@/shared/ui";
-import type { DataSource } from "@/shared/ui/table/table.model";
-import { DataTable } from "@/widgets";
+import type { DataSource } from "@/shared/ui/table/table.model"; 
 import { useEffect, useMemo, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { PATIENT_DATA_COL } from "./patient.data.col";
+import DataTableAdmin from "@/widgets/data-table/DataTableAdmin";
 
 const CompletedPatients = () => {
   const { page, limit, search, setPage, setSearch, setLimit } = usePageQuery({
@@ -38,6 +38,13 @@ const CompletedPatients = () => {
   });
   useEffect(() => {
     resetRealTime();
+
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, search]);
 
@@ -51,8 +58,8 @@ const CompletedPatients = () => {
             hour: "2-digit",
             minute: "2-digit",
             hour12: true,
-          }) +
-          " - " +
+          }),
+        end_time: 
           new Date(item.completed_time).toLocaleString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -63,9 +70,9 @@ const CompletedPatients = () => {
         patient_id: item.patient_id,
         age: item.age,
         rtype: item.rtype,
-        status: item.printstatus || "Waiting",
+        status: item.printstatus || "Wait",
         hasRevision: item.hasRevision,
-        completed_dr: item.completed_dr?.email,
+        completed_dr: item.completed_dr?.email, 
         xray_name: item.xray_name,
         action: "",
       })) || [],
@@ -91,14 +98,17 @@ const CompletedPatients = () => {
                   </Link>
 
                   <CompletedBack path={record?.key} onDeleteSuccess={refetch} />
-                  {hasRevision  && ( 
-                      <Link
-                        to={`/admin/patient-revision/${record?.key}`}
-                        className="bg-yellow-500 text-white px-2 py-2 text-sm"
-                      >
-                        Rev
-                      </Link> 
-                    )}
+                  <Link
+                    to={hasRevision ? `/admin/patient-revision/${record?.key}` : "#"}
+                    onClick={(e) => !hasRevision && e.preventDefault()}
+                    className={`px-2 py-2 text-sm text-white ${
+                      hasRevision
+                        ? "bg-yellow-500 hover:bg-yellow-600"
+                        : "bg-gray-400 cursor-not-allowed opacity-70"
+                    }`}
+                  >
+                    Rev
+                  </Link>
                 
                  <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
                 </div>
@@ -112,9 +122,10 @@ const CompletedPatients = () => {
   return (
     <Panel
       header={`Completed Patients, Total = ${patientList?.totalPatient ?? 0}`}
-      size="xl"
+      size="xl" 
     >
-      <DataTable
+      <div className="completed-patients-page">
+      <DataTableAdmin
         isLoading={isLoading}
         column={COLUMN}
         dataSource={DATA_TABLE}
@@ -128,6 +139,7 @@ const CompletedPatients = () => {
         setPage={setPage}
         setLimit={setLimit}
       />
+      </div>
     </Panel>
   );
 };

@@ -76,8 +76,9 @@ body{
       position: fixed !important; 
   }
 
-  .pending-action-btns{
-    width: 200px !important;
+  .pending-action-btns {
+      max-width: 230px !important;
+      min-width: 90px;
   }
   .bg-gray-900 {
       background-color: #101828 !important;
@@ -86,7 +87,7 @@ body{
   .patientComments  {
     margin-bottom: 100px;
   }
-  
+ 
 .header-wrapper {
   position: sticky;
   top: 0;

@@ -85,7 +85,7 @@ const PatientArchiveList = () => {
     return item;
   });
   return (
-    <Panel header={`Archive patients , Total = ${patientList?.totalPatient ?? 0}`} size="xl">
+    <Panel header={`Archive patients , Total = ${patientList?.totalPatient ?? 0}`} size="lg">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}

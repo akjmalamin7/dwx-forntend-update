@@ -48,7 +48,7 @@ const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
         loading={isLoading}
         disabled={isLoading}
       >
-        Delete
+        Del
       </Button>
 
       {isModalOpen && (

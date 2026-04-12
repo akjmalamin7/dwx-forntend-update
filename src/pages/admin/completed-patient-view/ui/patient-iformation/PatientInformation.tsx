@@ -50,8 +50,7 @@ const PatientInformation = () => {
     return <div>No patient data found</div>;
   }
 
-    const patientStatus = patient?.status || "pending";
-  console.log("PatientInformation patientStatus:", patientStatus);
+  const patientStatus = patient?.status || "pending"; 
 
   return (
     <div className="flex flex-col gap-8">

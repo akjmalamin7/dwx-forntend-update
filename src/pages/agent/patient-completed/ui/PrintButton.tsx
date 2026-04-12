@@ -5,14 +5,47 @@ interface PrintButtonProps {
   completedTime: string;
   recordKey: string;
   delaySeconds?: number;
+  isChecked?: boolean;
 }
 
 const PrintButton = ({
   completedTime,
-  recordKey,
+  recordKey, 
+  isChecked = false,
   delaySeconds = 180,
 }: PrintButtonProps) => {
-  const isUnlocked = () =>
+
+   // If checked → always allow
+  const isUnlocked = () => {
+    if (isChecked) return true;
+
+    return (
+      Date.now() >=
+      new Date(completedTime).getTime() + delaySeconds * 1000
+    );
+  };
+
+  const [canPrint, setCanPrint] = useState(isUnlocked);
+
+  useEffect(() => {
+    // If checked → no timer needed
+    if (isChecked) {
+      setCanPrint(true);
+      return;
+    }
+
+    if (canPrint) return;
+
+    const msLeft =
+      new Date(completedTime).getTime() + delaySeconds * 1000 - Date.now();
+
+    const timeout = setTimeout(() => setCanPrint(true), msLeft);
+    return () => clearTimeout(timeout);
+  }, [completedTime, delaySeconds, canPrint, isChecked]);
+
+  if (!canPrint) return null;
+
+/*  const isUnlocked = () =>
     Date.now() >= new Date(completedTime).getTime() + delaySeconds * 1000;
 
   const [canPrint, setCanPrint] = useState(isUnlocked);
@@ -27,7 +60,7 @@ const PrintButton = ({
     return () => clearTimeout(timeout);
   }, [completedTime, delaySeconds, canPrint]);
 
-  if (!canPrint) return null;
+  if (!canPrint) return null;*/
 
   return (
     <Link

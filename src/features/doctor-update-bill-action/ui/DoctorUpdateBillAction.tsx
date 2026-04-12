@@ -44,7 +44,7 @@ const DoctorUpdateBillAction = ({ defaultValue, name, id }: IProps) => {
         name={name}
         onSelect={handleSelect}
         disabled={isLoading}
-        className="lg:!h-[30px]"
+        className="!h-[28px] !min-h-[28px] [&>*]:!h-[28px] [&>*]:!min-h-[28px]"
         options={[
           { name: "Single", value: "single" },
           { name: "Double", value: "double" },

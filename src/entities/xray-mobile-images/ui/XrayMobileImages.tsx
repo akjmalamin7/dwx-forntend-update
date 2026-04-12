@@ -1,10 +1,12 @@
 import { ReportSubmissionForm } from "@/entities";
 import { useAuth } from "@/shared/hooks";
+import { useBackToOtherApiMutation } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
 import { Button, Input, Text } from "@/shared/ui";
 import { type ChangeEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 interface GetCommentsAndPassaultType {
   passault?: string;
   comments?: string;
@@ -34,6 +36,7 @@ const XrayMobileImages = ({
   patient_id,
   onClose,
 }: XrayMobileModalProps) => {
+  const navigate = useNavigate();
   const { role } = useAuth();
   const [filters, setFilters] = useState({
     exposure: 100,
@@ -42,12 +45,17 @@ const XrayMobileImages = ({
     sepia: 0,
   });
 
-  if (!isOpen) return null;
-
+ 
+  
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: Number(value) }));
   };
+
+    const [backToOtherView, { isLoading: isLoadingBack }] =
+      useBackToOtherApiMutation();
+
+ if (!isOpen) return null; 
 
   const resetFilters = () => {
     setFilters({ exposure: 100, contrast: 100, invert: 0, sepia: 0 });
@@ -61,6 +69,17 @@ const XrayMobileImages = ({
     if (activeIndex > 0) setActiveIndex(activeIndex - 1);
   };
 
+
+  const handleBackToOtherList = async () => {
+    if (!patient_id) return;
+    try {
+      await backToOtherView({ _id: patient_id }).unwrap();
+      navigate("/doctor/patient");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const imageFilterStyle = {
     filter: `brightness(${filters.exposure}%) contrast(${filters.contrast}%) invert(${filters.invert}%) sepia(${filters.sepia}%)`,
   };
@@ -72,6 +91,15 @@ const XrayMobileImages = ({
     >
       <div className="">
         <div>
+
+          <Button
+            loading={isLoadingBack}
+            className="!bg-green-500 !h-auto mb-2"
+            onClick={handleBackToOtherList}
+          >
+            Back to Patient List
+          </Button>
+          
           <Text color="danger" size="2xl" fontWeight="medium">
             History: {history ?? ""}
           </Text>

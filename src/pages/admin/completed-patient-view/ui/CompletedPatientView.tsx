@@ -29,6 +29,8 @@ const CompletedPatientView = () => {
   const { data } = useGetAdminCompletedPatientQuery(patient_id as string);
   const comments = data?.data.comments?.comments;
   const doctorName = data?.data.completed_dr.email??"";
+  const checkedBy = data?.data?.checked_by?.email || "Not Checked Yet";
+  const is_checked = data?.data?.is_checked ?? false;
   const passault = data?.data.comments?.passault;
 
   const revisions = useMemo(() => {
@@ -50,6 +52,7 @@ const CompletedPatientView = () => {
     values: {
       passault: passault || "No",
       comments: comments || "",
+      is_checked: is_checked,
     },
   });
 
@@ -115,6 +118,7 @@ const CompletedPatientView = () => {
                     )}
                   />
                   <Text element="h2" className="text-lg mt-2">Completed By: {doctorName}</Text>
+                  <Text element="h2" className="text-lg mt-2">Checked By: {checkedBy}</Text>
 
                   <div className="mt-3">
                     <Controller
@@ -131,7 +135,23 @@ const CompletedPatientView = () => {
                       )}
                     />
                   </div>
+
+                  <div className="mt-3">
+                    <Controller
+                    control={form.control}
+                    name="is_checked"
+                    render={({ field }) => (
+                      <Checkbox
+                        checked={!!field.value}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                        label="Is Report Checked"
+                      />
+                    )}
+                  />
+                  </div>
                 </FormProvider>
+
+
                 <Button
                   size="size-2"
                   className="mt-3"

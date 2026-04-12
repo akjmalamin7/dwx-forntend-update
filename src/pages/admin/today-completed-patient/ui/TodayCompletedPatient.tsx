@@ -21,7 +21,9 @@ const TodayCompletedPatient = () => {
     isLoading,
     refetch,
   } = useGetAdminCompletedPatientListQuery({ page, limit, search });
+
   const totalPages = patientList?.pagination.totalPages || 1;
+  
   useServerSidePagination({
     totalPages,
     initialPage: page,
@@ -83,14 +85,17 @@ const TodayCompletedPatient = () => {
 
                 <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
 
-                {hasRevision  && ( 
-                    <Link
-                      to={`/admin/patient-revision/${record?.key}`}
-                      className="bg-yellow-500 text-white px-2 py-2 text-sm"
-                    >
-                      Rev
-                    </Link> 
-                  )}
+                <Link
+                    to={hasRevision ? `/admin/patient-revision/${record?.key}` : "#"}
+                    onClick={(e) => !hasRevision && e.preventDefault()}
+                    className={`px-2 py-2 text-sm text-white ${
+                      hasRevision
+                        ? "bg-yellow-500 hover:bg-yellow-600"
+                        : "bg-gray-400 cursor-not-allowed opacity-70"
+                    }`}
+                  >
+                    Rev
+                  </Link>
                       
                 </div>
                       );

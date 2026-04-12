@@ -44,8 +44,8 @@ export const formatEmails = (list?: EmailSource[] | null): string => {
 
   // 🔥 IMPORTANT CHANGE HERE
   if (emails.length > 2) {
-    return "Multiple";
+    return "<span class='text-xs'>" +"Multiple"+ "</span>";
   }
 
-   return emails.join(",");
+   return "<span class='text-xs'>" + emails.join(",") + "</span>";
 };

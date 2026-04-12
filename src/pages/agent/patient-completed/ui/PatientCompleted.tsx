@@ -57,7 +57,7 @@ const PatientCompleted = () => {
             minute: "2-digit",
             hour12: true,
           }) +
-          " <br/> " +
+          "<br/>" +
           new Date(item.completed_time).toLocaleString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -72,6 +72,7 @@ const PatientCompleted = () => {
         type: item.rtype,
         completed_time: item.completed_time,
         printstatus: item.printstatus || "Waiting",
+        is_checked: item.is_checked,
         action: "",
       })) || [],
     [mergedPatientData, limit, page],
@@ -82,7 +83,7 @@ const PatientCompleted = () => {
       return {
         ...item,
         render: (_: unknown, record?: DataSource, rowIndex?: number) => (
-          <div key={rowIndex}>
+          <div key={rowIndex} className="flex items-center gap-2 whitespace-nowrap">
             <Link
               to={`/agent/patient-view/${record?.key}`}
               className="bg-green-500 text-white px-2 py-1 rounded text-sm"
@@ -93,6 +94,7 @@ const PatientCompleted = () => {
             <PrintButton
               completedTime={record?.completed_time as string}
               recordKey={record?.key as string}
+              isChecked={record?.is_checked as boolean}
               delaySeconds={180}
             />
           </div>

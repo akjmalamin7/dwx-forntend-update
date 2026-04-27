@@ -16,12 +16,14 @@ export const useGetProfile = () => {
   });
 
   const profileStatus = data?.data?.status;
+  const profileEamil= data?.data?.email;
   const profileBillHide = data?.data?.hide_bill;
   const top_margin = data?.data?.top_margin ?? "2";
 
   return {
     profileData: data?.data,
     status: profileStatus,
+    email: profileEamil,
     hide_bill: profileBillHide,
     paddingTop: top_margin,
     isProfileLoading: isLoading,

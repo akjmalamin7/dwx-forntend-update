@@ -4,7 +4,7 @@ import type { WSMessage } from "../use-socket/schema";
 import { useSocket } from "../use-socket/useSocket";
 
 export const useActiveUser = () => {
-  const { status, refetch, profileData } = useGetProfile();
+  const { status,email, refetch, profileData } = useGetProfile();
   const { lastMessage } = useSocket<WSMessage>(
     import.meta.env.VITE_WS_URL,
     5000,
@@ -20,5 +20,6 @@ export const useActiveUser = () => {
 
   return {
     status,
+    email,
   };
 };

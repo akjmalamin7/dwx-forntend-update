@@ -1,13 +1,25 @@
-import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema";
+import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema"; 
+import { useActiveUser } from "@/shared/hooks/use-active-user"; 
 import { Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/date-format/dateTime";
 
 interface IProps {
   printPatient: PRINT_PATIENT;
-}
+} 
+ 
+
+
 const PrintPatientInfo = ({ printPatient }: IProps) => {
+  const { email } = useActiveUser();
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto"> 
+
+     {(email === "UDK" || email === "FARYAD") && (
+        <h1 className="mb-1   text-2xl uppercase text-center" contentEditable>
+          DEPARTMENT OF RADIOLOGY AND IMAGING
+        </h1>
+      )}
+
       <table className="w-[96%] border border-black mb-4">
         <tbody>
           <tr>

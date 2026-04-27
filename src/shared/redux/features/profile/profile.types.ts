@@ -17,7 +17,7 @@ export interface ProfileSchemaTypes {
   top_margin: string;
   ecg: number;
   is_default: "Yes" | "No";
-  hide_bill: "Yes" | "No";
+  hide_bill: "Yes" | "No" | string;
   soft_delete: "Yes" | "No";
   createdAt: string;
   updatedAt: string;

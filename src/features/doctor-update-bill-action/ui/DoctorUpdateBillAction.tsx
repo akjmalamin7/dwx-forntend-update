@@ -1,5 +1,5 @@
 import { useDoctorUpdateBillActionMutation } from "@/shared/redux/features/admin/doctor-update-bill-action/doctorUpdateBillAction";
-import { Select } from "@/shared/ui";
+import AdminSelect from "@/shared/ui/select/AdminSelect";
 import { useState } from "react";
 
 interface IProps {
@@ -38,7 +38,7 @@ const DoctorUpdateBillAction = ({ defaultValue, name, id }: IProps) => {
 
   return (
     <div>
-      <Select
+      <AdminSelect
         size="sm"
         value={currentValue}
         name={name}

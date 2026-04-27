@@ -6,14 +6,22 @@ import type { WSMessage } from "@/shared/hooks/use-socket/schema";
 import { useSocket } from "@/shared/hooks/use-socket/useSocket";
 import { useGetBillListQuery } from "@/shared/redux/features/agent/manage-bill/billListApi";
 import { useGetCustomerSettingsQuery } from "@/shared/redux/features/agent/settings/customerSettingsApi";
-import { Pagination, Panel, Search } from "@/shared/ui";
+import { Loader, Pagination, Panel, Search } from "@/shared/ui";
 import { Table } from "@/shared/ui/table";
 import type { DataSource } from "@/shared/ui/table/table.model";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { BILL_DATA_COL } from "./bill.data.col";
+import { useGetProfile } from "@/shared/hooks/use-get-profile/useGetProfile";
 
 const ManageBill = () => {
+
+    const { hide_bill, isProfileLoading } = useGetProfile();
+  
+    if (isProfileLoading) return <Loader />;
+  
+  
+
   const { data: BillList, isLoading, refetch } = useGetBillListQuery();
   const { data: settingsData } = useGetCustomerSettingsQuery();
   // Prepare data
@@ -114,6 +122,12 @@ const ManageBill = () => {
   }
   return (
     <Panel header="Manage Bill" size="lg">
+
+       {hide_bill === "Yes" ? (
+        <AgentFormError title="Please contact support." />
+      ) : (
+        <>
+        
       <div className="w-1/3">
         <Search
           value={searchQuery}
@@ -130,6 +144,8 @@ const ManageBill = () => {
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
+      )}
+       </>
       )}
     </Panel>
   );

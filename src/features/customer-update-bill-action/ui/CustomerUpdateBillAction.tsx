@@ -1,5 +1,6 @@
 import { useCustomerUpdateBillActionMutation } from "@/shared/redux/features/admin/update-customer-bill-action/updateCustomerBillAction";
-import { Select } from "@/shared/ui";
+ 
+import AdminSelect from "@/shared/ui/select/AdminSelect";
 import { useState } from "react";
 
 interface IProps {
@@ -34,7 +35,7 @@ const CustomerUpdateBillAction = ({ defaultValue, name, id }: IProps) => {
     }
   };
   return (
-    <Select
+    <AdminSelect
       size="sm"
       value={currentValue}
       name={name}

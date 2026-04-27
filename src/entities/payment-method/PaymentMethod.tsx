@@ -1,7 +1,9 @@
 import { Text } from "@/shared/ui"; 
-
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 type PaymentMethodType = {
   name: string;
+  details?: string;
   value: string;
 };
 
@@ -32,9 +34,11 @@ const PaymentMethod = ({ methods = [] }: IProps) => {
       {/* Right Box */}
       <div className="space-y-1 text-2xl">
         {rightBox.map((method) => (
-          <Text key={method.value} element="div" className="text-2xl">
-           {method.name} 
-          </Text>
+          <div key={method.value} className="text-2xl"> 
+            <Text key={method.details} element="div" className="text-2xl"> 
+              {parse(DOMPurify.sanitize(String(method.details ?? "")))}
+            </Text>
+            </div>
         ))}
       </div>
     </div>

@@ -75,6 +75,7 @@ const BillPrint = () => {
     return (
       paymentGetway?.data?.map((method) => ({
         name: `(${method.name})`,
+        details: method.details || "",
         value: method.name,
       })) ?? []
     );

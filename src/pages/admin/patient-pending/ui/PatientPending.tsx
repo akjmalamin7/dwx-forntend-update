@@ -135,7 +135,7 @@ const PatientPending = () => {
                   Rev
                 </Link>
               
-                <DeleteAdminPatient id={record?.key} onDeleteSuccess={refetch} />
+                <DeleteAdminPatient pname={`${record?.agent_name ?? ''} - ${record?.patient_name ?? ''}`} id={record?.key} onDeleteSuccess={refetch} />
               </div>
               );
     },

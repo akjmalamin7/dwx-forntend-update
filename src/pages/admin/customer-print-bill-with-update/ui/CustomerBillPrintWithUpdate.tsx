@@ -1,23 +1,23 @@
 import FOOTERPAD from "@/assets/images/footer.png"; 
 import { Button, Loader, Panel, PanelHeading, Text } from "@/shared/ui";
  
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BillPrintList } from "./bill-print-list"; 
 import { BillingPadHeader } from "./billing-pad-header";
-import { useGetCustomerBillDetailsQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
+import { useGetCustomerBillDetailsWithUpdateQuery } from "@/shared/redux/features/admin/manage-customer-bill/billListApi";
 import { BillingInformation } from "@/pages/agent/bill-print/ui/billing-information";
 import { PaymentMethod } from "@/entities"; 
 import { useMemo } from "react";
 import { useGetAdminPaymentGetwayListQuery } from "@/shared/redux/features/admin/payment-getway/paymentGetwayApi";
 import { usePageTitle } from "@/shared/hooks";
 
-const CustomerBillPrint = () => {
+const CustomerBillPrintWithUpdate = () => {
   const { bill_id } = useParams<{ bill_id: string }>();
   const {
     data: bill,
     isLoading: isBillLoading,
     isError: isBillError,
-  } = useGetCustomerBillDetailsQuery(bill_id!, { skip: !bill_id });
+  } = useGetCustomerBillDetailsWithUpdateQuery(bill_id!, { skip: !bill_id });
   const transformBill = bill?.data[0];
  
   const billingHeaderData = { 
@@ -105,21 +105,12 @@ const CustomerBillPrint = () => {
         header={<PanelHeading title="Print Customer Bill" button="" path="" />}
         size="lg"
       >
-        <div className="flex gap-4 mb-4 print:hidden">
-          <Button
-            onClick={handlePrint}
-            className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden pabelButton"
-          >
-            Print Bill
-          </Button>
-
-          <Link
-              to={`/admin/customer-print-bill-with-update/${bill_id}`}
-              className="bg-green-500 text-white px-4 py-1 text-sm rounded-md print:hidden" 
-            >
-              Bill Self Update and Print
-            </Link>
-        </div>
+        <Button
+          onClick={handlePrint}
+          className="block text-white px-4 py-1 cursor-pointer rounded-md print:hidden pabelButton"
+        >
+          Print Bill
+        </Button>
         {/* Table */}
         <BillingPadHeader billingHeader={billingHeaderData} />
         <BillPrintList billPrintList={billPrint} />
@@ -148,4 +139,4 @@ const CustomerBillPrint = () => {
   );
 };
 
-export default CustomerBillPrint;
+export default CustomerBillPrintWithUpdate;

@@ -45,6 +45,7 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
         return ADMIN_CUSTOMER_BILL_DOCTOR_TRANSFORM_RESPONSE(response);
       },
     }),
+
     getCustomerBillListByMonth: builder.query<
       ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL,
       { page?: number; limit?: number; search?: string; month?: string }
@@ -67,6 +68,32 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Bill"],
     }),
+
+    
+    getCustomerBillPaidByMonth: builder.query<
+      ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL,
+      { page?: number; limit?: number; search?: string; month?: string }
+    >({
+      query: ({ page = 1, limit = 10, search = "", month }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+        if (search) params.append("search", search); 
+        return {
+          url: `/admin/bill/paidbilllist/${month}?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (
+        response: ADMIN_CUSTOMER_BILL_REQUEST_API_RESPONSE
+      ) => {
+        return ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_RESPONSE(response);
+      },
+      providesTags: ["Bill"],
+    }),
+
+
     getCustomerBillRequestByMonth: builder.query<
       ADMIN_CUSTOMER_BILL_REQUEST_TRANSFORM_MODEL,
       { page?: number; limit?: number; search?: string; month?: string }
@@ -111,6 +138,7 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Bill"],
     }),
+
     getAdminBillHistory: builder.query<ADMIN_BILL_API_RESPONSE, string>({
       query: (userId) => ({
         url: `/admin/bill/billhistory/${userId}`,
@@ -123,6 +151,7 @@ export const AdminDoctorBillingApi = apiSlice.injectEndpoints({
 export const {
   useGetAdminDoctorBillingListQuery,
   useGetCustomerBillListByMonthQuery,
+  useGetCustomerBillPaidByMonthQuery,
   useGetCustomerBillRequestByMonthQuery,
   useGetCustomerTransactionHistoryQuery,
   useLazyGetAdminBillHistoryQuery,

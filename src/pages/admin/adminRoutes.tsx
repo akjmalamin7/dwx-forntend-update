@@ -91,6 +91,10 @@ export const adminRoutes = [
     element: withSuspense(<Pages.AdminCustomerPrintBill />),
   },
   {
+    path: "/admin/customer-print-bill-with-update/:bill_id",
+    element: withSuspense(<Pages.AdminCustomerPrintBillWithUpdate />),
+  },
+  {
     path: "/admin/customer-pay-bill/:bill_id",
     element: withSuspense(<Pages.AdminCustomerPayBill />),
   },
@@ -109,6 +113,10 @@ export const adminRoutes = [
   {
     path: "/admin/customer-bill-list/:month",
     element: withSuspense(<Pages.AdminCustomerBillList />),
+  },
+  {
+    path: "/admin/customer-bill-paid/:month",
+    element: withSuspense(<Pages.AdminCustomerBillPaid />),
   },
   {
     path: "/admin/customer-transection-history",

@@ -30,6 +30,12 @@ export const BillListApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getCustomerBillDetailsWithUpdate: builder.query({
+      query: (bill_id) => ({
+        url: `/admin/bill/printbillwithupdate/${bill_id}`,
+        method: "GET",
+      }),
+    }),
     addCustomerBillPay: builder.mutation({
       query: (data) => ({
         url: "/admin/bill",
@@ -41,5 +47,5 @@ export const BillListApi = apiSlice.injectEndpoints({
 
   }),
 });
-export const { useGetCustomerListdQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useAddCustomerBillPayMutation} = BillListApi;
+export const { useGetCustomerListdQuery, useGetCustomerBillListQuery, useGetCustomerBillDetailsQuery, useGetCustomerBillDetailsWithUpdateQuery, useAddCustomerBillPayMutation} = BillListApi;
  

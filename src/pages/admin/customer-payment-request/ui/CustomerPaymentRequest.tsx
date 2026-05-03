@@ -57,6 +57,14 @@ const ManageCustomerBillByMonth = () => {
             >
               View Request List
             </Link>
+
+            <Link
+              to={`/admin/customer-bill-paid/${record?.month}`}
+              className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
+            >
+              View Paid Bill List
+            </Link>
+
             
           </div>
         ),

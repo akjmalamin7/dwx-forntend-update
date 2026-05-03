@@ -14,7 +14,9 @@ export interface Columns<D extends DataSource = DataSource> {
 }
 export interface DataSource extends Record<PropertyKey, unknown> {
   key: string;
+  patient_name?: string;
   hasRevision?: boolean; 
+  [key: string]: unknown;
 }
 export interface TableProps extends React.ComponentProps<"div"> {
   scroll?: boolean;

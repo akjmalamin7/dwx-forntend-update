@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 interface IProps {
   id?: string;
+  pname?: string;
   onDeleteSuccess?: () => void;
 }
-const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
+const DeleteAdminPatient = ({ id,pname, onDeleteSuccess }: IProps) => {
    const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteAdminPatient, { isLoading }] = useDeleteAdminPatientMutation();
@@ -66,7 +67,7 @@ const DeleteAdminPatient = ({ id, onDeleteSuccess }: IProps) => {
           disabled={isLoading}
         >
           <Text>
-            Are you sure you want to proceed with this <strong> {id} </strong>
+            Are you sure you want to Delete <strong> {pname} </strong>
             action?
           </Text>
         </Modal>

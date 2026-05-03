@@ -20,7 +20,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
         </h1>
       )}
 
-      <table className="w-[96%] border border-black mb-4">
+      <table className="w-[98%] border border-black mb-4">
         <tbody>
           <tr>
             <td className="border border-black px-2 py-1 w-2/6 text-xl">
@@ -76,7 +76,7 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-2xl ">Sex: </strong>
               </Text>  
-              <span className="capitalize text-22px">{printPatient?.gender || "N/A"}</span>
+              <span className="capitalize text-20px">{printPatient?.gender || "N/A"}</span>
             </td>
           </tr>
           <tr>

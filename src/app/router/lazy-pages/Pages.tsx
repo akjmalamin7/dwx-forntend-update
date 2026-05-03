@@ -82,6 +82,9 @@ export const Pages = {
   AdminCustomerPrintBill: lazy(
     () => import("@/pages/admin/customer-print-bill"),
   ),
+  AdminCustomerPrintBillWithUpdate: lazy(
+    () => import("@/pages/admin/customer-print-bill-with-update"),
+  ),
   AdminCustomerPayBill: lazy(() => import("@/pages/admin/customer-pay-bill")),
   AdminCustomerUpdateBill: lazy(
     () => import("@/pages/admin/customer-bill-update"),
@@ -93,6 +96,7 @@ export const Pages = {
     () => import("@/pages/admin/customer-bill-request-list"),
   ),
   AdminCustomerBillList: lazy(() => import("@/pages/admin/customer-bill-list")),
+  AdminCustomerBillPaid: lazy(() => import("@/pages/admin/customer-bill-paid")),
   AdminCustomerTransactionHistory: lazy(
     () => import("@/pages/admin/customer-transaction-history"),
   ),

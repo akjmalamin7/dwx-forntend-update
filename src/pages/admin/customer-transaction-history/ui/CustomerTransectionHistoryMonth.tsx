@@ -51,6 +51,14 @@ const CustomerTransectionHistoryMonth = () => {
             >
               View
             </Link>
+
+            <Link
+                to={`/admin/customer-bill-paid/${record?.month}`}
+                className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
+              >
+                  Paid List
+              </Link>
+              
             
           </div>
         ),

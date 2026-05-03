@@ -78,6 +78,11 @@ const DataTable = ({
               { name: "80", value: "80" },
               { name: "90", value: "90" },
               { name: "100", value: "100" },
+              { name: "200", value: "200" },
+              { name: "400", value: "400" },
+              { name: "600", value: "600" },
+              { name: "1000", value: "1000" },
+              { name: "1500", value: "1500" },
             ]}
           />
         </div>

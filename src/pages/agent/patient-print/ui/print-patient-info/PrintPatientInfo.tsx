@@ -1,7 +1,9 @@
-import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema"; 
+import type { PRINT_PATIENT } from "@/entities/agent/agent-print-patient/model/schema";  
+import SelectReferenceDoctorPrint from "@/features/select-reference-doctor-print/ui/SelectReferenceDoctorPrint";
 import { useActiveUser } from "@/shared/hooks/use-active-user"; 
 import { Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/date-format/dateTime";
+import { useState } from "react";
 
 interface IProps {
   printPatient: PRINT_PATIENT;
@@ -11,6 +13,8 @@ interface IProps {
 
 const PrintPatientInfo = ({ printPatient }: IProps) => {
   const { email } = useActiveUser();
+  const [selectedDoctor, setSelectedDoctor] = useState<string>("");
+
   return (
     <div className="overflow-x-auto"> 
 
@@ -87,8 +91,30 @@ const PrintPatientInfo = ({ printPatient }: IProps) => {
             >
               <Text element="label" className="font-bold text-xl">
                 <strong className="text-xl ">Reference By: </strong>
-              </Text> 
-             <span> {printPatient?.ref_doctor || "N/A"}</span>
+              </Text>
+             <span> 
+             
+             {printPatient?.ref_doctor ? (
+                <span className="text-22px">{printPatient.ref_doctor}</span>
+              ) : (
+                <>
+                  {/* Show selected name — visible always */}
+                  {selectedDoctor && (
+                    <span className="text-22px">{selectedDoctor}</span>
+                  )}
+
+                  {/* Dropdown — hidden on print */}
+                  <span className="print:hidden hiden-reference-doctor-in">
+                    <SelectReferenceDoctorPrint
+                      onSelectedValue={(val) => setSelectedDoctor(val)}
+                    />
+                  </span>
+                </>
+              )}
+
+              
+
+             </span>
             </td>
           </tr>
         </tbody>

@@ -40,7 +40,7 @@ const ClonePatient = () => {
       history: patient?.history || "",
       xray_name: patient?.xray_name || "",
       ref_doctor: patient?.ref_doctor || "",
-      image_type: patient?.image_type || "Single",
+      image_type: patient?.image_type || "single",
     },
     mode: "onChange",
   });

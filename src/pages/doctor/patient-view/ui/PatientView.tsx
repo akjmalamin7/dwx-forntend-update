@@ -97,6 +97,7 @@ const PatientView = () => {
           history={patient?.history}
           age={patient?.age}
           patient_id={patient_id}
+          ref_doctor={patient?.ref_doctor}
           isDCM={isDCM}
           attachments={attachments}
           visible={visible}

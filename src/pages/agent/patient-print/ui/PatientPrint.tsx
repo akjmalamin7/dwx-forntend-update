@@ -48,25 +48,16 @@ const PatientPrint = () => {
   const xrayName = print_view?.data?.xray_name;
   const latestPassault = comments?.[0]?.passault;
   const passaultValue = latestPassault === "Yes" ? "Yes" : "";
-  /*const handlePrint = async () => {
-    if (!id) return;
-    try {
-      await updateAgentPatientPrintStatus(id).unwrap();
-
-      window.print();
-    } catch (error) {
-      console.error("Print status update failed:", error);
-      alert("Status update failed, but you can still try to print manually.");
-    }
-  }; */
+ 
     const handlePrint = useCallback(async () => {   // wrap in useCallback
       if (!id) return;
       try {
         await updateAgentPatientPrintStatus(id).unwrap();
         window.print();
       } catch (error) {
+        window.print();
         console.error("Print status update failed:", error);
-        alert("Status update failed, but you can still try to print manually.");
+       // alert("Status update failed, but you can still try to print manually.");
       }
     }, [id, updateAgentPatientPrintStatus]);
 

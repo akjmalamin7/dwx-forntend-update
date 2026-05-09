@@ -37,8 +37,7 @@ const ManageCustomerBillByMonth = () => {
     searchFields: ["email", "address"],
     rowsPerPage: 500,
   });
-
-  console.log("customerList", customerList);
+ 
   const COLUMN = DOCTOR_DATA_COL.map((item) => {
     if (item.key === "action") {
       return {

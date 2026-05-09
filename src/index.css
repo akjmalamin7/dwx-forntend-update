@@ -112,7 +112,8 @@ body{
       /* Hide toolbar */
   .jodit-toolbar,
   .jodit-toolbar-editor-collection,
-  .jodit-workplace__toolbar {
+  .jodit-workplace__toolbar,
+  .hiden-reference-doctor-in {
     display: none !important;
   }
 

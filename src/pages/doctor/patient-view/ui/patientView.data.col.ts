@@ -14,9 +14,9 @@ export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
   },
   {
     key: "age",
-    title: "AGe",
+    title: "Age",
     dataIndex: "age",
-  },
+  }, 
  {
   key: "date",
   title: "Date",
@@ -62,8 +62,8 @@ export const PATIENT_VIEW_DAT_COL: Columns<DataSource>[] = [
     dataIndex: "xray_name",
   },
   {
-    key: "reference_by",
-    title: "Reference By",
-    dataIndex: "reference_by",
+    key: "ref_doctor",
+    title: "Referring Doctor",
+    dataIndex: "ref_doctor",
   },
 ];

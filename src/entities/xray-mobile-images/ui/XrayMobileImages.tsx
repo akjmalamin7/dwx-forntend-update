@@ -18,6 +18,7 @@ interface XrayMobileModalProps {
   images: { src: string }[];
   activeIndex: number;
   history?: string;
+  ref_doctor?: string;
   age?: string;
   patient_id: string;
   setActiveIndex: (index: number) => void;
@@ -30,6 +31,7 @@ const XrayMobileImages = ({
   isUpdate,
   images,
   history,
+  ref_doctor,
   age,
   activeIndex,
   setActiveIndex,
@@ -105,6 +107,9 @@ const XrayMobileImages = ({
           </Text>
           <Text color="danger" size="2xl" fontWeight="medium">
             Age: {age ?? ""}
+          </Text>
+          <Text color="danger" size="2xl" fontWeight="medium">
+            Referring Doctor: {ref_doctor ?? ""}
           </Text>
         </div>
         <div className="flex justify-between items-center mb-4">

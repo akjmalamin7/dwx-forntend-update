@@ -65,7 +65,7 @@ const AdminUpdatePatientForm = () => {
         study_for: values?.study_for || "xray_dr", 
         gender: patient?.gender,
         ref_doctor: patient?.ref_doctor,
-        image_type: patient?.image_type || "Single",
+        image_type: patient?.image_type || "single",
       };
 
       console.log("Submitting data:", submitData);

@@ -16,6 +16,7 @@ interface CombineViewerProps {
   age?: string;
   isDCM?: boolean;
   patient_id?: string;
+  ref_doctor?: string;
   visible?: boolean;
   isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
@@ -27,6 +28,7 @@ const CombineViewer = ({
   isUpdate,
   age,
   history,
+  ref_doctor,
   patient_id = "",
   visible = false,
 
@@ -85,6 +87,7 @@ const CombineViewer = ({
         isOpen={visible}
         history={history}
         age={age}
+        ref_doctor={ref_doctor}
         onClose={() => setVisible?.(false)}
         images={original_urls ?? []}
         activeIndex={activeIndex}

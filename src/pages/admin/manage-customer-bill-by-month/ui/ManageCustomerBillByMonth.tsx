@@ -8,13 +8,15 @@ import type { DataSource } from "@/shared/ui/table/table.model";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CUSTOMER_DATA_COL } from "./manageCustomerBill.data.col";
+import BillStatusUpdate from "@/features/admin/bill-status-update/ui/BillStatusUpdate";
 
 const PatientArchive = () => {
 
   const { user_id } = useParams<{ user_id: string }>();
   const {
     data: billList,
-    isLoading
+    isLoading,
+    refetch
   } = useGetAdminCustomerBillQuery(user_id!, { skip: !user_id });
 
 
@@ -42,6 +44,7 @@ const PatientArchive = () => {
         })
           : "—",
         received_number: item.received_number,
+        bill_update: item.bill_update,
         action: "",
       })) || [],
     [billList]
@@ -99,6 +102,8 @@ const PatientArchive = () => {
             >
               Update
             </Link>
+
+             <BillStatusUpdate path={record?.key} bill_update={record?.bill_update as string} onDeleteSuccess={refetch} />
 
           </div>
            );

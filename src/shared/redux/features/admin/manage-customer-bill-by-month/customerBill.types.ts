@@ -13,6 +13,7 @@ export interface DOCTOR_BILL_MODEL {
   paid_amount: number | null;
   payment_date: string | null;
   received_number: string | null;
+  bill_update: string | null;
   status: string;
   trans_id: string | null;
   createdAt: string;
@@ -31,6 +32,7 @@ export interface DOCTOR_BILL_TRANSFORM_MODEL {
   paid_amount?: number | null;
   payment_date?: string | null;
   received_number?: string | null;
+  bill_update?: string | null;
 }
 
  
@@ -57,6 +59,7 @@ export const transformDoctorBillResponse = (
     paid_amount: item.paid_amount ?? null,
     payment_date: item.payment_date ?? null,
     received_number: item.received_number ?? null,
+    bill_update: item.bill_update ?? null,
   }));
 };
 

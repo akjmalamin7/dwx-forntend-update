@@ -54,6 +54,13 @@ export const CUSTOMER_DATA_COL: Columns<DataSource>[] = [
     align: "start",
     width: 100,
   },
+  { 
+    key: "bill_update",
+    title: "Bill Update",
+    dataIndex: "bill_update",
+    align: "start",
+    width: 100,
+  },
           
   {
     key: "action",

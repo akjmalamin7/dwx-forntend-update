@@ -55,16 +55,17 @@ const CustomerBillPrint = () => {
     total_patients: transformBill?.total_patients
       ? Number(transformBill.total_patients)
       : undefined,
-  }; 
+  };  
 
     const { data: paymentGetway } = useGetAdminPaymentGetwayListQuery();
   
     const paymnetMethod = useMemo(() => {
       return (
-        paymentGetway?.data?.map((method) => ({
-         // name: `${method.details} (${method.name})`,
-          name: ` (${method.name})`,
-          value: method.details,
+        paymentGetway?.data?.map((method) => ({  
+          name: `(${method.name})`,
+          details: method.details || "",
+          value: method.name,
+
         })) ?? []
       );
     }, [paymentGetway]);

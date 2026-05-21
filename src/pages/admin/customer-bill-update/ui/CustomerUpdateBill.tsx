@@ -67,7 +67,7 @@ const CustomerUpdateBill = () => {
           <div key={rowIndex} className="flex  float-right  gap-2">
             <Link
               to={`/admin/completed-patient-view/${record?.key}`}
-              className="bg-yellow-500 text-white px-2 py-1 text-sm"
+              className="bg-yellow-500 text-white  text-xs"
             >
               View 
             </Link> {record?.total_images ? `(${record.total_images})` : ""}
@@ -106,6 +106,7 @@ const CustomerUpdateBill = () => {
 
   return (
     <Panel header={`Update Customer Bill, Total= ${doctorList?.pagination.total || 0}`} size="lg">
+      <div className="update-customer-bill-table ">
       <DataTable
         isLoading={isLoading}
         column={COLUMN}
@@ -120,6 +121,7 @@ const CustomerUpdateBill = () => {
         limit={limit}
         setSearch={setSearch}
       />
+      </div>
     </Panel>
   );
 };

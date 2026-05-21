@@ -93,6 +93,10 @@ body{
   top: 0;
   z-index: 9999;
 }
+
+.update-customer-bill-table td{
+  padding: 1px;
+}
   @media(max-width: 1024px){
   #report-submission-form  .jodit-wysiwyg{
        min-height: 200px !important;

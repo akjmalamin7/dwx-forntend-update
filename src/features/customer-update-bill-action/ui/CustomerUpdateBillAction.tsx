@@ -41,7 +41,7 @@ const CustomerUpdateBillAction = ({ defaultValue, name, id }: IProps) => {
       name={name}
       onSelect={handleSelect}
       disabled={isLoading}
-      className="!h-[28px] !min-h-[28px] [&>*]:!h-[28px] [&>*]:!min-h-[28px]"
+      className="!h-[22px] !min-h-[22px] [&>*]:!h-[22px] [&>*]:!min-h-[22px]"
       options={[
         { name: "Single", value: "single" },
         { name: "Double", value: "double" },

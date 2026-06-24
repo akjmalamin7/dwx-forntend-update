@@ -64,6 +64,7 @@ const DoctorUpdateBill = () => {
         image_type: item.image_type,
         total_images: item.total_images,
         month: item.month,
+        patient_id: item.patient_id,
         action: "",
         view: "",
       })) || [],
@@ -79,7 +80,7 @@ const DoctorUpdateBill = () => {
             render: (_: unknown, record?: DataSource, rowIndex?: number) => (
               <div key={rowIndex} className="flex  float-right  gap-2">
                 <Link
-                  to={`/admin/completed-patient-view/${record?.key}`}
+                  to={`/admin/completed-patient-view/${record?.patient_id}`}
                   className="bg-yellow-500 text-white px-2 py-1 text-sm"
                 >
                   View 

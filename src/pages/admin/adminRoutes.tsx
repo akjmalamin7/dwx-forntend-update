@@ -1,5 +1,6 @@
 import { withSuspense } from "@/shared/ui";
 import { Pages } from "@/widgets";
+import { LoanRepaymentHistory } from "./loan-repayment-history";
 
 export const adminRoutes = [
   {
@@ -218,4 +219,48 @@ export const adminRoutes = [
     path: "/admin/settings",
     element: withSuspense(<Pages.AdminSetting />),
   },
+  {
+    path: "/admin/expence-list",
+    element: withSuspense(<Pages.ExpenceList />),
+  },
+  {
+    path: "/admin/expence-summery",
+    element: withSuspense(<Pages.ExpenseSummary />),
+  },
+  {
+    path: "/admin/expence-category",
+    element: withSuspense(<Pages.ExpenseCategory />),
+  },
+  {
+    path: "/admin/expence-add",
+    element: withSuspense(<Pages.AddExpense />),
+  },
+  {
+    path: "/admin/expence-list/:id",
+    element: withSuspense(<Pages.UpdateExpense />),
+  },
+  {
+    path: "/admin/loan",
+    element: withSuspense(<Pages.LoanList />),
+  },
+   
+  {
+    path: "/admin/loan/add",
+    element: withSuspense(<Pages.LoanAdd />),
+  },
+    {
+    path: "/admin/loan/detail/:employeeId",
+    element: withSuspense(<Pages.LoanDetail />),
+  },
+  {
+    path: "admin/loan/repay/:loanId",
+    element: withSuspense(<Pages.LoanRepay />),
+  },
+
+  {
+    path: "admin/loan/repay/history/:loanId",
+    element: withSuspense(<Pages.LoanRepaymentHistory />),
+  },
+   
+ 
 ];

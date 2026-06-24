@@ -74,3 +74,45 @@ export interface MenuType {
   role: RoleEnum[];
   children?: MenuDropDown[];
 }
+
+
+
+export const expenseFormSchema = yup.object({
+  category_id: yup.string().required("Category is required"),
+  title: yup.string().required("Title is required"),
+  amount: yup
+    .number()
+    .typeError("Amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Amount is required"),
+  month: yup.string().required("Month is required"),
+  note: yup.string().optional().default(""),
+  date: yup.string().optional().default(""),
+});
+
+export type ExpenseFormValues = yup.InferType<typeof expenseFormSchema>;
+
+
+export const loanFormSchema = yup.object({
+  employee_id: yup.string().required("Employee is required"),
+  total_loan: yup
+    .number()
+    .typeError("Amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Loan amount is required"),
+  note: yup.string().optional().default(""),
+});
+
+export type LoanFormValues = yup.InferType<typeof loanFormSchema>;
+
+export const repayFormSchema = yup.object({
+  loan_id: yup.string().required("Loan is required"),
+  amount: yup
+    .number()
+    .typeError("Amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Repay amount is required"),
+  note: yup.string().optional().default(""),
+});
+
+export type RepayFormValues = yup.InferType<typeof repayFormSchema>;

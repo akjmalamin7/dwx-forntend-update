@@ -13,8 +13,9 @@ interface IProps<TFieldValues extends FieldValues> {
   | "email"
   | "password"
   | "number"
-  | "file"
+  | "file" 
   | "hidden"
+  | "month"
   | "checkbox";
   label?: string;
   name: Path<TFieldValues>;

@@ -380,4 +380,50 @@ export const MENU_DATA: MenuType[] = [
     icon: "",
     path: "/admin/software-list",
   },
+  {
+    id: "admin-10",
+    role: [RoleEnum.admin],
+    title: "Expences",
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "expence-list-1",
+        title: "Expence List",
+        path: "/admin/expence-list",
+        role: [RoleEnum.admin],
+      },
+
+      {
+        id: "expence-summery-2",
+        title: "Expense Summary",
+        path: "/admin/expence-summery",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "expence-category-3",
+        title: "Expense Category",
+        path: "/admin/expence-category",
+        role: [RoleEnum.admin],
+      },
+      
+    ],
+  },
+  {
+    id: "admin-11",
+    role: [RoleEnum.admin],
+    title: "Loans",
+    icon: "",
+    path: "",
+    children: [
+      {
+        id: "loan-list-1",
+        title: "Loan List",
+        path: "/admin/loan",
+        role: [RoleEnum.admin],
+      }, 
+
+    ],
+  },
+
 ];

@@ -52,6 +52,11 @@ export const apiSlice = createApi({
     "DoctorPatientList",
     "PrintBillByMonth",
     "Settings",
+    "ExpenseCategory",
+    "Expense",
+    "ExpenseSummary",
+    "Loan", 
+  "LoanRepayment", 
   ],
   endpoints: () => ({}),
 });

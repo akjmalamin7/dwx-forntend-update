@@ -56,7 +56,12 @@ export const apiSlice = createApi({
     "Expense",
     "ExpenseSummary",
     "Loan", 
-  "LoanRepayment", 
+    "LoanRepayment", 
+    "IncomeCategory",
+    "Income",
+    "IncomeSummary",
+    "FinancialSummary",
+     "CashLedger",
   ],
   endpoints: () => ({}),
 });

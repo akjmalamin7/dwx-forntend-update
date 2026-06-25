@@ -1,6 +1,5 @@
 import { withSuspense } from "@/shared/ui";
-import { Pages } from "@/widgets";
-import { LoanRepaymentHistory } from "./loan-repayment-history";
+import { Pages } from "@/widgets"; 
 
 export const adminRoutes = [
   {
@@ -261,6 +260,48 @@ export const adminRoutes = [
     path: "admin/loan/repay/history/:loanId",
     element: withSuspense(<Pages.LoanRepaymentHistory />),
   },
+  {
+    path: "admin/income-list",
+    element: withSuspense(<Pages.IncomeList />),
+  },
+  {
+    path: "admin/income/add",
+    element: withSuspense(<Pages.AddIncome />),
+  },
+  {
+    path: "admin/income-list/:id",
+    element: withSuspense(<Pages.UpdateIncome />),
+  },
+  {
+    path: "admin/income/category",
+    element: withSuspense(<Pages.IncomeCategoryList />),
+  },
+  {
+    path: "admin/income/summary",
+    element: withSuspense(<Pages.IncomeSummary />),
+  },
+  {
+    path: "admin/dashboard/summary",
+    element: withSuspense(<Pages.FinancialSummaryWidget />),
+  },
+  {
+    path: "admin/cash-ledger/opening-balance",
+    element: withSuspense(<Pages.OpeningBalance />),
+  },
+  
+  {
+    path: "admin/cash-ledger/manual-entry",
+    element: withSuspense(<Pages.ManualEntry />),
+  },
+  {
+    path: "admin/cash-ledger/balance",
+    element: withSuspense(<Pages.CashBalanceDashboard />),
+  },
+  {
+    path: "admin/cash-ledger/history",
+    element: withSuspense(<Pages.CashLedgerHistory />),
+  },
+  
    
  
 ];

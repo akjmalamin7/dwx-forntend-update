@@ -13,6 +13,7 @@ export interface InputProps {
     | "hidden"
     | "range"
     | "date"
+    | "month"
     | "checkbox";
   radius?: "sm" | "md" | "lg";
   color?: "dark" | "light";

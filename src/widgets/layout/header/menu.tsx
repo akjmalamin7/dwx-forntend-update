@@ -383,17 +383,41 @@ export const MENU_DATA: MenuType[] = [
   {
     id: "admin-10",
     role: [RoleEnum.admin],
-    title: "Expences",
+    title: "Office Work",
     icon: "",
     path: "",
     children: [
+      
+
+
+      // ---------- Income ----------
+      {
+        id: "income-list-1",
+        title: "Income List",
+        path: "/admin/income-list",
+        role: [RoleEnum.admin],
+      },
+      
+      {
+        id: "income-summery-3",
+        title: "Income Summary",
+        path: "/admin/income/summary",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "income-category-4",
+        title: "Income Category",
+        path: "/admin/income/category",
+        role: [RoleEnum.admin],
+      },
+
+       // ---------- Expense ----------
       {
         id: "expence-list-1",
         title: "Expence List",
         path: "/admin/expence-list",
         role: [RoleEnum.admin],
       },
-
       {
         id: "expence-summery-2",
         title: "Expense Summary",
@@ -406,23 +430,54 @@ export const MENU_DATA: MenuType[] = [
         path: "/admin/expence-category",
         role: [RoleEnum.admin],
       },
-      
-    ],
-  },
-  {
-    id: "admin-11",
-    role: [RoleEnum.admin],
-    title: "Loans",
-    icon: "",
-    path: "",
-    children: [
+
+
+      // ---------- Loan ----------
       {
         id: "loan-list-1",
         title: "Loan List",
         path: "/admin/loan",
         role: [RoleEnum.admin],
-      }, 
+      },
 
+
+
+     
+       
+      // ---------- Cash Ledger ----------
+      {
+        id: "cash-ledger-balance-1",
+        title: "Cash Balance",
+        path: "/admin/cash-ledger/balance",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "cash-ledger-manual-2",
+        title: "Manual Deposit/Withdraw",
+        path: "/admin/cash-ledger/manual-entry",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "cash-ledger-history-3",
+        title: "Cash Ledger History",
+        path: "/admin/cash-ledger/history",
+        role: [RoleEnum.admin],
+      },
+      {
+        id: "cash-ledger-opening-4",
+        title: "Opening Balance",
+        path: "/admin/cash-ledger/opening-balance",
+        role: [RoleEnum.admin],
+      },
+
+      //Financial Summary
+      {
+        id: "financial-summary-1",
+        title: "Financial Summary",
+        path: "/admin/dashboard/summary",
+        role: [RoleEnum.admin],
+      },
+      
     ],
   },
 

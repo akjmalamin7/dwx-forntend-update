@@ -116,3 +116,47 @@ export const repayFormSchema = yup.object({
 });
 
 export type RepayFormValues = yup.InferType<typeof repayFormSchema>;
+
+
+export const incomeFormSchema = yup.object({
+  category_id: yup.string().required("Category is required"),
+  title: yup.string().required("Title is required"),
+  amount: yup
+    .number()
+    .typeError("Amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Amount is required"),
+  month: yup.string().required("Month is required"),
+  note: yup.string().optional().default(""),
+  date: yup.string().optional().default(""),
+});
+
+export type IncomeFormValues = yup.InferType<typeof incomeFormSchema>;
+
+
+
+export const openingBalanceSchema = yup.object({
+  amount: yup
+    .number()
+    .typeError("Amount must be a number")
+    .min(0, "Amount cannot be negative")
+    .required("Amount is required"),
+  note: yup.string().optional().default(""),
+});
+
+export type OpeningBalanceFormValues = yup.InferType<typeof openingBalanceSchema>;
+
+export const manualEntrySchema = yup.object({
+  type: yup
+    .mixed<"manual_deposit" | "manual_withdraw">()
+    .oneOf(["manual_deposit", "manual_withdraw"])
+    .required("Type is required"),
+  amount: yup
+    .number()
+    .typeError("Amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Amount is required"),
+  note: yup.string().optional().default(""),
+});
+
+export type ManualEntryFormValues = yup.InferType<typeof manualEntrySchema>;

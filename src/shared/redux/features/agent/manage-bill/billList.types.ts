@@ -7,6 +7,8 @@ export interface BILL_USER {
   id: string;
   name: string; 
   address: string; 
+  email?: string;    
+  phone?: string; 
   
 }
 export interface BILL_MODEL {

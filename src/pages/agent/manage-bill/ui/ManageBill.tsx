@@ -31,24 +31,37 @@ const ManageBill = () => {
     const now = new Date();
     return `${now.getFullYear()}-${now.getMonth() + 1}`; // 👈 e.g. "2026-3"
   }, []);
+const DATA_TABLE = useMemo(() => {
+  const sorted =
+    BillList?.slice() // don't mutate original
+      .sort((a, b) => {
+        const [aYear, aMonth] = a.month.split("-").map(Number);
+        const [bYear, bMonth] = b.month.split("-").map(Number);
+        return bYear !== aYear ? bYear - aYear : bMonth - aMonth;
+      }) || [];
 
-  const DATA_TABLE = useMemo(
-    () =>
-      BillList?.slice() // don't mutate original
-        .sort((a, b) => {
-          const [aYear, aMonth] = a.month.split("-").map(Number);
-          const [bYear, bMonth] = b.month.split("-").map(Number);
-          return bYear !== aYear ? bYear - aYear : bMonth - aMonth;
-        })
-        .map((item, index) => ({
-          key: item._id,
-          sl: index + 1,
-          month: item.month,
-          status: item.month === currentMonth ? "Preparing" : item.status,
-          action: "",
-        })) || [],
-    [BillList],
-  );
+  let paidShown = false;
+
+  return sorted
+    .reduce<typeof sorted>((acc, item) => {
+      const status = item.month === currentMonth ? "Preparing" : item.status;
+
+      if (status === "Paid") {
+        if (paidShown) return acc; // hide all but the first (most recent) Paid bill
+        paidShown = true;
+      }
+
+      acc.push({ ...item, status });
+      return acc;
+    }, [])
+    .map((item, index) => ({
+      key: item._id,
+      sl: index + 1,
+      month: item.month,
+      status: item.status,
+      action: "",
+    }));
+}, [BillList, currentMonth]);
 
   const {
     searchQuery,

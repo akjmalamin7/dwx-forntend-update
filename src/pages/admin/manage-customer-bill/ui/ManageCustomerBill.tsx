@@ -80,7 +80,7 @@ const ManageCustomerBillByMonth = () => {
             <Link
               to={`/admin/manage-customer-bill-month/${record?.key}`}
               className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
-              target="_blank"
+             
               onClick={() => {
               const now = new Date().toLocaleString("en-GB", {
                 day: "2-digit",

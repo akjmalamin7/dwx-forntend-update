@@ -7,6 +7,7 @@ export interface BILL_USER {
   ecg: number;
   email: string;
   id: string;
+  user_id?: string;
 }
 export interface DoctorBillPayFormValues {
   total_bill: string;

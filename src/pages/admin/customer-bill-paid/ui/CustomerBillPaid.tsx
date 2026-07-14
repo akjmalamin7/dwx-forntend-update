@@ -133,7 +133,7 @@ const CustomerBillPaid = () => {
                 <Link
                   to={`/admin/customer-print-bill/${record?.key}`}
                   className="bg-green-500 text-white px-4 py-1 text-sm rounded"
-                  target='_blank'
+                  
                 >
                   Print
                 </Link>

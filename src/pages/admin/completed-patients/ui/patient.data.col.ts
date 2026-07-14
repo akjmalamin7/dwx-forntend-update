@@ -84,6 +84,6 @@ export const PATIENT_DATA_COL: Columns<DataSource>[] = [
     title: "Action",
     dataIndex: "action",
     align: "end", 
-    width: 210,
+    width: 150,
   },
 ];

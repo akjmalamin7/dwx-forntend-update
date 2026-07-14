@@ -1,5 +1,16 @@
 import React from "react";
 
+
+export type TextColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "danger"
+  | "warning"
+  | "dark"
+  | "white";
+  
+
 interface TextProps {
   isEditable?: boolean;
   children?: React.ReactNode;
@@ -17,19 +28,14 @@ interface TextProps {
     | "strong"
     | "label"
     | "del";
-  color?:
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "danger"
-    | "warning"
-    | "dark"
-    | "white";
+    color?: TextColor; 
   textAlign?: "start" | "center" | "end";
   fontWeight?: "regular" | "medium" | "semiBold" | "bold";
   textDecoration?: "underline" | "overline" | "line-through" | "none";
   className?: string;
 }
+ 
+  
 
 const Text = ({
   element = "p",

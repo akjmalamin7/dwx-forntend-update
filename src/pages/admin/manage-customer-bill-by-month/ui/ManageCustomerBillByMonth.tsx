@@ -26,6 +26,7 @@ const PatientArchive = () => {
    }, [])
 
 
+
   const DATA_TABLE = useMemo(
     () =>
       billList?.map((item, index) => ({
@@ -33,7 +34,7 @@ const PatientArchive = () => {
         sl: index + 1,
         month: item.month,
         user_id: item.user_id, 
-        total_amount: item.total_amount,
+        total_amount: item.total_amount ? Number(((item.total_amount || 0) * 1.018).toFixed(0)) : undefined,
         total_patients: item.total_patients,
         status: item.month === currentMonth ? "Preparing" : item.status,
         paid_amount: item.paid_amount,
@@ -82,7 +83,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-print-bill/${record?.key}`}
               className="bg-green-500 text-white px-4 py-1 text-sm rounded"
-                target='_blank'
+                
             >
               Print
             </Link>
@@ -90,7 +91,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-pay-bill/${record?.key}`}
               className="bg-blue-500 text-white px-4 py-1 text-sm rounded"
-              target='_blank'
+               
             >
               Pay
             </Link>
@@ -98,7 +99,7 @@ const PatientArchive = () => {
             <Link
               to={`/admin/customer-update-bill/?userId=${record?.user_id}&month=${record?.month}`}
               className="bg-yellow-500 text-white px-4 py-1 text-sm rounded"
-                target='_blank'
+                
             >
               Update
             </Link>

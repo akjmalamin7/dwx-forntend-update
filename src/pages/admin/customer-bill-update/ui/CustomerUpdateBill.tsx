@@ -75,7 +75,7 @@ const CustomerUpdateBill = () => {
         ),
       };
     }
-
+ 
     if (item.key === "action") {
       return {
         ...item,

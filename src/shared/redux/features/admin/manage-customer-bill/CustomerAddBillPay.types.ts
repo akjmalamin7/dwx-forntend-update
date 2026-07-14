@@ -4,9 +4,10 @@ export interface BILL_USER {
   single: number;
   double: number;
   multiple: number;
-  ecg: number;
-  email: string;
+  ecg: number; 
   id: string;
+  email?: string;    
+  phone?: string; 
 }
 export interface CustomerBillPayFormValues {
   total_bill: number;
@@ -24,7 +25,7 @@ export const ADD_CUSTOMER_BILL_PAY_SCHEMA = yup.object({
   total_bill: yup.number().required("Total Amount is required"),
   month: yup.string().required("Bill Month is required"),
   trans_id: yup.string().optional().default(""),
-  received_number: yup.string().optional().default(""),
+  received_number: yup.string().required("Received Number is required"),
   status: yup.string().required("Status is required"),
   honorarium: yup.string().optional().default(""),
   honorarium_to: yup.string().optional().default(""),

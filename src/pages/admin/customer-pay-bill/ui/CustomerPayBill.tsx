@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
 import { useGetPaymentListQuery } from "@/shared/redux/features/admin/payment/paymentApi";
-import { useMemo } from "react"; 
+import { useEffect, useMemo } from "react"; 
 import toast, { Toaster } from "react-hot-toast";
 
 const CustomerPayBill = () => {
@@ -56,7 +56,7 @@ const CustomerPayBill = () => {
     to: transformBill?.user_id?.email || "N/A",
     status: transformBill?.status || "Pending",
   };
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit,watch,setValue  } = useForm({
     mode: "onChange",
     resolver: yupResolver(ADD_CUSTOMER_BILL_PAY_SCHEMA),
     values: {
@@ -70,6 +70,17 @@ const CustomerPayBill = () => {
       status: transformBill?.status || "",
     },
   });
+
+  const totalBill = watch("total_bill");
+const paidAmount = watch("paid_amount");
+
+useEffect(() => {
+  const total = Number(totalBill) || 0;
+  const paid = Number(paidAmount) || 0;
+  const honorarium = Math.max(total - paid, 0); // avoid negative values
+  setValue("honorarium", honorarium, { shouldValidate: true });
+}, [totalBill, paidAmount, setValue]);
+
 
   const [createBillPayment, { isLoading }] = useAddCustomerBillPayMutation();
 
@@ -164,14 +175,7 @@ const CustomerPayBill = () => {
               />
 
               
-              {/* honorarium   */}
-              {/* <ControlInput
-                control={control}
-                size="sm"
-                label="Honorarium Amount"
-                placeholder="honorarium"
-                name="honorarium_to"
-              /> */}
+            
 
               <ControlInput
                 control={control}

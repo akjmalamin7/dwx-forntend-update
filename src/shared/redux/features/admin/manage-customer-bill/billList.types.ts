@@ -3,11 +3,12 @@ export interface BILL_USER {
   single: number;
   double: number;
   multiple: number;
-  ecg: number;
-  email: string;
+  ecg: number; 
   name: string;
   address: string;
   id: string;
+  email?: string;    
+  phone?: string;  
 }
 export interface BILL_MODEL {
   _id: string;
@@ -22,6 +23,7 @@ export interface BILL_MODEL {
   total_amount: string;
   paid_amount: string;
   status: string;
+  
 }
 
 export interface BILL_TRANSFORM_MODEL {

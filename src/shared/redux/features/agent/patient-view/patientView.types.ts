@@ -47,6 +47,7 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   xray_name: string;
   ref_doctor: string;
   image_type: "multiple" | "double" | "single";
+  agent_id: string;
 }
 export interface PATIENT_IMAGE_ITEM_MODEL {
   _id: string;
@@ -107,6 +108,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     _id: patient._id,
     name: patient.name,
     patient_id: patient.patient_id,
+    agent_id: patient.agent_id,
     age: patient.age,
     createdAt: patient.createdAt,
     history: patient.history,

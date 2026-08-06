@@ -16,6 +16,7 @@ interface CombineViewerProps {
   age?: string;
   isDCM?: boolean;
   patient_id?: string;
+  agent_id?: string;
   visible?: boolean;
   isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
@@ -26,6 +27,7 @@ const CombineViewerUpdate = ({
   commentsAndPassault,
   isUpdate,
   age,
+  agent_id,
   history,
   patient_id = "",
   visible = false,
@@ -92,6 +94,7 @@ const CombineViewerUpdate = ({
         patient_id={patient_id}
         commentsAndPassault={commentsAndPassault}
         isUpdate={isUpdate}
+        agent_id={agent_id}  
       />
     </>
   );

@@ -19,6 +19,7 @@ interface CombineViewerProps {
   isDCM?: boolean;
   patient_id?: string;
   status?: string;
+  agent_id?: string;
   visible?: boolean;
   isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
@@ -33,7 +34,7 @@ const AdminCombineViewer = ({
   patient_id = "",
   visible = false,
   status,
-
+  agent_id,
   setVisible,
 }: CombineViewerProps) => {
   const { role } = useAuth();
@@ -102,6 +103,7 @@ const AdminCombineViewer = ({
         patient_id={patient_id}
         commentsAndPassault={commentsAndPassault}
         isUpdate={isUpdate}
+        agent_id={agent_id}  
       />
     </>
   );

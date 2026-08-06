@@ -29,11 +29,13 @@ export interface PATIENT_VIEW_MODEL {
   id: string;
   attachments?: string[][];
   comments?: PATIENT_COMMENT_MODEL[];
+  
 }
 
 export interface PATIENT_VIEW_TRANSFORM_MODEL {
   _id: string;
   name: string;
+  agent_id: string;
   patient_id: string;
   age: string;
   createdAt: string;
@@ -42,7 +44,7 @@ export interface PATIENT_VIEW_TRANSFORM_MODEL {
   gender: string;
   xray_name: string;
   ref_doctor: string;
-  rtype: string;
+  rtype: string;  
 }
 export interface PATIENT_IMAGE_ITEM_MODEL {
   _id: string;
@@ -133,6 +135,7 @@ export const TRANSFORM_PATIENT_VIEW_RESPONSE = (
     xray_name: patient.xray_name,
     rtype: patient.rtype,
     ref_doctor: patient.ref_doctor,
+    agent_id: patient.agent_id,
   };
 
   return {

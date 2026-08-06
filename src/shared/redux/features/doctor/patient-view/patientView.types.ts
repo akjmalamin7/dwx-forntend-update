@@ -37,6 +37,7 @@ export interface PATIENT_VIEW_MODEL {
 export interface PATIENT_VIEW_TRANSFORM_MODEL {
   _id: string;
   name: string;
+  agent_id: string;
   patient_id: string;
   doctor_id: DoctorID[];
   ignore_dr: DoctorID[];

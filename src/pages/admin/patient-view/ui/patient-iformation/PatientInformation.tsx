@@ -51,6 +51,7 @@ const PatientInformation = () => {
 
   const patientStatus = patient?.status || "pending"; 
  
+
   return (
     <div className="flex flex-col gap-8">
       <div className="w-full">
@@ -73,6 +74,7 @@ const PatientInformation = () => {
           visible={visible}
           setVisible={setVisible}
           status={patientStatus}
+          agent_id={patient?.agent_id?._id}
         />
       
         {revisions && revisions.length > 0 && (

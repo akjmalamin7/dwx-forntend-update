@@ -137,6 +137,7 @@ const CompletedPatientView = () => {
         commentsAndPassault={viewData}
         isUpdate
         setVisible={setVisible}
+        agent_id={patient?.agent_id}
       />
 
       {/* <ReportSubmissionForm

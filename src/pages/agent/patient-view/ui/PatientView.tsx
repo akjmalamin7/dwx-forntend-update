@@ -36,6 +36,7 @@ const PatientView = () => {
         sex: patient.gender || "N/A",
         xray_name: patient.xray_name || "N/A",
         reference_by: patient.ref_doctor || "N/A",
+        agent_id: patient.agent_id,
       },
     ];
   }, [patient]);
@@ -84,6 +85,7 @@ const PatientView = () => {
         attachments={attachments}
         visible={visible}
         setVisible={setVisible}
+        agent_id={patient?.agent_id}
       />
 
       {/* Image Viewer Section */}

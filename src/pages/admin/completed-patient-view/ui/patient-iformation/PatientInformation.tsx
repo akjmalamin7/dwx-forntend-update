@@ -74,6 +74,7 @@ const PatientInformation = () => {
                   visible={visible}
                   setVisible={setVisible}
                   status={patientStatus}
+                  agent_id={patient?.agent_id?._id}
                 />
 
       </div>

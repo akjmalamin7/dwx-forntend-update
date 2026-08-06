@@ -2,7 +2,7 @@ import { ReportSubmissionForm } from "@/entities";
 import { useAuth } from "@/shared/hooks";
 import { useBackToOtherApiMutation } from "@/shared/redux/features/doctor/patient-view/patientViewApi";
 import { Button, Input, Text } from "@/shared/ui";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -11,6 +11,11 @@ interface GetCommentsAndPassaultType {
   passault?: string;
   comments?: string;
 }
+
+const SPECIAL_AGENT_IDS = new Set([
+  "686b97776658327a7cdcf463",
+])
+
 interface XrayMobileModalProps {
   isOpen: boolean;
   commentsAndPassault?: GetCommentsAndPassaultType;
@@ -20,6 +25,7 @@ interface XrayMobileModalProps {
   history?: string;
   ref_doctor?: string;
   age?: string;
+  agent_id?: string;
   patient_id: string;
   setActiveIndex: (index: number) => void;
   onClose: () => void;
@@ -33,6 +39,7 @@ const XrayMobileImages = ({
   history,
   ref_doctor,
   age,
+  agent_id,
   activeIndex,
   setActiveIndex,
   patient_id,
@@ -47,7 +54,11 @@ const XrayMobileImages = ({
     sepia: 0,
   });
 
- 
+ useEffect(() => {
+  if (agent_id && SPECIAL_AGENT_IDS.has(agent_id)) {
+    setFilters((prev) => ({ ...prev, invert: 100 }));
+  }
+}, [agent_id]);
   
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,7 +96,7 @@ const XrayMobileImages = ({
   const imageFilterStyle = {
     filter: `brightness(${filters.exposure}%) contrast(${filters.contrast}%) invert(${filters.invert}%) sepia(${filters.sepia}%)`,
   };
-
+  
   return createPortal(
     <div
       className="fixed inset-0 bg-white z-[9999] flex flex-col overflow-y-auto p-5"

@@ -102,6 +102,7 @@ const PatientView = () => {
           attachments={attachments}
           visible={visible}
           setVisible={setVisible}
+          agent_id={patient?.agent_id}
         />
       </div>
     </Panel>

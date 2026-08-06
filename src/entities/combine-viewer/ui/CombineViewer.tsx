@@ -5,7 +5,7 @@ import XrayMobileImages from "@/entities/xray-mobile-images/ui/XrayMobileImages"
 import { useAuth } from "@/shared/hooks";
 import type { PATIENT_IMAGE_ITEM_MODEL } from "@/shared/redux/features/agent/patient-view/patientView.types";
 import { useMemo, useState } from "react";
-interface GetCommentsAndPassaultType {
+interface GetCommentsAndPassaultType { 
   passault?: string;
   comments?: string;
 }
@@ -17,6 +17,7 @@ interface CombineViewerProps {
   isDCM?: boolean;
   patient_id?: string;
   ref_doctor?: string;
+  agent_id?: string; 
   visible?: boolean;
   isUpdate?: boolean;
   setVisible?: (visible: boolean) => void;
@@ -28,8 +29,9 @@ const CombineViewer = ({
   isUpdate,
   age,
   history,
-  ref_doctor,
+  ref_doctor, 
   patient_id = "",
+  agent_id,
   visible = false,
 
   setVisible,
@@ -85,7 +87,7 @@ const CombineViewer = ({
 
       <XrayMobileImages
         isOpen={visible}
-        history={history}
+        history={history} 
         age={age}
         ref_doctor={ref_doctor}
         onClose={() => setVisible?.(false)}
@@ -95,6 +97,7 @@ const CombineViewer = ({
         patient_id={patient_id}
         commentsAndPassault={commentsAndPassault}
         isUpdate={isUpdate}
+        agent_id={agent_id}  
       />
     </>
   );

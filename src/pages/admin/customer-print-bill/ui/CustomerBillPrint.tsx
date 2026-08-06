@@ -116,7 +116,7 @@ const CustomerBillPrint = () => {
 
           <Link
               to={`/admin/customer-print-bill-with-update/${bill_id}`}
-              className="bg-green-500 text-white px-4 py-1 text-sm rounded-md print:hidden"  style={{ display: "none" }}
+              className="bg-green-500 text-white px-4 py-1 text-sm rounded-md print:hidden"  
             >
               Bill Self Update and Print
             </Link>

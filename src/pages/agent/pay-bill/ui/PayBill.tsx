@@ -1,5 +1,5 @@
 import { PaymentMethod } from "@/entities";
-import { usePageTitle } from "@/shared/hooks"; 
+import { useAuth, usePageTitle } from "@/shared/hooks"; 
 import {
   BillPayFormschema,
   type BillPayFormValues,
@@ -26,6 +26,7 @@ import { useInitOnlinePaymentMutation } from "@/shared/redux/features/agent/onli
 
 
 const formatMonthLabel = (monthStr?: string): string => {
+ 
   if (!monthStr) return "";
   const [year, month] = monthStr.split("-");
   const monthNames = [
@@ -37,6 +38,7 @@ const formatMonthLabel = (monthStr?: string): string => {
 };
 
 const PayBill = () => { 
+  const { user } = useAuth(); 
   const { month } = useParams<{ month: string }>();
   const {
     data,
@@ -171,19 +173,22 @@ const PayBill = () => {
       >
         <BillInfo bill={bill} />
 
-        {/* ⬅️ নতুন: Pay with Online বাটন */}
-        <div className="mt-4 mb-2 flex justify-end" style={{ display: "none" }}>
-          <Button
-            color="dark"
-            size="size-2"
-            type="button"
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            loading={isOnlineLoading}
-            onClick={handlePayOnline}
-          >
-            {isOnlineLoading ? "Redirecting..." : "Pay with Online"}
-          </Button>
-        </div>
+        {user?.id === "66f103524fc8e6a0217abe24" && (
+          <div className="mt-4 mb-2 flex justify-end">
+            <Button
+              color="dark"
+              size="size-2"
+              type="button"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              loading={isOnlineLoading}
+              onClick={handlePayOnline}
+            >
+              {isOnlineLoading ? "Redirecting..." : "Pay with Online"}
+            </Button>
+          </div>
+        )}
+
+
 
         <div className="flex mt-16 gap-6">
           <div className="w-full md:w-1/2">

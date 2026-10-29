@@ -92,13 +92,15 @@ const CustomerBillList = () => {
         const customerRecord = record as CustomerBillRow;  
         const isPending = record?.status === "Pending"; 
         const hasAmount = Number(record?.total_amount) > 0;
-        const hasPendingHistory = !!(customerRecord as any)?.hasPendingHistory;
-        
+       const hasPendingHistory = !!customerRecord?.hasPendingHistory;
+          
+       // const hasDueBill = hasAmount && record?.status !== "Paid";
 
         //if (!hasAmount) return null;
           return (
             <div key={rowIndex} className="flex gap-2">
               <BillHistory
+              
                 buttonAction={hasPendingHistory}
                 userId={customerRecord.user_id?._id}
               />

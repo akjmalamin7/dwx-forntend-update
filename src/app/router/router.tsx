@@ -12,8 +12,20 @@ import RoleBasedHome from "./role-base-home/roleBaseHome";
 const publicRoutes = {
   element: withSuspense(<PublicRoutes />),
   children: [
-    { path: "/login", element: <Pages.Login /> },
+    { path: "/login", element: <Pages.Login /> }, 
     { path: "/unauthorized", element: <Pages.Unauthorized /> },
+    { path: "*", element: <h1>Not Found</h1> },
+  ],
+};
+
+
+// Open to everyone, logged in or not
+const openRoutes = {
+  children: [
+    { path: "/about-us", element: withSuspense(<Pages.Aboutus />) },
+    { path: "/privacy-policy", element: withSuspense(<Pages.PrivacyPolicy />) },
+    { path: "/terms-and-conditions", element: withSuspense(<Pages.TermsAndConditions />) },
+    { path: "/refund-policy", element: withSuspense(<Pages.RefundPolicy />) },
     { path: "*", element: <h1>Not Found</h1> },
   ],
 };
@@ -56,4 +68,4 @@ const privateRoutes = {
   ],
 };
 
-export const router = createBrowserRouter([publicRoutes, privateRoutes]);
+export const router = createBrowserRouter([publicRoutes, openRoutes, privateRoutes]);

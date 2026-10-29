@@ -59,14 +59,14 @@ const ContactInfo = () => {
       </ul>
 
       <div className="mt-3 space-x-3 text-blue-600">
-        <Link to="#" className="hover:underline">
+        <Link to="/about-us" className="hover:underline">
           About us
         </Link>
-        <Link to="#" className="hover:underline">
+        <Link to="/about-us/#contact" className="hover:underline">
           Contact us
         </Link>
-        <Link to="#" className="hover:underline">
-          Privacy policy
+        <Link to="/refund-policy" className="hover:underline">
+          Refund policy
         </Link>
       </div>
     </div>

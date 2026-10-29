@@ -2,6 +2,10 @@ import { lazy } from "react";
 
 export const Pages = {
   Login: lazy(() => import("@/pages/login")),
+  Aboutus: lazy(() => import("@/pages/about-us")),
+  PrivacyPolicy: lazy(() => import("@/pages/privacy-policy")),
+  TermsAndConditions: lazy(() => import("@/pages/terms-and-conditions")),
+  RefundPolicy: lazy(() => import("@/pages/return-refund")),
   Unauthorized: lazy(() => import("@/pages/unauthorized")),
   Patients: lazy(() => import("@/pages/patients")),
   ViewPatient: lazy(() => import("@/pages/agent/patient-view")),

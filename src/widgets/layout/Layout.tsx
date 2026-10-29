@@ -6,14 +6,29 @@ import { Outlet } from "react-router-dom";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import ScrollToTop from "./ScrollToTop";
+import { useAuth } from "@/shared/hooks";
 
 const LayoutContent = () => {
-  const { status, isProfileLoading } = useGetProfile();
+  const { status, isProfileLoading} = useGetProfile();
+  const { user } = useAuth(); 
 
   if (isProfileLoading) return <Loader />;
 
   if (status === "inactive") {
-    return <AgentFormError title="Access Denied! Please contact support." />;
+      if (user?.role === "user") {
+    return (
+      <AgentFormError
+        title={
+          <>
+            <p className="font-bold">Your Connection Is Temporarily Suspended.</p>
+            <p>Please clear your dues to reactivate your ID. Thank you for your cooperation.</p>
+          </>
+        }
+      />
+    );
+  }
+  return <AgentFormError title="Access Denied! Please contact support." />;
+    
   }
 
   return (

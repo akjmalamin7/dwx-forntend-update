@@ -17,9 +17,9 @@ import {
   Text,
 } from "@/shared/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BillInfo } from "./bill-info";
 import toast, { Toaster } from "react-hot-toast";
 import { useInitOnlinePaymentMutation } from "@/shared/redux/features/agent/online-payment/onlinePaymentApi";
@@ -98,6 +98,8 @@ const PayBill = () => {
   const [createBillPayment, { isLoading }] = useAddBillPayMutation();
   const [initOnlinePayment, { isLoading: isOnlineLoading }] = useInitOnlinePaymentMutation(); // নতুন
 
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
   const onSubmit: SubmitHandler<BillPayFormValues> = async (data) => {
     try {
       await createBillPayment(data).unwrap();
@@ -120,7 +122,12 @@ const PayBill = () => {
   };
 
   //  নতুন হ্যান্ডলার: Online Payment
+  //  নতুন হ্যান্ডলার: Online Payment
   const handlePayOnline = async () => {
+  if (!agreedToTerms) {
+    toast.error("Please agree to the Terms & Conditions first.");
+    return;
+  }
   try {
     const customer = transformBill?.user_id;
     const isValidEmail = customer?.email && /\S+@\S+\.\S+/.test(customer.email);
@@ -150,6 +157,7 @@ const PayBill = () => {
 };
 
 
+
   usePageTitle("Pay Bill", {
     prefix: "DWX - ",
     defaultTitle: "DWX",
@@ -171,16 +179,38 @@ const PayBill = () => {
         header={<PanelHeading title="Pay Bill" button="" path="" />}
         size="lg"
       >
-        <BillInfo bill={bill} />
+        <BillInfo bill={bill} /> 
 
         {user?.id === "66f103524fc8e6a0217abe24" && (
-          <div className="mt-4 mb-2 flex justify-end">
+          <div className="mt-4 mb-2 flex flex-col items-end gap-3">
+            <label className="flex max-w-md cursor-pointer items-start gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-green-600"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+              />
+              <span>
+                I have read and agree to the{" "}
+                <Link
+                  to="/terms-and-conditions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-blue-700 underline hover:text-blue-900"
+                >
+                  Terms &amp; Conditions
+                </Link>
+                
+              </span>
+            </label>
+
             <Button
               color="dark"
               size="size-2"
               type="button"
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
               loading={isOnlineLoading}
+              disabled={!agreedToTerms || isOnlineLoading}
               onClick={handlePayOnline}
             >
               {isOnlineLoading ? "Redirecting..." : "Pay with Online"}
